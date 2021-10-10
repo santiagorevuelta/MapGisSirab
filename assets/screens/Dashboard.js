@@ -3,6 +3,7 @@ import {MapComponent} from '../components/map/BackgroundMap';
 import Header from '../components/home/Header';
 import ModalOptions from '../components/home/ModalOptions';
 import ModalConsulta from '../components/Arbol/ConsultaArbol';
+import Animated from 'react-native-reanimated';
 
 export default function Dashboard({navigation}) {
   const [consultaArbol, setConsultaArbol] = useState({value: true});
@@ -15,11 +16,13 @@ export default function Dashboard({navigation}) {
   return (
     <MapComponent>
       <Header />
-      {!consultaArbol.value ? (
-        <ModalOptions setConsultaArbol={setConsultaArbol} />
-      ) : (
-        <ModalConsulta setConsultaArbol={setConsultaArbol} nav={nav} />
-      )}
+      <Animated.View>
+        {!consultaArbol.value ? (
+          <ModalOptions setConsultaArbol={setConsultaArbol} />
+        ) : (
+          <ModalConsulta setConsultaArbol={setConsultaArbol} nav={nav} />
+        )}
+      </Animated.View>
     </MapComponent>
   );
 }

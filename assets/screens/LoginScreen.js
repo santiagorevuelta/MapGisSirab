@@ -24,7 +24,6 @@ export default function LoginScreen({navigation}) {
   const [isFocusp, setIsFocusp] = useState({value: false});
 
   const onLoginPressed = async () => {
-    ToastAndroid.show('hola');
     const emailError = usuarioValidator(user.value);
     const passwordError = passwordValidator(password.value);
     if (emailError) {
@@ -50,54 +49,56 @@ export default function LoginScreen({navigation}) {
     }
   };
   return (
-    <Background>
-      <Logo />
-      <Header>Sistema de informacion y Registro de Arboles</Header>
-      <TxtUser
-        label="Usuario"
-        returnKeyType="next"
-        value={user.value}
-        onChangeText={text => setUser({value: text, error: ''})}
-        autoCapitalize="none"
-        autoCompleteType="username"
-        textContentType="name"
-        keyboardType="default"
-        isFocus={isFocus.value}
-        onBlur={() => {
-          setIsFocus({...isFocus, value: false});
-        }}
-        onFocus={() => {
-          setIsFocus({...isFocus, value: true});
-        }}
-      />
-      <TxtPass
-        label="Contraseña"
-        returnKeyType="done"
-        value={password.value}
-        onChangeText={text => setPassword({value: text, error: ''})}
-        secureTextEntry={visPass.value}
-        setPasswordVi={event => setPasswordVisi({...visPass, value: event})}
-        isFocusp={isFocusp.value}
-        onBlur={() => {
-          setIsFocusp({...isFocusp, value: false});
-        }}
-        onFocus={() => {
-          setIsFocusp({...isFocusp, value: true});
-        }}
-      />
-      <Button
-        mode="contained"
-        onPress={() => {
-          onLoginPressed;
-        }}>
-        Ingresar
-      </Button>
+    <>
+      <Logo style={styles.logo} />
+      <Background>
+        <Header>Sistema de informacion y Registro de Arboles</Header>
+        <TxtUser
+          label="Usuario"
+          returnKeyType="next"
+          value={user.value}
+          onChangeText={text => setUser({value: text, error: ''})}
+          autoCapitalize="none"
+          autoCompleteType="username"
+          textContentType="name"
+          keyboardType="default"
+          isFocus={isFocus.value}
+          onBlur={() => {
+            setIsFocus({...isFocus, value: false});
+          }}
+          onFocus={() => {
+            setIsFocus({...isFocus, value: true});
+          }}
+        />
+        <TxtPass
+          label="Contraseña"
+          returnKeyType="done"
+          value={password.value}
+          onChangeText={text => setPassword({value: text, error: ''})}
+          secureTextEntry={visPass.value}
+          setPasswordVi={event => setPasswordVisi({...visPass, value: event})}
+          isFocusp={isFocusp.value}
+          onBlur={() => {
+            setIsFocusp({...isFocusp, value: false});
+          }}
+          onFocus={() => {
+            setIsFocusp({...isFocusp, value: true});
+          }}
+        />
+        <Button
+          mode="contained"
+          onPress={() => {
+            onLoginPressed();
+          }}>
+          Ingresar
+        </Button>
+      </Background>
       <FooterLogo style={styles.footer} />
       <Text style={styles.copy}>
         Por {'\n'}
         <Text style={{fontWeight: 'bold'}}>H&G Consultores S.A.S</Text>
       </Text>
-    </Background>
+    </>
   );
 }
 
@@ -108,28 +109,15 @@ const styles = StyleSheet.create({
     color: theme.colors.secondary,
     paddingVertical: 12,
     textAlign: 'center',
-    bottom: 0,
+    bottom: responsiveHeight(0),
     zIndex: -1,
   },
-  forgotPassword: {
-    width: '100%',
-    alignItems: 'flex-end',
-    marginBottom: 24,
-  },
-  row: {
-    flexDirection: 'row',
-    marginTop: 4,
-  },
-  forgot: {
-    fontSize: 13,
-    color: theme.colors.secondary,
-  },
-  link: {
-    fontWeight: 'bold',
-    color: theme.colors.primary,
+  logo: {
+    alignItems: 'center',
   },
   footer: {
     bottom: responsiveHeight(-10),
     resizeMode: 'contain',
-  }
+    alignItems: 'center',
+  },
 });

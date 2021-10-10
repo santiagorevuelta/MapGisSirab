@@ -32,7 +32,7 @@ export const theme = {
   textos: {
     Label: {
       fontFamily: 'Roboto',
-      fontSize: responsiveFontSize(2.5),
+      fontSize: responsiveFontSize(2.2),
       color: '#258B20',
       fontWeight: 'bold',
     },

@@ -13,16 +13,13 @@ import {
 import {WebView} from 'react-native-webview';
 import Geolocation from '@react-native-community/geolocation';
 import ToastAndroid from 'react-native/Libraries/Components/ToastAndroid/ToastAndroid';
-let map = null;
-
+let MapRef = React.createRef();
 const {width, height} = Dimensions.get('window');
 function MapComponent({children}) {
   const [location, setLocation] = useState(0);
   permissionsLocation().then(() => {});
-  let MapRef = React.createRef();
   setTimeout(function () {
     if (MapRef.current && location === 0) {
-      map = MapRef.current;
       getLocalize();
       setLocation(1);
     }
@@ -32,7 +29,7 @@ function MapComponent({children}) {
       <WebView
         ref={MapRef}
         onMessage={event => {
-          //props.coordinatesFromMap(event.nativeEvent.data);
+          console.log(event.nativeEvent.data);
         }}
         source={{
           html: html_script,
@@ -72,9 +69,11 @@ const getLocalize = () => {
     position => {
       let currentLongitude = JSON.stringify(position.coords.longitude);
       let currentLatitude = JSON.stringify(position.coords.latitude);
-      map.injectJavaScript(
+      MapRef.current.injectJavaScript(
         `setTimeout(function(){
                 mymap.setView([${currentLatitude}, ${currentLongitude}], 17);
+                marker.setLatLng([${currentLatitude}, ${currentLongitude}]);
+                radius.setLatLng([${currentLatitude}, ${currentLongitude}]);
             },1000)`,
       );
     },
@@ -91,7 +90,7 @@ const getLocalize = () => {
         ToastAndroid.show(error);
       }
     },
-    {enableHighAccuracy: true, timeout: 25000, maximumAge: 360000},
+    {enableHighAccuracy: true, timeout: 2500, maximumAge: 360000},
   );
 };
 
@@ -115,8 +114,9 @@ const html_script = `
 const mymap = L.map("mapid", {center: [6.2447305, -75.5760133], zoom: 15, zoomControl: false, attributionControl: false});
 
 const myIcon = L.icon({
-    iconUrl: 'https://www.medellin.gov.co/siro/HuecosMed_web/img/iconos/004-pin.png',
-    iconAnchor: [21, 42], // point of the icon which will correspond to marker's location 
+    iconUrl: 'https://www.medellin.gov.co/siro_portal/siro_portal/imagenes/icons/puntomapa.png',
+    iconAnchor: [10, 20], // point of the icon which will correspond to marker's location 
+    iconSize: [32, 40],
 });
 
 L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
@@ -127,7 +127,7 @@ L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_toke
     zoomOffset: -1
 }).addTo(mymap);
 
-/*const marker = L.marker(mymap.getCenter(), {
+const marker = L.marker(mymap.getCenter(), {
     icon: myIcon
 }).addTo(mymap);
 
@@ -135,31 +135,29 @@ const radius = L.circle(mymap.getCenter(), {
     color: "#58D2FF",
     fillColor: "#58D2FF",
     radius: 6.0
-}).addTo(mymap);*/
+}).addTo(mymap);
 
 	var popup = L.popup();
   
 	function onMapClick(e) {
-		popup
-			.setLatLng(e.latlng)
-			.setContent("You clicked the map at " + e.latlng.toString())
-			.openOn(mymap);
+		  //popup.setLatLng(e.latlng).setContent("You clicked the map at " + e.latlng.toString()).openOn(mymap);
+      marker.setLatLng(e.latlng);
+      radius.setLatLng(e.latlng);
+      window.ReactNativeWebView.postMessage(e.latlng.toString());
 	}
 	mymap.on('click', onMapClick);
 
-/*
-  mymap.on('move', function() {
-      marker.setLatLng(mymap.getCenter());
-      radius.setLatLng(mymap.getCenter());
+  mymap.on('move', function(e) {
+      // marker.setLatLng(mymap.getCenter());
+      // radius.setLatLng(mymap.getCenter());
   });
   
   mymap.on('moveend', function() {
       let coord = mymap.getCenter();
       let res = L.CRS.EPSG3857.project(coord);
       let coodenadasfinales = {'4326':coord,'3857':{"lat": res.y, "lng":res.x}};
-      window.ReactNativeWebView.postMessage(JSON.stringify(coodenadasfinales));
+     // window.ReactNativeWebView.postMessage(JSON.stringify(coodenadasfinales));
   });
-*/
 
 </script>
 </body>

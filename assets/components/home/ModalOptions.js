@@ -1,20 +1,42 @@
-import React, {useState} from 'react';
+import React, {useCallback, useMemo, useRef, useState} from 'react';
 import {StyleSheet, View, Text, Pressable} from 'react-native';
 import {theme} from '../../core/theme';
 import {
   responsiveHeight,
   responsiveWidth,
 } from 'react-native-responsive-dimensions';
-
-import BottomSheet from 'reanimated-bottom-sheet';
+import BottomSheet from '@gorhom/bottom-sheet';
 import Animated from 'react-native-reanimated';
 
 import IngresarArbol from '../icons/IngresarArbol';
 import ConsultarArbol from '../icons/ConsultarArbol';
+
 const ModalOptions = props => {
-  const bs = React.createRef();
-  const fall = new Animated.Value(1);
-  const x = () => (
+  // hooks
+  const bottomSheetRef = React.createRef(<BottomSheet />);
+
+  // variables
+  const snapPoints = useMemo(() => ['5%', '35%'], []);
+
+  return (
+    <Animated.View style={styles.snap}>
+      <BottomSheet
+        ref={bottomSheetRef}
+        initialSnapIndex={1}
+        snapPoints={snapPoints}>
+        <View style={styles.header}>
+          <Text style={[theme.textos.Label, styles.headerText]}>
+            {'Escoja una opción'}
+          </Text>
+        </View>
+        {options(props)}
+      </BottomSheet>
+    </Animated.View>
+  );
+};
+
+function options(props) {
+  return (
     <View style={styles.container}>
       <Pressable
         style={styles.modal}
@@ -22,40 +44,19 @@ const ModalOptions = props => {
           props.setConsultaArbol({value: true});
         }}>
         <ConsultarArbol />
-        <Text style={theme.textos.Label}>{'Consultar árbol'}</Text>
+        <Text style={[theme.textos.Label, styles.labels]}>
+          {'Consultar árbol'}
+        </Text>
       </Pressable>
       <Pressable style={styles.modal}>
         <IngresarArbol />
-        <Text style={theme.textos.Label}>{'Ingresar árbol'}</Text>
+        <Text style={[theme.textos.Label, styles.labels]}>
+          {'Ingresar árbol'}
+        </Text>
       </Pressable>
     </View>
   );
-  const renderHeader = () => (
-    <View style={styles.header}>
-      <View style={styles.panelHeader}>
-        <View style={styles.panelHandle} />
-      </View>
-      <Text style={[theme.textos.Label, styles.headerText]}>
-        {'Escoja una opción'}
-      </Text>
-    </View>
-  );
-
-  return (
-    <View style={styles.snap}>
-      <BottomSheet
-        snapPoints={[280, 30, 100]}
-        ref={bs}
-        initialSnap={0}
-        renderContent={x}
-        enabledBottomClamp={true}
-        renderHeader={renderHeader}
-        callbackNode={fall}
-        enabledGestureInteraction={true}
-      />
-    </View>
-  );
-};
+}
 
 export default ModalOptions;
 
@@ -65,7 +66,6 @@ const styles = StyleSheet.create({
     maxHeight: 1,
   },
   container: {
-    fontSize: 10,
     zIndex: 1,
     backgroundColor: '#fff',
     color: theme.colors.secondary,
@@ -74,14 +74,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     width: responsiveWidth(100),
-    paddingVertical: responsiveHeight(14),
-    paddingBottom: responsiveHeight(15),
   },
   modal: {
-    width: responsiveWidth(45),
+    width: responsiveWidth(40),
     height: responsiveWidth(38),
     padding: 15,
-    margin: 5,
+    marginTop: 0,
+    margin: 15,
     borderWidth: 1,
     borderRadius: 25,
     borderColor: theme.colors.primary,
@@ -95,7 +94,10 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
-    elevation: 5,
+    elevation: 3,
+  },
+  labels: {
+    paddingTop: responsiveHeight(1),
   },
   header: {
     backgroundColor: '#fff',
@@ -104,22 +106,10 @@ const styles = StyleSheet.create({
     shadowRadius: 2,
     shadowOpacity: 0.4,
     paddingTop: 5,
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
   },
   headerText: {
     textAlign: 'center',
     color: theme.colors.headers,
-    marginTop: 10,
-  },
-  panelHeader: {
-    alignItems: 'center',
-  },
-  panelHandle: {
-    opacity: 0.3,
-    width: 80,
-    height: 8,
-    borderRadius: 4,
-    backgroundColor: '#00000040',
+    marginTop: 2,
   },
 });
