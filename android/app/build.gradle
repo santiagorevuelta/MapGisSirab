@@ -126,7 +126,7 @@ android {
     compileSdkVersion rootProject.ext.compileSdkVersion
 
     defaultConfig {
-        applicationId "com.apptree"
+        applicationId "com.co.hyg.MapGisSirab"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
@@ -185,8 +185,8 @@ dependencies {
     implementation project(':react-native-safe-area-context')
     implementation project(':react-native-reanimated')
 
-    implementation project(':react-native-async-storage_async-storage')
-//     implementation project(':react-native-svg')
+   // implementation project(':react-native-async-storage_async-storage')
+   // implementation project(':react-native-svg')
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
 
     // For animated GIF support

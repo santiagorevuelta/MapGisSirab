@@ -7,7 +7,7 @@ import {
   responsiveWidth,
 } from 'react-native-responsive-dimensions';
 import IconAntDesign from 'react-native-vector-icons/AntDesign';
-import BottomSheet from '@gorhom/bottom-sheet';
+import BottomSheet, { BottomSheetScrollView } from "@gorhom/bottom-sheet";
 
 const ModalConsulta = props => {
   // hooks
@@ -32,7 +32,8 @@ const ModalConsulta = props => {
       <View>
         <Pressable
           style={styles.regress}
-          onPress={function () {
+          onPress={() => {
+            console.log('back');
             props.setConsultaArbol({value: false});
           }}>
           <IconAntDesign
@@ -60,11 +61,9 @@ const ModalConsulta = props => {
         ref={bottomSheetRef}
         initialSnapIndex={1}
         onChange={handleSheetChanges}
+        shouldMeasureContentHeight={false}
         snapPoints={snapPoints}>
-        <View style={{flex: 1}}>
-          {renderHeader()}
-          <Text>pepe</Text>
-        </View>
+        <BottomSheetScrollView>{renderHeader()}</BottomSheetScrollView>
       </BottomSheet>
     </View>
   );

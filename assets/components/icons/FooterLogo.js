@@ -1,19 +1,23 @@
 import React from 'react';
 import {View} from 'react-native';
-import {responsiveWidth} from 'react-native-responsive-dimensions';
+import {
+  responsiveHeight,
+  responsiveWidth,
+} from 'react-native-responsive-dimensions';
 import Svg, {Path as Path, Rect as Rect} from 'react-native-svg';
 
 const Logo = ({
   style = {},
-  width = responsiveWidth(80),
-  height = responsiveWidth(80),
+  width = responsiveWidth(100),
+  height = responsiveHeight(37),
 }) => {
+  //viewBox = <min-x> <min-y> <width> <height>
   return (
     <View style={style}>
       <Svg
         width={width}
         height={height}
-        viewBox="0 0 274.1 234.2"
+        viewBox="-20 15 320 130"
         xmlns="http://www.w3.org/2000/svg">
         <Path
           d="M245.8,168.2a117.05,117.05,0,1,0-210.7,0Zm-105.2,66h0Z"

@@ -1,12 +1,12 @@
 import React from 'react';
 import {View} from 'react-native';
-import {responsiveWidth} from 'react-native-responsive-dimensions';
+import { responsiveHeight, responsiveWidth } from "react-native-responsive-dimensions";
 import Svg, {Path} from 'react-native-svg';
 
 export default ({
   style = {},
   width = responsiveWidth(50),
-  height = responsiveWidth(50),
+  height = responsiveHeight(30),
 }) => {
   return (
     <View style={style}>

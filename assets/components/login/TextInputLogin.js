@@ -20,10 +20,7 @@ function TextInput({errorText, description, ...props}) {
   return (
     <View style={styles.container}>
       <Input
-        style={[
-          styles.input,
-          props.isFocus ? {color: theme.colors.primary} : {},
-        ]}
+        style={[styles.input, props.isFocus ? styles.focusOn : {}]}
         placeholder={props.label}
         {...props}
       />
@@ -39,10 +36,7 @@ function TextInputPas({errorText, description, ...props}) {
   return (
     <View style={styles.container}>
       <Input
-        style={[
-          styles.input,
-          props.isFocusp ? {color: theme.colors.primary} : {},
-        ]}
+        style={[styles.input, props.isFocusp ? styles.focusOn : {}]}
         selectionColor={theme.colors.primary}
         placeholder={props.label}
         {...props}
@@ -103,11 +97,19 @@ const styles = StyleSheet.create({
     paddingLeft: 20,
     borderColor: '#C4C4C4',
     marginVertical: 2,
+    overflow: 'hidden',
+    shadowColor: 'black',
+    shadowRadius: 10,
+    shadowOpacity: 1,
   },
   description: {
     fontSize: 13,
     color: theme.colors.secondary,
     paddingTop: 8,
+  },
+  focusOn: {
+    color: theme.colors.primary,
+    backgroundColor: theme.colors.focus,
   },
 });
 

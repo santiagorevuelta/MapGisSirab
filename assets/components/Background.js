@@ -1,5 +1,6 @@
 import React from 'react';
 import {StyleSheet, SafeAreaView, KeyboardAvoidingView} from 'react-native';
+import {responsiveWidth} from 'react-native-responsive-dimensions';
 
 export default function Background({children}) {
   return (
@@ -19,8 +20,8 @@ export default function Background({children}) {
 const styles = StyleSheet.create({
   container: {
     width: '100%',
-    maxWidth: 340,
     alignSelf: 'center',
+    paddingHorizontal: responsiveWidth(10),
   },
   scroll: {
     height: 'auto',

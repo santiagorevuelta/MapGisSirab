@@ -1,0 +1,26 @@
+export default data = [
+  {
+    imgUrl:
+      'https://agenciacomma.com/wp-content/uploads/2021/04/busqueda-inversa-imagenes.jpg',
+  },
+  {
+    imgUrl:
+      'https://cdn.pixabay.com/photo/2021/09/20/21/32/lake-6641880__340.jpg',
+  },
+  {
+    imgUrl:
+      'https://blog.ida.cl/wp-content/uploads/sites/5/2020/04/tamano-redes-blog-655x470.png',
+  },
+  {
+    imgUrl:
+      'https://agenciacomma.com/wp-content/uploads/2021/04/busqueda-inversa-imagenes.jpg',
+  },
+  {
+    imgUrl:
+      'https://cdn.pixabay.com/photo/2021/09/20/21/32/lake-6641880__340.jpg',
+  },
+  {
+    imgUrl:
+      'https://blog.ida.cl/wp-content/uploads/sites/5/2020/04/tamano-redes-blog-655x470.png',
+  },
+];

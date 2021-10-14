@@ -9,7 +9,9 @@ export const theme = {
     primary: '#258B20',
     secondary: '#414757',
     error: '#f13a59',
+    focus: 'rgba(37,139,32,0.15)',
     headers: '#959595',
+    border: '#959595',
     blanco: '#fff',
     negro: '#000',
   },
@@ -46,6 +48,18 @@ export const theme = {
       fontFamily: 'Roboto',
       color: '#959595',
       textAlign: 'center',
+    },
+  },
+  ver:{
+    Label: {
+      fontFamily: 'Roboto',
+      fontSize: responsiveFontSize(1.8),
+      color: '#258B20',
+    },
+    Textos: {
+      fontFamily: 'Roboto',
+      color: '#959595',
+      textAlign: 'left',
     },
   },
   input: {

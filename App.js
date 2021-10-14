@@ -8,28 +8,28 @@
 
 import React from 'react';
 import type {Node} from 'react';
-import {Provider} from 'react-native-paper';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {theme} from './assets/core/theme';
-import {LoginScreen, Dashboard} from './assets/screens';
+import {enableScreens} from 'react-native-screens';
+enableScreens(true);
 
+import {LoginScreen, Dashboard, EnterTree} from './assets/screens';
 const Stack = createStackNavigator();
 
 const App: () => Node = () => {
   return (
-    <Provider theme={theme}>
-      <NavigationContainer>
-        <Stack.Navigator
-          initialRouteName="Dashboard"
-          screenOptions={{
-            headerShown: false,
-          }}>
-          <Stack.Screen name="LoginScreen" component={LoginScreen} />
-          <Stack.Screen name="Dashboard" component={Dashboard} />
-        </Stack.Navigator>
-      </NavigationContainer>
-    </Provider>
+    <NavigationContainer theme={theme}>
+      <Stack.Navigator
+        initialRouteName={'EnterTree'}
+        screenOptions={{
+          headerShown: false,
+        }}>
+        <Stack.Screen name="LoginScreen" component={LoginScreen} />
+        <Stack.Screen name="Dashboard" component={Dashboard} />
+        <Stack.Screen name="EnterTree" component={EnterTree} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 };
 
