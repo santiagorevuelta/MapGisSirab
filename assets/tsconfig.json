@@ -1,0 +1,15 @@
+{
+  "use": "dev",
+  "dev": {
+    "loginValidator": {
+      "url": "https://www.medellin.gov.co/mapgis/Validacion.do"
+    },
+    "tokenValidator": {
+      "url": "https://www.medellin.gov.co/mapgis/validacionToken.do"
+    },
+    "searchTree": {
+      "url": "http://localhost:3333/api-sirab/arboles"
+    }
+  },
+  "prod": {}
+}

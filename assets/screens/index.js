@@ -1,3 +1,3 @@
 export {default as LoginScreen} from './LoginScreen';
 export {default as Dashboard} from './Dashboard';
-export {default as EnterTree} from './ViewTree';
+export {default as ViewTree} from './ViewTree';

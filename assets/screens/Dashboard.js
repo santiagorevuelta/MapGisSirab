@@ -1,14 +1,14 @@
-import React, {useState} from 'react';
+import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react';
 import {MapComponent} from '../components/map/BackgroundMap';
 import Header from '../components/home/Header';
 import ModalOptions from '../components/home/ModalOptions';
-import ModalConsulta from '../components/Arbol/ConsultaArbol';
-import Animated from 'react-native-reanimated';
+import ModalConsult from '../components/Arbol/ConsultaArbol';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import BottomSheet from '@gorhom/bottom-sheet';
 
 export default function Dashboard({navigation}) {
-  const [consultaArbol, setConsultaArbol] = useState({value: false});
   AsyncStorage.getItem('login').then(value => {
+    //console.log('login: ' + value);
     if (value !== 'Ok') {
       navigation.reset({
         index: 0,
@@ -16,6 +16,16 @@ export default function Dashboard({navigation}) {
       });
     }
   });
+
+  const [headerHide, setHeaderHide] = useState(false);
+  const [option, setOption] = useState(false);
+  const bottomSheetRef = React.useRef(null);
+  const snapPoints = useMemo(() => ['3%', '30%'], []);
+  const snapPointsVer = useMemo(() => ['3%', '25%', '50%', '70%', '100%'], []);
+
+  const setView = index => {
+    setOption(index);
+  };
 
   const tabArbol = name => {
     navigation.reset({
@@ -26,12 +36,22 @@ export default function Dashboard({navigation}) {
 
   return (
     <MapComponent>
-      <Header />
-      {!consultaArbol.value ? (
-        <ModalOptions setConsultaArbol={setConsultaArbol} tabArbol={tabArbol} />
-      ) : (
-        <ModalConsulta setConsultaArbol={setConsultaArbol} />
-      )}
+      <BottomSheet
+        ref={bottomSheetRef}
+        key={'busqueda'}
+        onChange={index => {
+          setHeaderHide(index === snapPointsVer.length - 1);
+        }}
+        index={!option ? 1 : 3}
+        initialSnapIndex={!option ? 1 : 3}
+        snapPoints={!option ? snapPoints : snapPointsVer}>
+        {!option ? (
+          <ModalOptions setOption={setView} />
+        ) : (
+          <ModalConsult setOption={setView} />
+        )}
+      </BottomSheet>
+      {headerHide ? null : <Header />}
     </MapComponent>
   );
 }

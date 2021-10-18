@@ -1,8 +1,10 @@
 import {DefaultTheme} from 'react-native-paper';
-import { responsiveFontSize, responsiveWidth } from "react-native-responsive-dimensions";
+import { responsiveFontSize, responsiveWidth } from 'react-native-responsive-dimensions';
 
 export const theme = {
   ...DefaultTheme,
+  pressed: '#d9d9d9',
+  offPressed: '#fff',
   colors: {
     ...DefaultTheme.colors,
     text: '#000000',
@@ -42,7 +44,7 @@ export const theme = {
       fontFamily: 'Roboto',
       fontSize: responsiveFontSize(2),
       color: '#3F793B',
-      paddingLeft: responsiveWidth(3),
+      paddingLeft: responsiveWidth(1),
     },
     Textos: {
       fontFamily: 'Roboto',
@@ -58,6 +60,7 @@ export const theme = {
     },
     Textos: {
       fontFamily: 'Roboto',
+      fontSize: responsiveFontSize(1.5),
       color: '#959595',
       textAlign: 'left',
     },

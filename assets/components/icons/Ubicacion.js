@@ -5,8 +5,8 @@ import Svg, {Path, Circle} from 'react-native-svg';
 
 export default ({
   style = {},
-  width = responsiveWidth(5),
-  height = responsiveWidth(5),
+  width = responsiveWidth(7),
+  height = responsiveWidth(7),
 }) => {
   return (
     <View style={style}>
@@ -14,6 +14,7 @@ export default ({
         width={width}
         height={height}
         viewBox="0 0 23.83 23.83"
+        fill="none"
         xmlns="http://www.w3.org/2000/svg">
         <Path
           d="M21.68,10.92a9.72,9.72,0,0,0-8.6-8.6V.08H10.92V2.32a9.74,9.74,0,0,0-8.61,8.6H.08v2.16H2.31a9.74,9.74,0,0,0,8.61,8.6v2.24h2.16V21.68a9.72,9.72,0,0,0,8.6-8.6h2.24V10.92Z"

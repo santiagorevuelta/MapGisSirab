@@ -4,18 +4,13 @@ import {
   Dimensions,
   Platform,
   PermissionsAndroid,
-  Alert,
 } from 'react-native';
-import {
-  responsiveHeight,
-  responsiveWidth,
-} from 'react-native-responsive-dimensions';
 import {WebView} from 'react-native-webview';
 import Geolocation from '@react-native-community/geolocation';
-import ToastAndroid from 'react-native/Libraries/Components/ToastAndroid/ToastAndroid';
 import {notifyMessage} from '../../core/general';
 let MapRef = React.createRef();
 const {width, height} = Dimensions.get('window');
+import Animated from 'react-native-reanimated';
 import html_script from './html_script';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 function MapComponent({children}) {
@@ -28,13 +23,12 @@ function MapComponent({children}) {
     }
   }, 100);
   return (
-    <View style={{flex: 1}}>
+    <Animated.View style={{flex: 1}}>
       <WebView
         ref={MapRef}
         onMessage={event => {
           let coords = JSON.parse(event.nativeEvent.data);
-          AsyncStorage.setItem('lat', coords.lat + '');
-          AsyncStorage.setItem('lng', coords.lng + '');
+          AsyncStorage.setItem('coords', event.nativeEvent.data);
         }}
         source={{
           html: html_script,
@@ -52,7 +46,7 @@ function MapComponent({children}) {
         }}
       />
       {children}
-    </View>
+    </Animated.View>
   );
 }
 
@@ -83,6 +77,9 @@ const getLocalize = (autoPos = false) => {
 function success(position) {
   let currentLongitude = JSON.stringify(position.coords.longitude);
   let currentLatitude = JSON.stringify(position.coords.latitude);
+  if (!MapRef.current) {
+    return;
+  }
   MapRef.current.injectJavaScript(
     `setTimeout(function(){
         acctionMap([${currentLatitude}, ${currentLongitude}])

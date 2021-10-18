@@ -1,4 +1,4 @@
-import React, {useCallback, useMemo, useRef} from 'react';
+import React from 'react';
 import {StyleSheet, View, Text, Pressable} from 'react-native';
 import {theme} from '../../core/theme';
 import {
@@ -7,79 +7,52 @@ import {
   responsiveWidth,
 } from 'react-native-responsive-dimensions';
 import IconAntDesign from 'react-native-vector-icons/AntDesign';
-import BottomSheet, { BottomSheetScrollView } from "@gorhom/bottom-sheet";
+import FormConsultaArbol from './FormConsultaArbol';
+import ResultSearch from './ResultSearch';
 
-const ModalConsulta = props => {
-  // hooks
-  const bottomSheetRef = useRef(null);
-
-  // variables
-  const snapPoints = useMemo(() => ['5%', '50%', '90%'], []);
-
-  // callbacks
-  const handleSheetChanges = useCallback((index: number) => {
-    console.log('handleSheetChanges', index);
-  }, []);
-
-  const renderHeader = () => (
-    <View
-      style={{
-        flex: 1,
-        flexDirection: 'row',
-        backgroundColor: theme.colors.blanco,
-        paddingLeft: responsiveWidth(5),
-      }}>
-      <View>
-        <Pressable
-          style={styles.regress}
-          onPress={() => {
-            console.log('back');
-            props.setConsultaArbol({value: false});
-          }}>
-          <IconAntDesign
-            name={'back'}
-            color={theme.colors.headers}
-            style={{top: 2}}
-            size={responsiveFontSize(2)}
-          />
-          <Text style={[theme.textos.Label, styles.regressTxt]}>
-            {'Regresar'}
-          </Text>
-        </Pressable>
-      </View>
-      <View>
-        <Text style={[theme.textos.Label, styles.regressHead]}>
-          {'Consultar arbol'}
-        </Text>
-      </View>
-    </View>
-  );
-
+const ModalConsult = ({...props}) => {
   return (
-    <View style={styles.snap}>
-      <BottomSheet
-        ref={bottomSheetRef}
-        initialSnapIndex={1}
-        onChange={handleSheetChanges}
-        shouldMeasureContentHeight={false}
-        snapPoints={snapPoints}>
-        <BottomSheetScrollView>{renderHeader()}</BottomSheetScrollView>
-      </BottomSheet>
-    </View>
+    <>
+      <View style={styles.contend}>
+        <View>
+          <Pressable
+            style={styles.regress}
+            onPress={() => {
+              props.setOption(false);
+            }}>
+            <IconAntDesign
+              name={'back'}
+              color={theme.colors.headers}
+              style={{top: 2}}
+              size={responsiveFontSize(2)}
+            />
+            <Text style={[theme.textos.Label, styles.regressTxt]}>
+              {'Regresar'}
+            </Text>
+          </Pressable>
+        </View>
+        <View>
+          <Text style={[theme.textos.Label, styles.regressHead]}>
+            {'Consultar arbol'}
+          </Text>
+        </View>
+      </View>
+      <FormConsultaArbol />
+      <ResultSearch />
+    </>
   );
 };
 
-export default ModalConsulta;
+export default ModalConsult;
 
 const styles = StyleSheet.create({
-  snap: {
-    flex: 1,
-    maxHeight: 1,
-    zIndex: 2,
+  contend: {
+    flexDirection: 'row',
+    height: responsiveHeight(5),
+    paddingLeft: responsiveWidth(5),
   },
   regress: {
     width: responsiveWidth(30),
-    zIndex: 3,
   },
   regressTxt: {
     color: theme.colors.headers,
@@ -90,7 +63,7 @@ const styles = StyleSheet.create({
     textDecorationLine: 'underline',
     top: responsiveWidth(1),
     paddingLeft: responsiveWidth(5),
-    zIndex: 3,
+    elevation: 5,
   },
   regressHead: {
     textAlign: 'center',

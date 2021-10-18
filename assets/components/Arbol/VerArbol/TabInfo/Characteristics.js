@@ -2,6 +2,7 @@ import {Pressable, StyleSheet, Text, View} from 'react-native';
 import {theme} from '../../../../core/theme';
 import React from 'react';
 import {notifyMessage} from '../../../../core/general';
+import { Paragraph, Subheading, Title } from "react-native-paper";
 
 export default function (props) {
   return <View style={styles.container}>{row(props)}</View>;
@@ -32,14 +33,14 @@ function row(props) {
 function div(label, text) {
   return (
     <View style={styles.div}>
-      <Text style={theme.ver.Label}>{label}</Text>
+      <Subheading style={theme.ver.Label}>{label}</Subheading>
       <Pressable
         onPress={() => {
           notifyMessage(text);
         }}>
-        <Text style={theme.ver.Textos}>
+        <Paragraph style={theme.ver.Textos}>
           {text.length > 12 ? text.slice(0, 12) + '...' : text}
-        </Text>
+        </Paragraph>
       </Pressable>
     </View>
   );
@@ -54,9 +55,8 @@ const styles = StyleSheet.create({
   row: {
     flexDirection: 'row',
     justifyContent: 'center',
-    paddingTop: 2,
   },
   div: {
-    width: '40%',
+    width: '50%',
   },
 });
