@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {StyleSheet, View} from 'react-native';
-import {Text} from 'react-native-paper';
+import { ActivityIndicator, Text } from "react-native-paper";
 import Background from '../components/Background';
 import Logo from '../components/icons/Logo';
 import FooterLogo from '../components/icons/FooterLogo';
@@ -23,6 +23,7 @@ import {notifyMessage} from '../core/general';
 export default function LoginScreen({navigation}) {
   const [user, setUser] = useState('');
   const [password, setPassword] = useState('');
+  const [animation, setAnimation] = useState(true);
 
   const onLoginPressed = async () => {
     try {
@@ -34,6 +35,7 @@ export default function LoginScreen({navigation}) {
         notifyMessage(passwordError);
       } else {
         await loginValidator(user, password, {navigation});
+        setAnimation(false);
       }
     } catch (e) {
       console.error('onLoginPressed ' + e);
@@ -42,6 +44,7 @@ export default function LoginScreen({navigation}) {
 
   return (
     <Background>
+      <ActivityIndicator animating={animation} color={theme.colors.primary} />
       <Logo style={styles.logo} />
       <Header>Sistema de informacion y Registro de Arboles</Header>
       <TxtUser

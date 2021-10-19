@@ -1,12 +1,13 @@
 import React from 'react';
-import {StyleSheet, View, Text} from 'react-native';
+import {StyleSheet, View, Text, DatePickerAndroid} from 'react-native';
 import {theme} from '../../core/theme';
 import TextInputForm from '../Arbol/TextInputForm';
-import {Switch} from 'react-native-paper';
+import {Switch, Button as ButtonIcon} from 'react-native-paper';
 import {responsiveFontSize} from 'react-native-responsive-dimensions';
 import IconAntDesign from 'react-native-vector-icons/AntDesign';
 import Button from '../Button';
 import Limpiar from '../icons/Limpiar';
+import { notifyMessage } from "../../core/general";
 export default props => {
   const [isSwitchOn, setIsSwitchOn] = React.useState(false);
   const onToggleSwitch = () => setIsSwitchOn(!isSwitchOn);
@@ -46,12 +47,22 @@ export default props => {
           </Text>
         </View>
         <View style={styles.content}>
-          <Limpiar style={styles.limpiar} />
+          {/*<Limpiar style={styles.limpiar} />*/}
+          <ButtonIcon
+            compact={true}
+            labelStyle={{fontSize: responsiveFontSize(3)}}
+            icon="broom"
+            color={theme.colors.primary}
+            onPress={() => {
+              props.fnBuscar(false);
+            }}
+          />
+
           <Button
             style={styles.boton}
             mode="contained"
             onPress={() => {
-              console.log('buscar');
+              props.fnBuscar(true);
             }}>
             Buscar
           </Button>

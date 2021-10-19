@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {StyleSheet, View, Text, Pressable} from 'react-native';
 import {theme} from '../../core/theme';
 import {
@@ -11,6 +11,12 @@ import FormConsultaArbol from './FormConsultaArbol';
 import ResultSearch from './ResultSearch';
 
 const ModalConsult = ({...props}) => {
+  const [buscar, setBuscar] = useState(false);
+
+  const fnBuscar = obj => {
+    setBuscar(obj);
+  };
+
   return (
     <>
       <View style={styles.contend}>
@@ -37,8 +43,8 @@ const ModalConsult = ({...props}) => {
           </Text>
         </View>
       </View>
-      <FormConsultaArbol />
-      <ResultSearch />
+      <FormConsultaArbol fnBuscar={fnBuscar} />
+      {buscar ? <ResultSearch tabArbol={props.tabArbol} /> : null}
     </>
   );
 };

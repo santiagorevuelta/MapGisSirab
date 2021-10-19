@@ -1,10 +1,10 @@
 const {Platform, ToastAndroid, Alert} = require('react-native');
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import tsconfig from '../tsconfig.json'
+import tsconfig from '../tsconfig.json';
 function notifyMessage(msg) {
   if (Platform.OS === 'android') {
-    ToastAndroid.show(msg, ToastAndroid.CENTER);
+    ToastAndroid.showWithGravity(msg, ToastAndroid.SHORT, ToastAndroid.CENTER);
   } else {
     Alert.alert(msg);
   }

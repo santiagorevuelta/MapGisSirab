@@ -5,6 +5,7 @@ export const theme = {
   ...DefaultTheme,
   pressed: '#d9d9d9',
   offPressed: '#fff',
+  radius: 15,
   colors: {
     ...DefaultTheme.colors,
     text: '#000000',
@@ -13,7 +14,7 @@ export const theme = {
     error: '#f13a59',
     focus: 'rgba(37,139,32,0.15)',
     headers: '#959595',
-    border: '#959595',
+    border: 'rgba(149,149,149,0.24)',
     blanco: '#fff',
     negro: '#000',
   },
@@ -36,14 +37,15 @@ export const theme = {
   textos: {
     Label: {
       fontFamily: 'Roboto',
-      fontSize: responsiveFontSize(2.2),
+      fontSize: responsiveFontSize(1.6),
       color: '#258B20',
       fontWeight: 'bold',
     },
     LabelIn: {
       fontFamily: 'Roboto',
-      fontSize: responsiveFontSize(2),
+      fontSize: responsiveFontSize(1.5),
       color: '#3F793B',
+      fontWeight: 'bold',
       paddingLeft: responsiveWidth(1),
     },
     Textos: {
