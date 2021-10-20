@@ -20,8 +20,8 @@ const Stack = createStackNavigator();
 
 const App: () => Node = () => {
   return (
-    <PaperProvider theme={theme} >
-      <NavigationContainer independent={true}>
+    <PaperProvider>
+      <NavigationContainer independent={true} theme={theme}>
         <Stack.Navigator
           initialRouteName={'Dashboard'}
           screenOptions={{

@@ -44,7 +44,6 @@ export default function LoginScreen({navigation}) {
 
   return (
     <Background>
-      <ActivityIndicator animating={animation} color={theme.colors.primary} />
       <Logo style={styles.logo} />
       <Header>Sistema de informacion y Registro de Arboles</Header>
       <TxtUser

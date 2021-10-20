@@ -30,6 +30,29 @@ L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_toke
     zoomOffset: -1
 }).addTo(mymap);
 
+   //https://wiki.openstreetmap.org/wiki/Tile_servers
+      
+  //https://tile.openstreetmap.org/{z}/{x}/{y}.png
+  //https://a.tile.openstreetmap.de/{z}/{x}/{y}.png
+  //https://b.tile.openstreetmap.de/{z}/{x}/{y}.png
+  //https://c.tile.openstreetmap.de/{z}/{x}/{y}.png
+  //http://tile.memomaps.de/tilegen/{z}/{x}/{y}.png
+  //http://b.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png
+  // solo para pruebas
+  
+  //https://manage.thunderforest.com/dashboard
+  //santiagorevuel@gmail.com
+  //Qweasd123*
+  
+new L.TileLayer('https://tile.thunderforest.com/transport/{z}/{x}/{y}.png?apikey=854298cc8ba9483db1e1b43f0eac48b3', {
+    maxZoom: 20,        
+    id: 'l1',
+    attribution: ''
+}).addTo(mymap); 
+
+
+
+
 function acctionMap(latlng){
   mymap.setView(latlng, 17);
  // marker.setLatLng(latlng);

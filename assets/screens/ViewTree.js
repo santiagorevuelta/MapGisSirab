@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import CarouselCards from '../components/Arbol/VerArbol/CarruseImagenes/Carrusel';
 import RenderHeader from '../components/Arbol/VerArbol/Header';
 import InfoArbol from '../components/Arbol/VerArbol/TabInfo/tabs';

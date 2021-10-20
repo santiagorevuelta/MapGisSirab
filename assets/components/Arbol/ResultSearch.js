@@ -27,6 +27,7 @@ export default props => {
 const styles = StyleSheet.create({
   container: {
     paddingHorizontal: '5%',
+    paddingBottom: '5%',
   },
   txtRes: {
     paddingBottom: '5%',
@@ -105,6 +106,7 @@ const styleCard = StyleSheet.create({
   container: {
     borderWidth: 1,
     borderRadius: theme.radius,
+    marginBottom: 10,
     borderColor: theme.colors.border,
     color: theme.colors.secondary,
     flexDirection: 'column',
