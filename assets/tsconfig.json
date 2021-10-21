@@ -2,7 +2,7 @@
   "use": "dev",
   "dev": {
     "loginValidator": {
-      "url": "http://132.145.214.185:8002/mapgis/Validacion.do"
+      "url": "http://132.145.214.185:8002/mapgis/validacion.do"
     },
     "tokenValidator": {
       "url": "http://132.145.214.185:8002/mapgis/validacionToken.do"

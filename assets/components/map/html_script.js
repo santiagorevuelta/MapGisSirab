@@ -43,8 +43,9 @@ L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_toke
   //https://manage.thunderforest.com/dashboard
   //santiagorevuel@gmail.com
   //Qweasd123*
+  //https://tile.thunderforest.com/transport/{z}/{x}/{y}.png?apikey=854298cc8ba9483db1e1b43f0eac48b3
   
-new L.TileLayer('https://tile.thunderforest.com/transport/{z}/{x}/{y}.png?apikey=854298cc8ba9483db1e1b43f0eac48b3', {
+new L.TileLayer('http://b.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
     maxZoom: 20,        
     id: 'l1',
     attribution: ''

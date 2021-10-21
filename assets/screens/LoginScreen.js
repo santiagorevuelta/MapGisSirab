@@ -23,7 +23,6 @@ import {notifyMessage} from '../core/general';
 export default function LoginScreen({navigation}) {
   const [user, setUser] = useState('');
   const [password, setPassword] = useState('');
-  const [animation, setAnimation] = useState(true);
 
   const onLoginPressed = async () => {
     try {
@@ -35,7 +34,6 @@ export default function LoginScreen({navigation}) {
         notifyMessage(passwordError);
       } else {
         await loginValidator(user, password, {navigation});
-        setAnimation(false);
       }
     } catch (e) {
       console.error('onLoginPressed ' + e);

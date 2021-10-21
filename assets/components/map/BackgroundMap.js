@@ -1,10 +1,5 @@
 import React, {useState} from 'react';
-import {
-  View,
-  Dimensions,
-  Platform,
-  PermissionsAndroid,
-} from 'react-native';
+import {View, Dimensions, Platform, PermissionsAndroid} from 'react-native';
 import {WebView} from 'react-native-webview';
 import Geolocation from '@react-native-community/geolocation';
 import {notifyMessage} from '../../core/general';
@@ -65,9 +60,10 @@ async function permissionsLocation() {
 
 const options = {
   enableHighAccuracy: true,
-  timeout: 10000,
-  maximumAge: 20000,
+  timeout: 1000,
+  maximumAge: 2000,
 };
+
 // {enableHighAccuracy: true, timeout: 25000, maximumAge: 360000},
 
 const getLocalize = (autoPos = false) => {

@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react';
+import React, {useMemo, useState} from 'react';
 import {MapComponent} from '../components/map/BackgroundMap';
 import Header from '../components/home/Header';
 import ModalOptions from '../components/home/ModalOptions';

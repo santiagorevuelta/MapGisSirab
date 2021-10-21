@@ -24,7 +24,6 @@ async function consultToken({navigation}) {
       }
     })
     .catch(error => {
-      notifyMessage(error.message);
       AsyncStorage.setItem('token', '');
       navigation.reset({
         index: 0,
