@@ -5,7 +5,7 @@ import ModalOptions from '../components/home/ModalOptions';
 import ModalConsult from '../components/Arbol/ConsultaArbol';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import BottomSheet from '@gorhom/bottom-sheet';
-
+import {consultToken} from '../core/general';
 export default function Dashboard({navigation}) {
   AsyncStorage.getItem('login').then(value => {
     //console.log('login: ' + value);
@@ -16,6 +16,7 @@ export default function Dashboard({navigation}) {
       });
     }
   });
+  consultToken({navigation});
 
   const [headerHide, setHeaderHide] = useState(false);
   const [option, setOption] = useState(false);
