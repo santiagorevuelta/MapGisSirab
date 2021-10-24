@@ -21,7 +21,7 @@ const App: () => Node = () => {
   return (
     <NavigationContainer theme={theme}>
       <Stack.Navigator
-        initialRouteName={'EnterTree'}
+        initialRouteName={'LoginScreen'}
         screenOptions={{
           headerShown: false,
         }}>

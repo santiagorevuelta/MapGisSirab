@@ -3,6 +3,8 @@ import { responsiveFontSize, responsiveWidth } from "react-native-responsive-dim
 
 export const theme = {
   ...DefaultTheme,
+  roboto: 'roboto',
+  robotobold: 'robotobold',
   colors: {
     ...DefaultTheme.colors,
     text: '#000000',

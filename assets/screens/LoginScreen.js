@@ -93,7 +93,7 @@ export default function LoginScreen({navigation}) {
 const styles = StyleSheet.create({
   copy: {
     fontSize: responsiveFontSize(1.5),
-    fontFamily: 'Roboto',
+    fontFamily: theme.roboto,
     color: theme.colors.secondary,
     textAlign: 'center',
     zIndex: -1,
