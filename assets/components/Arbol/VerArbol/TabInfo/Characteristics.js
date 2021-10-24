@@ -1,14 +1,16 @@
-import {Pressable, StyleSheet, Text, View} from 'react-native';
+import {Pressable, ScrollView, StyleSheet, Text, View} from 'react-native';
 import {theme} from '../../../../core/theme';
 import React from 'react';
 import {notifyMessage} from '../../../../core/general';
+import { Button, Paragraph, Subheading, Title } from "react-native-paper";
+import { responsiveScreenFontSize } from "react-native-responsive-dimensions";
 
 export default function (props) {
   return <View style={styles.container}>{row(props)}</View>;
 }
 function row(props) {
   return (
-    <>
+    <ScrollView>
       <View style={styles.row}>
         {div('Especie', 'Esa mondwwwwwwwwwwwwa')}
         {div('Fecha de ingreso', 'dd/mm/yyyy')}
@@ -23,23 +25,32 @@ function row(props) {
       </View>
       <View style={styles.row}>
         {div('Tipo de ingreso', 'Prueba')}
-        {div('', '')}
+        <Button
+          labelStyle={{fontSize: responsiveScreenFontSize(3)}}
+          style={styles.edit}
+          icon="pencil-outline"
+          color={theme.colors.primary}
+          compact={true}
+          onPress={() => {
+            notifyMessage('pencil');
+          }}
+        />
       </View>
-    </>
+    </ScrollView>
   );
 }
 
 function div(label, text) {
   return (
     <View style={styles.div}>
-      <Text style={theme.ver.Label}>{label}</Text>
+      <Subheading style={[theme.ver.Label, styles.title]}>{label}</Subheading>
       <Pressable
         onPress={() => {
           notifyMessage(text);
         }}>
-        <Text style={theme.ver.Textos}>
+        <Paragraph style={[theme.ver.Textos, styles.result]}>
           {text.length > 12 ? text.slice(0, 12) + '...' : text}
-        </Text>
+        </Paragraph>
       </Pressable>
     </View>
   );
@@ -47,16 +58,17 @@ function div(label, text) {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     backgroundColor: theme.colors.blanco,
     justifyContent: 'center',
   },
   row: {
     flexDirection: 'row',
-    justifyContent: 'center',
-    paddingTop: 2,
   },
   div: {
-    width: '40%',
+    width: '50%',
   },
+  edit: {
+    textAlign: 'right',
+  },
+  result: {},
 });

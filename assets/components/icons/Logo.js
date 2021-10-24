@@ -6,7 +6,7 @@ import Svg, {Path} from 'react-native-svg';
 export default ({
   style = {},
   width = responsiveWidth(50),
-  height = responsiveHeight(30),
+  height = responsiveHeight(25),
 }) => {
   return (
     <View style={style}>

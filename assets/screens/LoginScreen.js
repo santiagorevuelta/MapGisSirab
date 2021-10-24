@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {StyleSheet, View} from 'react-native';
-import {Text} from 'react-native-paper';
+import { ActivityIndicator, Text } from "react-native-paper";
 import Background from '../components/Background';
 import Logo from '../components/icons/Logo';
 import FooterLogo from '../components/icons/FooterLogo';
@@ -21,22 +21,19 @@ import {
 import {notifyMessage} from '../core/general';
 
 export default function LoginScreen({navigation}) {
-  const [user, setUser] = useState({value: ''});
-  const [password, setPassword] = useState({value: ''});
-  const [visPass, setPasswordVisi] = useState(true);
-  const [isFocus, setIsFocus] = useState(false);
-  const [isFocusPass, setIsFocusPass] = useState(false);
+  const [user, setUser] = useState('');
+  const [password, setPassword] = useState('');
 
   const onLoginPressed = async () => {
     try {
-      let emailError = usuarioValidator(user.value);
-      let passwordError = passwordValidator(password.value);
+      let emailError = usuarioValidator(user);
+      let passwordError = passwordValidator(password);
       if (emailError) {
         notifyMessage(emailError);
       } else if (passwordError) {
         notifyMessage(passwordError);
       } else {
-        await loginValidator(user.value, password.value, {navigation});
+        await loginValidator(user, password, {navigation});
       }
     } catch (e) {
       console.error('onLoginPressed ' + e);
@@ -44,49 +41,41 @@ export default function LoginScreen({navigation}) {
   };
 
   return (
-    <>
+    <Background>
       <Logo style={styles.logo} />
-      <Background>
-        <Header>Sistema de informacion y Registro de Arboles</Header>
-        <TxtUser
-          label="Usuario"
-          returnKeyType="next"
-          value={user.value}
-          onChangeText={text => setUser({value: text})}
-          autoCapitalize="none"
-          autoCompleteType="username"
-          textContentType="name"
-          keyboardType="default"
-          isFocus={isFocus}
-          onFocus={() => setIsFocus(true)}
-        />
-        <TxtPass
-          label="Contraseña"
-          returnKeyType="done"
-          value={password.value}
-          onChangeText={text => setPassword({value: text})}
-          secureTextEntry={visPass}
-          setPasswordVi={event => setPasswordVisi(event)}
-          isFocusp={isFocusPass}
-          onBlur={() => setIsFocusPass(false)}
-          onFocus={() => setIsFocusPass(true)}
-        />
-        <Button
-          mode="contained"
-          onPress={() => {
-            onLoginPressed().then(() => {});
-          }}>
-          Ingresar
-        </Button>
-      </Background>
+      <Header>Sistema de informacion y Registro de Arboles</Header>
+      <TxtUser
+        label="Usuario"
+        returnKeyType="next"
+        value={user}
+        onChangeText={text => setUser(text)}
+        autoCapitalize="none"
+        autoCompleteType="username"
+        textContentType="name"
+        keyboardType="default"
+      />
+      <TxtPass
+        label="Contraseña"
+        returnKeyType="done"
+        value={password}
+        onChangeText={text => setPassword(text)}
+      />
+      <Button
+        mode="contained"
+        icon="login"
+        onPress={() => {
+          onLoginPressed().then(() => {});
+        }}>
+        Ingresar
+      </Button>
       <View style={styles.footer}>
-        <FooterLogo />
+        <FooterLogo style={styles.logoFooter} />
         <Text style={styles.copy}>
           Por {'\n'}
           <Text style={{fontWeight: 'bold'}}>H&G Consultores S.A.S</Text>
         </Text>
       </View>
-    </>
+    </Background>
   );
 }
 
@@ -101,8 +90,14 @@ const styles = StyleSheet.create({
   logo: {
     alignItems: 'center',
   },
+  logoFooter: {
+    alignItems: 'center',
+    bottom: responsiveHeight(0),
+    padding: 0,
+    margin: 0,
+  },
   footer: {
     justifyContent: 'center',
-    bottom: responsiveHeight(0),
+    marginTop: responsiveHeight(10),
   },
 });

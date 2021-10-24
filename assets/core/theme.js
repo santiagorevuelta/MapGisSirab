@@ -1,10 +1,11 @@
 import {DefaultTheme} from 'react-native-paper';
-import { responsiveFontSize, responsiveWidth } from "react-native-responsive-dimensions";
+import { responsiveFontSize, responsiveWidth } from 'react-native-responsive-dimensions';
 
 export const theme = {
   ...DefaultTheme,
-  roboto: 'roboto',
-  robotobold: 'robotobold',
+  pressed: '#d9d9d9',
+  offPressed: '#fff',
+  radius: 15,
   colors: {
     ...DefaultTheme.colors,
     text: '#000000',
@@ -13,7 +14,7 @@ export const theme = {
     error: '#f13a59',
     focus: 'rgba(37,139,32,0.15)',
     headers: '#959595',
-    border: '#959595',
+    border: 'rgba(149,149,149,0.24)',
     blanco: '#fff',
     negro: '#000',
   },
@@ -36,15 +37,16 @@ export const theme = {
   textos: {
     Label: {
       fontFamily: 'Roboto',
-      fontSize: responsiveFontSize(2.2),
+      fontSize: responsiveFontSize(1.6),
       color: '#258B20',
       fontWeight: 'bold',
     },
     LabelIn: {
       fontFamily: 'Roboto',
-      fontSize: responsiveFontSize(2),
+      fontSize: responsiveFontSize(1.5),
       color: '#3F793B',
-      paddingLeft: responsiveWidth(3),
+      fontWeight: 'bold',
+      paddingLeft: responsiveWidth(1),
     },
     Textos: {
       fontFamily: 'Roboto',
@@ -60,6 +62,7 @@ export const theme = {
     },
     Textos: {
       fontFamily: 'Roboto',
+      fontSize: responsiveFontSize(1.5),
       color: '#959595',
       textAlign: 'left',
     },

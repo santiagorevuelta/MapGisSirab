@@ -5,15 +5,15 @@ import Svg, {Path, Polygon} from 'react-native-svg';
 
 export default ({
   style = {},
-  width = responsiveWidth(5),
-  height = responsiveWidth(5),
+  width = responsiveWidth(7),
+  height = responsiveWidth(7),
 }) => {
   return (
     <View style={style}>
       <Svg
         width={width}
         height={height}
-        viewBox="0 0 23.96 22"
+        viewBox="0 0 23.83 23.83"
         fill="none"
         xmlns="http://www.w3.org/2000/svg">
         <Path

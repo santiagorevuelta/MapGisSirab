@@ -1,7 +1,10 @@
 import React from 'react';
 import {View, StyleSheet, Text, TextInput as Input} from 'react-native';
 import {theme} from '../../core/theme';
-import {responsiveWidth} from 'react-native-responsive-dimensions';
+import {
+  responsiveHeight,
+  responsiveWidth,
+} from 'react-native-responsive-dimensions';
 
 export default function TextInput({...props}) {
   return (
@@ -20,18 +23,19 @@ export default function TextInput({...props}) {
 
 const styles = StyleSheet.create({
   container: {
-    width: responsiveWidth(44),
-    height: responsiveWidth(12),
-    margin: responsiveWidth(3),
+    width: responsiveWidth(45),
+    height: responsiveHeight(6),
+    marginVertical: responsiveWidth(3),
+    paddingHorizontal: '2%',
   },
   input: {
-    fontFamily: 'Roboto',
     backgroundColor: theme.colors.surface,
     borderRadius: 25,
     borderTopLeftRadius: 25,
     borderTopRightRadius: 25,
     borderWidth: 1,
     marginTop: 5,
-    borderColor: '#C4C4C4',
+    paddingLeft: 10,
+    borderColor: theme.colors.border,
   },
 });

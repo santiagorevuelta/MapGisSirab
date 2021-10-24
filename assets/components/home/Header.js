@@ -17,7 +17,13 @@ const Header = () => {
   const [valor, setValor] = useState('');
   return (
     <View style={styles.header}>
-      <Pressable style={styles.icons}>
+      <Pressable
+        style={({pressed}) => [
+          {
+            backgroundColor: pressed ? theme.pressed : theme.offPressed,
+          },
+          styles.icons,
+        ]}>
         <Home />
       </Pressable>
       <View style={styles.search}>
@@ -36,7 +42,12 @@ const Header = () => {
         />
       </View>
       <Pressable
-        style={styles.icons}
+        style={({pressed}) => [
+          {
+            backgroundColor: pressed ? theme.pressed : theme.offPressed,
+          },
+          styles.icons,
+        ]}
         onPress={() => {
           getLocalize();
         }}>
@@ -73,12 +84,10 @@ const styles = StyleSheet.create({
     bottom: 0,
   },
   icons: {
-    top: 3,
     zIndex: 3,
-    backgroundColor: '#fff',
     width: responsiveWidth(10),
     height: responsiveWidth(10),
-    padding: 8,
+    padding: responsiveWidth(1),
     borderRadius: 50,
     borderColor: theme.colors.primary,
     borderWidth: 2,

@@ -6,12 +6,7 @@ const {
 const {StyleSheet} = require('react-native');
 
 const styles = StyleSheet.create({
-  snap: {
-    flex: 1,
-    maxHeight: 0,
-  },
   container: {
-    zIndex: 1,
     backgroundColor: theme.colors.blanco,
     color: theme.colors.secondary,
     flex: 1,
@@ -24,7 +19,7 @@ const styles = StyleSheet.create({
   },
   modal: {
     width: responsiveWidth(40),
-    height: responsiveWidth(38),
+    height: responsiveWidth(35),
     padding: 15,
     marginTop: 0,
     margin: 15,
@@ -46,19 +41,6 @@ const styles = StyleSheet.create({
   },
   labels: {
     paddingTop: responsiveHeight(1),
-  },
-  header: {
-    backgroundColor: '#fff',
-    shadowColor: 'rgba(51,51,51,0.73)',
-    shadowOffset: {width: -2, height: -3},
-    shadowRadius: 2,
-    shadowOpacity: 0.4,
-    paddingTop: 5,
-  },
-  headerText: {
-    textAlign: 'center',
-    color: theme.colors.headers,
-    marginTop: 2,
   },
 });
 

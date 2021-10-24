@@ -54,6 +54,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: theme.colors.primary,
     elevation: 6,
+    paddingTop: 1,
     zIndex: 3,
     width: responsiveScreenWidth(90),
     height: responsiveScreenHeight(30),
