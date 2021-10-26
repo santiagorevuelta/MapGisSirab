@@ -43,4 +43,3 @@ const styles = StyleSheet.create({
     borderColor: '#C4C4C4',
   },
 });
-

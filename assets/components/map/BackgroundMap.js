@@ -1,5 +1,12 @@
 import React, {useState} from 'react';
-import {View, Dimensions, Platform, PermissionsAndroid, StatusBar, SafeAreaView} from 'react-native';
+import {
+  View,
+  Dimensions,
+  Platform,
+  PermissionsAndroid,
+  StatusBar,
+  SafeAreaView,
+} from 'react-native';
 import {WebView} from 'react-native-webview';
 import Geolocation from '@react-native-community/geolocation';
 import {notifyMessage} from '../../core/general';
@@ -19,31 +26,31 @@ function MapComponent({children}) {
     }
   }, 100);
   return (
-      <SafeAreaView style={{ flex: 1, backgroundColor: "transparent" }}>
-          <StatusBar barStyle='light-content' />
-          <WebView
-            ref={MapRef}
-            onMessage={event => {
-              let coords = JSON.parse(event.nativeEvent.data);
-              AsyncStorage.setItem('coords', event.nativeEvent.data);
-            }}
-            source={{
-              html: html_script,
-            }}
-            javaScriptEnabledAndroid={true}
-            javaScriptEnabled={true}
-            injectedJavaScript={null}
-            style={{
-              height: height,
-              width: width,
-              margin: 0,
-              padding: 0,
-              zIndex: 0,
-              backgroundColor: '#fff',
-            }}
-          />
-          {children}
-      </SafeAreaView>
+    <SafeAreaView style={{flex: 1, backgroundColor: 'transparent'}}>
+      <StatusBar barStyle="light-content" />
+      <WebView
+        ref={MapRef}
+        onMessage={event => {
+          let coords = JSON.parse(event.nativeEvent.data);
+          AsyncStorage.setItem('coords', event.nativeEvent.data);
+        }}
+        source={{
+          html: html_script,
+        }}
+        javaScriptEnabledAndroid={true}
+        javaScriptEnabled={true}
+        injectedJavaScript={null}
+        style={{
+          height: height,
+          width: width,
+          margin: 0,
+          padding: 0,
+          zIndex: 0,
+          backgroundColor: '#fff',
+        }}
+      />
+      {children}
+    </SafeAreaView>
   );
 }
 

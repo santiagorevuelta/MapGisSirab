@@ -12,11 +12,13 @@ const Logo = ({
   height = responsiveHeight(25),
 }) => {
   //viewBox = <min-x> <min-y> <width> <height>
-  let viewBox = `0 0 ${parseInt(responsiveHeight(35))} ${parseInt(responsiveWidth(45))}`;
+  let viewBox = `0 0 ${parseInt(responsiveHeight(35))} ${parseInt(
+    responsiveWidth(45),
+  )}`;
   return (
-    <View style={[style,{width:width,height:height}]}>
+    <View style={[style, {width: width, height: height}]}>
       <Svg
-        style={{bottom: 0,padding: 5}}
+        style={{bottom: 0, padding: 5}}
         viewBox={viewBox}
         width={'100%'}
         height={'100%'}

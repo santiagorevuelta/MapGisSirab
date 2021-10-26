@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {StyleSheet, View} from 'react-native';
-import { ActivityIndicator, Text } from "react-native-paper";
+import {ActivityIndicator, Text} from 'react-native-paper';
 import Background from '../components/Background';
 import Logo from '../components/icons/Logo';
 import FooterLogo from '../components/icons/FooterLogo';
@@ -98,6 +98,6 @@ const styles = StyleSheet.create({
   footer: {
     justifyContent: 'center',
     marginTop: responsiveHeight(10),
-    alignItems:'center'
+    alignItems: 'center',
   },
 });

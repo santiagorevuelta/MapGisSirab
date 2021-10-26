@@ -1,10 +1,5 @@
 import React, {useState} from 'react';
-import {
-  View,
-  StyleSheet,
-  Pressable,
-  TextInput as Input,
-} from 'react-native';
+import {View, StyleSheet, Pressable, TextInput as Input} from 'react-native';
 import {theme} from '../../core/theme';
 import Usuario from '../icons/Usuario';
 import Ver from '../icons/Ver';
@@ -13,7 +8,7 @@ import styles from './TextInputLoginStyle';
 
 function TextInput({...props}) {
   const [isFocus, setIsFocus] = useState(false);
-  console.log(props.value)
+  console.log(props.value);
   return (
     <View style={styles.container}>
       <Input

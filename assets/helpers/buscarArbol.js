@@ -10,7 +10,7 @@ export default async function (filtros) {
 
   let token = await consultToken();
   if (token === null) {
-   // return;
+    // return;
   }
   let url = `${tsconfig[tsconfig.use].searchTree.url}?${params}`;
   const config = {

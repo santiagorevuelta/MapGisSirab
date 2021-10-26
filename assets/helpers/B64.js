@@ -71,5 +71,3 @@ function encode64(input) {
 }
 
 export default encode64;
-
-

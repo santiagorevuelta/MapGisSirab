@@ -1,6 +1,9 @@
 import React from 'react';
 import {View} from 'react-native';
-import { responsiveHeight, responsiveWidth } from "react-native-responsive-dimensions";
+import {
+  responsiveHeight,
+  responsiveWidth,
+} from 'react-native-responsive-dimensions';
 import Svg, {Path} from 'react-native-svg';
 
 export default ({

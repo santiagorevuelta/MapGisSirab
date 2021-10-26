@@ -9,81 +9,74 @@ import {styles} from './styles';
 import {theme} from '../../core/theme';
 
 const Selector = ({
-    style = null,
-    list = [],
-    placeholder = 'Todos...',
-    onSelected,
-    valueSelected,
+  style = null,
+  list = [],
+  placeholder = 'Todos...',
+  onSelected,
+  valueSelected,
 }) => {
-    const [showSelector, setShowSelector] = useState(false);
-    const [value, setValue] = useState(valueSelected);
+  const [showSelector, setShowSelector] = useState(false);
+  const [value, setValue] = useState(valueSelected);
 
-    return (
-        <View>
+  return (
+    <View>
+      <Pressable
+        style={style ? [styles.selector, style] : styles.selector}
+        onPress={() => {
+          setShowSelector(!showSelector);
+        }}>
+        {value ? (
+          <Text style={[styles.placeholder, styles.value]}>{value.label}</Text>
+        ) : (
+          <Text style={styles.placeholder}>{placeholder}</Text>
+        )}
+        <IconAntDesign
+          name={showSelector ? 'up' : 'down'}
+          color={theme.colors.primary}
+          size={responsiveFontSize(2)}
+        />
+      </Pressable>
+      {showSelector && (
+        <ScrollView style={styles.containerList} nestedScrollEnabled={true}>
+          {list.map((item, i) => (
             <Pressable
-                style={style ? [styles.selector, style] : styles.selector}
-                onPress={() => {
-                    setShowSelector(!showSelector);
-                }}>
-                {value ? (
-                    <Text style={[styles.placeholder, styles.value]}>
-                        {value.label}
-                    </Text>
-                ) : (
-                    <Text style={styles.placeholder}>{placeholder}</Text>
-                )}
-                <IconAntDesign
-                    name={showSelector ? 'up' : 'down'}
-                    color={theme.colors.primary}
-                    size={responsiveFontSize(2)}
-                />
+              key={i}
+              style={
+                i == list.length - 1
+                  ? [styles.containerItemList, {borderBottomWidth: 0}]
+                  : styles.containerItemList
+              }
+              onPress={() => {
+                if (item == value) {
+                  setValue(null);
+                  onSelected(null);
+                } else {
+                  setValue(item);
+                  onSelected(item);
+                }
+                setShowSelector(false);
+              }}>
+              <Text
+                style={
+                  item == value
+                    ? [
+                        styles.placeholder,
+                        styles.textItem,
+                        {
+                          color: '#000',
+                          //fontFamily: momserratBold,
+                        },
+                      ]
+                    : [styles.placeholder, styles.textItem]
+                }>
+                {item.label} {item == value ? '•' : ' '}
+              </Text>
             </Pressable>
-            {showSelector && (
-                <ScrollView
-                    style={styles.containerList}
-                    nestedScrollEnabled={true}>
-                    {list.map((item, i) => (
-                        <Pressable
-                            key={i}
-                            style={
-                                i == list.length - 1
-                                    ? [
-                                          styles.containerItemList,
-                                          {borderBottomWidth: 0},
-                                      ]
-                                    : styles.containerItemList
-                            }
-                            onPress={() => {
-                                if (item == value) {
-                                    setValue(null);
-                                    onSelected(null);
-                                } else {
-                                    setValue(item);
-                                    onSelected(item);
-                                }
-                                setShowSelector(false);
-                            }}>
-                            <Text
-                                style={
-                                    item == value
-                                        ? [
-                                              styles.placeholder,
-                                              styles.textItem,
-                                              {
-                                                  color: '#000',
-                                                  //fontFamily: momserratBold,
-                                              },
-                                          ]
-                                        : [styles.placeholder, styles.textItem]
-                                }>
-                                {item.label} {item == value ? '•' : ' '}
-                            </Text>
-                        </Pressable>
-                    ))}
-                </ScrollView>
-            )}
-        </View>
-    );
+          ))}
+        </ScrollView>
+      )}
+    </View>
+  );
 };
 
 export default Selector;

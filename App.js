@@ -20,17 +20,17 @@ const Stack = createStackNavigator();
 
 const App: () => Node = () => {
   return (
-      <NavigationContainer independent={true} theme={theme}>
-        <Stack.Navigator
-          initialRouteName={'Dashboard'}
-          screenOptions={{
-            headerShown: false,
-          }}>
-          <Stack.Screen name="LoginScreen" component={LoginScreen} />
-          <Stack.Screen name="Dashboard" component={Dashboard} />
-          <Stack.Screen name="ViewTree" component={ViewTree} />
-        </Stack.Navigator>
-      </NavigationContainer>
+    <NavigationContainer independent={true} theme={theme}>
+      <Stack.Navigator
+        initialRouteName={'Dashboard'}
+        screenOptions={{
+          headerShown: false,
+        }}>
+        <Stack.Screen name="LoginScreen" component={LoginScreen} />
+        <Stack.Screen name="Dashboard" component={Dashboard} />
+        <Stack.Screen name="ViewTree" component={ViewTree} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 };
 

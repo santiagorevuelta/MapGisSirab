@@ -1,5 +1,8 @@
 import {DefaultTheme} from 'react-native-paper';
-import { responsiveFontSize, responsiveWidth } from 'react-native-responsive-dimensions';
+import {
+  responsiveFontSize,
+  responsiveWidth,
+} from 'react-native-responsive-dimensions';
 
 export const theme = {
   ...DefaultTheme,
@@ -52,7 +55,7 @@ export const theme = {
       textAlign: 'center',
     },
   },
-  ver:{
+  ver: {
     Label: {
       fontSize: responsiveFontSize(1.8),
       color: '#258B20',

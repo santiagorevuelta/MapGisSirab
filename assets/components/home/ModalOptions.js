@@ -26,25 +26,21 @@ export default props => {
             props.setOption('Consulta');
           }}>
           <ConsultarArbol />
-          <Text style={[theme.textos.Label, styles.labels]}>
-            {'Consultar'}
-          </Text>
+          <Text style={[theme.textos.Label, styles.labels]}>{'Consultar'}</Text>
         </Pressable>
-          <Pressable
-              style={({pressed}) => [
-                  {
-                      backgroundColor: pressed ? theme.pressed : theme.offPressed,
-                  },
-                  styles.modal,
-              ]}
-              onPress={() => {
-                  props.setOption('Ingresar');
-              }}>
-              <ConsultarArbol />
-              <Text style={[theme.textos.Label, styles.labels]}>
-                  {'Ingresar'}
-              </Text>
-          </Pressable>
+        <Pressable
+          style={({pressed}) => [
+            {
+              backgroundColor: pressed ? theme.pressed : theme.offPressed,
+            },
+            styles.modal,
+          ]}
+          onPress={() => {
+            props.setOption('Ingresar');
+          }}>
+          <ConsultarArbol />
+          <Text style={[theme.textos.Label, styles.labels]}>{'Ingresar'}</Text>
+        </Pressable>
       </Animated.View>
     </>
   );

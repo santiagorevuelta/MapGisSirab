@@ -19,7 +19,7 @@ async function consultToken() {
         let data = res.data;
         if (data && data !== '' && data !== 'Sin autenticacion') {
           resolve(data);
-         //AsyncStorage.setItem('token', data);
+          //AsyncStorage.setItem('token', data);
         } else {
           resolve(null);
           //AsyncStorage.setItem('token', '');

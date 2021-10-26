@@ -6,11 +6,11 @@ import ModalOptionsType from '../components/home/ModalOptionsType';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import BottomSheet from '@gorhom/bottom-sheet';
 import {consultToken} from '../core/general';
-import { ScrollView } from "react-native";
+import {ScrollView} from 'react-native';
 export default function Dashboard({navigation}) {
   AsyncStorage.getItem('login').then(value => {
     //console.log('login: ' + value);
-   /* if (value !== 'Ok') {
+    /* if (value !== 'Ok') {
       navigation.reset({
         index: 0,
         routes: [{name: 'LoginScreen'}],
@@ -41,7 +41,7 @@ export default function Dashboard({navigation}) {
       routes: [{name}],
     });
   };
-console.log(option)
+  console.log(option);
   return (
     <MapComponent>
       {headerHide ? null : <Header />}
@@ -56,11 +56,15 @@ console.log(option)
         snapPoints={snapPoints}>
         {option === 'inicio' ? (
           <ModalOptions setOption={setView} />
-        ) : (
-            'Consulta,Ingresar'.indexOf(option)  !== -1?
-             <ModalOptionsType setOption={setView} type={option} tabArbol={tabArbol} />
-            :option === '' ?<ConsultarArbol />:null
-        )}
+        ) : 'Consulta,Ingresar'.indexOf(option) !== -1 ? (
+          <ModalOptionsType
+            setOption={setView}
+            type={option}
+            tabArbol={tabArbol}
+          />
+        ) : option === '' ? (
+          <ConsultarArbol />
+        ) : null}
       </BottomSheet>
     </MapComponent>
   );
