@@ -16,7 +16,7 @@ function TextInput({...props}) {
   return (
     <View style={styles.container}>
       <Input
-        style={[styles.input, isFocus ? styles.focusOn : {}]}
+        style={[styles.input, isFocus || props.value ? styles.focusOn : {}]}
         placeholder={props.label}
         isFocus={isFocus}
         onFocus={() => setIsFocus(true)}

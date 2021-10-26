@@ -37,11 +37,10 @@ const styles = StyleSheet.create({
   },
   image: {
     width: ITEM_WIDTH,
-    height: responsiveHeight(40),
+    height: responsiveHeight(35),
     borderBottomLeftRadius: 25,
     borderBottomRightRadius: 25,
   },
 });
-
 
 export default CarouselCardItem;

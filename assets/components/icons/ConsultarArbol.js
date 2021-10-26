@@ -5,8 +5,8 @@ import Svg, {Path, Circle} from 'react-native-svg';
 
 export default ({
   style = {},
-  width = responsiveWidth(25),
-  height = responsiveWidth(20),
+  width = responsiveWidth(20),
+  height = responsiveWidth(15),
 }) => {
   return (
     <View style={style}>

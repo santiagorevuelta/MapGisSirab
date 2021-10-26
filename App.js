@@ -23,7 +23,7 @@ const App: () => Node = () => {
     <PaperProvider>
       <NavigationContainer independent={true} theme={theme}>
         <Stack.Navigator
-          initialRouteName={'LoginScreen'}
+          initialRouteName={'Dashboard'}
           screenOptions={{
             headerShown: false,
           }}>

@@ -6,6 +6,7 @@ import ModalConsult from '../components/Arbol/ConsultaArbol';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import BottomSheet from '@gorhom/bottom-sheet';
 import {consultToken} from '../core/general';
+import { ScrollView } from "react-native";
 export default function Dashboard({navigation}) {
   AsyncStorage.getItem('login').then(value => {
     //console.log('login: ' + value);
@@ -16,14 +17,13 @@ export default function Dashboard({navigation}) {
       });
     }
   });
-  consultToken({navigation});
 
   const [headerHide, setHeaderHide] = useState(false);
   const [option, setOption] = useState(false);
   const [snp, setSnp] = useState(1);
   const bottomSheetRef = React.useRef(null);
   const snapPoints = useMemo(() => ['3%', '30%'], []);
-  const snapPointsVer = useMemo(() => ['3%', '25%', '50%', '70%', '100%'], []);
+  const snapPointsVer = useMemo(() => ['3%', '44%', '75%', '100%'], []);
 
   const setView = index => {
     if (!index) {
@@ -44,7 +44,7 @@ export default function Dashboard({navigation}) {
   AsyncStorage.getItem('option').then(value => {
     if (value === '1') {
       setView(true);
-      setSnp(snapPointsVer.length - 1);
+      setSnp(2);
     }
   });
 
@@ -59,11 +59,13 @@ export default function Dashboard({navigation}) {
         index={snp}
         initialSnapIndex={snp}
         snapPoints={!option ? snapPoints : snapPointsVer}>
-        {!option ? (
-          <ModalOptions setOption={setView} />
-        ) : (
-          <ModalConsult setOption={setView} tabArbol={tabArbol} />
-        )}
+        <ScrollView>
+          {!option ? (
+            <ModalOptions setOption={setView} />
+          ) : (
+            <ModalConsult setOption={setView} tabArbol={tabArbol} />
+          )}
+        </ScrollView>
       </BottomSheet>
       {headerHide ? null : <Header />}
     </MapComponent>

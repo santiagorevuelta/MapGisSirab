@@ -13,13 +13,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    paddingTop: 10,
-    paddingBottom: 10,
+    paddingTop: '10%',
     width: responsiveWidth(100),
   },
   modal: {
-    width: responsiveWidth(40),
-    height: responsiveWidth(35),
+    width: responsiveWidth(35),
+    height: responsiveWidth(30),
     padding: 15,
     marginTop: 0,
     margin: 15,
@@ -41,6 +40,16 @@ const styles = StyleSheet.create({
   },
   labels: {
     paddingTop: responsiveHeight(1),
+  },
+  header: {
+    shadowColor: 'rgba(51,51,51,0.73)',
+    shadowOffset: {width: -2, height: -3},
+    shadowRadius: 2,
+    shadowOpacity: 0.4,
+  },
+  headerText: {
+    textAlign: 'center',
+    color: theme.colors.headers,
   },
 });
 

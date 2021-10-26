@@ -1,21 +1,34 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {StyleSheet, View, Text} from 'react-native';
 import {theme} from '../../core/theme';
 import TextInputForm from '../Arbol/TextInputForm';
 import {Switch, Button as ButtonIcon} from 'react-native-paper';
 import {responsiveFontSize} from 'react-native-responsive-dimensions';
 import Button from '../Button';
+import {notifyMessage} from "../../core/general";
 export default props => {
   const [isSwitchOn, setIsSwitchOn] = React.useState(false);
+  const [filters, setFilters] = useState({});
   const onToggleSwitch = () => setIsSwitchOn(!isSwitchOn);
 
   return (
     <View style={{paddingHorizontal: '5%'}}>
       <View>
         <View style={styles.form}>
-          <View />
+          <View>
+            <ButtonIcon
+              compact={true}
+              labelStyle={{fontSize: responsiveFontSize(5)}}
+              icon="vector-point"
+              color={theme.colors.primary}
+              onPress={() => {
+                notifyMessage('Seleccionar punto en mapa');
+              }}
+            />
+          </View>
           <TextInputForm
             label={'Código'}
+            onChangeText={text => setFilters({...filters, codigo_arbol: text})}
             returnKeyType="next"
             autoCapitalize="none"
             autoCompleteType="username"
@@ -24,12 +37,24 @@ export default props => {
           />
         </View>
         <View style={styles.form}>
-          <TextInputForm label={'Nombre del proyecto'} />
-          <TextInputForm label={'Número del proyecto'} />
+          <TextInputForm
+            label={'Nombre del proyecto'}
+            onChangeText={text => setFilters({...filters, codigo_arbol: text})}
+          />
+          <TextInputForm
+            label={'Número del proyecto'}
+            onChangeText={text => setFilters({...filters, codigo_arbol: text})}
+          />
         </View>
         <View style={styles.form}>
-          <TextInputForm label={'Nombre cientifico'} />
-          <TextInputForm label={'Año'} />
+          <TextInputForm
+            label={'Nombre cientifico'}
+            onChangeText={text => setFilters({...filters, codigo_arbol: text})}
+          />
+          <TextInputForm
+            label={'Año'}
+            onChangeText={text => setFilters({...filters, fecha: text})}
+          />
         </View>
       </View>
       <View style={styles.search}>
@@ -51,15 +76,15 @@ export default props => {
             icon="broom"
             color={theme.colors.primary}
             onPress={() => {
+              setFilters({});
               props.fnBuscar(false);
             }}
           />
-
           <Button
             style={styles.boton}
             mode="contained"
             onPress={() => {
-              props.fnBuscar(true);
+              props.fnBuscar(true, filters);
             }}>
             Buscar
           </Button>

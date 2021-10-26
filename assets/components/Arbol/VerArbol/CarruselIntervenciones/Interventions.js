@@ -61,20 +61,12 @@ export default function (props) {
       <ScrollView horizontal style={styles.scroll}>
         {rows(props)}
       </ScrollView>
-      <Pressable
-        style={styles.hvArbol}
-        onPress={() => {
-          notifyMessage('Holi');
-        }}>
-        <Text style={styles.txtArbol}>{'Hv árbol'}</Text>
-      </Pressable>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     backgroundColor: theme.colors.blanco,
     alignItems: 'flex-end',
     marginTop: responsiveHeight(30),
@@ -124,16 +116,6 @@ function rows(props) {
           <Text style={stylesCards.textos}>{'Contrato #' + item.contrato}</Text>
           <Text style={stylesCards.operador}>{item.operador}</Text>
         </Card.Content>
-        <Button
-          labelStyle={stylesCards.labelStyle}
-          style={stylesCards.buttons}
-          icon="pencil-outline"
-          color={theme.colors.primary}
-          compact={true}
-          onPress={() => {
-            notifyMessage('pencil');
-          }}
-        />
       </Card.Actions>
     </Card>
   ));
@@ -146,6 +128,7 @@ const stylesCards = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 10,
     borderColor: theme.colors.border,
+    paddingBottom: responsiveScreenFontSize(1.2),
     margin: 5,
   },
   title: {

@@ -9,11 +9,24 @@ import {
 import IconAntDesign from 'react-native-vector-icons/AntDesign';
 import FormConsultaArbol from './FormConsultaArbol';
 import ResultSearch from './ResultSearch';
+import buscarArbol from '../../helpers/buscarArbol';
+import {notifyMessage} from '../../core/general';
+import {verTodoEnMapa} from '../map/BackgroundMap';
 
 const ModalConsult = ({...props}) => {
   const [buscar, setBuscar] = useState(false);
+  const [dataResult, setDataResult] = useState([]);
 
-  const fnBuscar = obj => {
+  const fnBuscar = async (obj, filtros = {}) => {
+    if (obj) {
+      let response = await buscarArbol(filtros);
+      if (response.length === 0) {
+        notifyMessage('La consulta no obtuvo resultados');
+        return;
+      }
+      setDataResult(response.data);
+      verTodoEnMapa(response.data);
+    }
     setBuscar(obj);
   };
 
@@ -39,12 +52,14 @@ const ModalConsult = ({...props}) => {
         </View>
         <View>
           <Text style={[theme.textos.Label, styles.regressHead]}>
-            {'Consultar arbol'}
+            {'Consultar árbol'}
           </Text>
         </View>
       </View>
       <FormConsultaArbol fnBuscar={fnBuscar} />
-      {buscar ? <ResultSearch tabArbol={props.tabArbol} /> : null}
+      {buscar ? (
+        <ResultSearch tabArbol={props.tabArbol} data={dataResult} />
+      ) : null}
     </>
   );
 };

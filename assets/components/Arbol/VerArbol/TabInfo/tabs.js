@@ -1,5 +1,5 @@
 import React from 'react';
-import {Text, StyleSheet, View, Image, Dimensions} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import {
@@ -24,7 +24,7 @@ function getHome() {
           tabBarOptions: {upperCaseLabel: false},
           tabBarActiveTintColor: theme.colors.primary,
           tabBarInactiveTintColor: theme.colors.headers,
-          tabBarLabelStyle: {fontSize: responsiveFontSize(1.2)},
+          tabBarLabelStyle: [theme.ver.Label, styles.header],
         }}>
         <Tab.Screen
           name="Caracteristicas"
@@ -48,6 +48,9 @@ function getHome() {
 }
 
 const styles = StyleSheet.create({
+  header: {
+    fontSize: responsiveFontSize(1.2),
+  },
   floatModal: {
     backgroundColor: theme.colors.blanco,
     position: 'absolute',
@@ -62,7 +65,7 @@ const styles = StyleSheet.create({
     marginRight: responsiveScreenWidth(5),
     alignContent: 'center',
     borderRadius: 30,
-    top: responsiveHeight(35),
+    top: responsiveHeight(30),
     paddingLeft: '5%',
     paddingRight: '5%',
     paddingBottom: '5%',

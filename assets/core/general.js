@@ -10,26 +10,26 @@ function notifyMessage(msg) {
   }
 }
 
-async function consultToken({navigation}) {
-  let url = tsconfig[tsconfig.use].tokenValidator.url;
-  await axios
-    .post(url)
-    .then(res => {
-      let data = res.data;
-      if (data && data !== '' && data !== 'Sin autenticacion') {
-        notifyMessage('Token ok');
-        AsyncStorage.setItem('token', data);
-      } else {
-        AsyncStorage.setItem('token', '');
-      }
-    })
-    .catch(error => {
-      AsyncStorage.setItem('token', '');
-      navigation.reset({
-        index: 0,
-        routes: [{name: 'LoginScreen'}],
+async function consultToken() {
+  return new Promise((resolve, reject) => {
+    let url = tsconfig[tsconfig.use].tokenValidator.url;
+    axios
+      .post(url)
+      .then(res => {
+        let data = res.data;
+        if (data && data !== '' && data !== 'Sin autenticacion') {
+          resolve(data);
+         //AsyncStorage.setItem('token', data);
+        } else {
+          resolve(null);
+          //AsyncStorage.setItem('token', '');
+        }
+      })
+      .catch(error => {
+        notifyMessage('Error en el token');
+        resolve(null);
       });
-    });
+  });
 }
 
 module.exports = {notifyMessage, consultToken};

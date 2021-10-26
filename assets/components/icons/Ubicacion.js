@@ -1,7 +1,7 @@
 import React from 'react';
 import {View} from 'react-native';
 import {responsiveWidth} from 'react-native-responsive-dimensions';
-import Svg, {Path, Circle} from 'react-native-svg';
+import Svg, {Path} from 'react-native-svg';
 
 export default ({
   style = {},
@@ -17,21 +17,14 @@ export default ({
         fill="none"
         xmlns="http://www.w3.org/2000/svg">
         <Path
-          d="M21.68,10.92a9.72,9.72,0,0,0-8.6-8.6V.08H10.92V2.32a9.74,9.74,0,0,0-8.61,8.6H.08v2.16H2.31a9.74,9.74,0,0,0,8.61,8.6v2.24h2.16V21.68a9.72,9.72,0,0,0,8.6-8.6h2.24V10.92Z"
-          transform="translate(-0.08 -0.08)"
-          fill="#258B20"
+          d="M21.6,10.84A9.72,9.72,0,0,0,13,2.24V0H10.84V2.24a9.74,9.74,0,0,0-8.61,8.6H0V13H2.23a9.74,9.74,0,0,0,8.61,8.6v2.24H13V21.6A9.72,9.72,0,0,0,21.6,13h2.24V10.84Zm-2.22,2.5a7.59,7.59,0,1,1-8.9-8.9,7.45,7.45,0,0,1,2.9,0A7.6,7.6,0,0,1,19.38,13.34Z"
+          transform="translate(0 0)"
+          fill="#2b9543"
         />
         <Path
-          d="M4.56,10.52a7.59,7.59,0,1,0,6-6A7.58,7.58,0,0,0,4.56,10.52Z"
-          transform="translate(-0.08 -0.08)"
-          fill="#fff"
-        />
-        <Circle
-          cx="12"
-          cy="12"
-          r="4.33"
-          transform="translate(-2.14 2.41) rotate(-10.92)"
-          fill="#258B20"
+          d="M11.1,7.67a4.33,4.33,0,1,0,5.07,3.43A4.33,4.33,0,0,0,11.1,7.67Z"
+          transform="translate(0 0)"
+          fill="#2b9543"
         />
       </Svg>
     </View>

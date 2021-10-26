@@ -1,17 +1,21 @@
 import React from 'react';
-import {StyleSheet, View, Text, Pressable} from 'react-native';
+import {Pressable, StyleSheet, Text} from 'react-native';
 import {theme} from '../../core/theme';
-import {Card, Title, Paragraph, Button} from 'react-native-paper';
+import {Button, Card, Paragraph, Title} from 'react-native-paper';
 import {
   responsiveFontSize,
+  responsiveScreenHeight,
+  responsiveScreenWidth,
   responsiveWidth,
 } from 'react-native-responsive-dimensions';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Animated from 'react-native-reanimated';
 import {ScrollView} from 'react-native-gesture-handler';
 import {notifyMessage} from '../../core/general';
+import {verEnMapa} from '../map/BackgroundMap';
+import axios from 'axios';
 
-export default props => {
+export default function (props) {
   return (
     <Animated.View style={styles.container}>
       <Text style={[theme.textos.Label, styles.txtRes]}>
@@ -22,7 +26,7 @@ export default props => {
       </ScrollView>
     </Animated.View>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -34,42 +38,58 @@ const styles = StyleSheet.create({
     fontSize: responsiveFontSize(1.8),
   },
 });
+function verifiedImage(url) {
+  return axios(url)
+    .then(() => {
+      return true;
+    })
+    .catch(() => {
+      return false;
+    });
+}
 
 function Mycard(props) {
-  let data = [
-    {uri: 'https://picsum.photos/900', codigo: '45454'},
-    {uri: 'https://picsum.photos/500', codigo: '5454'},
-    {uri: 'https://picsum.photos/600', codigo: '2424'},
-    {uri: 'https://picsum.photos/1000', codigo: '4487489'},
-    {uri: 'https://picsum.photos/700', codigo: '4494849849'},
-  ];
+  let data = props.data;
   return data.map((item, index) => (
     <Card key={'card' + index} style={styleCard.container}>
       <Title style={[theme.textos.Label, styleCard.title]}>
-        Código {item.codigo}
+        Código {item.codigo_arbol}
       </Title>
       <Card.Content>
         <Pressable
           onPress={() => {
-            AsyncStorage.setItem('codigo', item.codigo);
+            AsyncStorage.setItem('items', JSON.stringify(item));
             props.tabArbol('ViewTree');
           }}>
-          <Paragraph style={[theme.textos.Textos, styleCard.tipo]}>
-            Aguacatus arboles - fat
-          </Paragraph>
-          <Card.Cover style={styleCard.image} source={{uri: item.uri}} />
+          <Pressable
+            onPress={() => {
+              notifyMessage(item.especie);
+            }}>
+            <Paragraph style={[theme.textos.Textos, styleCard.tipo]}>
+              {item && item.especie.length > 25
+                ? item.especie.slice(0, 25) + '...'
+                : item.especie}
+            </Paragraph>
+          </Pressable>
+          <Card.Cover
+            style={styleCard.image}
+            source={
+              verifiedImage(item.ruta_foto_web)
+                ? require('../../assets/imagen.png')
+                : {uri: item.ruta_foto_web}
+            }
+          />
         </Pressable>
       </Card.Content>
-      <Card.Actions>
+      <Card.Actions style={styleCard.contentFooter}>
         <Card.Content>
           <Paragraph style={[theme.textos.Textos, styleCard.date]}>
-            10/12/2001
+            {item.fecha}
           </Paragraph>
         </Card.Content>
         <Button
           labelStyle={styleCard.labelStyle}
           style={styleCard.buttons}
-          mode={'contained'}
           icon="file-download-outline"
           color={theme.colors.primary}
           onPress={() => {
@@ -79,22 +99,12 @@ function Mycard(props) {
         <Button
           labelStyle={styleCard.labelStyle}
           style={styleCard.buttons}
-          mode={'outlined'}
-          icon="pencil-outline"
-          color={theme.colors.primary}
-          compact={true}
-          onPress={() => {
-            notifyMessage('pencil');
-          }}
-        />
-        <Button
-          labelStyle={styleCard.labelStyle}
-          style={styleCard.buttons}
           icon="map-marker-outline"
           compact={true}
           color={theme.colors.primary}
           onPress={() => {
-            notifyMessage('map');
+            verEnMapa(item.latitud, item.longitud);
+            notifyMessage('Ver en mapa');
           }}
         />
       </Card.Actions>
@@ -110,6 +120,7 @@ const styleCard = StyleSheet.create({
     borderColor: theme.colors.border,
     color: theme.colors.secondary,
     flexDirection: 'column',
+    width: responsiveScreenWidth(50),
     marginHorizontal: 5,
   },
   title: {
@@ -122,7 +133,7 @@ const styleCard = StyleSheet.create({
   },
   image: {
     borderRadius: theme.radius,
-    height: responsiveWidth(35),
+    height: responsiveWidth(20),
   },
   date: {
     fontSize: responsiveFontSize(1.3),
