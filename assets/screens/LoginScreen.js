@@ -21,8 +21,8 @@ import {
 import {notifyMessage} from '../core/general';
 
 export default function LoginScreen({navigation}) {
-  const [user, setUser] = useState('');
-  const [password, setPassword] = useState('');
+  const [user, setUser] = useState('abaez');
+  const [password, setPassword] = useState('A1090496829');
 
   const onLoginPressed = async () => {
     try {

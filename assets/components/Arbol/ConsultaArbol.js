@@ -12,22 +12,37 @@ import ResultSearch from './ResultSearch';
 import buscarArbol from '../../helpers/buscarArbol';
 import {notifyMessage} from '../../core/general';
 import {verTodoEnMapa} from '../map/BackgroundMap';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const ModalConsult = ({...props}) => {
   const [buscar, setBuscar] = useState(false);
-  const [dataResult, setDataResult] = useState([]);
+  const [dataResult, setDataResult] = useState({});
+
+  AsyncStorage.getItem('filtros', function (value) {
+    console.log('Filtros ' + value);
+  });
 
   const fnBuscar = async (obj, filtros = {}) => {
     if (obj) {
-      let response = await buscarArbol(filtros);
+      let response = await buscarArbol(filtros, 1);
       if (response.length === 0) {
         notifyMessage('La consulta no obtuvo resultados');
         return;
       }
-      setDataResult(response.data);
-      verTodoEnMapa(response.data);
+      setDataResult(response);
     }
     setBuscar(obj);
+  };
+
+  const paginar = async page => {
+    let res = await AsyncStorage.getItem('filtros');
+    let filtros = res ? {} : JSON.parse(res);
+    let response = await buscarArbol(filtros, page);
+    if (response.length === 0) {
+      notifyMessage('La consulta no obtuvo resultados');
+      return;
+    }
+    setDataResult(response);
   };
 
   return (
@@ -37,7 +52,7 @@ const ModalConsult = ({...props}) => {
           <Pressable
             style={styles.regress}
             onPress={() => {
-              props.setOption(false);
+              props.setOption(props.type);
             }}>
             <IconAntDesign
               name={'back'}
@@ -58,7 +73,12 @@ const ModalConsult = ({...props}) => {
       </View>
       <FormConsultaArbol fnBuscar={fnBuscar} />
       {buscar ? (
-        <ResultSearch tabArbol={props.tabArbol} data={dataResult} />
+        <ResultSearch
+          tabArbol={props.tabArbol}
+          data={dataResult.data}
+          meta={dataResult.meta}
+          paginar={paginar}
+        />
       ) : null}
     </>
   );

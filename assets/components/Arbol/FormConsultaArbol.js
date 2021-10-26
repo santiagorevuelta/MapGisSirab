@@ -5,9 +5,11 @@ import TextInputForm from '../Arbol/TextInputForm';
 import {Switch, Button as ButtonIcon} from 'react-native-paper';
 import {responsiveFontSize} from 'react-native-responsive-dimensions';
 import Button from '../Button';
-import SelectSimpleIOS from '../selectSimple/SelectSimpleIOS';
+import SelectSimple from '../selectSimple/SelectSimple';
+import {notifyMessage} from '../../core/general';
 export default props => {
   const [isSwitchOn, setIsSwitchOn] = React.useState(false);
+  const [filters, setFilters] = React.useState({});
   const onToggleSwitch = () => setIsSwitchOn(!isSwitchOn);
 
   return (
@@ -32,10 +34,12 @@ export default props => {
             autoCompleteType="username"
             textContentType="name"
             keyboardType="default"
+            onChangeText={text => setFilters({...filters, codigo_arbol: text})}
           />
         </View>
         <View style={styles.form}>
-          <SelectSimpleIOS
+          <SelectSimple
+            label={'hola'}
             onSelected={items => {
               let id = null;
               if (items != null) {
@@ -49,7 +53,7 @@ export default props => {
           />
           <TextInputForm
             label={'Número del proyecto'}
-            onChangeText={text => setFilters({...filters, codigo_arbol: text})}
+            onChangeText={text => setFilters({...filters, numero: text})}
           />
         </View>
         <View style={styles.form}>
@@ -69,7 +73,6 @@ export default props => {
           </Text>
         </View>
         <View style={styles.content}>
-          {/*<Limpiar style={styles.limpiar} />*/}
           <ButtonIcon
             compact={true}
             labelStyle={{fontSize: responsiveFontSize(3)}}

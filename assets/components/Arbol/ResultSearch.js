@@ -1,10 +1,9 @@
 import React from 'react';
-import {Pressable, StyleSheet, Text} from 'react-native';
+import { Pressable, StyleSheet, Text, View } from "react-native";
 import {theme} from '../../core/theme';
 import {Button, Card, Paragraph, Title} from 'react-native-paper';
 import {
   responsiveFontSize,
-  responsiveScreenHeight,
   responsiveScreenWidth,
   responsiveWidth,
 } from 'react-native-responsive-dimensions';
@@ -14,6 +13,7 @@ import {ScrollView} from 'react-native-gesture-handler';
 import {notifyMessage} from '../../core/general';
 import {verEnMapa} from '../map/BackgroundMap';
 import axios from 'axios';
+import Pagination from '../../core/Pagination';
 
 export default function (props) {
   return (
@@ -24,6 +24,7 @@ export default function (props) {
       <ScrollView persistentScrollbar={true} horizontal>
         {Mycard(props)}
       </ScrollView>
+      <Pagination meta={props.meta} paginar={props.paginar} />
     </Animated.View>
   );
 }

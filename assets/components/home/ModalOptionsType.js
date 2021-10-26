@@ -6,6 +6,7 @@ import Animated from 'react-native-reanimated';
 import config from '../../tsconfig.json';
 import ConsultarArbol from '../icons/ConsultarArbol';
 import Header from '../home/HeaderModal';
+import {responsiveWidth} from 'react-native-responsive-dimensions';
 
 export default props => {
   return (
@@ -26,9 +27,12 @@ export default props => {
               styles.modal,
             ]}
             onPress={() => {
-              props.setOption('');
+              props.setOption(item.label);
             }}>
-            <ConsultarArbol />
+            <ConsultarArbol
+              width={responsiveWidth(15)}
+              height={responsiveWidth(10)}
+            />
             <Text style={[theme.textos.Label, styles.labels]}>
               {item.label}
             </Text>

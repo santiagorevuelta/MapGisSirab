@@ -17,7 +17,7 @@ export const styles = StyleSheet.create({
   },
   selector: {
     height: 40,
-    width: responsiveWidth(40),
+    width: responsiveWidth(45),
     backgroundColor: '#fff',
     flexDirection: 'row',
     justifyContent: 'space-between',

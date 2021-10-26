@@ -8,18 +8,20 @@ import {styles} from './styles';
 
 import {theme} from '../../core/theme';
 
-const Selector = ({
+const SelectSimple = ({
   style = null,
   list = [],
   placeholder = 'Todos...',
   onSelected,
   valueSelected,
+  label,
 }) => {
   const [showSelector, setShowSelector] = useState(false);
   const [value, setValue] = useState(valueSelected);
 
   return (
     <View>
+      <Text>{'ddd'}</Text>
       <Pressable
         style={style ? [styles.selector, style] : styles.selector}
         onPress={() => {
@@ -79,4 +81,4 @@ const Selector = ({
   );
 };
 
-export default Selector;
+export default SelectSimple;

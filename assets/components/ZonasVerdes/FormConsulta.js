@@ -5,7 +5,7 @@ import TextInputForm from '../Arbol/TextInputForm';
 import {Switch, Button as ButtonIcon} from 'react-native-paper';
 import {responsiveFontSize} from 'react-native-responsive-dimensions';
 import Button from '../Button';
-import SelectSimpleIOS from '../selectSimple/SelectSimpleIOS';
+import SelectSimpleIOS from '../selectSimple/SelectSimple';
 export default props => {
   const [isSwitchOn, setIsSwitchOn] = React.useState(false);
   const onToggleSwitch = () => setIsSwitchOn(!isSwitchOn);

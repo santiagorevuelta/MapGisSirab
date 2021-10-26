@@ -106,4 +106,15 @@ function error(err) {
   }
 }
 
-module.exports = {getLocalize, MapComponent};
+function verEnMapa(lat, lng) {
+  if (!MapRef.current) {
+    return;
+  }
+  MapRef.current.injectJavaScript(
+    `setTimeout(function(){
+        acctionMapVer([${lat}, ${lng}])
+    },100)`,
+  );
+}
+
+module.exports = {getLocalize, MapComponent, verEnMapa};
