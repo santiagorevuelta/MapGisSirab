@@ -1,16 +1,19 @@
 import React, {useState} from 'react';
-import {View, Text, Pressable, ScrollView, Platform} from 'react-native';
+import {View, Text, Pressable, Platform} from 'react-native';
 import {responsiveFontSize} from 'react-native-responsive-dimensions';
 import IconAntDesign from 'react-native-vector-icons/AntDesign';
+import {ScrollView} from 'react-native-gesture-handler';
 const momserratBold = Platform.OS !== 'ios' ? '' : '';
 import {styles} from './styles';
+
+import {theme} from '../../core/theme';
 
 const Selector = ({
     style = null,
     list = [],
-    placeholder = 'Seleccionar...',
+    placeholder = 'Todos...',
     onSelected,
-    valueSelected = '0',
+    valueSelected,
 }) => {
     const [showSelector, setShowSelector] = useState(false);
     const [value, setValue] = useState(valueSelected);
@@ -31,7 +34,7 @@ const Selector = ({
                 )}
                 <IconAntDesign
                     name={showSelector ? 'up' : 'down'}
-                    color={'#08517F'}
+                    color={theme.colors.primary}
                     size={responsiveFontSize(2)}
                 />
             </Pressable>
@@ -68,7 +71,7 @@ const Selector = ({
                                               styles.textItem,
                                               {
                                                   color: '#000',
-                                                  fontFamily: momserratBold,
+                                                  //fontFamily: momserratBold,
                                               },
                                           ]
                                         : [styles.placeholder, styles.textItem]

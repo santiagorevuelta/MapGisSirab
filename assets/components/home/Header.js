@@ -63,10 +63,10 @@ const styles = StyleSheet.create({
   header: {
     fontSize: 10,
     zIndex: 1,
+    top: 40,
     color: theme.colors.secondary,
     paddingVertical: 12,
     textAlign: 'center',
-    flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
     width: responsiveWidth(100),

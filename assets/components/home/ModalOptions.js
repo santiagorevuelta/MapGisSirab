@@ -17,23 +17,28 @@ export default props => {
           styles.modal,
         ]}
         onPress={() => {
-          props.setOption(true);
+          props.setOption('Consulta');
         }}>
         <ConsultarArbol />
         <Text style={[theme.textos.Label, styles.labels]}>
-          {'Consultar árbol'}
+          {'Consultar'}
         </Text>
       </Pressable>
-      {/*<Pressable*/}
-      {/*  style={styles.modal}*/}
-      {/*  onPress={() => {*/}
-      {/*    props.tabArbol('EnterTree');*/}
-      {/*  }}>*/}
-      {/*  <IngresarArbol />*/}
-      {/*  <Text style={[theme.textos.Label, styles.labels]}>*/}
-      {/*    {'Ingresar árbol'}*/}
-      {/*  </Text>*/}
-      {/*</Pressable>*/}
+        <Pressable
+            style={({pressed}) => [
+                {
+                    backgroundColor: pressed ? theme.pressed : theme.offPressed,
+                },
+                styles.modal,
+            ]}
+            onPress={() => {
+                props.setOption('Ingresar');
+            }}>
+            <ConsultarArbol />
+            <Text style={[theme.textos.Label, styles.labels]}>
+                {'Ingresar'}
+            </Text>
+        </Pressable>
     </Animated.View>
   );
 };

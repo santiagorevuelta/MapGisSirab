@@ -17,18 +17,14 @@ async function consultToken({navigation}) {
     .then(res => {
       let data = res.data;
       if (data && data !== '' && data !== 'Sin autenticacion') {
-        notifyMessage('Token ok');
+        //notifyMessage('Token ok');
         AsyncStorage.setItem('token', data);
       } else {
         AsyncStorage.setItem('token', '');
       }
     })
     .catch(error => {
-      AsyncStorage.setItem('token', '');
-      navigation.reset({
-        index: 0,
-        routes: [{name: 'LoginScreen'}],
-      });
+      //AsyncStorage.setItem('token', '');
     });
 }
 

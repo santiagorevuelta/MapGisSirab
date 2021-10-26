@@ -82,7 +82,6 @@ export default function LoginScreen({navigation}) {
 const styles = StyleSheet.create({
   copy: {
     fontSize: responsiveFontSize(1.5),
-    fontFamily: theme.roboto,
     color: theme.colors.secondary,
     textAlign: 'center',
     zIndex: -1,
@@ -99,5 +98,6 @@ const styles = StyleSheet.create({
   footer: {
     justifyContent: 'center',
     marginTop: responsiveHeight(10),
+    alignItems:'center'
   },
 });

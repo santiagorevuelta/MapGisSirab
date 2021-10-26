@@ -1,5 +1,25 @@
 {
-  "use": "dev",
+  "home": [
+    {
+      "label": "Árbol",
+      "items": {
+        "ver": "ViewTree"
+      }
+    },
+    {
+      "label": "Intervención",
+      "items": {
+        "ver": ""
+      }
+    },
+    {
+      "label": "Zonas verdes",
+      "items": {
+        "ver": ""
+      }
+    }
+  ],
+  "use": "prod",
   "dev": {
     "loginValidator": {
       "url": "http://132.145.214.185:8002/mapgis/validacion.do"
