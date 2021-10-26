@@ -1,5 +1,5 @@
 import React from 'react';
-import {Text, Pressable} from 'react-native';
+import {Text, Pressable, View} from 'react-native';
 import styles from '../css/home/ModalOptionsCss';
 import {theme} from '../../core/theme';
 import Animated from 'react-native-reanimated';
