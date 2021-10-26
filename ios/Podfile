@@ -12,9 +12,7 @@ target 'MapGisSirab' do
     :hermes_enabled => false
   )
 
-  pod 'react-native-webview', :path => '../node_modules/react-native-webview'
 
-  pod 'RNCAsyncStorage', :path => '../node_modules/@react-native-async-storage/async-storage'
 
   target 'MapGisSirabTests' do
     inherit! :complete
@@ -29,6 +27,6 @@ target 'MapGisSirab' do
 
   post_install do |installer|
     react_native_post_install(installer)
-    __apply_Xcode_12_5_M1_post_install_workaround(installer)
+    #__apply_Xcode_12_5_M1_post_install_workaround(installer)
   end
 end

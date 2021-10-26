@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {View, Dimensions, Platform, PermissionsAndroid} from 'react-native';
+import {View, Dimensions, Platform, PermissionsAndroid, StatusBar, SafeAreaView} from 'react-native';
 import {WebView} from 'react-native-webview';
 import Geolocation from '@react-native-community/geolocation';
 import {notifyMessage} from '../../core/general';
@@ -8,6 +8,7 @@ const {width, height} = Dimensions.get('window');
 import Animated from 'react-native-reanimated';
 import html_script from './html_script';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+
 function MapComponent({children}) {
   const [location, setLocation] = useState(0);
   permissionsLocation().then(() => {});
@@ -18,30 +19,31 @@ function MapComponent({children}) {
     }
   }, 100);
   return (
-    <Animated.View style={{flex: 1}}>
-      <WebView
-        ref={MapRef}
-        onMessage={event => {
-          let coords = JSON.parse(event.nativeEvent.data);
-          AsyncStorage.setItem('coords', event.nativeEvent.data);
-        }}
-        source={{
-          html: html_script,
-        }}
-        javaScriptEnabledAndroid={true}
-        javaScriptEnabled={true}
-        injectedJavaScript={null}
-        style={{
-          height: height,
-          width: width,
-          margin: 0,
-          padding: 0,
-          zIndex: 0,
-          backgroundColor: '#fff',
-        }}
-      />
-      {children}
-    </Animated.View>
+      <SafeAreaView style={{ flex: 1, backgroundColor: "transparent" }}>
+          <StatusBar barStyle='light-content' />
+          <WebView
+            ref={MapRef}
+            onMessage={event => {
+              let coords = JSON.parse(event.nativeEvent.data);
+              AsyncStorage.setItem('coords', event.nativeEvent.data);
+            }}
+            source={{
+              html: html_script,
+            }}
+            javaScriptEnabledAndroid={true}
+            javaScriptEnabled={true}
+            injectedJavaScript={null}
+            style={{
+              height: height,
+              width: width,
+              margin: 0,
+              padding: 0,
+              zIndex: 0,
+              backgroundColor: '#fff',
+            }}
+          />
+          {children}
+      </SafeAreaView>
   );
 }
 

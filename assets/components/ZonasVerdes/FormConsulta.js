@@ -14,17 +14,7 @@ export default props => {
     <View style={{paddingHorizontal: '5%'}}>
       <View>
         <View style={styles.form}>
-          <View>
-            <ButtonIcon
-              compact={true}
-              labelStyle={{fontSize: responsiveFontSize(5)}}
-              icon="vector-point"
-              color={theme.colors.primary}
-              onPress={() => {
-                notifyMessage('Seleccionar punto en mapa');
-              }}
-            />
-          </View>
+          <View />
           <TextInputForm
             label={'Código'}
             returnKeyType="next"
@@ -44,10 +34,7 @@ export default props => {
               }}
               list={[{label:'Este',value:0},{label:'O este',value:1}]}
           />
-          <TextInputForm
-            label={'Número del proyecto'}
-            onChangeText={text => setFilters({...filters, codigo_arbol: text})}
-          />
+          <TextInputForm label={'Número del proyecto'} />
         </View>
         <View style={styles.form}>
           <TextInputForm label={'Nombre cientifico'} />
@@ -81,7 +68,7 @@ export default props => {
             style={styles.boton}
             mode="contained"
             onPress={() => {
-              props.fnBuscar(true, filters);
+              props.fnBuscar(true);
             }}>
             Buscar
           </Button>

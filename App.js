@@ -20,7 +20,6 @@ const Stack = createStackNavigator();
 
 const App: () => Node = () => {
   return (
-    <PaperProvider>
       <NavigationContainer independent={true} theme={theme}>
         <Stack.Navigator
           initialRouteName={'Dashboard'}
@@ -32,7 +31,6 @@ const App: () => Node = () => {
           <Stack.Screen name="ViewTree" component={ViewTree} />
         </Stack.Navigator>
       </NavigationContainer>
-    </PaperProvider>
   );
 };
 

@@ -1,11 +1,10 @@
 import React from 'react';
-import {Text, Pressable, View} from 'react-native';
+import {Text, Pressable} from 'react-native';
 import styles from '../css/home/ModalOptionsCss';
 import {theme} from '../../core/theme';
 import Animated from 'react-native-reanimated';
 
 import ConsultarArbol from '../icons/ConsultarArbol';
-import IngresarArbol from '../icons/IngresarArbol';
 
 export default props => {
   return (
@@ -24,23 +23,28 @@ export default props => {
             styles.modal,
           ]}
           onPress={() => {
-            props.setOption(true);
+            props.setOption('Consulta');
           }}>
           <ConsultarArbol />
           <Text style={[theme.textos.Label, styles.labels]}>
-            {'Consultar árbol'}
+            {'Consultar'}
           </Text>
         </Pressable>
-        <Pressable
-          style={styles.modal}
-          onPress={() => {
-            //props.tabArbol('EnterTree');
-          }}>
-          <IngresarArbol />
-          <Text style={[theme.textos.Label, styles.labels]}>
-            {'Ingresar árbol'}
-          </Text>
-        </Pressable>
+          <Pressable
+              style={({pressed}) => [
+                  {
+                      backgroundColor: pressed ? theme.pressed : theme.offPressed,
+                  },
+                  styles.modal,
+              ]}
+              onPress={() => {
+                  props.setOption('Ingresar');
+              }}>
+              <ConsultarArbol />
+              <Text style={[theme.textos.Label, styles.labels]}>
+                  {'Ingresar'}
+              </Text>
+          </Pressable>
       </Animated.View>
     </>
   );

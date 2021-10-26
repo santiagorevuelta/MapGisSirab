@@ -13,12 +13,14 @@ import styles from './TextInputLoginStyle';
 
 function TextInput({...props}) {
   const [isFocus, setIsFocus] = useState(false);
+  console.log(props.value)
   return (
     <View style={styles.container}>
       <Input
         style={[styles.input, isFocus || props.value ? styles.focusOn : {}]}
         placeholder={props.label}
         isFocus={isFocus}
+        onBlur={() => setIsFocus(props.value)}
         onFocus={() => setIsFocus(true)}
         {...props}
       />

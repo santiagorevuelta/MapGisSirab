@@ -5,6 +5,7 @@ import {theme} from '../../core/theme';
 module.exports = StyleSheet.create({
   container: {
     width: '100%',
+    height: '6%',
     marginVertical: 12,
   },
   pressable: {
@@ -28,7 +29,6 @@ module.exports = StyleSheet.create({
     position: 'absolute',
   },
   input: {
-    fontFamily: 'Roboto',
     backgroundColor: theme.colors.surface,
     borderRadius: 25,
     borderTopLeftRadius: 25,
@@ -41,6 +41,7 @@ module.exports = StyleSheet.create({
     shadowColor: 'black',
     shadowRadius: 10,
     shadowOpacity: 1,
+    height: '100%',
   },
   description: {
     fontSize: 13,

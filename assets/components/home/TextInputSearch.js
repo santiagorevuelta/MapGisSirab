@@ -34,7 +34,6 @@ const styles = StyleSheet.create({
     height: responsiveWidth(12),
   },
   input: {
-    fontFamily: 'Roboto',
     backgroundColor: theme.colors.surface,
     borderRadius: 25,
     borderTopLeftRadius: 25,
