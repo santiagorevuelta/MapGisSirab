@@ -19,7 +19,7 @@
       }
     }
   ],
-  "use": "prod",
+  "use": "dev",
   "dev": {
     "loginValidator": {
       "url": "http://132.145.214.185:8002/mapgis/validacion.do"
@@ -28,7 +28,10 @@
       "url": "http://132.145.214.185:8002/mapgis/validacionToken.do"
     },
     "searchTree": {
-      "url": "http://localhost:3333/api-sirab/arboles"
+      "url": "http://192.168.0.103:8888/api-sirab/arboles"
+    },
+    "searchZone": {//192.168.0.103
+      "url": "http://192.168.0.103:8888/api-sirab/arboles"
     }
   },
   "prod": {

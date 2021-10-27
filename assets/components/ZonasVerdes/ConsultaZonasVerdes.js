@@ -7,13 +7,11 @@ import {
   responsiveWidth,
 } from 'react-native-responsive-dimensions';
 import IconAntDesign from 'react-native-vector-icons/AntDesign';
-import FormConsultaArbol from './FormConsultaArbol';
-import ResultSearch from './ResultSearch';
+import FormConsulta from '../ZonasVerdes/FormConsulta';
 import buscarArbol from '../../helpers/buscarArbol';
 import {notifyMessage} from '../../core/general';
-import {verTodoEnMapa} from '../map/BackgroundMap';
-import HeaderModal from '../home/HeaderModal';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import HeaderModal from '../home/HeaderModal';
 
 const ModalConsult = ({...props}) => {
   const [buscar, setBuscar] = useState(false);
@@ -53,15 +51,15 @@ const ModalConsult = ({...props}) => {
         setOption={props.setOption}
         backIndex={props.back}
       />
-      <FormConsultaArbol fnBuscar={fnBuscar} />
-      {buscar ? (
+      <FormConsulta fnBuscar={fnBuscar} />
+      {/* {buscar ? (
         <ResultSearch
           tabArbol={props.tabArbol}
           data={dataResult.data}
           meta={dataResult.meta}
           paginar={paginar}
         />
-      ) : null}
+      ) : null}*/}
     </>
   );
 };

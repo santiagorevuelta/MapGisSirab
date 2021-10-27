@@ -10,7 +10,6 @@ import React from 'react';
 import type {Node} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
-import {Provider as PaperProvider} from 'react-native-paper';
 import {theme} from './assets/core/theme';
 import {enableScreens} from 'react-native-screens';
 enableScreens(true);

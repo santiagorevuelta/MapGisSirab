@@ -15,6 +15,7 @@ const Header = props => {
         <Pressable
           style={styles.regress}
           onPress={() => {
+            console.log(props.backIndex)
             props.setOption(props.backIndex);
           }}>
           <IconAntDesign
@@ -47,7 +48,8 @@ const styles = StyleSheet.create({
     paddingLeft: responsiveWidth(5),
   },
   regress: {
-    width: responsiveWidth(35),
+    width: responsiveWidth(30),
+    height: '50%',
   },
   regressTxt: {
     color: theme.colors.headers,

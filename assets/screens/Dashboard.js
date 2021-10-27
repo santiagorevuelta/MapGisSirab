@@ -4,6 +4,7 @@ import Header from '../components/home/Header';
 import ModalOptions from '../components/home/ModalOptions';
 import ModalOptionsType from '../components/home/ModalOptionsType';
 import ModalOptionsArbol from '../components/Arbol/ConsultaArbol';
+import ModalZonasVerdes from '../components/ZonasVerdes/ConsultaZonasVerdes';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import BottomSheet from '@gorhom/bottom-sheet';
 import {consultToken} from '../core/general';
@@ -32,16 +33,18 @@ export default function Dashboard({navigation}) {
 
   const [headerHide, setHeaderHide] = useState(false);
   const [option, setOption] = useState('inicio');
+  const [optionOld, setOptionOld] = useState('inicio');
   const [snp, setSnp] = useState(1);
   const bottomSheetRef = React.useRef(null);
   const snapPoints = useMemo(() => ['3%', '25%'], []);
-  const snapPointsVer = useMemo(() => ['3%', '44%', '80%'], []);//, '100%'
+  const snapPointsVer = useMemo(() => ['3%', '44%', '80%'], []); //, '100%'
 
   const setView = index => {
     if (!index) {
       AsyncStorage.setItem('option', '0');
       setSnp(1);
     }
+    setOptionOld(option);
     setOption(index);
   };
 
@@ -59,7 +62,7 @@ export default function Dashboard({navigation}) {
         ref={bottomSheetRef}
         key={'busqueda'}
         onChange={index => {
-          setHeaderHide(index === snapPointsVer.length - 1);
+          //setHeaderHide(index === snapPointsVer.length - 1);
         }}
         index={snp}
         initialSnapIndex={snp}
@@ -80,6 +83,16 @@ export default function Dashboard({navigation}) {
           <ModalOptionsArbol
             setOption={setView}
             type={option}
+            back={optionOld}
+            label={optionOld + ' ' + option}
+            tabArbol={tabArbol}
+          />
+        ) : option === config.home[2].label ? (
+          <ModalZonasVerdes
+            setOption={setView}
+            type={option}
+            back={optionOld}
+            label={optionOld + ' ' + option}
             tabArbol={tabArbol}
           />
         ) : null}

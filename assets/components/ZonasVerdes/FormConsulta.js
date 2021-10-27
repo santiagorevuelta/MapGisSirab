@@ -39,10 +39,6 @@ export default props => {
           />
           <TextInputForm label={'Número del proyecto'} />
         </View>
-        <View style={styles.form}>
-          <TextInputForm label={'Nombre cientifico'} />
-          <TextInputForm label={'Año'} />
-        </View>
       </View>
       <View style={styles.search}>
         <View style={styles.content}>

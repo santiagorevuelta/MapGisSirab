@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {StyleSheet, View, Pressable} from 'react-native';
+import {StyleSheet, View, Pressable, Platform} from 'react-native';
 import {theme} from '../../core/theme';
 import {
   responsiveFontSize,
@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
   header: {
     fontSize: 10,
     zIndex: 1,
-    top: 40,
+    top: Platform.OS === 'android' ? 0 : 40,
     color: theme.colors.secondary,
     paddingVertical: 12,
     textAlign: 'center',
