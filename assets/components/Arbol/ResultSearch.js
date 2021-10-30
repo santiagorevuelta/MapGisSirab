@@ -10,10 +10,10 @@ import {
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Animated from 'react-native-reanimated';
 import {ScrollView} from 'react-native-gesture-handler';
-import {notifyMessage} from '../../core/general';
+import {notifyMessage,verifiedImage} from '../../core/general';
 import {verEnMapa} from '../map/BackgroundMap';
-import axios from 'axios';
 import Pagination from '../../core/Pagination';
+import styleCard from '../css/cardsCss';
 
 export default function (props) {
   return (
@@ -39,15 +39,6 @@ const styles = StyleSheet.create({
     fontSize: responsiveFontSize(1.8),
   },
 });
-function verifiedImage(url) {
-  return axios(url)
-    .then(() => {
-      return true;
-    })
-    .catch(() => {
-      return false;
-    });
-}
 
 function Mycard(props) {
   let data = props.data;
@@ -59,6 +50,7 @@ function Mycard(props) {
       <Card.Content>
         <Pressable
           onPress={() => {
+            console.log(item)
             AsyncStorage.setItem('items', JSON.stringify(item));
             props.tabArbol('ViewTree');
           }}>
@@ -112,41 +104,3 @@ function Mycard(props) {
     </Card>
   ));
 }
-
-const styleCard = StyleSheet.create({
-  container: {
-    borderWidth: 1,
-    borderRadius: theme.radius,
-    marginBottom: 10,
-    borderColor: theme.colors.border,
-    color: theme.colors.secondary,
-    flexDirection: 'column',
-    width: responsiveScreenWidth(50),
-    marginHorizontal: 5,
-  },
-  title: {
-    textAlign: 'center',
-    fontSize: responsiveFontSize(1.5),
-  },
-  tipo: {
-    fontSize: responsiveFontSize(1.3),
-    textAlign: 'left',
-  },
-  image: {
-    borderRadius: theme.radius,
-    height: responsiveWidth(20),
-  },
-  date: {
-    fontSize: responsiveFontSize(1.3),
-    textAlign: 'left',
-  },
-  buttons: {
-    marginLeft: 2,
-    width: responsiveWidth(10),
-    height: responsiveWidth(10),
-  },
-  labelStyle: {
-    fontSize: responsiveFontSize(3.5),
-    fontStyle: 'italic',
-  },
-});

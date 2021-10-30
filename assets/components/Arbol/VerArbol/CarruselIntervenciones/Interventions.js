@@ -7,7 +7,7 @@ import {
   Pressable,
 } from 'react-native';
 import {theme} from '../../../../core/theme';
-import React from 'react';
+import React, { useState } from "react";
 import {
   responsiveHeight,
   responsiveScreenFontSize,
@@ -16,6 +16,7 @@ import {
 import {notifyMessage} from '../../../../core/general';
 import {Card, Title, Paragraph, Button} from 'react-native-paper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import buscarDatos from "../../../../helpers/buscarDatos";
 
 let data = [
   {
@@ -55,9 +56,14 @@ let data = [
 export default function (props) {
   return (
     <View style={styles.container}>
-      <Text style={[theme.textos.Label, styles.h1]}>
+      {props.length === 0? null:(
+        <Text style={[theme.textos.Label, styles.h1]}>
         {'Intervenciones del árbol'}
-      </Text>
+      </Text>)}
+      {props.length === 0? null:(
+        <Text style={[theme.textos.Label, styles.h1, styles.content]}>
+          {'Total('+props.data.length+')'}
+        </Text>)}
       <ScrollView horizontal style={styles.scroll}>
         {rows(props)}
       </ScrollView>
@@ -72,6 +78,13 @@ const styles = StyleSheet.create({
     marginTop: responsiveHeight(30),
     padding: 10,
   },
+  content:{
+    justifyContent: 'flex-end',
+    alignContent:'flex-end',
+    textAlign: 'right',
+    width: '95%',
+
+  },
   h1: {
     left: 15,
     top: 0,
@@ -80,6 +93,7 @@ const styles = StyleSheet.create({
   },
   scroll: {
     paddingTop: 10,
+    paddingBottom: 10,
   },
   hvArbol: {
     borderRadius: 25,
@@ -97,23 +111,24 @@ const styles = StyleSheet.create({
 });
 
 function rows(props) {
-  return data.map((item, index) => (
+  return props.data.map((item, index) => (
     <Card key={'card' + index} style={stylesCards.container}>
       <Card.Content>
         <Text style={stylesCards.title}>
-          {'Intervención #' + item.intervencion}
+          {'Intervención #' + item.codigo_arbol}
         </Text>
         <View style={stylesCards.header}>
           <Text style={stylesCards.textos}>
-            {item.tipo.length > 15 ? item.tipo.slice(0, 15) + '...' : item.tipo}
+            {item.tipo_intervencion.length > 15 ? item.tipo_intervencion.slice(0, 15) + '...' : item.tipo_intervencion}
           </Text>
           <Text style={stylesCards.textos}>{item.fecha}</Text>
         </View>
-        <Card.Cover style={stylesCards.image} source={{uri: item.image}} />
+        <Card.Cover style={stylesCards.image} source={require('../../../../assets/imagen.png')}//ruta_foto_web
+        />
       </Card.Content>
       <Card.Actions>
         <Card.Content>
-          <Text style={stylesCards.textos}>{'Contrato #' + item.contrato}</Text>
+          <Text style={stylesCards.textos}>{'Contrato #' + item.codigo_proyecto}</Text>
           <Text style={stylesCards.operador}>{item.operador}</Text>
         </Card.Content>
       </Card.Actions>
@@ -145,7 +160,7 @@ const stylesCards = StyleSheet.create({
   },
   image: {
     borderRadius: theme.radius,
-    height: responsiveWidth(20),
+    height: responsiveWidth(25),
   },
   footer: {},
   operador: {

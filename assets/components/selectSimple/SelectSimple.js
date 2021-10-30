@@ -3,7 +3,6 @@ import {View, Text, Pressable, Platform} from 'react-native';
 import {responsiveFontSize} from 'react-native-responsive-dimensions';
 import IconAntDesign from 'react-native-vector-icons/AntDesign';
 import {ScrollView} from 'react-native-gesture-handler';
-const momserratBold = Platform.OS !== 'ios' ? '' : '';
 import {styles} from './styles';
 
 import {theme} from '../../core/theme';
@@ -15,13 +14,14 @@ const SelectSimple = ({
   onSelected,
   valueSelected,
   label,
+  key,
 }) => {
   const [showSelector, setShowSelector] = useState(false);
   const [value, setValue] = useState(valueSelected);
 
   return (
-    <View>
-      <Text>{'ddd'}</Text>
+    <View style={styles.container} key={key}>
+      <Text style={theme.textos.LabelIn}>{label}</Text>
       <Pressable
         style={style ? [styles.selector, style] : styles.selector}
         onPress={() => {
@@ -44,12 +44,12 @@ const SelectSimple = ({
             <Pressable
               key={i}
               style={
-                i == list.length - 1
+                i === list.length - 1
                   ? [styles.containerItemList, {borderBottomWidth: 0}]
                   : styles.containerItemList
               }
               onPress={() => {
-                if (item == value) {
+                if (item === value) {
                   setValue(null);
                   onSelected(null);
                 } else {
@@ -60,18 +60,17 @@ const SelectSimple = ({
               }}>
               <Text
                 style={
-                  item == value
+                  item === value
                     ? [
                         styles.placeholder,
                         styles.textItem,
                         {
                           color: '#000',
-                          //fontFamily: momserratBold,
                         },
                       ]
                     : [styles.placeholder, styles.textItem]
                 }>
-                {item.label} {item == value ? '•' : ' '}
+                {item.label} {item === value ? '•' : ' '}
               </Text>
             </Pressable>
           ))}

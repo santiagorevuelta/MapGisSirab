@@ -3,6 +3,7 @@ import {Pressable, Text, View} from 'react-native';
 import {Button, Card, Paragraph, Title} from 'react-native-paper';
 import style from '../core/css/Pagination';
 import {theme} from './theme';
+import { responsiveFontSize } from "react-native-responsive-dimensions";
 
 export default function Pagination(props) {
   let paginaFinal = props.meta.last_page <= 5 ? props.meta.last_page : 5;
@@ -26,7 +27,7 @@ export default function Pagination(props) {
       <Button
         compact={true}
         key={'left'}
-        icon="skip-backward"
+        icon="arrow-left-circle-outline"
         color={theme.colors.primary}
         onPress={() => {
           props.paginar(props.meta.current_page - 1);
@@ -42,27 +43,19 @@ export default function Pagination(props) {
         compact={true}
         color={theme.colors.primary}
         key={'left'}
-        icon="skip-forward"
+        icon="arrow-right-circle-outline"
         onPress={() => {
           props.paginar(props.meta.current_page + 1);
         }}
       />,
     );
-    // btnSiguiente = (
-    //   <Pressable
-    //     onClick={props.onclick}
-    //     data-id={props.meta.current_page + 1}
-    //     title={'Siguiente'}
-    //     style={[style.btnpagination]} // className={'btn-pagination icon-next'}
-    //   />
-    // );
   }
 
   let paginas = [];
   for (let i = paginaInicial; i <= paginaFinal; i++) {
-    let active = '';
+    let active = false;
     if (i === props.meta.current_page) {
-      active = 'page-active';
+      active = true;
     }
     paginas.push(
       <Button

@@ -15,6 +15,7 @@ const {width, height} = Dimensions.get('window');
 import Animated from 'react-native-reanimated';
 import html_script from './html_script';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { theme } from "../../core/theme";
 
 function MapComponent({children}) {
   const [location, setLocation] = useState(0);
@@ -31,8 +32,9 @@ function MapComponent({children}) {
       <WebView
         ref={MapRef}
         onMessage={event => {
-          let coords = JSON.parse(event.nativeEvent.data);
-          AsyncStorage.setItem('coords', event.nativeEvent.data);
+          notifyMessage(event.nativeEvent.data)
+         // let coords = JSON.parse(event.nativeEvent.data);
+          //AsyncStorage.setItem('coords', event.nativeEvent.data);
         }}
         source={{
           html: html_script,
@@ -112,9 +114,34 @@ function verEnMapa(lat, lng) {
   }
   MapRef.current.injectJavaScript(
     `setTimeout(function(){
-        acctionMapVer([${lat}, ${lng}])
+        acctionMapVer([${lat},${lng}])
     },100)`,
   );
 }
 
-module.exports = {getLocalize, MapComponent, verEnMapa};
+
+function verEnMapaAllPoint(response) {
+  if (!MapRef.current) {
+    return;
+  }
+  let coords = []
+  for (const responseElement of response) {
+    coords.push([responseElement.codigo_arbol,parseFloat(responseElement.latitud),parseFloat(responseElement.longitud)])
+  }
+  coords = JSON.stringify(coords);
+  MapRef.current.injectJavaScript(`acctionMapVerTodo(${JSON.stringify(coords)})`);
+}
+
+
+function verEnMapaP(coords) {
+  if (!MapRef.current) {
+    return;
+  }
+  MapRef.current.injectJavaScript(`acctionMapVerPoly(${JSON.stringify(coords)})`);
+}
+
+function limpiarMapa() {
+  MapRef.current.reload()
+}
+
+module.exports = {getLocalize, MapComponent, verEnMapa,verEnMapaP, verEnMapaAllPoint,limpiarMapa};

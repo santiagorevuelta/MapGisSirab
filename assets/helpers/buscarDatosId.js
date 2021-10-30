@@ -1,27 +1,20 @@
 import axios from 'axios';
 import tsconfig from '../tsconfig.json';
 import {notifyMessage, consultToken} from '../core/general';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export default async function (filtros, page = 1) {
-  let filtrosStr = JSON.stringify(filtros);
-  AsyncStorage.setItem('filtros', filtrosStr);
-  const params = new URLSearchParams({
-    filtros: filtrosStr,
-  }).toString();
+export default async function (id, type) {
 
   let token = await consultToken();
   if (token === null) {
-    notifyMessage('Sin token');
+    notifyMessage('Sin autenticación');
     return;
   }
-  let url = `${tsconfig[tsconfig.use].searchZone.url}?${params}`;
+  let url = `${tsconfig[tsconfig.use][type].url}/${id}`;
   const config = {
     url: url,
     method: 'get',
     headers: {
       'access-token': token,
-      page: page + '',
     },
   };
   return new Promise(resolve => {

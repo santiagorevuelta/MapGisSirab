@@ -2,18 +2,12 @@ import React from 'react';
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import {theme} from '../../core/theme';
 import {Button, Card, Paragraph, Title} from 'react-native-paper';
-import {
-  responsiveFontSize,
-  responsiveScreenWidth,
-  responsiveWidth,
-} from 'react-native-responsive-dimensions';
+import {responsiveFontSize} from 'react-native-responsive-dimensions';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Animated from 'react-native-reanimated';
 import {ScrollView} from 'react-native-gesture-handler';
 import {notifyMessage,verifiedImage} from '../../core/general';
-import {verEnMapaP} from '../map/BackgroundMap';
 import Pagination from '../../core/Pagination';
-import config from '../../tsconfig.json';
 import styleCard from '../css/cardsCss';
 
 export default function (props) {
@@ -46,31 +40,28 @@ function Mycard(props) {
   return data.map((item, index) => (
     <Card key={'card' + index} style={styleCard.container}>
       <Title style={[theme.textos.Label, styleCard.title]}>
-        Código {item.codigo}
+        Código {item.codigo_arbol}
       </Title>
       <Card.Content>
         <Pressable
           onPress={() => {
-            //AsyncStorage.setItem('items', JSON.stringify(item));
+            AsyncStorage.setItem('items', JSON.stringify(item));
+            notifyMessage(JSON.stringify(item))
             //props.tabArbol(config.home[0].items.ver);
           }}>
           <Pressable
             onPress={() => {
-              notifyMessage(item.tipo_zona);
+              notifyMessage(item.tipo_intervencion);
             }}>
             <Paragraph style={[theme.textos.Textos, styleCard.tipo]}>
-              {item && item.tipo_zona.length > 25
-                ? item.tipo_zona.slice(0, 25) + '...'
-                : item.tipo_zona}
+              {item && item.tipo_intervencion.length > 25
+                ? item.tipo_intervencion.slice(0, 25) + '...'
+                : item.tipo_intervencion}
             </Paragraph>
           </Pressable>
           <Card.Cover
             style={styleCard.image}
-            source={
-              verifiedImage(item.ruta_foto_web)
-                ? require('../../assets/imagen.png')
-                : {uri: item.ruta_foto_web}
-            }
+            source={ require('../../assets/imagen.png')}//ruta_foto_web
           />
         </Pressable>
       </Card.Content>
@@ -80,17 +71,6 @@ function Mycard(props) {
             {item.fecha}
           </Paragraph>
         </Card.Content>
-        <Button
-          labelStyle={styleCard.labelStyle}
-          style={styleCard.buttons}
-          icon="map-marker-outline"
-          compact={true}
-          color={theme.colors.primary}
-          onPress={() => {
-            verEnMapaP(item.coordenadas);
-            notifyMessage('Ver en mapa');
-          }}
-        />
       </Card.Actions>
     </Card>
   ));

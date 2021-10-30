@@ -13,11 +13,14 @@ import Location from '../icons/Ubicacion';
 import IconAntDesign from 'react-native-vector-icons/AntDesign';
 import {getLocalize} from '../map/BackgroundMap';
 
-const Header = () => {
+const Header = props => {
   const [valor, setValor] = useState('');
   return (
     <View style={styles.header}>
       <Pressable
+        onPress={()=>{
+          props.setOption('inicio');
+        }}
         style={({pressed}) => [
           {
             backgroundColor: pressed ? theme.pressed : theme.offPressed,

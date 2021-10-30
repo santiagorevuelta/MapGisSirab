@@ -7,10 +7,14 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function (props) {
   const [items, setItems] = useState({});
-  AsyncStorage.getItem('items').then(jsonValue => {
-    const item = jsonValue != null ? JSON.parse(jsonValue) : {};
-    setItems(item);
-  });
+  const [swNew, setSwNew] = useState(true);
+  if (swNew){
+    AsyncStorage.getItem('verArbol').then(jsonValue => {
+      const item = jsonValue != null ? JSON.parse(jsonValue) : {};
+      setItems(item);
+    });
+    setSwNew(!swNew)
+  }
 
   return (
     <View style={styles.container}>
@@ -41,13 +45,13 @@ export default function (props) {
 function div(label, text) {
   return (
     <View style={styles.div}>
-      <Subheading style={[theme.ver.Label, styles.title]}>{label}</Subheading>
+      <Text style={[theme.ver.Label, styles.title]}>{label}</Text>
       <Pressable
         onPress={() => {
           notifyMessage(text);
         }}>
         <Paragraph style={[theme.ver.Textos, styles.result]}>
-          {text && text.length > 16 ? text.slice(0, 16) + '...' : text}
+          {text && text.length > 22 ? text.slice(0, 22) + '...' : text}
         </Paragraph>
       </Pressable>
     </View>
@@ -56,8 +60,9 @@ function div(label, text) {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: theme.colors.blanco,
     justifyContent: 'center',
+    backgroundColor:theme.colors.blanco,
+    height: '100%',
   },
   row: {
     flexDirection: 'row',

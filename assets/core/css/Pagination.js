@@ -12,8 +12,6 @@ const styles = StyleSheet.create({
     top: 5,
   },
   btnpagination: {
-    width: 14,
-    height: 16,
     flex: 1,
     backgroundColor: 'transparent',
   },

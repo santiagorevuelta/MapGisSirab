@@ -8,21 +8,30 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {SafeAreaView} from 'react-native';
 import {theme} from '../core/theme';
 import {responsiveHeight} from 'react-native-responsive-dimensions';
+import buscarDatosId from '../helpers/buscarDatosId'
+
 
 export default class ViewTree extends React.Component {
   constructor() {
     super();
     this.state = {
       index: 0,
-      item: {},
+      codigo_arbol: {},
+      fotos: [],
+      intervenciones: [],
     };
   }
 
-  componentDidMount() {
-    AsyncStorage.getItem('items').then(valor => {
-      let item = JSON.parse(valor);
-      this.setState({item});
-    });
+  async componentDidMount() {
+    let item = await AsyncStorage.getItem('items');
+        item = item == null ? null : JSON.parse(item);
+    this.setState({ codigo_arbol:item.codigo_arbol});
+    let datosArbol = await buscarDatosId(item.id_arbol,'searchTree');
+    this.setState({fotos: datosArbol.fotos});
+    this.setState({intervenciones: datosArbol.intervenciones});
+    AsyncStorage.setItem('verArbol', JSON.stringify(datosArbol.verArbol))
+    AsyncStorage.setItem('variables', JSON.stringify(datosArbol.variables))
+
   }
 
   setCant = index => {
@@ -35,6 +44,7 @@ export default class ViewTree extends React.Component {
       routes: [{name}],
     });
   };
+
   render() {
     return (
       <SafeAreaView
@@ -44,13 +54,13 @@ export default class ViewTree extends React.Component {
         }}>
         <RenderHeader
           nav={this.navigate}
-          cantidad={data.length}
-          codigo={this.state.item.codigo_arbol}
+          cantidad={this.state.fotos.length}
+          codigo={this.state.codigo_arbol}
           index={this.state.index}
         />
-        <CarouselCards data={data} setCant={this.setCant} />
+        <CarouselCards data={this.state.fotos} setCant={this.setCant} />
         <InfoArbol />
-        <Interventions />
+        <Interventions data={this.state.intervenciones} />
       </SafeAreaView>
     );
   }

@@ -5,6 +5,7 @@ import ModalOptions from '../components/home/ModalOptions';
 import ModalOptionsType from '../components/home/ModalOptionsType';
 import ModalOptionsArbol from '../components/Arbol/ConsultaArbol';
 import ModalZonasVerdes from '../components/ZonasVerdes/ConsultaZonasVerdes';
+import ModalIntervenciones from '../components/Intervenciones/ConsultaInterveciones';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import BottomSheet from '@gorhom/bottom-sheet';
 import {consultToken} from '../core/general';
@@ -22,13 +23,12 @@ export default function Dashboard({navigation}) {
   });
 
   consultToken().then(r => {
-    // if (r) {
-    //   return;
-    // }
-    // navigation.reset({
-    //   index: 0,
-    //   routes: [{name: 'LoginScreen'}],
-    // });
+    if (r)
+      return;
+    navigation.reset({
+      index: 0,
+      routes: [{name: 'LoginScreen'}],
+    });
   });
 
   const [headerHide, setHeaderHide] = useState(false);
@@ -37,7 +37,7 @@ export default function Dashboard({navigation}) {
   const [snp, setSnp] = useState(1);
   const bottomSheetRef = React.useRef(null);
   const snapPoints = useMemo(() => ['3%', '25%'], []);
-  const snapPointsVer = useMemo(() => ['3%', '44%', '80%'], []); //, '100%'
+  const snapPointsVer = useMemo(() => ['3%', '44%', '80%', '100%'], []); //, '100%'
 
   const setView = index => {
     if (!index) {
@@ -56,13 +56,13 @@ export default function Dashboard({navigation}) {
     });
   };
   return (
-    <MapComponent>
-      {headerHide ? null : <Header />}
+    <MapComponent >
+      {!headerHide && (<Header setOption={setView} />)}
       <BottomSheet
         ref={bottomSheetRef}
         key={'busqueda'}
         onChange={index => {
-          //setHeaderHide(index === snapPointsVer.length - 1);
+          setHeaderHide(index === snapPointsVer.length - 1);
         }}
         index={snp}
         initialSnapIndex={snp}
@@ -81,6 +81,14 @@ export default function Dashboard({navigation}) {
           />
         ) : option === config.home[0].label ? (
           <ModalOptionsArbol
+            setOption={setView}
+            type={option}
+            back={optionOld}
+            label={optionOld + ' ' + option}
+            tabArbol={tabArbol}
+          />
+        ) : option === config.home[1].label ? (
+          <ModalIntervenciones
             setOption={setView}
             type={option}
             back={optionOld}

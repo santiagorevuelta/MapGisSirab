@@ -6,27 +6,24 @@ import {
   responsiveHeight,
   responsiveWidth,
 } from 'react-native-responsive-dimensions';
-import FormConsulta from '../ZonasVerdes/FormConsulta';
+import FormConsulta from './FormConsultaIntervenciones';
 import {notifyMessage} from '../../core/general';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import HeaderModal from '../home/HeaderModal';
 import buscarDatos from "../../helpers/buscarDatos";
 import ResultSearch from './ResultSearch'
-import { limpiarMapa } from "../map/BackgroundMap";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const ModalConsult = ({...props}) => {
   const [buscar, setBuscar] = useState(false);
   const [dataResult, setDataResult] = useState({});
-
   const fnBuscar = async (obj, filtros = {}) => {
     if (obj) {
-      let response = await buscarDatos(filtros, 1,'searchZone');
+      let response = await buscarDatos(filtros, 1,'searchIntervencion');
       if (response.length === 0) {
         notifyMessage('La consulta no obtuvo resultados');
-        limpiarMapa()
         return;
       }
-      setDataResult(response);
+      setDataResult(response)
     }
     setBuscar(obj);
   };
@@ -34,19 +31,13 @@ const ModalConsult = ({...props}) => {
   const paginar = async page => {
     let res = await AsyncStorage.getItem('filtros');
     let filtros = res ? {} : JSON.parse(res);
-    let response = await buscarDatos(filtros, page,'searchZone');
+    let response = await buscarDatos(filtros, page,'searchIntervencion');
     if (response.length === 0) {
       notifyMessage('La consulta no obtuvo resultados');
-      limpiarMapa()
       return;
     }
     setDataResult(response);
   };
-
-  const fnLimpiar = (obj) => {
-    setBuscar(obj);
-    limpiarMapa();
-  }
 
   return (
     <>
@@ -55,7 +46,7 @@ const ModalConsult = ({...props}) => {
         setOption={props.setOption}
         backIndex={props.back}
       />
-      <FormConsulta fnBuscar={fnBuscar} fnLimpiar={fnLimpiar} />
+      <FormConsulta fnBuscar={fnBuscar} />
        {buscar ? (
         <ResultSearch
           tabArbol={props.tabArbol}

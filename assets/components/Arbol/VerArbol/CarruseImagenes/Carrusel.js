@@ -40,7 +40,7 @@ const CarouselCards = props => {
           }}
           inactiveDotStyle={{
             borderWidth: 1,
-            borderColor: '#fff',
+            borderColor: '#000',
             backgroundColor: 'transparent',
           }}
           inactiveDotOpacity={0.3}

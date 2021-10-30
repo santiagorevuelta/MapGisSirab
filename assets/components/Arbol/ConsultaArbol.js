@@ -6,44 +6,54 @@ import {
   responsiveHeight,
   responsiveWidth,
 } from 'react-native-responsive-dimensions';
-import IconAntDesign from 'react-native-vector-icons/AntDesign';
 import FormConsultaArbol from './FormConsultaArbol';
 import ResultSearch from './ResultSearch';
-import buscarArbol from '../../helpers/buscarArbol';
 import {notifyMessage} from '../../core/general';
-import {verTodoEnMapa} from '../map/BackgroundMap';
 import HeaderModal from '../home/HeaderModal';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import buscarDatos from "../../helpers/buscarDatos";
+import {verEnMapaAllPoint,limpiarMapa} from '../map/BackgroundMap'
 
 const ModalConsult = ({...props}) => {
   const [buscar, setBuscar] = useState(false);
   const [dataResult, setDataResult] = useState({});
 
-  AsyncStorage.getItem('filtros', function (value) {
-    console.log('Filtros ' + value);
+  AsyncStorage.getItem('filtros').then(value => {
+    value = value === null ? {} : JSON.parse(value);
+    console.log(value);
   });
 
   const fnBuscar = async (obj, filtros = {}) => {
     if (obj) {
-      let response = await buscarArbol(filtros, 1);
+      AsyncStorage.setItem('filtros', JSON.stringify(filtros))
+      let response = await buscarDatos(filtros, 1,'searchTree');
       if (response.length === 0) {
         notifyMessage('La consulta no obtuvo resultados');
+        limpiarMapa()
         return;
       }
       setDataResult(response);
+      verEnMapaAllPoint(response.data)
     }
     setBuscar(obj);
   };
 
+  const fnLimpiar = (obj) => {
+    setBuscar(obj);
+    limpiarMapa();
+  }
+
   const paginar = async page => {
     let res = await AsyncStorage.getItem('filtros');
-    let filtros = res ? {} : JSON.parse(res);
-    let response = await buscarArbol(filtros, page);
+    let filtros =  res === null ? {} : JSON.parse(res);
+    let response = await buscarDatos(filtros, page,'searchTree');
     if (response.length === 0) {
       notifyMessage('La consulta no obtuvo resultados');
+      limpiarMapa()
       return;
     }
     setDataResult(response);
+    verEnMapaAllPoint(response.data)
   };
 
   return (
@@ -53,7 +63,7 @@ const ModalConsult = ({...props}) => {
         setOption={props.setOption}
         backIndex={props.back}
       />
-      <FormConsultaArbol fnBuscar={fnBuscar} />
+      <FormConsultaArbol fnBuscar={fnBuscar} fnLimpiar={fnLimpiar}/>
       {buscar ? (
         <ResultSearch
           tabArbol={props.tabArbol}

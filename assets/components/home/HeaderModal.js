@@ -21,7 +21,6 @@ const Header = props => {
           <IconAntDesign
             name={'back'}
             color={theme.colors.headers}
-            style={{top: 2}}
             size={responsiveFontSize(2)}
           />
           <Text style={[theme.textos.Label, styles.regressTxt]}>
@@ -34,7 +33,11 @@ const Header = props => {
           {props.type}
         </Text>
       </View>
-      <View />
+      <View>
+        <Text style={[theme.textos.Label, styles.regressHead]}>
+          {'                        '}
+        </Text>
+      </View>
     </View>
   );
 };
@@ -44,22 +47,22 @@ export default Header;
 const styles = StyleSheet.create({
   contend: {
     flexDirection: 'row',
-    height: responsiveHeight(5),
+    height: responsiveHeight(3),
     paddingLeft: responsiveWidth(5),
+    alignItems: 'baseline',
+    justifyContent:"space-between"
   },
   regress: {
-    width: responsiveWidth(30),
-    height: '50%',
+    flexDirection: "row",
+    alignItems: 'center',
   },
   regressTxt: {
     color: theme.colors.headers,
     fontSize: responsiveFontSize(1.5),
     fontWeight: 'normal',
     fontStyle: 'italic',
-    position: 'absolute',
     textDecorationLine: 'underline',
-    top: responsiveWidth(1),
-    paddingLeft: responsiveWidth(5),
+    marginLeft: 5,
     elevation: 5,
   },
   regressHead: {

@@ -1,3 +1,5 @@
+import React from "react";
+import { Image } from "react-native";
 const {Platform, ToastAndroid, Alert} = require('react-native');
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -19,10 +21,8 @@ async function consultToken() {
         let data = res.data;
         if (data && data !== '' && data !== 'Sin autenticacion') {
           resolve(data);
-          //AsyncStorage.setItem('token', data);
         } else {
           resolve(null);
-          //AsyncStorage.setItem('token', '');
         }
       })
       .catch(error => {
@@ -32,4 +32,10 @@ async function consultToken() {
   });
 }
 
-module.exports = {notifyMessage, consultToken};
+async function verifiedImage(url) {
+  const [isCorrect, setIsCorrect] = React.useState(true);
+  return isCorrect
+}
+
+
+module.exports = {notifyMessage, consultToken, verifiedImage};
