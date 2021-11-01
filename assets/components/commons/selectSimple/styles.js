@@ -4,7 +4,7 @@ import {
   responsiveHeight,
   responsiveWidth,
 } from 'react-native-responsive-dimensions';
-import {theme} from '../../core/theme';
+import {theme} from '../../../core/theme';
 const momserratBold = Platform.OS !== 'ios' ? '' : '';
 const momserratI = Platform.OS !== 'ios' ? '' : '';
 

@@ -31,7 +31,7 @@ export default function TextInput({...props}) {
 const styles = StyleSheet.create({
   container: {
     width: responsiveWidth(70),
-    height: responsiveWidth(12),
+    height: responsiveWidth(10),
   },
   input: {
     backgroundColor: theme.colors.surface,

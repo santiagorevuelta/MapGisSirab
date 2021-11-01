@@ -28,15 +28,15 @@
       "url": "http://132.145.214.185:8002/mapgis/validacionToken.do"
     },
     "searchTree": {
-      "url": "http://192.168.0.102:8888/api-sirab/arboles",
-      "combos": "http://192.168.0.102:8888/api-sirab/combosArbol",
+      "url": "http://192.168.0.104:8888/api-sirab/arboles",
+      "combos": "http://192.168.0.104:8888/api-sirab/combosArbol",
     },
     "searchZone": {//192.168.0.103
-      "url": "http://192.168.0.102:8888/api-sirab/zonaVerde",
+      "url": "http://192.168.0.104:8888/api-sirab/zonaVerde",
       "combos": ""
     },
     "searchIntervencion": {
-      "url": "http://192.168.0.102:8888/api-sirab/intervencion",
+      "url": "http://192.168.0.104:8888/api-sirab/intervencion",
       "combos": ""
     }
   },

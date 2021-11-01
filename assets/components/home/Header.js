@@ -41,7 +41,7 @@ const Header = props => {
           name={'search1'}
           color={theme.colors.headers}
           style={styles.icon}
-          size={responsiveFontSize(3)}
+          size={responsiveFontSize(2.5)}
         />
       </View>
       <Pressable
@@ -80,11 +80,13 @@ const styles = StyleSheet.create({
   },
   icon: {
     position: 'absolute',
-    padding: 10,
-    right: 0,
+    right: 10,
   },
   search: {
     bottom: 0,
+    alignContent:'center',
+    alignItems: "center",
+    justifyContent:'center'
   },
   icons: {
     zIndex: 3,
