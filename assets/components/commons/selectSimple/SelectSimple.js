@@ -5,7 +5,7 @@ import IconAntDesign from 'react-native-vector-icons/AntDesign';
 import {ScrollView} from 'react-native-gesture-handler';
 import {styles} from './styles';
 
-import {theme} from '../../core/theme';
+import {theme} from '../../../core/theme';
 
 const SelectSimple = ({
   style = null,

@@ -5,7 +5,7 @@ import TextInputForm from '../Arbol/TextInputForm';
 import {Switch, Button as ButtonIcon} from 'react-native-paper';
 import {responsiveFontSize} from 'react-native-responsive-dimensions';
 import Button from '../Button';
-import SelectSimpleIOS from '../selectSimple/SelectSimple';
+import SelectSimpleIOS from '../commons/selectSimple/SelectSimple';
 import Buscar from "../commons/Buscar";
 
 export default props => {

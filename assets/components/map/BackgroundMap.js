@@ -12,10 +12,7 @@ import Geolocation from '@react-native-community/geolocation';
 import {notifyMessage} from '../../core/general';
 let MapRef = React.createRef();
 const {width, height} = Dimensions.get('window');
-import Animated from 'react-native-reanimated';
 import html_script from './html_script';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { theme } from "../../core/theme";
 
 function MapComponent({children}) {
   const [location, setLocation] = useState(0);

@@ -9,6 +9,7 @@ import {ScrollView} from 'react-native-gesture-handler';
 import {notifyMessage,verifiedImage} from '../../core/general';
 import Pagination from '../../core/Pagination';
 import styleCard from '../css/cardsCss';
+import RenderImage from "../commons/RenderImagen";
 
 export default function (props) {
   return (
@@ -59,10 +60,7 @@ function Mycard(props) {
                 : item.tipo_intervencion}
             </Paragraph>
           </Pressable>
-          <Card.Cover
-            style={styleCard.image}
-            source={ require('../../assets/imagen.png')}//ruta_foto_web
-          />
+          <RenderImage style={styleCard.image} url={item.ruta_foto_web} />
         </Pressable>
       </Card.Content>
       <Card.Actions style={styleCard.contentFooter}>

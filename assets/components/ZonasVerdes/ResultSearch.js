@@ -15,6 +15,7 @@ import {verEnMapaP} from '../map/BackgroundMap';
 import Pagination from '../../core/Pagination';
 import config from '../../tsconfig.json';
 import styleCard from '../css/cardsCss';
+import RenderImage from "../commons/RenderImagen";
 
 export default function (props) {
   return (
@@ -64,14 +65,7 @@ function Mycard(props) {
                 : item.tipo_zona}
             </Paragraph>
           </Pressable>
-          <Card.Cover
-            style={styleCard.image}
-            source={
-              verifiedImage(item.ruta_foto_web)
-                ? require('../../assets/imagen.png')
-                : {uri: item.ruta_foto_web}
-            }
-          />
+          <RenderImage style={styleCard.image} url={item.ruta_foto_web} />
         </Pressable>
       </Card.Content>
       <Card.Actions style={styleCard.contentFooter}>
