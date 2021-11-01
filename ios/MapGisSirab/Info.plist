@@ -51,6 +51,18 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+    <key>NSCameraUsageDescription</key>
+    <string>Adjuntar Imagenes</string>
+    <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+    <string>Adjuntar Ubicación</string>
+    <key>NSLocationAlwaysUsageDescription</key>
+    <string>Adjuntar Ubicación</string>
+    <key>NSLocationWhenInUseUsageDescription</key>
+    <string>Adjuntar Ubicación</string>
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>Adjuntar Imagenes</string>
+    <key>NSDesktopFolderUsageDescription</key>
+    <string>Adjuntar Imagenes</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>roboto.ttf</string>

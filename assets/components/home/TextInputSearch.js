@@ -41,5 +41,6 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     paddingLeft: 20,
     borderColor: '#C4C4C4',
+    height: '100%',
   },
 });
