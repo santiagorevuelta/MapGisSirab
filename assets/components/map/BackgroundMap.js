@@ -141,7 +141,12 @@ function verEnMapaP(coords) {
 }
 
 function limpiarMapa() {
-  MapRef.current.reload()
+  if (!MapRef.current) {
+    return;
+  }
+  if(Platform.OS === 'android') {
+    MapRef.current.reload();
+  }
 }
 
 module.exports = {getLocalize, MapComponent, verEnMapa,verEnMapaP, verEnMapaAllPoint,limpiarMapa};

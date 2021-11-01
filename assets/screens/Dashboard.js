@@ -2,6 +2,10 @@ import React, {useMemo, useState} from 'react';
 import {MapComponent} from '../components/map/BackgroundMap';
 import Header from '../components/home/Header';
 import ModalOptions from '../components/home/ModalOptions';
+import {
+  StatusBar,
+  SafeAreaView,
+} from 'react-native';
 import ModalOptionsType from '../components/home/ModalOptionsType';
 import ModalOptionsArbol from '../components/Arbol/ConsultaArbol';
 import ModalZonasVerdes from '../components/ZonasVerdes/ConsultaZonasVerdes';
@@ -12,19 +16,14 @@ import {consultToken} from '../core/general';
 import config from '../tsconfig.json';
 
 export default function Dashboard({navigation}) {
-  AsyncStorage.getItem('login').then(value => {
-    //console.log('login: ' + value);
-    /* if (value !== 'Ok') {
-      navigation.reset({
-        index: 0,
-        routes: [{name: 'LoginScreen'}],
-      });
-    }*/
+  AsyncStorage.getItem('option').then(value => {
+    if (value !== null) {
+      setOption(value);
+    }
   });
 
   consultToken().then(r => {
-    if (r)
-      return;
+    if (r) return;
     navigation.reset({
       index: 0,
       routes: [{name: 'LoginScreen'}],
@@ -41,15 +40,15 @@ export default function Dashboard({navigation}) {
 
   const setView = index => {
     if (!index) {
-      AsyncStorage.setItem('option', '0');
       setSnp(1);
     }
+    AsyncStorage.setItem('option', index);
     setOptionOld(option);
     setOption(index);
   };
 
   const tabArbol = name => {
-    AsyncStorage.setItem('option', '1');
+    AsyncStorage.setItem('option', snapPoints);
     navigation.reset({
       index: 0,
       routes: [{name}],

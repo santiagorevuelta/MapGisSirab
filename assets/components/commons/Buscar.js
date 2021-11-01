@@ -12,6 +12,7 @@ return (
       <View style={styles.content}>
         <Switch
           value={props.isSwitchOn}
+          select={styles.swich}
           onValueChange={props.onToggleSwitch}
           color={theme.colors.primary}
         />
@@ -22,7 +23,7 @@ return (
     <View style={styles.content}>
       <ButtonIcon
         compact={true}
-        labelStyle={{fontSize: responsiveFontSize(3)}}
+        labelStyle={{fontSize: responsiveFontSize(3.5)}}
         icon="broom"
         color={theme.colors.primary}
         onPress={() => {
@@ -49,7 +50,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   masFiltros: {
-    paddingTop: '4%',
+    alignItems: 'center'
   },
   limpiar: {
     padding: '2%',
@@ -60,7 +61,10 @@ const styles = StyleSheet.create({
   content: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+    alignItems: 'center'
   },
+  swich:{
+  }
 });
 
 
