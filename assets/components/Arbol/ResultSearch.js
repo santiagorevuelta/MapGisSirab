@@ -1,23 +1,19 @@
-import React from 'react';
-import { Pressable, StyleSheet, Text, View } from "react-native";
-import {theme} from '../../core/theme';
-import {Button, Card, Paragraph, Title} from 'react-native-paper';
-import {
-  responsiveFontSize,
-  responsiveScreenWidth,
-  responsiveWidth,
-} from 'react-native-responsive-dimensions';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import Animated from 'react-native-reanimated';
-import {ScrollView} from 'react-native-gesture-handler';
-import {notifyMessage,verifiedImage} from '../../core/general';
-import {verEnMapa} from '../map/BackgroundMap';
-import Pagination from '../../core/Pagination';
-import styleCard from '../css/cardsCss';
-import RenderImage from '../commons/RenderImagen'
+import React from "react";
+import { Pressable, StyleSheet, Text } from "react-native";
+import { theme } from "../../core/theme";
+import { Button, Card, Paragraph, Title } from "react-native-paper";
+import { responsiveFontSize } from "react-native-responsive-dimensions";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import Animated from "react-native-reanimated";
+import { ScrollView } from "react-native-gesture-handler";
+import { notifyMessage } from "../../core/general";
+import { verEnMapa } from "../map/BackgroundMap";
+import Pagination from "../../core/Pagination";
+import styleCard from "../css/cardsCss";
+import RenderImage from "../commons/RenderImagen";
 
 
-export default function (props) {
+export default function(props) {
   return (
     <Animated.View style={styles.container}>
       <Text style={[theme.textos.Label, styles.txtRes]}>
@@ -33,28 +29,27 @@ export default function (props) {
 
 const styles = StyleSheet.create({
   container: {
-    paddingHorizontal: '5%',
-    paddingBottom: '5%',
+    paddingHorizontal: "5%",
+    paddingBottom: "5%",
   },
   txtRes: {
-    paddingBottom: '5%',
+    paddingBottom: "5%",
     fontSize: responsiveFontSize(1.8),
   },
 });
 
 function Mycard(props) {
-  let data = props.data;
-  return data.map((item, index) => (
-    <Card key={'card' + index} style={styleCard.container}>
+  return props.data.map((item, index) => (
+    <Card key={"card" + index} style={styleCard.container}>
       <Title style={[theme.textos.Label, styleCard.title]}>
         Código {item.codigo_arbol}
       </Title>
       <Card.Content>
         <Pressable
           onPress={() => {
-            console.log(item)
-            AsyncStorage.setItem('items', JSON.stringify(item));
-            props.tabArbol('ViewTree');
+            console.log(item);
+            AsyncStorage.setItem("items", JSON.stringify(item));
+            props.tabArbol("ViewTree");
           }}>
           <Pressable
             onPress={() => {
@@ -62,7 +57,7 @@ function Mycard(props) {
             }}>
             <Paragraph style={[theme.textos.Textos, styleCard.tipo]}>
               {item && item.especie.length > 25
-                ? item.especie.slice(0, 25) + '...'
+                ? item.especie.slice(0, 25) + "..."
                 : item.especie}
             </Paragraph>
           </Pressable>
@@ -81,7 +76,7 @@ function Mycard(props) {
           icon="file-download-outline"
           color={theme.colors.primary}
           onPress={() => {
-            notifyMessage('file');
+            notifyMessage("file");
           }}
         />
         <Button
@@ -92,7 +87,7 @@ function Mycard(props) {
           color={theme.colors.primary}
           onPress={() => {
             verEnMapa(item.latitud, item.longitud);
-            notifyMessage('Ver en mapa');
+            notifyMessage("Ver en mapa");
           }}
         />
       </Card.Actions>

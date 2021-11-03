@@ -1,39 +1,29 @@
-import React, {useState} from 'react';
-import {StyleSheet, View, Text, Pressable} from 'react-native';
-import {theme} from '../../core/theme';
-import {
-  responsiveFontSize,
-  responsiveHeight,
-  responsiveWidth,
-} from 'react-native-responsive-dimensions';
-import FormConsultaArbol from './FormConsultaArbol';
-import ResultSearch from './ResultSearch';
-import {notifyMessage} from '../../core/general';
-import HeaderModal from '../home/HeaderModal';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import React, { useState } from "react";
+import { StyleSheet } from "react-native";
+import { theme } from "../../core/theme";
+import { responsiveFontSize, responsiveHeight, responsiveWidth } from "react-native-responsive-dimensions";
+import FormConsultaArbol from "./FormConsultaArbol";
+import ResultSearch from "./ResultSearch";
+import { notifyMessage } from "../../core/general";
+import HeaderModal from "../home/HeaderModal";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import buscarDatos from "../../helpers/buscarDatos";
-import {verEnMapaAllPoint,limpiarMapa} from '../map/BackgroundMap'
+import { limpiarMapa, verEnMapaAllPoint } from "../map/BackgroundMap";
 
-const ModalConsult = ({...props}) => {
+const ModalConsult = ({ ...props }) => {
   const [buscar, setBuscar] = useState(false);
   const [dataResult, setDataResult] = useState({});
-
-  AsyncStorage.getItem('filtros').then(value => {
-    value = value === null ? {} : JSON.parse(value);
-    console.log(value);
-  });
-
   const fnBuscar = async (obj, filtros = {}) => {
     if (obj) {
-      AsyncStorage.setItem('filtros', JSON.stringify(filtros))
-      let response = await buscarDatos(filtros, 1,'searchTree');
+      AsyncStorage.setItem("filtros", JSON.stringify(filtros));
+      let response = await buscarDatos(filtros, 1, "searchTree");
       if (response.length === 0) {
-        notifyMessage('La consulta no obtuvo resultados');
-        limpiarMapa()
+        notifyMessage("La consulta no obtuvo resultados");
+        limpiarMapa();
         return;
       }
       setDataResult(response);
-      verEnMapaAllPoint(response.data)
+      verEnMapaAllPoint(response.data);
     }
     setBuscar(obj);
   };
@@ -41,19 +31,19 @@ const ModalConsult = ({...props}) => {
   const fnLimpiar = (obj) => {
     setBuscar(obj);
     limpiarMapa();
-  }
+  };
 
   const paginar = async page => {
-    let res = await AsyncStorage.getItem('filtros');
-    let filtros =  res === null ? {} : JSON.parse(res);
-    let response = await buscarDatos(filtros, page,'searchTree');
+    let res = await AsyncStorage.getItem("filtros");
+    let filtros = res === null ? {} : JSON.parse(res);
+    let response = await buscarDatos(filtros, page, "searchTree");
     if (response.length === 0) {
-      notifyMessage('La consulta no obtuvo resultados');
-      limpiarMapa()
+      notifyMessage("La consulta no obtuvo resultados");
+      limpiarMapa();
       return;
     }
     setDataResult(response);
-    verEnMapaAllPoint(response.data)
+    verEnMapaAllPoint(response.data);
   };
 
   return (
@@ -63,7 +53,7 @@ const ModalConsult = ({...props}) => {
         setOption={props.setOption}
         backIndex={props.back}
       />
-      <FormConsultaArbol fnBuscar={fnBuscar} fnLimpiar={fnLimpiar}/>
+      <FormConsultaArbol fnBuscar={fnBuscar} fnLimpiar={fnLimpiar} />
       {buscar ? (
         <ResultSearch
           tabArbol={props.tabArbol}
@@ -80,7 +70,7 @@ export default ModalConsult;
 
 const styles = StyleSheet.create({
   contend: {
-    flexDirection: 'row',
+    flexDirection: "row",
     height: responsiveHeight(5),
     paddingLeft: responsiveWidth(5),
   },
@@ -90,16 +80,16 @@ const styles = StyleSheet.create({
   regressTxt: {
     color: theme.colors.headers,
     fontSize: responsiveFontSize(1.5),
-    fontWeight: 'normal',
-    fontStyle: 'italic',
-    position: 'absolute',
-    textDecorationLine: 'underline',
+    fontWeight: "normal",
+    fontStyle: "italic",
+    position: "absolute",
+    textDecorationLine: "underline",
     top: responsiveWidth(1),
     paddingLeft: responsiveWidth(5),
     elevation: 5,
   },
   regressHead: {
-    textAlign: 'center',
+    textAlign: "center",
     fontSize: responsiveFontSize(2),
   },
 });

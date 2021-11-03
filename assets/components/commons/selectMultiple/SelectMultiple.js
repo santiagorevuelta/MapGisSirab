@@ -18,48 +18,48 @@ function SelectMultiple({ label, id, list, onSelected }) {
           items.campo === id && data.push(items);
         });
         setListItems(data);
-        console.log(selectRef.current);
         //selectRef.current.injectedJavaScript(`llenarCombo(${JSON.stringify(listItems)})`);
       }
 
     }, 100);
   }, []);
 
-
   return (
     <View style={styles.container}>
       <Text style={[theme.textos.LabelIn]}>{label}</Text>
-      <WebView
-        ref={selectRef}
-        onMessage={event => {
-          notifyMessage(event.nativeEvent.data);
-        }}
-        source={{
-          html: html_script,
-        }}
-        javaScriptEnabledAndroid={true}
-        javaScriptEnabled={true}
-        injectedJavaScript={null}
-        style={styles.select}
-      />
+      <View style={styles.content}>
+        <WebView
+          ref={selectRef}
+          onMessage={event => {
+            notifyMessage(event.nativeEvent.data);
+          }}
+          source={{
+            html: html_script,
+          }}
+          javaScriptEnabledAndroid={true}
+          javaScriptEnabled={true}
+          injectedJavaScript={null}
+          style={styles.select}
+        />
+      </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    width: responsiveWidth(45),
-    height: responsiveHeight(8),
+    width: "100%",
     marginVertical: responsiveWidth(3),
     paddingHorizontal: "2%",
+    height: responsiveHeight(5),
+  },
+  content: {
+    height: responsiveHeight(5),
   },
   select: {
     position: "absolute",
-    width: responsiveWidth(40),
+    width: "100%",
     maxWidth: "100%",
-    height: 1000,
-    maxHeight: responsiveHeight(100),
-    zIndex: 10,
     backgroundColor: theme.colors.blanco,
     shadowColor: "#000",
     shadowOffset: {
@@ -72,6 +72,7 @@ const styles = StyleSheet.create({
     borderTopWidth: 0,
     borderBottomRightRadius: 5,
     borderBottomLeftRadius: 5,
+    zIndex: 10,
     elevation: 10,
   },
 });

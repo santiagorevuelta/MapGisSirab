@@ -3,7 +3,8 @@
     {
       "label": "Árbol",
       "items": {
-        "ver": "ViewTree"
+        "ver": "ViewTree",
+        "Ingresar": "ingresar"
       }
     },
     {
@@ -29,9 +30,10 @@
     },
     "searchTree": {
       "url": "http://192.168.0.104:8888/api-sirab/arboles",
-      "combos": "http://192.168.0.104:8888/api-sirab/combosArbol",
+      "combos": "http://192.168.0.104:8888/api-sirab/combosArbol"
     },
-    "searchZone": {//192.168.0.103
+    "searchZone": {
+      //192.168.0.103
       "url": "http://192.168.0.104:8888/api-sirab/zonaVerde",
       "combos": ""
     },

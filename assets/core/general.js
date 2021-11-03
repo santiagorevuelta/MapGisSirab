@@ -1,11 +1,11 @@
 import React from "react";
-import { Image } from "react-native";
-const {Platform, ToastAndroid, Alert} = require('react-native');
-import axios from 'axios';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import tsconfig from '../tsconfig.json';
+import axios from "axios";
+import tsconfig from "../tsconfig.json";
+
+const { Platform, ToastAndroid, Alert } = require("react-native");
+
 function notifyMessage(msg) {
-  if (Platform.OS === 'android') {
+  if (Platform.OS === "android") {
     ToastAndroid.showWithGravity(msg, ToastAndroid.SHORT, ToastAndroid.CENTER);
   } else {
     Alert.alert(msg);
@@ -19,23 +19,17 @@ async function consultToken() {
       .post(url)
       .then(res => {
         let data = res.data;
-        if (data && data !== '' && data !== 'Sin autenticacion') {
+        if (data && data !== "" && data !== "Sin autenticacion") {
           resolve(data);
         } else {
           resolve(null);
         }
       })
       .catch(error => {
-        notifyMessage('Error en el token');
+        notifyMessage("Error en el token");
         resolve(null);
       });
   });
 }
 
-async function verifiedImage(url) {
-  const [isCorrect, setIsCorrect] = React.useState(true);
-  return isCorrect
-}
-
-
-module.exports = {notifyMessage, consultToken, verifiedImage};
+module.exports = { notifyMessage, consultToken };

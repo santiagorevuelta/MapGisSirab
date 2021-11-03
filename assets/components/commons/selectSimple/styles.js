@@ -1,35 +1,29 @@
-import {Platform, StyleSheet} from 'react-native';
-import {
-  responsiveFontSize,
-  responsiveHeight,
-  responsiveWidth,
-} from 'react-native-responsive-dimensions';
-import {theme} from '../../../core/theme';
-const momserratBold = Platform.OS !== 'ios' ? '' : '';
-const momserratI = Platform.OS !== 'ios' ? '' : '';
+import { StyleSheet } from "react-native";
+import { responsiveHeight, responsiveWidth } from "react-native-responsive-dimensions";
+import { theme } from "../../../core/theme";
 
 export const styles = StyleSheet.create({
-  container:{
+  container: {
     width: responsiveWidth(45),
-    height: responsiveHeight(6),
+    height: responsiveHeight(theme.altoCampos),
     marginVertical: responsiveWidth(3),
-    paddingHorizontal: '2%',
+    paddingHorizontal: "2%",
     borderRadius: theme.radius,
   },
   placeholder: {
-    color: '#000',
+    color: "#000",
   },
   value: {
-    color: '#000',
+    color: "#000",
   },
   selector: {
-    height: '90%',
-    marginTop: 5,
+    height: "100%",
+    marginTop: 1,
     width: responsiveWidth(43),
-    backgroundColor: '#fff',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    backgroundColor: "#fff",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     paddingLeft: 10,
     paddingRight: 10,
     paddingHorizontal: responsiveWidth(2),
@@ -39,15 +33,15 @@ export const styles = StyleSheet.create({
     zIndex: 8,
   },
   containerList: {
-    position: 'absolute',
-    width: responsiveWidth(44),
-    maxWidth: '100%',
-    maxHeight: responsiveHeight(40),
-    top: '135%',
+    position: "absolute",
+    width: responsiveWidth(45),
+    maxWidth: "100%",
+    maxHeight: responsiveHeight(50),
+    top: 60,
     zIndex: 10,
     borderRadius: 0,
     backgroundColor: theme.colors.blanco,
-    shadowColor: '#000',
+    shadowColor: "#000",
     shadowOffset: {
       width: 0,
       height: 3,
@@ -59,18 +53,20 @@ export const styles = StyleSheet.create({
     borderBottomRightRadius: 5,
     borderBottomLeftRadius: 5,
     elevation: 10,
+    borderBottomWidth: 1,
+    borderColor: "#CAD6D3",
   },
 
   containerItemList: {
     padding: responsiveWidth(2),
     paddingHorizontal: responsiveWidth(4),
     borderBottomWidth: 1,
-    borderColor: '#CAD6D3',
+    borderColor: "#CAD6D3",
     backgroundColor: theme.colors.blanco,
     zIndex: 10,
     elevation: 10,
   },
   textItem: {
-    color: '#333333',
+    color: "#333333",
   },
 });

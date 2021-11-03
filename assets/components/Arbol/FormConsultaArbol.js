@@ -6,10 +6,10 @@ import { Button as ButtonIcon } from "react-native-paper";
 import { responsiveFontSize, responsiveHeight, responsiveWidth } from "react-native-responsive-dimensions";
 import SelectSimple from "../commons/selectSimple/SelectSimple";
 import { notifyMessage } from "../../core/general";
-import Animate from "react-native-reanimated";
 import combosArbol from "../../helpers/combosArbol";
 import Buscar from "../commons/Buscar";
 import { SelectMultiple } from "../commons/selectMultiple/SelectMultiple";
+import DatePicker from "../commons/DatePicker/DatePicker";
 
 
 export default props => {
@@ -17,11 +17,9 @@ export default props => {
   const [filters, setFilters] = React.useState({ codigo_arbol: "8520" });
   const [combos, setCombos] = React.useState([]);
   const onToggleSwitch = () => setIsSwitchOn(!isSwitchOn);
-  const [newState, setNewState] = React.useState(true);
   useEffect(() => {
     combosArbol().then(data => {
       setCombos(data);
-      setNewState(false);
     });
   }, []);
 
@@ -91,35 +89,47 @@ export default props => {
             list={combos}
           />
         </View>
-        {isSwitchOn && (<Animate.View style={styles.form}>
+        {isSwitchOn && (<View style={styles.form}>
           <View>
             <SelectSimple
               label={"Tipo árbol"}
-              key={""}
+              id="especie"
               onSelected={items => {
                 if (items != null) {
                   setFilters({ ...filters, id_tipo_arbol: "6" });
                 }
               }}
-              list={[]}
+              list={combos}
             />
           </View>
           <View>
             <SelectSimple
               label={"Tipo origen árbol"}
-              key={""}
+              id="especie"
               onSelected={items => {
                 if (items != null) {
                   setFilters({ ...filters, id_tipo_origen_arbol: "2" });
                 }
               }}
-              list={[]}
+              list={combos}
             />
           </View>
-        </Animate.View>)}
+        </View>)}
         <View style={styles.form}>
-          <TextInputForm label={"Fecha inicial"} />
-          <TextInputForm label={"Fecha final"} />
+          <DatePicker
+            label={"Fecha inicial"}
+            placeholder={"Fecha inicial"}
+            value={filters.fechaini}
+            keyboardType="default"
+            onChangeText={text => setFilters({ ...filters, fechaini: text })}
+            onSelectDate={text => setFilters({ ...filters, fechaini: text })} />
+          <DatePicker
+            label={"Fecha final"}
+            placeholder={"Fecha final"}
+            value={filters.fechaFin}
+            keyboardType="default"
+            onChangeText={text => setFilters({ ...filters, fechaFin: text })}
+            onSelectDate={text => setFilters({ ...filters, fechaFin: text })} />
         </View>
       </View>
       <Buscar isSwitchOn={isSwitchOn} onToggleSwitch={onToggleSwitch} filtros={filters} fnBuscar={props.fnBuscar}
