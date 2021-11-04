@@ -36,9 +36,9 @@ const CalendarComponent = ({
           <Calendar
             style={styles.calendar}
             theme={{
-              textDayFontFamily: "Mulish-Regular",
-              textMonthFontFamily: "Mulish-Regular",
-              textDayHeaderFontFamily: "Mulish-Regular",
+              //textDayFontFamily: "Mulish-Regular",
+                //textMonthFontFamily: "Mulish-Regular",
+                //textDayHeaderFontFamily: "Mulish-Regular",
               textDayFontSize: responsiveFontSize(1.7),
               textMonthFontSize: responsiveFontSize(1.7),
               textDayHeaderFontSize: responsiveFontSize(1.7),

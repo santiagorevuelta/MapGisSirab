@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 25,
     borderTopRightRadius: 25,
     borderWidth: 1,
-    height: "auto",
+    height: "100%",
     marginTop: 1,
     paddingLeft: 10,
     borderColor: theme.colors.border,
