@@ -1,36 +1,37 @@
-import React, {useState} from 'react';
-import {
-  View,
-  Dimensions,
-  Platform,
-  PermissionsAndroid,
-  StatusBar,
-  SafeAreaView,
-} from 'react-native';
-import {WebView} from 'react-native-webview';
-import Geolocation from '@react-native-community/geolocation';
-import {notifyMessage} from '../../core/general';
-let MapRef = React.createRef();
-const {width, height} = Dimensions.get('window');
-import html_script from './html_script';
+import React, { useEffect, useState } from "react";
+import { Dimensions, PermissionsAndroid, Platform, SafeAreaView, StatusBar } from "react-native";
+import { WebView } from "react-native-webview";
+import Geolocation from "@react-native-community/geolocation";
+import { notifyMessage } from "../../core/general";
+import html_script from "./html_script";
 
-function MapComponent({children}) {
+let MapRef = React.createRef();
+const { width, height } = Dimensions.get("window");
+const [coords, setCoords] = useState({});
+
+function MapComponent({ children }) {
   const [location, setLocation] = useState(0);
-  permissionsLocation().then(() => {});
-  setTimeout(function () {
-    if (MapRef.current && location === 0) {
-      getLocalize();
-      setLocation(1);
-    }
-  }, 100);
+  useEffect(() => {
+    permissionsLocation().then(() => {
+    });
+    setTimeout(function() {
+      if (MapRef.current && location === 0) {
+        getLocalize();
+        setLocation(1);
+      }
+    }, 100);
+  }, []);
+
+
   return (
-    <SafeAreaView style={{flex: 1, backgroundColor: 'transparent'}}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: "transparent" }}>
       <StatusBar barStyle="light-content" />
       <WebView
         ref={MapRef}
         onMessage={event => {
-          notifyMessage(event.nativeEvent.data)
-         // let coords = JSON.parse(event.nativeEvent.data);
+          //notifyMessage(event.nativeEvent.data);
+          let coords = JSON.parse(event.nativeEvent.data);
+          setCoords(coords);
           //AsyncStorage.setItem('coords', event.nativeEvent.data);
         }}
         source={{
@@ -45,7 +46,7 @@ function MapComponent({children}) {
           margin: 0,
           padding: 0,
           zIndex: 0,
-          backgroundColor: '#fff',
+          backgroundColor: "#fff",
         }}
       />
       {children}
@@ -54,7 +55,7 @@ function MapComponent({children}) {
 }
 
 async function permissionsLocation() {
-  if (Platform.OS !== 'ios') {
+  if (Platform.OS !== "ios") {
     try {
       const granted = await PermissionsAndroid.request(
         PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
@@ -62,7 +63,8 @@ async function permissionsLocation() {
       if (granted !== PermissionsAndroid.RESULTS.GRANTED) {
         await permissionsLocation();
       }
-    } catch (err) {}
+    } catch (err) {
+    }
   }
 }
 
@@ -94,12 +96,12 @@ function success(position) {
 function error(err) {
   if (err.code === 2) {
     notifyMessage(
-      'Es necesario activar el GPS para poder ubicar adecuadamente tu ubicación',
+      "Es necesario activar el GPS para poder ubicar adecuadamente tu ubicación",
     );
   } else if (err.code === 3) {
-    notifyMessage('No se pudo obtener tu ubicación.');
+    notifyMessage("No se pudo obtener tu ubicación.");
   } else if (err.code === 1) {
-    notifyMessage('Por favor verifique los permisos de localización');
+    notifyMessage("Por favor verifique los permisos de localización");
   } else {
     notifyMessage(err);
   }
@@ -121,9 +123,9 @@ function verEnMapaAllPoint(response) {
   if (!MapRef.current) {
     return;
   }
-  let coords = []
+  let coords = [];
   for (const responseElement of response) {
-    coords.push([responseElement.codigo_arbol,parseFloat(responseElement.latitud),parseFloat(responseElement.longitud)])
+    coords.push([responseElement.codigo_arbol, parseFloat(responseElement.latitud), parseFloat(responseElement.longitud)]);
   }
   coords = JSON.stringify(coords);
   MapRef.current.injectJavaScript(`acctionMapVerTodo(${JSON.stringify(coords)})`);
@@ -141,9 +143,14 @@ function limpiarMapa() {
   if (!MapRef.current) {
     return;
   }
-  if(Platform.OS === 'android') {
+  if (Platform.OS === "android") {
     MapRef.current.reload();
   }
 }
 
-module.exports = {getLocalize, MapComponent, verEnMapa,verEnMapaP, verEnMapaAllPoint,limpiarMapa};
+async function getCoords() {
+  MapRef.current.injectJavaScript(`onMapClick()`);
+  return coords;
+}
+
+module.exports = { getLocalize, MapComponent, verEnMapa, verEnMapaP, verEnMapaAllPoint, limpiarMapa, getCoords };

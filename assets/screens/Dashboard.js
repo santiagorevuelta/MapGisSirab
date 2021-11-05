@@ -3,6 +3,7 @@ import { MapComponent } from "../components/map/BackgroundMap";
 import {
   Header,
   ModalIngresarArbol,
+  ModalIngresarIntervencion,
   ModalIntervenciones,
   ModalOptions,
   ModalOptionsArbol,
@@ -108,6 +109,14 @@ export default function Dashboard({ navigation }) {
           />
         ) : null) : (option === config.home[0].label ? (
           <ModalIngresarArbol
+            setOption={setView}
+            type={option}
+            back={optionOld}
+            label={optionOld + " " + option.toLowerCase()}
+            tabArbol={tabArbol}
+          />
+        ) : option === config.home[0].label ? (
+          <ModalIngresarIntervencion
             setOption={setView}
             type={option}
             back={optionOld}

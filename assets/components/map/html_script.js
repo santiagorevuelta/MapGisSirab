@@ -102,7 +102,7 @@ module.exports = `<!DOCTYPE html>
     //marker.setLatLng(e.latlng);
     radius.addTo(mymap);
     radius.setLatLng(e.latlng);
-    //window.ReactNativeWebView.postMessage(JSON.stringify({lat:e.latlng.lat,lng:e.latlng.lng}));
+    window.ReactNativeWebView.postMessage(JSON.stringify({lat:e.latlng.lat,lng:e.latlng.lng}));
   }
 
   mymap.on("click", onMapClick);

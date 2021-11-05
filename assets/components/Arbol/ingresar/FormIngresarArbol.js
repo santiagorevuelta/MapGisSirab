@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import combosArbol from "../../../helpers/combosArbol";
+import consultarBarrios from "../../../helpers/combosArbol";
 import { StyleSheet, Text, View } from "react-native";
 import { theme } from "../../../core/theme";
 import { Button as ButtonIcon } from "react-native-paper";
@@ -8,6 +9,7 @@ import TextInputForm from "../TextInputForm";
 import SelectSimple from "../../commons/selectSimple/SelectSimple";
 import DatePicker from "../../commons/DatePicker/DatePicker";
 import { notifyMessage } from "../../../core/general";
+import { getCoords } from "../../map/BackgroundMap";
 
 const selectPlace = "Seleccione...";
 
@@ -22,10 +24,16 @@ export default props => {
     });
   }, []);
 
-  const ubicarEnMapa = () => {
-    setDataForm({ ...dataForm, latitud: 445454, longitud: 545454 });
+  const llenarBarrio = async id => {
+    let barrios = await consultarBarrios(id);
+    setCombosBarrios(barrios);
   };
 
+  const ubicarEnMapa = async () => {
+    await getCoords().then(data => {
+      setDataForm({ ...dataForm, latitud: data?.lat, longitud: data?.lng });
+    });
+  };
 
   return (
     <View style={{ paddingHorizontal: "5%" }}>
@@ -92,6 +100,8 @@ export default props => {
           valueSelected={dataForm.comuna}
           onSelected={items => {
             if (items != null) {
+              llenarBarrio(items.id).then(() => {
+              });
               setDataForm({ ...dataForm, primer_nivel: items.id });
             }
           }}
@@ -100,7 +110,7 @@ export default props => {
         <SelectSimple
           label={"Barrio"}
           id="segundo_nivel"
-          disabledView={true}
+          disabledView={combosBarrios.length === 0}
           placeholder={selectPlace}
           onSelected={items => {
             if (items != null) {
@@ -152,7 +162,8 @@ export default props => {
       </View>
     </View>
   );
-};
+}
+;
 
 const styles = StyleSheet.create({
   container: {

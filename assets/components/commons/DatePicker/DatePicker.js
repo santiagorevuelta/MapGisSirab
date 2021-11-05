@@ -5,7 +5,6 @@ import { theme } from "../../../core/theme";
 import { responsiveFontSize, responsiveHeight, responsiveWidth } from "react-native-responsive-dimensions";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
-
 export default props => {
   const [calendarShow, setCalendarShow] = React.useState(false);
   return (
