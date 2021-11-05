@@ -1,45 +1,46 @@
-import React from 'react';
-import {Text, Pressable, View} from 'react-native';
-import styles from '../css/home/ModalOptionsCss';
-import {theme} from '../../core/theme';
-import Animated from 'react-native-reanimated';
+import React from "react";
+import { Pressable, Text, View } from "react-native";
+import styles from "../css/home/ModalOptionsCss";
+import { theme } from "../../core/theme";
+import Animated from "react-native-reanimated";
 
-import ConsultarArbol from '../icons/ConsultarArbol';
+import ConsultarArbol from "../icons/ConsultarArbol";
+import IngresarArbol from "../icons/IngresarArbol";
 
 export default props => {
   return (
     <>
       <View style={styles.header}>
         <Text style={[theme.textos.Label, styles.headerText]}>
-          {'Escoja una opción'}
+          {"Escoja una opción"}
         </Text>
       </View>
       <Animated.View style={styles.container}>
         <Pressable
-          style={({pressed}) => [
+          style={({ pressed }) => [
             {
               backgroundColor: pressed ? theme.pressed : theme.offPressed,
             },
             styles.modal,
           ]}
           onPress={() => {
-            props.setOption('Consulta');
+            props.setOption("Consulta");
           }}>
           <ConsultarArbol />
-          <Text style={[theme.textos.Label, styles.labels]}>{'Consultar'}</Text>
+          <Text style={[theme.textos.Label, styles.labels]}>{"Consultar"}</Text>
         </Pressable>
         <Pressable
-          style={({pressed}) => [
+          style={({ pressed }) => [
             {
               backgroundColor: pressed ? theme.pressed : theme.offPressed,
             },
             styles.modal,
           ]}
           onPress={() => {
-            props.setOption('Ingresar');
+            props.setOption("Ingresar");
           }}>
-          <ConsultarArbol />
-          <Text style={[theme.textos.Label, styles.labels]}>{'Ingresar'}</Text>
+          <IngresarArbol />
+          <Text style={[theme.textos.Label, styles.labels]}>{"Ingresar"}</Text>
         </Pressable>
       </Animated.View>
     </>

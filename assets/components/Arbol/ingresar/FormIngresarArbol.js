@@ -6,7 +6,6 @@ import { Button as ButtonIcon } from "react-native-paper";
 import { responsiveFontSize, responsiveHeight, responsiveWidth } from "react-native-responsive-dimensions";
 import TextInputForm from "../TextInputForm";
 import SelectSimple from "../../commons/selectSimple/SelectSimple";
-import { SelectMultiple } from "../../commons/selectMultiple/SelectMultiple";
 import DatePicker from "../../commons/DatePicker/DatePicker";
 import { notifyMessage } from "../../../core/general";
 
@@ -24,19 +23,20 @@ export default props => {
   }, []);
 
   const ubicarEnMapa = () => {
-    setDataForm({ ...dataForm, latitude: 445454, longitude: 545454 });
+    setDataForm({ ...dataForm, latitud: 445454, longitud: 545454 });
   };
 
 
   return (
     <View style={{ paddingHorizontal: "5%" }}>
       <View style={styles.form}>
-        <SelectMultiple
+        <SelectSimple
           label={"Especie"}
           id="especie"
+          placeholder={selectPlace}
           onSelected={items => {
             if (items != null) {
-              //console.log(items.value);
+              setDataForm({ ...dataForm, especie: items.id });
             }
           }}
           list={combos}
@@ -58,7 +58,7 @@ export default props => {
           value={dataForm.fecha}
           keyboardType="default"
           onChangeText={text => setDataForm({ ...dataForm, fecha: text })}
-          onSelectDate={text => setDataForm({ ...dataForm, fecha: text.split("-").reverse().join("/") })} />
+          onSelectDate={text => setDataForm({ ...dataForm, fecha: text })} />
       </View>
       <View style={styles.form}>
         <SelectSimple
@@ -67,7 +67,7 @@ export default props => {
           placeholder={selectPlace}
           onSelected={items => {
             if (items != null) {
-              setDataForm({ ...dataForm, id_tipo_arbol: items.id });
+              setDataForm({ ...dataForm, tipo_arbol: items.id });
             }
           }}
           list={combos}
@@ -78,7 +78,7 @@ export default props => {
           placeholder={selectPlace}
           onSelected={items => {
             if (items != null) {
-              setDataForm({ ...dataForm, id_tipo_origen_arbol: items.id });
+              setDataForm({ ...dataForm, origen_arbol: items.id });
             }
           }}
           list={combos}
@@ -92,7 +92,7 @@ export default props => {
           valueSelected={dataForm.comuna}
           onSelected={items => {
             if (items != null) {
-              setDataForm({ ...dataForm, comuna: items.id });
+              setDataForm({ ...dataForm, primer_nivel: items.id });
             }
           }}
           list={combos}
@@ -104,7 +104,7 @@ export default props => {
           placeholder={selectPlace}
           onSelected={items => {
             if (items != null) {
-              setDataForm({ ...dataForm, barrio: items.id });
+              setDataForm({ ...dataForm, segundo_nivel: items.id });
             }
           }}
           list={combosBarrios}
@@ -130,13 +130,13 @@ export default props => {
           label={"latitude"}
           editable={false}
           placeholder={"latitude"}
-          value={dataForm.latitude}
+          value={dataForm.latitud}
         />
         <TextInputForm
           label={"longitude"}
           editable={false}
           placeholder={"longitude"}
-          value={dataForm.longitude}
+          value={dataForm.longitud}
         />
       </View>
 

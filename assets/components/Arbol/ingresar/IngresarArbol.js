@@ -3,7 +3,7 @@ import HeaderModal from "../../home/HeaderModal";
 import FormConsultaArbol from "./FormIngresarArbol";
 
 
-const ModalConsult = ({ ...props }) => {
+const ModalIngresarArbol = ({ ...props }) => {
   const fnGuardar = async () => {
 
   };
@@ -19,4 +19,4 @@ const ModalConsult = ({ ...props }) => {
   );
 };
 
-export default ModalConsult;
+export default ModalIngresarArbol;

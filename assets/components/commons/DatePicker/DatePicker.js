@@ -1,6 +1,6 @@
 import CalendarComponent from "./index";
 import React from "react";
-import { StyleSheet, Text, TextInput as Input, TouchableOpacity, View } from "react-native";
+import { Keyboard, StyleSheet, Text, TextInput as Input, TouchableOpacity, View } from "react-native";
 import { theme } from "../../../core/theme";
 import { responsiveFontSize, responsiveHeight, responsiveWidth } from "react-native-responsive-dimensions";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
@@ -17,6 +17,11 @@ export default props => {
             styles.input,
             props.isFocus ? { color: theme.colors.primary } : {},
           ]}
+          onFocus={(e) => {
+            setCalendarShow(!calendarShow);
+            Keyboard.dismiss();
+          }
+          }
           underlineColorAndroid="transparent"
           {...props}
         />
@@ -33,10 +38,15 @@ export default props => {
         </TouchableOpacity>
       </View>
       <CalendarComponent
-        dateValue={props.value}
+        dateValue={props.value?.split("/").reverse().join("-")}
         calendarVisible={calendarShow}
         onDatePress={(date) => {
-          props.onSelectDate(date?.dateString);
+          if (props.value === date?.dateString.split("-").reverse().join("/")) {
+            props.onSelectDate("");
+          } else {
+            props.onSelectDate(date?.dateString.split("-").reverse().join("/"));
+          }
+
           setCalendarShow(!calendarShow);
         }}
         onCalendarClose={() => {
@@ -58,7 +68,7 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 25,
     borderTopRightRadius: 25,
     borderWidth: 1,
-    height: '100%',
+    height: "100%",
     width: "100%",
     marginTop: 1,
     paddingLeft: 10,
@@ -67,7 +77,7 @@ const styles = StyleSheet.create({
   content: {
     flexDirection: "row",
     alignContent: "center",
-    height: '100%',
+    height: "100%",
     alignItems: "center",
     justifyContent: "center",
     width: responsiveWidth(43),

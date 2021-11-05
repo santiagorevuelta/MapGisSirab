@@ -10,7 +10,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import buscarDatos from "../../helpers/buscarDatos";
 import { limpiarMapa, verEnMapaAllPoint } from "../map/BackgroundMap";
 
-const ModalConsult = ({ ...props }) => {
+const ModalOptionsArbol = ({ ...props }) => {
   const [buscar, setBuscar] = useState(false);
   const [dataResult, setDataResult] = useState({});
   const fnBuscar = async (obj, filtros = {}) => {
@@ -66,7 +66,7 @@ const ModalConsult = ({ ...props }) => {
   );
 };
 
-export default ModalConsult;
+export default ModalOptionsArbol;
 
 const styles = StyleSheet.create({
   contend: {
