@@ -17,13 +17,21 @@ import { consultToken } from "../core/general";
 import config from "../tsconfig.json";
 
 export default function Dashboard({ navigation }) {
-  useEffect(() => {
+  const [headerHide, setHeaderHide] = useState(false);
+  const [option, setOption] = useState("inicio");
+  const [optionOld, setOptionOld] = useState("inicio");
+  const [snp, setSnp] = useState(1);
+  const bottomSheetRef = React.useRef(null);
+  const snapPoints = useMemo(() => ["3%", "25%"], []);
+  const snapPointsVer = useMemo(() => ["3%", "44%", "80%", "100%"], []); //, '100%'
+
+  /*useEffect(() => {
     AsyncStorage.getItem("option").then(value => {
       if (value !== null) {
         //setOption(value);
       }
     });
-  }, []);
+  }, []);*/
 
   useEffect(() => {
     consultToken().then(r => {
@@ -34,14 +42,6 @@ export default function Dashboard({ navigation }) {
       });
     });
   }, []);
-
-  const [headerHide, setHeaderHide] = useState(false);
-  const [option, setOption] = useState("inicio");
-  const [optionOld, setOptionOld] = useState("inicio");
-  const [snp, setSnp] = useState(1);
-  const bottomSheetRef = React.useRef(null);
-  const snapPoints = useMemo(() => ["3%", "25%"], []);
-  const snapPointsVer = useMemo(() => ["3%", "44%", "80%", "100%"], []); //, '100%'
 
   const setView = index => {
     if (!index) {
@@ -115,7 +115,7 @@ export default function Dashboard({ navigation }) {
             label={optionOld + " " + option.toLowerCase()}
             tabArbol={tabArbol}
           />
-        ) : option === config.home[0].label ? (
+        ) : option === config.home[1].label ? (
           <ModalIngresarIntervencion
             setOption={setView}
             type={option}

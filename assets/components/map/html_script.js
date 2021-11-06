@@ -32,8 +32,10 @@ module.exports = `<!DOCTYPE html>
     iconSize: [32, 40],
   });
   //https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw
-
-  var osmBase = L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw", {
+ 
+ let capa = "https://tile.openstreetmap.org/{z}/{x}/{y}.png"
+ 
+  var osmBase = L.tileLayer(capa, {
     maxZoom: 20,
     attribution: "",
     id: "mapbox/streets-v11",

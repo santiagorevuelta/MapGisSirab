@@ -10,6 +10,8 @@ import SelectSimple from "../../commons/selectSimple/SelectSimple";
 import DatePicker from "../../commons/DatePicker/DatePicker";
 import { notifyMessage } from "../../../core/general";
 import { getCoords } from "../../map/BackgroundMap";
+import styles from '../../css/ingresarcss'
+import PickerImageAcction from '../../commons/imagenes/PickerImageAcction'
 
 const selectPlace = "Seleccione...";
 
@@ -150,6 +152,8 @@ export default props => {
         />
       </View>
 
+        <PickerImageAcction />
+
       <View style={[styles.form, { justifyContent: "flex-end" }]}>
         <ButtonIcon
           compact={true}
@@ -165,32 +169,3 @@ export default props => {
 }
 ;
 
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: theme.colors.blanco,
-    color: theme.colors.secondary,
-    flexDirection: "column",
-  },
-  form: {
-    flexDirection: "row",
-  },
-  guardar: {
-    borderRadius: theme.radius + 20,
-  },
-  content: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-  },
-  geo: {
-    height: responsiveHeight(4),
-    marginVertical: responsiveWidth(3),
-    paddingHorizontal: "2%",
-    width: "100%",
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignContent: "center",
-    alignItems: "center",
-    marginBottom: 0,
-    paddingBottom: 0,
-  },
-});

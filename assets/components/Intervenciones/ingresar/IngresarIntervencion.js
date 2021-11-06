@@ -1,12 +1,13 @@
-import React from "react";
+import React, {useEffect} from "react";
 import HeaderModal from "../../home/HeaderModal";
 import FormIngresarIntervencion from "./FormIngresarIntervencion";
 
-
 const ModalIngresarArbol = ({ ...props }) => {
-  const fnGuardar = async () => {
 
-  };
+    const fnGuardar = () => {
+        console.log("ok")
+    };
+
   return (
     <>
       <HeaderModal

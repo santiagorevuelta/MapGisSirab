@@ -6,6 +6,7 @@ import { Button as ButtonIcon } from "react-native-paper";
 import { responsiveHeight, responsiveWidth } from "react-native-responsive-dimensions";
 import SelectSimple from "../../commons/selectSimple/SelectSimple";
 import DatePicker from "../../commons/DatePicker/DatePicker";
+import styles from '../../css/ingresarcss'
 
 const selectPlace = "Seleccione...";
 
@@ -85,34 +86,3 @@ export default props => {
   );
 }
 ;
-
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: theme.colors.blanco,
-    color: theme.colors.secondary,
-    flexDirection: "column",
-  },
-  form: {
-    flexDirection: "row",
-  },
-  guardar: {
-    marginTop: 10,
-    borderRadius: theme.radius + 20,
-  },
-  content: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-  },
-  geo: {
-    height: responsiveHeight(4),
-    marginVertical: responsiveWidth(3),
-    paddingHorizontal: "2%",
-    width: "100%",
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignContent: "center",
-    alignItems: "center",
-    marginBottom: 0,
-    paddingBottom: 0,
-  },
-});
