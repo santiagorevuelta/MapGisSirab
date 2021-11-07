@@ -7,7 +7,7 @@ let styles = {};
 let images = [];
 export default props => {
   return (
-    <View style={{flex: 1}}>
+    <View style={{flex: 1,height:90}}>
       <View style={styles.viewCamposFotos}>
         <View style={styles.viewCamposBtn}>
           <View style={styles.viewicono}>

@@ -68,10 +68,6 @@ export default props => {
           list={combos}
         />
       </View>
-      <View style={styles.form}>
-
-
-      </View>
       <View style={[styles.form, { justifyContent: "flex-end" }]}>
         <ButtonIcon
           compact={true}
