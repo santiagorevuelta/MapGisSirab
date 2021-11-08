@@ -15,11 +15,15 @@ const Tab = createMaterialTopTabNavigator();
 
 function getHome(props) {
   function imagenes() {
-    return <FormImagenes props />;
+    return <FormImagenes
+        dataImage={props.dataImage}
+        setDataImage={props.setDataImage}  />;
   }
 
   function variables() {
-    return <FormVariables props />;
+    return <FormVariables
+        dataVar={props.dataVar}
+        setDataVar={props.setDataVar}/>;
   }
 
   return (
@@ -33,18 +37,18 @@ function getHome(props) {
           tabBarLabelStyle: [theme.ver.Label, styles.header],
         }}>
         <Tab.Screen
-          name=" "
+          name="variables"
           component={variables}
           options={{
-            title: 'Caracteristicas árbol',
+            title: 'Variables dasométricas',
             headerShown: false,
           }}
         />
         <Tab.Screen
-          name=" "
+          name="imagenes"
           component={imagenes}
           options={{
-            title: 'Variables dasométricas',
+            title: 'Fotos',
             headerShown: false,
           }}
         />
@@ -59,21 +63,9 @@ const styles = StyleSheet.create({
   },
   floatModal: {
     backgroundColor: theme.colors.blanco,
-    borderWidth: 1,
-    borderColor: theme.colors.primary,
-    elevation: 6,
-    paddingTop: 1,
-    zIndex: 3,
-    width: responsiveScreenWidth(90),
     height: responsiveScreenHeight(30),
-    marginLeft: responsiveScreenWidth(5),
-    marginRight: responsiveScreenWidth(5),
     alignContent: 'center',
-    borderRadius: 30,
-    paddingLeft: '5%',
-    paddingRight: '5%',
-    paddingBottom: '5%',
-    shadowColor: '#000',
+    marginTop:'5%',
   },
 });
 export default getHome;

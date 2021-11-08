@@ -6,6 +6,9 @@ const {
 const {StyleSheet} = require('react-native');
 
 module.exports = StyleSheet.create({
+    body:{
+        paddingHorizontal: '5%'
+    },
     container: {
         backgroundColor: theme.colors.blanco,
         color: theme.colors.secondary,

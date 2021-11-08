@@ -23,7 +23,7 @@ export default function Dashboard({navigation}) {
   const bottomSheetRef = React.useRef(null);
   const snapPoints = useMemo(() => ['3%', '25%'], []);
   const snapPointsVer = useMemo(
-    () => ['3%', '44%', '80%', Platform.OS === 'ios' ? '90%' : '100%'],
+    () => ['3%', '44%', '80%', Platform.OS === 'ios' ? '95%' : '100%'],
     [],
   ); //, '100%'
 
