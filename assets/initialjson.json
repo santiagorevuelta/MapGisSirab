@@ -1,0 +1,41 @@
+{
+  "datosArbol": {
+    "especie": "",
+    "fecha": "",
+    "latitud": "",
+    "longitud": "",
+    "tipo_arbol": "",
+    "origen_arbol": "",
+    "codigo_arbol": "",
+    "primer_nivel": "",
+    "segundo_nivel": ""
+  },
+  "datosVariables": {
+    "altura": "",
+    "altura_copa": "",
+    "dap1": "",
+    "dap2": "",
+    "fecha_ingreso": ""
+  },
+  "initialStateZona": {
+    "nombre": "",
+    "descripcion": "",
+    "codigo": "",
+    "fecha": "",
+    "id_tipo_zona_verde": "",
+    "area_m2": "",
+    "area_m2_calculado": "",
+    "primer_nivel": "",
+    "segundo_nivel": "",
+    "id_proyecto": "",
+    "geom": ""
+  },
+  "initialStateIntervencion": {
+    "tipo_intervencion": "",
+    "fecha": "",
+    "proyecto": "",
+    "descripcion": "",
+    "area": "",
+    "costo": ""
+  }
+}

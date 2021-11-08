@@ -10,7 +10,7 @@ import DatePicker from '../../commons/DatePicker/DatePicker';
 import {notifyMessage} from '../../../core/general';
 import {getCoords} from '../../map/BackgroundMap';
 import styles from '../../css/ingresarcss';
-import json from './initialjson.json';
+import json from '../../../initialjson.json';
 import TabIngresar from '../ingresar/tab/TabIngresar';
 
 const selectPlace = 'Seleccione...';
