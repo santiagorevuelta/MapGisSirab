@@ -1,5 +1,5 @@
-import React, { useEffect, useMemo, useState } from "react";
-import { MapComponent } from "../components/map/BackgroundMap";
+import React, {useEffect, useMemo, useState} from 'react';
+import {MapComponent} from '../components/map/BackgroundMap';
 import {
   Header,
   ModalIngresarArbol,
@@ -9,21 +9,23 @@ import {
   ModalOptionsArbol,
   ModalOptionsType,
   ModalZonasVerdes,
-} from "./indexDashboard";
+} from './indexDashboard';
+import BottomSheet from '@gorhom/bottom-sheet';
+import {consultToken} from '../core/general';
+import config from '../tsconfig.json';
+import {Platform} from 'react-native';
 
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import BottomSheet from "@gorhom/bottom-sheet";
-import { consultToken } from "../core/general";
-import config from "../tsconfig.json";
-
-export default function Dashboard({ navigation }) {
+export default function Dashboard({navigation}) {
   const [headerHide, setHeaderHide] = useState(false);
   const [option, setOption] = useState('inicio');
   const [optionOld, setOptionOld] = useState(null);
   const [snp, setSnp] = useState(1);
   const bottomSheetRef = React.useRef(null);
-  const snapPoints = useMemo(() => ["3%", "25%"], []);
-  const snapPointsVer = useMemo(() => ["3%", "44%", "80%", "100%"], []); //, '100%'
+  const snapPoints = useMemo(() => ['3%', '25%'], []);
+  const snapPointsVer = useMemo(
+    () => ['3%', '44%', '80%', Platform.OS === 'ios' ? '90%' : '100%'],
+    [],
+  ); //, '100%'
 
   /*useEffect(() => {
     AsyncStorage.getItem("option").then(value => {
@@ -35,10 +37,12 @@ export default function Dashboard({ navigation }) {
 
   useEffect(() => {
     consultToken().then(r => {
-      if (r) return;
+      if (r) {
+        return;
+      }
       navigation.reset({
         index: 0,
-        routes: [{ name: "LoginScreen" }],
+        routes: [{name: 'LoginScreen'}],
       });
     });
   }, []);
@@ -54,65 +58,66 @@ export default function Dashboard({ navigation }) {
   const tabArbol = name => {
     navigation.reset({
       index: 0,
-      routes: [{ name }],
+      routes: [{name}],
     });
   };
 
-
   return (
     <MapComponent>
-      {!headerHide && (<Header setOption={setView} />)}
+      {!headerHide && <Header setOption={setView} />}
       <BottomSheet
         ref={bottomSheetRef}
-        key={"busqueda"}
+        key={'busqueda'}
         onChange={index => {
           setHeaderHide(index === snapPointsVer.length - 1);
         }}
         index={snp}
         initialSnapIndex={snp}
         snapPoints={
-          "Consulta,Ingresar,inicio".indexOf(option) !== -1
+          'Consulta,Ingresar,inicio'.indexOf(option) !== -1
             ? snapPoints
             : snapPointsVer
         }>
-        {option === "inicio" ? (
+        {option === 'inicio' ? (
           <ModalOptions setOption={setView} />
-        ) : "Consulta,Ingresar".indexOf(option) !== -1 ? (
+        ) : 'Consulta,Ingresar'.indexOf(option) !== -1 ? (
           <ModalOptionsType
             setOption={setView}
             type={option}
             tabArbol={tabArbol}
           />
-        ) : optionOld === "Consulta" ? option === config.home[0].label ? (
-          <ModalOptionsArbol
-            setOption={setView}
-            type={option}
-            back={optionOld}
-            label={optionOld + " " + option.toLowerCase()}
-            tabArbol={tabArbol}
-          />
-        ) : option === config.home[1].label ? (
-          <ModalIntervenciones
-            setOption={setView}
-            type={option}
-            back={optionOld}
-            label={optionOld + " " + option.toLowerCase()}
-            tabArbol={tabArbol}
-          />
-        ) : option === config.home[2].label ? (
-          <ModalZonasVerdes
-            setOption={setView}
-            type={option}
-            back={optionOld}
-            label={optionOld + " " + option.toLowerCase()}
-            tabArbol={tabArbol}
-          />
-        ) : null : option === config.home[0].label ? (
+        ) : optionOld === 'Consulta' ? (
+          option === config.home[0].label ? (
+            <ModalOptionsArbol
+              setOption={setView}
+              type={option}
+              back={optionOld}
+              label={optionOld + ' ' + option.toLowerCase()}
+              tabArbol={tabArbol}
+            />
+          ) : option === config.home[1].label ? (
+            <ModalIntervenciones
+              setOption={setView}
+              type={option}
+              back={optionOld}
+              label={optionOld + ' ' + option.toLowerCase()}
+              tabArbol={tabArbol}
+            />
+          ) : option === config.home[2].label ? (
+            <ModalZonasVerdes
+              setOption={setView}
+              type={option}
+              back={optionOld}
+              label={optionOld + ' ' + option.toLowerCase()}
+              tabArbol={tabArbol}
+            />
+          ) : null
+        ) : option === config.home[0].label ? (
           <ModalIngresarArbol
             setOption={setView}
             type={option}
             back={optionOld}
-            label={optionOld + " " + option.toLowerCase()}
+            label={optionOld + ' ' + option.toLowerCase()}
             tabArbol={tabArbol}
           />
         ) : option === config.home[1].label ? (
@@ -120,7 +125,7 @@ export default function Dashboard({ navigation }) {
             setOption={setView}
             type={option}
             back={optionOld}
-            label={optionOld + " " + option.toLowerCase()}
+            label={optionOld + ' ' + option.toLowerCase()}
             tabArbol={tabArbol}
           />
         ) : null}
