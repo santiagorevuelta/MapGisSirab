@@ -1,21 +1,27 @@
 import React from 'react';
-import {Platform, StyleSheet, View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import {
   responsiveFontSize,
-  responsiveHeight,
   responsiveScreenHeight,
   responsiveScreenWidth,
 } from 'react-native-responsive-dimensions';
 import {theme} from '../../../../core/theme';
-
-import Characteristics from './Characteristics';
-import Variables from './Variables';
+import FormImagenes from './FormImagenes';
+import FormVariables from './FormVariables';
 
 const Tab = createMaterialTopTabNavigator();
 
-function getHome() {
+function getHome(props) {
+  function imagenes() {
+    return <FormImagenes props />;
+  }
+
+  function variables() {
+    return <FormVariables props />;
+  }
+
   return (
     <View style={styles.floatModal}>
       <Tab.Navigator
@@ -27,16 +33,16 @@ function getHome() {
           tabBarLabelStyle: [theme.ver.Label, styles.header],
         }}>
         <Tab.Screen
-          name="Caracteristicas"
-          component={Characteristics}
+          name=" "
+          component={variables}
           options={{
             title: 'Caracteristicas árbol',
             headerShown: false,
           }}
         />
         <Tab.Screen
-          name="Variables"
-          component={Variables}
+          name=" "
+          component={imagenes}
           options={{
             title: 'Variables dasométricas',
             headerShown: false,
@@ -53,7 +59,6 @@ const styles = StyleSheet.create({
   },
   floatModal: {
     backgroundColor: theme.colors.blanco,
-    position: 'absolute',
     borderWidth: 1,
     borderColor: theme.colors.primary,
     elevation: 6,
@@ -65,17 +70,10 @@ const styles = StyleSheet.create({
     marginRight: responsiveScreenWidth(5),
     alignContent: 'center',
     borderRadius: 30,
-    top: responsiveHeight(Platform.OS == 'ios' ? 35 : 30),
     paddingLeft: '5%',
     paddingRight: '5%',
     paddingBottom: '5%',
     shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 1,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
   },
 });
 export default getHome;

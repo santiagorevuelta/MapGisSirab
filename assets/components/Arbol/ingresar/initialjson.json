@@ -1,0 +1,20 @@
+{
+  "datosArbol": {
+      "especie": "",
+      "fecha": "",
+      "latitud": "",
+      "longitud": "",
+      "tipo_arbol": "",
+      "origen_arbol": "",
+      "codigo_arbol": "",
+      "primer_nivel": "",
+      "segundo_nivel": ""
+  },
+  "datosVariables": {
+      "altura": "",
+      "altura_copa": "",
+      "dap1": "",
+      "dap2": "",
+      "fecha_ingreso": ""
+  }
+}

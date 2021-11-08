@@ -129,8 +129,8 @@ android {
         applicationId "com.co.hyg.MapGisSirab"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 1
-        versionName "1.0"
+        versionCode 2
+        versionName "1.1"
     }
     splits {
         abi {
@@ -185,7 +185,7 @@ dependencies {
     implementation project(':react-native-safe-area-context')
     implementation project(':react-native-reanimated')
 
-   // implementation project(':react-native-async-storage_async-storage')
+   implementation project(':react-native-async-storage_async-storage')
    // implementation project(':react-native-svg')
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
 
