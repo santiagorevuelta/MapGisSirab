@@ -1,40 +1,36 @@
-import {PermissionsAndroid, Platform, Pressable, View} from 'react-native';
+import {Modal, PermissionsAndroid, Platform, View} from 'react-native';
 import React from 'react';
 import ImagePicker from 'react-native-image-crop-picker';
-
-let styles = {};
+import {Button} from 'react-native-paper';
+import {styles} from './styles';
 
 let images = [];
-export default props => {
+export default ({setDataImage, visible, onModalClose}) => {
   return (
-    <View style={{flex: 1,height:90}}>
-      <View style={styles.viewCamposFotos}>
-        <View style={styles.viewCamposBtn}>
-          <View style={styles.viewicono}>
-            <Pressable
-              style={styles.btn}
-              onPress={() => {
-                camaraPress(props).then();
-              }}
-            />
-          </View>
-        </View>
-        <View style={styles.viewCamposBtn}>
-          <View style={styles.viewicono}>
-            <Pressable
-              style={styles.btn}
-              onPress={() => {
-                galleryPress(props).then();
-              }}
-            />
-          </View>
-        </View>
+    <Modal
+      animationType="slide"
+      transparent={true}
+      visible={visible}
+      onRequestClose={() => onModalClose()}>
+      <View style={styles.modal}>
+        <Button
+          icon="camera-plus-outline"
+          onPress={() => {
+            camaraPress(setDataImage).then();
+          }}
+        />
+        <Button
+          icon="camera-image"
+          onPress={() => {
+            galleryPress(setDataImage).then();
+          }}
+        />
       </View>
-    </View>
+    </Modal>
   );
 };
 
-async function galleryPress(props) {
+async function galleryPress(setDataImage) {
   await requestCameraPermission();
   let options = {
     storageOptions: {
@@ -53,7 +49,7 @@ async function galleryPress(props) {
   await ImagePicker.openPicker(options)
     .then(image => {
       image.map((dataImag, index) => {
-        renderFile(dataImag, props).then();
+        renderFile(dataImag, setDataImage).then();
       });
     })
     .catch(e => {
@@ -61,7 +57,7 @@ async function galleryPress(props) {
     });
 }
 
-async function camaraPress(props) {
+async function camaraPress(setDataImage) {
   await requestCameraPermission();
   let options = {
     storageOptions: {
@@ -80,21 +76,21 @@ async function camaraPress(props) {
   };
   ImagePicker.openCamera(options)
     .then(image => {
-      renderFile(image, props).then();
+      renderFile(image, setDataImage).then();
     })
     .catch(error => {
       console.log(error.message);
     });
 }
 
-async function renderFile(response, props) {
+async function renderFile(response, setDataImage) {
   if (response !== undefined) {
     let pathImg = response.path == undefined ? response.uri : response.path;
     console.log(response);
     const base64 = '';
     images.push({urlFoto: pathImg, base64: base64});
   }
-  //props.setImagenes(images);
+  //props.setDataImage(images);
 }
 
 async function requestCameraPermission() {

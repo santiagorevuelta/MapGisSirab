@@ -1,19 +1,19 @@
-import React, { useState } from "react";
-import { Modal, TouchableOpacity, View } from "react-native";
-import { Calendar } from "react-native-calendars";
-import { responsiveFontSize } from "react-native-responsive-dimensions";
-import IconAntDesign from "react-native-vector-icons/AntDesign";
+import React, {useState} from 'react';
+import {Modal, TouchableOpacity, View} from 'react-native';
+import {Calendar} from 'react-native-calendars';
+import {responsiveFontSize} from 'react-native-responsive-dimensions';
+import IconAntDesign from 'react-native-vector-icons/AntDesign';
 
-import { styles } from "./styles";
-import { theme } from "../../../core/theme";
+import {styles} from './styles';
+import {theme} from '../../../core/theme';
 
 const CalendarComponent = ({
-                             dateValue = [],
-                             calendarVisible = false,
-                             onDatePress,
-                             onCalendarClose,
-                             maxDate = null,
-                           }) => {
+  dateValue = [],
+  calendarVisible = false,
+  onDatePress,
+  onCalendarClose,
+  maxDate = null,
+}) => {
   const [date, setDate] = useState(dateValue);
 
   return (
@@ -37,15 +37,15 @@ const CalendarComponent = ({
             style={styles.calendar}
             theme={{
               //textDayFontFamily: "Mulish-Regular",
-                //textMonthFontFamily: "Mulish-Regular",
-                //textDayHeaderFontFamily: "Mulish-Regular",
+              //textMonthFontFamily: "Mulish-Regular",
+              //textDayHeaderFontFamily: "Mulish-Regular",
               textDayFontSize: responsiveFontSize(1.7),
               textMonthFontSize: responsiveFontSize(1.7),
               textDayHeaderFontSize: responsiveFontSize(1.7),
-              backgroundColor: "#ffffff",
+              backgroundColor: '#ffffff',
               arrowColor: theme.colors.primary,
             }}
-           //  minDate = {Date()}
+            //  minDate = {Date()}
             maxDate={Date()}
             onDayPress={date => {
               setDate(date?.dateString);

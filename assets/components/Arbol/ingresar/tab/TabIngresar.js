@@ -5,7 +5,6 @@ import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs
 import {
   responsiveFontSize,
   responsiveScreenHeight,
-  responsiveScreenWidth,
 } from 'react-native-responsive-dimensions';
 import {theme} from '../../../../core/theme';
 import FormImagenes from './FormImagenes';
@@ -13,17 +12,13 @@ import FormVariables from './FormVariables';
 
 const Tab = createMaterialTopTabNavigator();
 
-function getHome(props) {
+function getHome({dataImage, setDataImage, dataVar, setDataVar}) {
   function imagenes() {
-    return <FormImagenes
-        dataImage={props.dataImage}
-        setDataImage={props.setDataImage}  />;
+    return <FormImagenes dataImage={dataImage} setDataImage={setDataImage} />;
   }
 
   function variables() {
-    return <FormVariables
-        dataVar={props.dataVar}
-        setDataVar={props.setDataVar}/>;
+    return <FormVariables dataVar={dataVar} setDataVar={setDataVar} />;
   }
 
   return (
@@ -65,7 +60,7 @@ const styles = StyleSheet.create({
     backgroundColor: theme.colors.blanco,
     height: responsiveScreenHeight(30),
     alignContent: 'center',
-    marginTop:'5%',
+    marginTop: '5%',
   },
 });
 export default getHome;
