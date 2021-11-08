@@ -45,6 +45,7 @@ const stylesHead = StyleSheet.create({
     zIndex: 1,
     position: 'absolute',
     flexDirection: 'row',
+    marginTop: '10%',
     paddingTop: responsiveHeight(2),
     paddingLeft: responsiveWidth(5),
     paddingRight: responsiveWidth(5),

@@ -18,8 +18,8 @@ import config from "../tsconfig.json";
 
 export default function Dashboard({ navigation }) {
   const [headerHide, setHeaderHide] = useState(false);
-  const [option, setOption] = useState("inicio");
-  const [optionOld, setOptionOld] = useState("inicio");
+  const [option, setOption] = useState('inicio');
+  const [optionOld, setOptionOld] = useState(null);
   const [snp, setSnp] = useState(1);
   const bottomSheetRef = React.useRef(null);
   const snapPoints = useMemo(() => ["3%", "25%"], []);
@@ -47,18 +47,18 @@ export default function Dashboard({ navigation }) {
     if (!index) {
       setSnp(1);
     }
-    AsyncStorage.setItem("option", index);
     setOptionOld(option);
     setOption(index);
   };
 
   const tabArbol = name => {
-    AsyncStorage.setItem("option", snapPoints);
     navigation.reset({
       index: 0,
       routes: [{ name }],
     });
   };
+
+
   return (
     <MapComponent>
       {!headerHide && (<Header setOption={setView} />)}
@@ -83,7 +83,7 @@ export default function Dashboard({ navigation }) {
             type={option}
             tabArbol={tabArbol}
           />
-        ) : optionOld === "Consulta" ? (option === config.home[0].label ? (
+        ) : optionOld === "Consulta" ? option === config.home[0].label ? (
           <ModalOptionsArbol
             setOption={setView}
             type={option}
@@ -107,7 +107,7 @@ export default function Dashboard({ navigation }) {
             label={optionOld + " " + option.toLowerCase()}
             tabArbol={tabArbol}
           />
-        ) : null) : (option === config.home[0].label ? (
+        ) : null : option === config.home[0].label ? (
           <ModalIngresarArbol
             setOption={setView}
             type={option}
@@ -123,7 +123,7 @@ export default function Dashboard({ navigation }) {
             label={optionOld + " " + option.toLowerCase()}
             tabArbol={tabArbol}
           />
-        ) : null)}
+        ) : null}
       </BottomSheet>
     </MapComponent>
   );

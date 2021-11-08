@@ -17,7 +17,7 @@ const ModalOptionsArbol = ({ ...props }) => {
     if (obj) {
       AsyncStorage.setItem("filtros", JSON.stringify(filtros));
       let response = await buscarDatos(filtros, 1, "searchTree");
-      if (response.length === 0) {
+      if (response.data.length === 0) {
         notifyMessage("La consulta no obtuvo resultados");
         limpiarMapa();
         return;

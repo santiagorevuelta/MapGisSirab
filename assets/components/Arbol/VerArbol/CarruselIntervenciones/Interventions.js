@@ -115,7 +115,7 @@ function rows(props) {
     <Card key={'card' + index} style={stylesCards.container}>
       <Card.Content>
         <Text style={stylesCards.title}>
-          {'Intervención #' + item.codigo_arbol}
+          {'# ' + item.codigo_arbol}
         </Text>
         <View style={stylesCards.header}>
           <Text style={stylesCards.textos}>

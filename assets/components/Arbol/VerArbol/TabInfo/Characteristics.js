@@ -12,6 +12,7 @@ export default function (props) {
     AsyncStorage.getItem('verArbol').then(jsonValue => {
       const item = jsonValue != null ? JSON.parse(jsonValue) : {};
       setItems(item);
+      console.log(item)
     });
     setSwNew(!swNew)
   }
@@ -30,6 +31,10 @@ export default function (props) {
         <View style={styles.row}>
           {div('Tipo de árbol', items.tipo_arbol ? items.tipo_arbol : null)}
           {div('Longitud', items.longitud ? items.longitud : null)}
+        </View>
+        <View style={styles.row}>
+          {div('Comuna', items.primer_nivel ? items.primer_nivel : null)}
+          {div('Barrio', items.segundo_nivel ? items.segundo_nivel : null)}
         </View>
         <View style={styles.row}>
           {div(

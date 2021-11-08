@@ -4,7 +4,6 @@ import { responsiveFontSize } from "react-native-responsive-dimensions";
 import IconAntDesign from "react-native-vector-icons/AntDesign";
 import { ScrollView } from "react-native-gesture-handler";
 import { styles } from "./styles";
-
 import { theme } from "../../../core/theme";
 
 const SelectSimple = ({
@@ -17,19 +16,26 @@ const SelectSimple = ({
                         label,
                         key,
                         disabledView = false,
+                          dependencia = false
                       }) => {
   const [showSelector, setShowSelector] = useState(false);
   const [listItems, setListItems] = useState({});
   const [value, setValue] = useState(valueSelected);
+
   useEffect(() => {
-    setTimeout(function() {
-      let data = [];
-      list.map((items) => {
-        items.campo === id && data.push(items);
-      });
-      setListItems(data);
-    }, 100);
+      if(dependencia){
+          setListItems(list);
+      }else{
+          setTimeout(function(){
+              let data = [];
+              list.map((items) => {
+                  items.campo === id && data.push(items);
+              });
+              setListItems(data);
+          },1000)
+      }
   }, []);
+
   return (
     <View style={styles.container} key={key}>
       <Text style={theme.textos.LabelIn}>{label}</Text>
@@ -51,7 +57,7 @@ const SelectSimple = ({
         />
       </Pressable>
       {showSelector && (
-        <ScrollView style={styles.containerList} nestedScrollEnabled={true}>
+        <ScrollView style={ [styles.containerList,!onSelected?{zIndex:0, elevation:0}:null]} nestedScrollEnabled={true}>
           {listItems.map((item, i) => (
             <Pressable
               key={i}

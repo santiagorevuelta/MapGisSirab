@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import combosArbol from "../../../helpers/combosArbol";
-import consultarBarrios from "../../../helpers/combosArbol";
+import consultarBarrios from "../../../helpers/consultaBarrios";
 import { StyleSheet, Text, View } from "react-native";
 import { theme } from "../../../core/theme";
 import { Button as ButtonIcon } from "react-native-paper";
@@ -11,12 +11,12 @@ import DatePicker from "../../commons/DatePicker/DatePicker";
 import { notifyMessage } from "../../../core/general";
 import { getCoords } from "../../map/BackgroundMap";
 import styles from '../../css/ingresarcss'
-import PickerImageAcction from '../../commons/imagenes/PickerImageAcction'
 
 const selectPlace = "Seleccione...";
 
 export default props => {
-  const [dataForm, setDataForm] = React.useState({});
+  const [dataForm, setDataForm] = React.useState({datosArbol: {}});
+  const [dataVar, setDataVar] = React.useState({});
   const [combos, setCombos] = React.useState([]);
   const [combosBarrios, setCombosBarrios] = React.useState([]);
 
@@ -26,9 +26,11 @@ export default props => {
     });
   }, []);
 
-  const llenarBarrio = async id => {
-    let barrios = await consultarBarrios(id);
-    setCombosBarrios(barrios);
+  const llenarBarrio = id => {
+    consultarBarrios(id).then((barrios)=>{
+        setDataForm({ ...dataForm, segundo_nivel:  null});
+        setCombosBarrios(barrios);
+    });
   };
 
   const ubicarEnMapa = async () => {
@@ -49,7 +51,6 @@ export default props => {
               setDataForm({ ...dataForm, especie: items.id });
             }
           }}
-          list={combos}
         />
       </View>
       <View style={styles.form}>
@@ -75,6 +76,7 @@ export default props => {
           label={"Tipo árbol"}
           id="tipo_arbol"
           placeholder={selectPlace}
+          valueSelected={dataForm.tipo_arbol}
           onSelected={items => {
             if (items != null) {
               setDataForm({ ...dataForm, tipo_arbol: items.id });
@@ -86,6 +88,7 @@ export default props => {
           label={"Tipo origen árbol"}
           id="origen_arbol"
           placeholder={selectPlace}
+          valueSelected={dataForm.origen_arbol}
           onSelected={items => {
             if (items != null) {
               setDataForm({ ...dataForm, origen_arbol: items.id });
@@ -102,8 +105,7 @@ export default props => {
           valueSelected={dataForm.comuna}
           onSelected={items => {
             if (items != null) {
-              llenarBarrio(items.id).then(() => {
-              });
+              llenarBarrio(items.id);
               setDataForm({ ...dataForm, primer_nivel: items.id });
             }
           }}
@@ -114,6 +116,8 @@ export default props => {
           id="segundo_nivel"
           disabledView={combosBarrios.length === 0}
           placeholder={selectPlace}
+          dependencia={true}
+          valueSelected={dataForm.segundo_nivel}
           onSelected={items => {
             if (items != null) {
               setDataForm({ ...dataForm, segundo_nivel: items.id });
@@ -152,8 +156,6 @@ export default props => {
         />
       </View>
 
-        <PickerImageAcction />
-
       <View style={[styles.form, { justifyContent: "flex-end" }]}>
         <ButtonIcon
           compact={true}
@@ -162,6 +164,7 @@ export default props => {
           icon="content-save"
           color={theme.colors.primary}
           onPress={() => {
+              console.log(dataForm)
           }}>Guardar</ButtonIcon>
       </View>
     </View>

@@ -14,7 +14,7 @@ import DatePicker from "../commons/DatePicker/DatePicker";
 
 export default props => {
   const [isSwitchOn, setIsSwitchOn] = React.useState(false);
-  const [filters, setFilters] = React.useState({ codigo_arbol: "8520" });
+  const [filters, setFilters] = React.useState({});
   const [combos, setCombos] = React.useState([]);
   const onToggleSwitch = () => setIsSwitchOn(!isSwitchOn);
   useEffect(() => {

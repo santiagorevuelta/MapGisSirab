@@ -8,7 +8,11 @@ export default async function(json, type) {
     notifyMessage("Sin autenticación");
     return;
   }
-  let url = `${tsconfig[tsconfig.use][type].setUrl}`;
+  const params = new URLSearchParams({
+    filtros: b64(json),
+  }).toString();
+
+  let url = `${tsconfig[tsconfig.use][type].url}/${json}`;
   console.log(url);
   const config = {
     url: url,

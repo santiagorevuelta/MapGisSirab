@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, View} from 'react-native';
+import {StyleSheet, View, Platform} from 'react-native';
 
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import {
@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
     marginRight: responsiveScreenWidth(5),
     alignContent: 'center',
     borderRadius: 30,
-    top: responsiveHeight(30),
+    top: responsiveHeight(Platform.OS == 'ios'?35:30),
     paddingLeft: '5%',
     paddingRight: '5%',
     paddingBottom: '5%',

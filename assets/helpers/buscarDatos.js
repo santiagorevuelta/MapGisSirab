@@ -2,14 +2,15 @@ import axios from 'axios';
 import tsconfig from '../tsconfig.json';
 import {notifyMessage, consultToken} from '../core/general';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import b64 from './B64'
 
 export default async function (filtros, page = 1,type) {
   let filtrosStr = JSON.stringify(filtros);
   AsyncStorage.setItem('filtros', filtrosStr);
   const params = new URLSearchParams({
-    filtros: filtrosStr,
+    filtros: b64(filtrosStr),
   }).toString();
-
+ console.log(params)
   let token = await consultToken();
   if (token === null) {
     notifyMessage('Sin autenticación');
@@ -25,14 +26,14 @@ export default async function (filtros, page = 1,type) {
       page: page + '',
     },
   };
-  return new Promise(resolve => {
-    axios(config)
+
+  let data = []
+  await axios(config)
       .then(function (response) {
-        resolve(response.data);
+          data = response.data;
       })
       .catch(function (error) {
-        resolve([]);
-        console.log(error);
+          console.log(error);
       });
-  });
+  return data
 }

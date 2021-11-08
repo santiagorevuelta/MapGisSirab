@@ -45,8 +45,8 @@ const CalendarComponent = ({
               backgroundColor: "#ffffff",
               arrowColor: theme.colors.primary,
             }}
-            // minDate = {Date()}
-            maxDate={maxDate}
+           //  minDate = {Date()}
+            maxDate={Date()}
             onDayPress={date => {
               setDate(date?.dateString);
               onDatePress(date);

@@ -13,23 +13,20 @@ function notifyMessage(msg) {
 }
 
 async function consultToken() {
-  return new Promise((resolve, reject) => {
+  let token = null;
     let url = tsconfig[tsconfig.use].tokenValidator.url;
-    axios
+    await axios
       .post(url)
       .then(res => {
         let data = res.data;
         if (data && data !== "" && data !== "Sin autenticacion") {
-          resolve(data);
-        } else {
-          resolve(null);
+           token = data;
         }
       })
       .catch(error => {
         notifyMessage("Error en el token");
-        resolve(null);
       });
-  });
+  return token
 }
 
 module.exports = { notifyMessage, consultToken };

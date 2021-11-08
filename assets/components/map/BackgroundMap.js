@@ -7,7 +7,7 @@ import html_script from "./html_script";
 
 let MapRef = React.createRef();
 const { width, height } = Dimensions.get("window");
-const [coords, setCoords] = useState({});
+const coords = {}
 
 function MapComponent({ children }) {
   const [location, setLocation] = useState(0);
@@ -30,8 +30,8 @@ function MapComponent({ children }) {
         ref={MapRef}
         onMessage={event => {
           //notifyMessage(event.nativeEvent.data);
-          let coords = JSON.parse(event.nativeEvent.data);
-          setCoords(coords);
+          let result = JSON.parse(event.nativeEvent.data);
+          coords = result;
           //AsyncStorage.setItem('coords', event.nativeEvent.data);
         }}
         source={{
@@ -149,7 +149,6 @@ function limpiarMapa() {
 }
 
 async function getCoords() {
-  MapRef.current.injectJavaScript(`onMapClick()`);
   return coords;
 }
 

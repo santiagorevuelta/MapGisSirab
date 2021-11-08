@@ -31,7 +31,7 @@ export default function ()  {
         <DataTable.Title numeric>DAP 1</DataTable.Title>
         <DataTable.Title numeric>DAP 2</DataTable.Title>
       </DataTable.Header>
-      {items.map((index,i)=>(
+      {items.length >0 && items.map((index,i)=>(
         <DataTable.Row key={i}>
           <DataTable.Cell>{index.fecha_ingreso}</DataTable.Cell>
           <DataTable.Cell numeric>{index.altura}</DataTable.Cell>

@@ -2,7 +2,7 @@ import axios from "axios";
 import tsconfig from "../tsconfig.json";
 import { consultToken, notifyMessage } from "../core/general";
 
-export default async function(data) {
+export default async function() {
   let token = await consultToken();
   if (token === null) {
     notifyMessage("Sin token");
@@ -16,15 +16,13 @@ export default async function(data) {
       "access-token": token,
     },
   };
-  data = new Promise(resolve => {
-    axios(config)
+  let data = []
+  await axios(config)
       .then(function(response) {
-        resolve(response.data);
+        data = response.data;
       })
       .catch(function(error) {
         console.info(url + " ", error.message);
-        resolve([]);
       });
-  });
   return data;
 }

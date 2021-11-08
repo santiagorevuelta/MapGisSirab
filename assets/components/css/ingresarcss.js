@@ -13,6 +13,7 @@ module.exports = StyleSheet.create({
     },
     form: {
         flexDirection: "row",
+        zIndex: 0
     },
     guardar: {
         borderRadius: theme.radius + 20,
