@@ -13,6 +13,7 @@ import FormVariables from './FormVariables';
 const Tab = createMaterialTopTabNavigator();
 
 function getHome({dataImage, setDataImage, dataVar, setDataVar}) {
+
   function imagenes() {
     return <FormImagenes dataImage={dataImage} setDataImage={setDataImage} />;
   }

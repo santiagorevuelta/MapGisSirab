@@ -1,8 +1,12 @@
 import {Modal, PermissionsAndroid, Platform, View} from 'react-native';
 import React from 'react';
 import ImagePicker from 'react-native-image-crop-picker';
+import ImageResizer from 'react-native-image-resizer';
+import * as RNFS from 'react-native-fs';
 import {Button} from 'react-native-paper';
 import {styles} from './styles';
+import {theme} from '../../../core/theme';
+import {responsiveFontSize} from 'react-native-responsive-dimensions';
 
 let images = [];
 export default ({setDataImage, visible, onModalClose}) => {
@@ -14,12 +18,18 @@ export default ({setDataImage, visible, onModalClose}) => {
       onRequestClose={() => onModalClose()}>
       <View style={styles.modal}>
         <Button
+            color={theme.colors.primary}
+            compact={true}
+            labelStyle={{fontSize: responsiveFontSize(4)}}
           icon="camera-plus-outline"
           onPress={() => {
             camaraPress(setDataImage).then();
           }}
         />
         <Button
+            labelStyle={{fontSize: responsiveFontSize(4)}}
+            color={theme.colors.primary}
+            compact={true}
           icon="camera-image"
           onPress={() => {
             galleryPress(setDataImage).then();
@@ -48,9 +58,7 @@ async function galleryPress(setDataImage) {
   };
   await ImagePicker.openPicker(options)
     .then(image => {
-      image.map((dataImag, index) => {
-        renderFile(dataImag, setDataImage).then();
-      });
+      renderFile(image, setDataImage).then();
     })
     .catch(e => {
       console.log(e);
@@ -86,9 +94,17 @@ async function camaraPress(setDataImage) {
 async function renderFile(response, setDataImage) {
   if (response !== undefined) {
     let pathImg = response.path == undefined ? response.uri : response.path;
-    console.log(response);
-    const base64 = '';
-    images.push({urlFoto: pathImg, base64: base64});
+    const resizedImageUrl = await ImageResizer.createResizedImage(
+        pathImg,
+        1024,
+        768,
+        'JPEG',
+        40,
+        0,
+        RNFS.DocumentDirectoryPath,
+    );
+    const base64 = await RNFS.readFile(resizedImageUrl.uri, 'base64');
+    setDataImage({urlFoto: pathImg, base64: base64});
   }
   //props.setDataImage(images);
 }

@@ -13,7 +13,6 @@ export default ({dataVar, setDataVar}) => {
           label={'Altura de árbol (m)'}
           placeholder={'Altura'}
           value={dataVar.altura}
-          textContentType="numeric"
           keyboardType="numeric"
           onChangeText={text => setDataVar({...dataVar, altura: text})}
         />
@@ -21,7 +20,6 @@ export default ({dataVar, setDataVar}) => {
           label={'Altura copa (m)'}
           placeholder={'Altura copa'}
           value={dataVar.altura_copa}
-          textContentType="numeric"
           keyboardType="numeric"
           onChangeText={text => setDataVar({...dataVar, altura_copa: text})}
         />
@@ -33,7 +31,6 @@ export default ({dataVar, setDataVar}) => {
           returnKeyType="next"
           value={dataVar.dap1}
           autoCapitalize="none"
-          textContentType="numeric"
           keyboardType="numeric"
           onChangeText={text => setDataVar({...dataVar, dap1: text})}
         />
@@ -43,7 +40,6 @@ export default ({dataVar, setDataVar}) => {
           returnKeyType="next"
           value={dataVar.dap2}
           autoCapitalize="none"
-          textContentType="numeric"
           keyboardType="numeric"
           onChangeText={text => setDataVar({...dataVar, dap2: text})}
         />
