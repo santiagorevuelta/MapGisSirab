@@ -1,5 +1,5 @@
 import React from 'react';
-import PickerImageAcction from '../../../commons/imagenes/PickerImageAcction';
+import PickerImageAcction from './PickerImageAcction';
 import {
   Image,
   ScrollView,
@@ -8,9 +8,11 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import {theme} from '../../../../core/theme';
+import {theme} from '../../../core/theme';
+import {responsiveFontSize} from 'react-native-responsive-dimensions';
+import {Button} from 'react-native-paper';
 
-export default function ({dataImage, setDataImage}) {
+export default function ({dataImage = [], setDataImage}) {
   const [openModal, setOpenModal] = React.useState(false);
   return (
     <View style={styles.body}>
@@ -23,6 +25,21 @@ export default function ({dataImage, setDataImage}) {
       <ScrollView style={styles.slide} horizontal>
         {dataImage.map((item, index) => (
           <TouchableOpacity style={styles.container} key={index}>
+            <Button
+                style={styles.icon}
+                color={theme.colors.primary}
+                compact={true}
+                labelStyle={{fontSize: responsiveFontSize(3)}}
+                icon="delete-circle-outline"
+                onPress={() => {
+                  let newJson = []
+                  for (const img of dataImage) {
+                    if(img.urlFoto != item.urlFoto)
+                      newJson.push(img)
+                  }
+                  setDataImage(newJson)
+                }}
+            />
             <View style={styles.content}>
               <Image source={{uri: item.urlFoto}} style={styles.fotos} />
             </View>
@@ -42,16 +59,27 @@ const styles = StyleSheet.create({
   body: {
     height: '100%',
     backgroundColor: theme.colors.blanco,
-    paddingTop: '5%'
+    paddingTop: '5%',
+    marginBottom: '5%'
   },
   container: {
     borderWidth: 1,
     borderColor: theme.colors.primary,
     borderStyle:'dashed',
     height: 150,
-    width: 160,
+    width: 170,
     borderRadius: theme.radius,
     marginRight: 10
+  },
+  icon:{
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    zIndex: 2,
+    borderRadius: 100,
+    height: 30,
+    width: 31,
+    backgroundColor: theme.colors.blanco,
   },
   slide:{
     flexDirection: 'row',
@@ -61,12 +89,6 @@ const styles = StyleSheet.create({
     width:'100%',
     resizeMode: 'cover',
     borderRadius: theme.radius
-  },
-  content: {
-    alignContent: 'center',
-    alignItems: 'center',
-    justifyContent: 'center',
-    textAlign: 'center'
   },
   text: {
     color: theme.colors.secondary,

@@ -1,4 +1,4 @@
-import {Modal, PermissionsAndroid, Platform, View} from 'react-native';
+import {Modal, PermissionsAndroid,TouchableOpacity, Platform, View} from 'react-native';
 import React from 'react';
 import ImagePicker from 'react-native-image-crop-picker';
 import ImageResizer from 'react-native-image-resizer';
@@ -7,6 +7,7 @@ import {styles} from './styles';
 import {theme} from '../../../core/theme';
 import {responsiveFontSize} from 'react-native-responsive-dimensions';
 import * as RNFS from 'react-native-fs';
+import IconAntDesign from 'react-native-vector-icons/AntDesign';
 
 const options = {
   storageOptions: {
@@ -33,18 +34,19 @@ export default ({setDataImage, visible, onModalClose,dataImage}) => {
       transparent={true}
       visible={visible}
       onRequestClose={() => onModalClose()}>
-      <View style={styles.modal}>
+     <TouchableOpacity style={styles.modal} onPress={() => onModalClose(false)}>
+      <View style={styles.container}>
         <Button
           color={theme.colors.primary}
           compact={true}
-          labelStyle={{fontSize: responsiveFontSize(4)}}
+          labelStyle={{fontSize: responsiveFontSize(5)}}
           icon="camera-plus-outline"
           onPress={() => {
             camaraPress(setDataImage,onModalClose).then();
           }}
         />
         <Button
-          labelStyle={{fontSize: responsiveFontSize(4)}}
+          labelStyle={{fontSize: responsiveFontSize(5)}}
           color={theme.colors.primary}
           compact={true}
           icon="camera-image"
@@ -53,6 +55,7 @@ export default ({setDataImage, visible, onModalClose,dataImage}) => {
           }}
         />
       </View>
+     </TouchableOpacity>
     </Modal>
   );
 };
@@ -65,6 +68,7 @@ async function galleryPress(setDataImage,onModalClose) {
     })
     .catch(e => {
       console.log(e);
+      onModalClose(false);
     });
 }
 
@@ -76,6 +80,7 @@ async function camaraPress(setDataImage,onModalClose) {
     })
     .catch(error => {
       console.log(error.message);
+      onModalClose(false);
     });
 }
 
@@ -88,7 +93,7 @@ async function renderFile(response, setDataImage,onModalClose) {
     setTimeout(()=>{
       setDataImage(images);
       onModalClose(false);
-    },100)
+    },200)
   }
 }
 

@@ -7,7 +7,7 @@ import {
   responsiveScreenHeight,
 } from 'react-native-responsive-dimensions';
 import {theme} from '../../../../core/theme';
-import FormImagenes from './FormImagenes';
+import FormImagenes from '../../../commons/imagenes/FormImagenes';
 import FormVariables from './FormVariables';
 
 const Tab = createMaterialTopTabNavigator();
@@ -27,9 +27,9 @@ function getHome({dataImage, setDataImage, dataVar, setDataVar}) {
       <Tab.Navigator
         theme={theme}
         screenOptions={{
-          tabBarOptions: {upperCaseLabel: false},
+          tabBarOptions: {upperCaseLabel: false, textTransform: 'none' },
           tabBarActiveTintColor: theme.colors.primary,
-          tabBarInactiveTintColor: theme.colors.headers,
+          tabBarInactiveTintColor: 'red',
           tabBarLabelStyle: [theme.ver.Label, styles.header],
         }}>
         <Tab.Screen
@@ -38,6 +38,7 @@ function getHome({dataImage, setDataImage, dataVar, setDataVar}) {
           options={{
             title: 'Variables dasométricas',
             headerShown: false,
+            upperCaseLabel: false
           }}
         />
         <Tab.Screen
@@ -61,7 +62,6 @@ const styles = StyleSheet.create({
     backgroundColor: theme.colors.blanco,
     height: responsiveScreenHeight(30),
     alignContent: 'center',
-    marginTop: '5%',
   },
 });
 export default getHome;

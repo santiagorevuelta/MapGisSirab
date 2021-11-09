@@ -1,6 +1,6 @@
 import React, {useEffect} from "react";
 import HeaderModal from "../../home/HeaderModal";
-import FormIngresarIntervencion from "./FormIngresarZonaVerde";
+import FormIngresar from "./FormIngresarZonaVerde";
 
 const ModalIngresarArbol = ({ ...props }) => {
 
@@ -15,7 +15,7 @@ const ModalIngresarArbol = ({ ...props }) => {
         setOption={props.setOption}
         backIndex={props.back}
       />
-      <FormIngresarIntervencion fnGuardar={fnGuardar} />
+      <FormIngresar fnGuardar={fnGuardar} />
     </>
   );
 };

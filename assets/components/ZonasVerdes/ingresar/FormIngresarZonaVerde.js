@@ -6,13 +6,16 @@ import { Button as ButtonIcon } from "react-native-paper";
 import { responsiveHeight, responsiveWidth } from "react-native-responsive-dimensions";
 import SelectSimple from "../../commons/selectSimple/SelectSimple";
 import DatePicker from "../../commons/DatePicker/DatePicker";
-import styles from '../../css/ingresarcss'
+import styles from '../../css/ingresarcss';
+import TextArea from '../../commons/TextArea'
+import FormImagenes from '../../../components/commons/imagenes/FormImagenes';
 
 const selectPlace = "Seleccione...";
 
 export default props => {
   const [dataForm, setDataForm] = React.useState({});
   const [combos, setCombos] = React.useState([]);
+  const [dataImage, setDataImage] = React.useState([]);
 
   useEffect(() => {
     combosArbol().then(data => {
@@ -26,8 +29,8 @@ export default props => {
       </View>
       <View style={styles.form}>
         <SelectSimple
-          label={"Tipo intervención"}
-          id="tipo_intervencion"
+          label={"Proyecto *"}
+          id="proyecto"
           placeholder={selectPlace}
           onSelected={items => {
             if (items != null) {
@@ -46,7 +49,7 @@ export default props => {
       </View>
       <View style={styles.form}>
         <SelectSimple
-          label={"Tipo árbol"}
+          label={"Tipo intervencion"}
           id="tipo_arbol"
           placeholder={selectPlace}
           onSelected={items => {
@@ -57,7 +60,7 @@ export default props => {
           list={combos}
         />
         <SelectSimple
-          label={"Tipo origen árbol"}
+          label={"Intervecion secundaria"}
           id="origen_arbol"
           placeholder={selectPlace}
           onSelected={items => {
@@ -68,6 +71,19 @@ export default props => {
           list={combos}
         />
       </View>
+        <View style={styles.form}>
+        <TextArea
+            label={"Observaciones"}
+            placeholder={""}
+            returnKeyType="next"
+            autoCapitalize="none"
+            textContentType="name"
+            keyboardType="default"
+        />
+        </View>
+        <View style={[styles.form,{marginTop:10}]}>
+            <FormImagenes  dataImage={dataImage} setDataImage={setDataImage}/>
+        </View>
       <View style={[styles.form, { justifyContent: "flex-end" }]}>
         <ButtonIcon
           compact={true}

@@ -39,8 +39,8 @@ module.exports = StyleSheet.create({
     marginVertical: 2,
     overflow: 'hidden',
     shadowColor: 'black',
-    shadowRadius: 10,
-    shadowOpacity: 1,
+    shadowRadius: 1,
+    shadowOpacity: 0,
     height: '100%',
   },
   description: {

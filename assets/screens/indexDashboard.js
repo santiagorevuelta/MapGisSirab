@@ -6,3 +6,4 @@ export { default as ModalZonasVerdes } from "../components/ZonasVerdes/ConsultaZ
 export { default as ModalIntervenciones } from "../components/Intervenciones/ConsultaInterveciones";
 export { default as ModalIngresarArbol } from "../components/Arbol/ingresar/IngresarArbol";
 export { default as ModalIngresarIntervencion } from "../components/Intervenciones/ingresar/IngresarIntervencion";
+export { default as ModalIngresarZonaVerde } from "../components/ZonasVerdes/ingresar/IngresarZonaVerde";

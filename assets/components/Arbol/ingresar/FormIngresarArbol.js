@@ -12,6 +12,7 @@ import {getCoords} from '../../map/BackgroundMap';
 import styles from '../../css/ingresarcss';
 import json from '../../../initialjson.json';
 import TabIngresar from '../ingresar/tab/TabIngresar';
+import TextSimple from '../../commons/TextSimple'
 
 const selectPlace = 'Seleccione...';
 
@@ -144,18 +145,14 @@ export default props => {
         </View>
       </View>
       <View style={styles.form}>
-        <TextInputForm
-          label={'latitud'}
-          editable={false}
-          placeholder={'latitud'}
-          value={dataForm.latitud}
-        />
-        <TextInputForm
-          label={'longitud'}
-          editable={false}
-          placeholder={'longitud'}
-          value={dataForm.longitud}
-        />
+          <TextSimple
+              label={'latitud'}
+              value={dataForm.latitud}
+          />
+          <TextSimple
+              label={'longitud'}
+              value={dataForm.longitud}
+          />
       </View>
       <TabIngresar
         dataVar={dataVar}

@@ -78,7 +78,7 @@ export default props => {
           />
         </View>
         <View style={styles.form}>
-          <SelectMultiple
+          <SelectSimple
             label={"Especie"}
             id="especie"
             onSelected={items => {
@@ -89,32 +89,6 @@ export default props => {
             list={combos}
           />
         </View>
-        {isSwitchOn && (<View style={styles.form}>
-          <View>
-            <SelectSimple
-              label={"Tipo árbol"}
-              id="especie"
-              onSelected={items => {
-                if (items != null) {
-                  setFilters({ ...filters, id_tipo_arbol: "6" });
-                }
-              }}
-              list={combos}
-            />
-          </View>
-          <View>
-            <SelectSimple
-              label={"Tipo origen árbol"}
-              id="especie"
-              onSelected={items => {
-                if (items != null) {
-                  setFilters({ ...filters, id_tipo_origen_arbol: "2" });
-                }
-              }}
-              list={combos}
-            />
-          </View>
-        </View>)}
         <View style={styles.form}>
           <DatePicker
             label={"Fecha inicial"}
@@ -131,6 +105,32 @@ export default props => {
             onChangeText={text => setFilters({ ...filters, fechaFin: text })}
             onSelectDate={text => setFilters({ ...filters, fechaFin: text })} />
         </View>
+        {isSwitchOn && (<View style={styles.form}>
+          <View>
+            <SelectSimple
+                label={"Tipo árbol"}
+                id="especie"
+                onSelected={items => {
+                  if (items != null) {
+                    setFilters({ ...filters, id_tipo_arbol: "6" });
+                  }
+                }}
+                list={combos}
+            />
+          </View>
+          <View>
+            <SelectSimple
+                label={"Tipo origen árbol"}
+                id="especie"
+                onSelected={items => {
+                  if (items != null) {
+                    setFilters({ ...filters, id_tipo_origen_arbol: "2" });
+                  }
+                }}
+                list={combos}
+            />
+          </View>
+        </View>)}
       </View>
       <Buscar isSwitchOn={isSwitchOn} onToggleSwitch={onToggleSwitch} filtros={filters} fnBuscar={props.fnBuscar}
               fnLimpiar={props.fnLimpiar} />

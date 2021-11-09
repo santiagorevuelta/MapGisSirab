@@ -4,6 +4,7 @@ import {
   Header,
   ModalIngresarArbol,
   ModalIngresarIntervencion,
+  ModalIngresarZonaVerde,
   ModalIntervenciones,
   ModalOptions,
   ModalOptionsArbol,
@@ -40,10 +41,10 @@ export default function Dashboard({navigation}) {
       if (r) {
         return;
       }
-      navigation.reset({
+      /*navigation.reset({
         index: 0,
         routes: [{name: 'LoginScreen'}],
-      });
+      });*/
     });
   }, []);
 
@@ -52,7 +53,9 @@ export default function Dashboard({navigation}) {
       setSnp(1);
     }
     setOptionOld(option);
-    setOption(index);
+    setTimeout(()=>{
+      setOption(index);
+    },100)
   };
 
   const tabArbol = name => {
@@ -128,6 +131,14 @@ export default function Dashboard({navigation}) {
             label={optionOld + ' ' + option.toLowerCase()}
             tabArbol={tabArbol}
           />
+        ) : option === config.home[2].label ? (
+            <ModalIngresarZonaVerde
+                setOption={setView}
+                type={option}
+                back={optionOld}
+                label={optionOld + ' ' + option.toLowerCase()}
+                tabArbol={tabArbol}
+            />
         ) : null}
       </BottomSheet>
     </MapComponent>

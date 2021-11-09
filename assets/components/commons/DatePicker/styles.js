@@ -9,7 +9,6 @@ export const styles = StyleSheet.create({
     backgroundColor: "rgba(0,0,0,0.5)",
     justifyContent: "center",
   },
-
   container: {
     backgroundColor: "#fff",
     padding: responsiveWidth(5),

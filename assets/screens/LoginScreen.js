@@ -70,10 +70,10 @@ export default function LoginScreen({navigation}) {
       </Button>
       <View style={styles.footer}>
         <FooterLogo style={styles.logoFooter} />
-        <Text style={styles.copy}>
-          Por {'\n'}
+        <View style={styles.copy}>
+          <Text>Por</Text>
           <Text style={{fontWeight: 'bold'}}>H&G Consultores S.A.S</Text>
-        </Text>
+        </View>
       </View>
     </Background>
   );
@@ -83,7 +83,11 @@ const styles = StyleSheet.create({
   copy: {
     fontSize: responsiveFontSize(1.5),
     color: theme.colors.secondary,
+    flexDirection: 'column',
     textAlign: 'center',
+    justifyContent: 'center',
+    alignItems: 'center',
+    alignContent: 'center',
     zIndex: -1,
   },
   logo: {
@@ -99,5 +103,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginTop: responsiveHeight(10),
     alignItems: 'center',
+    textAlign: 'center',
   },
 });

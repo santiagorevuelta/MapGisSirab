@@ -8,7 +8,6 @@ import styles from './TextInputLoginStyle';
 
 function TextInput({...props}) {
   const [isFocus, setIsFocus] = useState(false);
-  console.log(props.value);
   return (
     <View style={styles.container}>
       <Input
