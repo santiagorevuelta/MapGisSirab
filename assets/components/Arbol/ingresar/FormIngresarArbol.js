@@ -18,7 +18,7 @@ const selectPlace = 'Seleccione...';
 export default props => {
   const [dataForm, setDataForm] = React.useState(json.datosArbol);
   const [dataVar, setDataVar] = React.useState(json.datosVariables);
-  const [dataImage, setDataImages] = React.useState({"data": []});
+  const [dataImage, setDataImage] = React.useState([]);
   const [combos] = React.useState(props.combos);
   const [combosBarrios, setCombosBarrios] = React.useState([]);
 
@@ -29,10 +29,6 @@ export default props => {
     });
   };
 
-    const llenarImagenes = data => {
-        setDataImages({...dataImage, data});
-        console.log(dataImage)
-    };
 
   const ubicarEnMapa = async () => {
     await getCoords().then(data => {
@@ -165,7 +161,7 @@ export default props => {
         dataVar={dataVar}
         dataImage={dataImage}
         setDataVar={setDataVar}
-        setDataImage={llenarImagenes}
+        setDataImage={setDataImage}
       />
       <View style={[styles.form, {justifyContent: 'flex-end'}]}>
         <ButtonIcon

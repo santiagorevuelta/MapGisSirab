@@ -8,6 +8,22 @@ import {theme} from '../../../core/theme';
 import {responsiveFontSize} from 'react-native-responsive-dimensions';
 import * as RNFS from 'react-native-fs';
 
+const options = {
+  storageOptions: {
+    skipBackup: true,
+    path: 'MapgisSirab',
+    quality: 0,
+    privateDirectory: true,
+  },
+  compressImageMaxHeight: 1024,
+  compressImageMaxWidth: 768,
+  width: 1024,
+  height: 768,
+  mediaType: 'photo',
+  cropping: false,
+  multiple: false,
+};
+
 let images = [];
 export default ({setDataImage, visible, onModalClose,dataImage}) => {
   images = dataImage;
@@ -24,7 +40,7 @@ export default ({setDataImage, visible, onModalClose,dataImage}) => {
           labelStyle={{fontSize: responsiveFontSize(4)}}
           icon="camera-plus-outline"
           onPress={() => {
-            camaraPress(setDataImage).then();
+            camaraPress(setDataImage,onModalClose).then();
           }}
         />
         <Button
@@ -33,7 +49,7 @@ export default ({setDataImage, visible, onModalClose,dataImage}) => {
           compact={true}
           icon="camera-image"
           onPress={() => {
-            galleryPress(setDataImage).then();
+            galleryPress(setDataImage,onModalClose).then();
           }}
         />
       </View>
@@ -41,75 +57,39 @@ export default ({setDataImage, visible, onModalClose,dataImage}) => {
   );
 };
 
-async function galleryPress(setDataImage) {
+async function galleryPress(setDataImage,onModalClose) {
   await requestCameraPermission();
-  let options = {
-    storageOptions: {
-      skipBackup: true,
-      path: 'MapgisSirab',
-      privateDirectory: true,
-    },
-    compressImageMaxHeight: 1024,
-    compressImageMaxWidth: 768,
-    width: 1024,
-    height: 768,
-    mediaType: 'photo',
-    cropping: false,
-    multiple: false,
-  };
   await ImagePicker.openPicker(options)
     .then(image => {
-      renderFile(image, setDataImage).then();
+      renderFile(image, setDataImage,onModalClose).then();
     })
     .catch(e => {
       console.log(e);
     });
 }
 
-async function camaraPress(setDataImage) {
+async function camaraPress(setDataImage,onModalClose) {
   await requestCameraPermission();
-  let options = {
-    storageOptions: {
-      skipBackup: true,
-      path: 'MapgisSirab',
-      quality: 0,
-      privateDirectory: true,
-    },
-    compressImageMaxHeight: 1024,
-    compressImageMaxWidth: 768,
-    width: 1024,
-    height: 768,
-    mediaType: 'photo',
-    cropping: false,
-    multiple: false,
-  };
   ImagePicker.openCamera(options)
     .then(image => {
-      renderFile(image, setDataImage).then();
+      renderFile(image, setDataImage,onModalClose).then();
     })
     .catch(error => {
       console.log(error.message);
     });
 }
 
-async function renderFile(response, setDataImage) {
+async function renderFile(response, setDataImage,onModalClose) {
   if (response !== undefined) {
-    setDataImage([]);
     let pathImg = response.path == undefined ? response.uri : response.path;
-    const resizedImageUrl = await ImageResizer.createResizedImage(
-      pathImg,
-      1024,
-      768,
-      'JPEG',
-      40,
-      0,
-      RNFS.DocumentDirectoryPath,
-    );
+    const resizedImageUrl = await ImageResizer.createResizedImage(pathImg,1024,768,'JPEG',40,0,RNFS.DocumentDirectoryPath);
     const base64 = await RNFS.readFile(resizedImageUrl.uri, 'base64');
-    images.data.push({urlFoto: pathImg})//, base64: base64
-    setDataImage(images);
+    images.push({urlFoto: pathImg, base64: base64})
+    setTimeout(()=>{
+      setDataImage(images);
+      onModalClose(false);
+    },100)
   }
-  //props.setDataImage(images);
 }
 
 async function requestCameraPermission() {

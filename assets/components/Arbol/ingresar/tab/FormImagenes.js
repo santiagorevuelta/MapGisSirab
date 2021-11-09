@@ -10,9 +10,8 @@ import {
 } from 'react-native';
 import {theme} from '../../../../core/theme';
 
-export default function ({dataImage = [], setDataImage}) {
+export default function ({dataImage, setDataImage}) {
   const [openModal, setOpenModal] = React.useState(false);
-  console.log(dataImage)
   return (
     <View style={styles.body}>
       <PickerImageAcction
@@ -22,7 +21,7 @@ export default function ({dataImage = [], setDataImage}) {
         setDataImage={setDataImage}
       />
       <ScrollView style={styles.slide} horizontal>
-        {dataImage.data.map((item, index) => (
+        {dataImage.map((item, index) => (
           <TouchableOpacity style={styles.container} key={index}>
             <View style={styles.content}>
               <Image source={{uri: item.urlFoto}} style={styles.fotos} />
