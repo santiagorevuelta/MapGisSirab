@@ -7,9 +7,6 @@ import combosArbol from '../../../helpers/combosArbol';
 
 const ModalIngresarArbol = ({...props}) => {
   const fnGuardar = async (datosArbol, datosVariables, datosImagenes) => {
-    console.log(datosArbol)
-    console.log(datosVariables)
-    console.log(datosImagenes)
     let formData = new FormData();
     formData.append('datosArbol', encode64(JSON.stringify(datosArbol)));
     formData.append('datosVariables', encode64(JSON.stringify(datosVariables)));

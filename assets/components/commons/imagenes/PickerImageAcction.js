@@ -9,7 +9,8 @@ import {responsiveFontSize} from 'react-native-responsive-dimensions';
 import * as RNFS from 'react-native-fs';
 
 let images = [];
-export default ({setDataImage, visible, onModalClose}) => {
+export default ({setDataImage, visible, onModalClose,dataImage}) => {
+  images = dataImage;
   return (
     <Modal
       animationType="slide"
@@ -93,6 +94,7 @@ async function camaraPress(setDataImage) {
 
 async function renderFile(response, setDataImage) {
   if (response !== undefined) {
+    setDataImage([]);
     let pathImg = response.path == undefined ? response.uri : response.path;
     const resizedImageUrl = await ImageResizer.createResizedImage(
       pathImg,
@@ -104,7 +106,8 @@ async function renderFile(response, setDataImage) {
       RNFS.DocumentDirectoryPath,
     );
     const base64 = await RNFS.readFile(resizedImageUrl.uri, 'base64');
-    setDataImage({urlFoto: pathImg, base64: base64});
+    images.data.push({urlFoto: pathImg})//, base64: base64
+    setDataImage(images);
   }
   //props.setDataImage(images);
 }

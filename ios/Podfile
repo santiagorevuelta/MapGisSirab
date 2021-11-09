@@ -18,6 +18,8 @@ target 'MapGisSirab' do
 
   pod 'react-native-image-resizer', :path => '../node_modules/react-native-image-resizer'
 
+  pod 'RNFS', :path => '../node_modules/react-native-fs'
+
   target 'MapGisSirabTests' do
     inherit! :complete
     # Pods for testing

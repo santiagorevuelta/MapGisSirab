@@ -18,7 +18,7 @@ const selectPlace = 'Seleccione...';
 export default props => {
   const [dataForm, setDataForm] = React.useState(json.datosArbol);
   const [dataVar, setDataVar] = React.useState(json.datosVariables);
-  const [dataImage, setDataImages] = React.useState([]);
+  const [dataImage, setDataImages] = React.useState({"data": []});
   const [combos] = React.useState(props.combos);
   const [combosBarrios, setCombosBarrios] = React.useState([]);
 
