@@ -7,7 +7,7 @@ import {theme} from '../../../../core/theme';
 export default function ({dataImage, setDataImage}) {
   const [openModal, setOpenModal] = React.useState(false);
   return (
-    <>
+    <View style={{height: '100%'}}>
       <PickerImageAcction
         visible={openModal}
         onModalClose={setOpenModal}
@@ -18,6 +18,6 @@ export default function ({dataImage, setDataImage}) {
                 compact={true}
                 icon="camera-iris" onPress={()=>setOpenModal(!openModal)} />
       </View>
-    </>
+    </View>
   );
 }

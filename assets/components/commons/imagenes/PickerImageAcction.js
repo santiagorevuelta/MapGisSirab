@@ -2,7 +2,6 @@ import {Modal, PermissionsAndroid, Platform, View} from 'react-native';
 import React from 'react';
 import ImagePicker from 'react-native-image-crop-picker';
 import ImageResizer from 'react-native-image-resizer';
-import * as RNFS from 'react-native-fs';
 import {Button} from 'react-native-paper';
 import {styles} from './styles';
 import {theme} from '../../../core/theme';
@@ -103,8 +102,8 @@ async function renderFile(response, setDataImage) {
         0,
         RNFS.DocumentDirectoryPath,
     );
-    const base64 = await RNFS.readFile(resizedImageUrl.uri, 'base64');
-    setDataImage({urlFoto: pathImg, base64: base64});
+    const base64 = ""//await RNFS.readFile(resizedImageUrl.uri, 'base64');
+    setDataImage({urlFoto: pathImg, base64});
   }
   //props.setDataImage(images);
 }
