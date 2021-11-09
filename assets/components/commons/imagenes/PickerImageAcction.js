@@ -6,6 +6,7 @@ import {Button} from 'react-native-paper';
 import {styles} from './styles';
 import {theme} from '../../../core/theme';
 import {responsiveFontSize} from 'react-native-responsive-dimensions';
+import * as RNFS from 'react-native-fs';
 
 let images = [];
 export default ({setDataImage, visible, onModalClose}) => {
@@ -17,18 +18,18 @@ export default ({setDataImage, visible, onModalClose}) => {
       onRequestClose={() => onModalClose()}>
       <View style={styles.modal}>
         <Button
-            color={theme.colors.primary}
-            compact={true}
-            labelStyle={{fontSize: responsiveFontSize(4)}}
+          color={theme.colors.primary}
+          compact={true}
+          labelStyle={{fontSize: responsiveFontSize(4)}}
           icon="camera-plus-outline"
           onPress={() => {
             camaraPress(setDataImage).then();
           }}
         />
         <Button
-            labelStyle={{fontSize: responsiveFontSize(4)}}
-            color={theme.colors.primary}
-            compact={true}
+          labelStyle={{fontSize: responsiveFontSize(4)}}
+          color={theme.colors.primary}
+          compact={true}
           icon="camera-image"
           onPress={() => {
             galleryPress(setDataImage).then();
@@ -94,16 +95,16 @@ async function renderFile(response, setDataImage) {
   if (response !== undefined) {
     let pathImg = response.path == undefined ? response.uri : response.path;
     const resizedImageUrl = await ImageResizer.createResizedImage(
-        pathImg,
-        1024,
-        768,
-        'JPEG',
-        40,
-        0,
-        RNFS.DocumentDirectoryPath,
+      pathImg,
+      1024,
+      768,
+      'JPEG',
+      40,
+      0,
+      RNFS.DocumentDirectoryPath,
     );
-    const base64 = ""//await RNFS.readFile(resizedImageUrl.uri, 'base64');
-    setDataImage({urlFoto: pathImg, base64});
+    const base64 = await RNFS.readFile(resizedImageUrl.uri, 'base64');
+    setDataImage({urlFoto: pathImg, base64: base64});
   }
   //props.setDataImage(images);
 }
