@@ -12,7 +12,6 @@ export default function (props) {
     AsyncStorage.getItem('verArbol').then(jsonValue => {
       const item = jsonValue != null ? JSON.parse(jsonValue) : {};
       setItems(item);
-      console.log(item)
     });
     setSwNew(!swNew)
   }

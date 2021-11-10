@@ -106,6 +106,12 @@ module.exports = `<!DOCTYPE html>
     marker.setLatLng(e.latlng);
     window.ReactNativeWebView.postMessage(JSON.stringify({lat:e.latlng.lat,lng:e.latlng.lng}));
   }
+  
+  
+  function acctionMapGetPoint(){
+     let e = marker.getLatLng();
+     window.ReactNativeWebView.postMessage(JSON.stringify({lat:e.lat,lng:e.lng}));
+  }
 
   mymap.on("click", onMapClick);
 

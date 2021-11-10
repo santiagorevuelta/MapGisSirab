@@ -7,7 +7,7 @@ const {StyleSheet} = require('react-native');
 
 module.exports = StyleSheet.create({
     body:{
-        paddingHorizontal: '5%'
+        paddingHorizontal: '5%',
     },
     container: {
         backgroundColor: theme.colors.blanco,
@@ -16,7 +16,10 @@ module.exports = StyleSheet.create({
     },
     form: {
         flexDirection: "row",
-        zIndex: 0
+        zIndex: -1,
+    },
+    formSelect: {
+        zIndex: 10,
     },
     guardar: {
         borderRadius: theme.radius + 20,

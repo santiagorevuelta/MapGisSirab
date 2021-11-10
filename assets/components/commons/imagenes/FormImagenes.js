@@ -24,7 +24,7 @@ export default function ({dataImage = [], setDataImage}) {
       />
       <ScrollView style={styles.slide} horizontal>
         {dataImage.map((item, index) => (
-          <TouchableOpacity style={styles.container} key={index}>
+          <View style={styles.container} key={index}>
             <Button
                 style={styles.icon}
                 color={theme.colors.primary}
@@ -37,13 +37,13 @@ export default function ({dataImage = [], setDataImage}) {
                     if(img.urlFoto != item.urlFoto)
                       newJson.push(img)
                   }
-                  setDataImage(newJson)
+                  setDataImage(newJson);
                 }}
             />
             <View style={styles.content}>
               <Image source={{uri: item.urlFoto}} style={styles.fotos} />
             </View>
-          </TouchableOpacity>
+          </View>
         ))}
         <TouchableOpacity onPress={() => setOpenModal(!openModal)} style={[styles.container,styles.containerAdd]}>
           <View style={styles.content}>
@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
     height: '100%',
     backgroundColor: theme.colors.blanco,
     paddingTop: '5%',
-    marginBottom: '5%'
+    marginBottom: '5%',
   },
   container: {
     borderWidth: 1,

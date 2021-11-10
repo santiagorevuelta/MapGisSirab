@@ -21,7 +21,6 @@ export default props => {
             Keyboard.dismiss();
           }
           }
-          underlineColorAndroid="transparent"
           {...props}
         />
         <TouchableOpacity

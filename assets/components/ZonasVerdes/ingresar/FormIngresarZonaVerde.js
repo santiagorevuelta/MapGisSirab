@@ -12,29 +12,23 @@ import FormImagenes from '../../../components/commons/imagenes/FormImagenes';
 
 const selectPlace = "Seleccione...";
 
-export default props => {
+export default ({data = []}) => {
   const [dataForm, setDataForm] = React.useState({});
-  const [combos, setCombos] = React.useState([]);
+  const [combos] = React.useState(data);
   const [dataImage, setDataImage] = React.useState([]);
-
-  useEffect(() => {
-    combosArbol().then(data => {
-      setCombos(data);
-    });
-  }, []);
-
+  console.log(dataForm)
   return (
-    <View style={{ paddingHorizontal: "5%" }}>
+    <View style={styles.body}>
       <View style={styles.form}>
       </View>
-      <View style={styles.form}>
+      <View style={[styles.form,styles.formSelect]}>
         <SelectSimple
           label={"Proyecto *"}
-          id="proyecto"
+          id="entidad"
           placeholder={selectPlace}
           onSelected={items => {
             if (items != null) {
-              setDataForm({ ...dataForm, tipo_intervencion: items.id });
+              setDataForm({ ...dataForm, id_proyecto: items.id });
             }
           }}
           list={combos}
@@ -46,21 +40,21 @@ export default props => {
           keyboardType="default"
           onSelectDate={text => setDataForm({ ...dataForm, fecha: text })} />
       </View>
-      <View style={styles.form}>
+      <View style={[styles.form,{zIndex:8}]}>
         <SelectSimple
           label={"Tipo intervencion"}
-          id="tipo_arbol"
+          id="tipo_intervencion"
           placeholder={selectPlace}
           onSelected={items => {
             if (items != null) {
-              setDataForm({ ...dataForm, tipo_arbol: items.id });
+              setDataForm({ ...dataForm, fecha: items.id });
             }
           }}
           list={combos}
         />
         <SelectSimple
           label={"Intervecion secundaria"}
-          id="origen_arbol"
+          id="intervencion_secundaria"
           placeholder={selectPlace}
           onSelected={items => {
             if (items != null) {
@@ -77,8 +71,9 @@ export default props => {
             returnKeyType="next"
             autoCapitalize="none"
             textContentType="name"
+            value={dataForm.descripcion}
             keyboardType="default"
-            //onChangeTextInput={}
+            onChangeText={text => setDataForm({...dataForm, descripcion: text})}
         />
         </View>
         <View style={[styles.form,{marginTop:10}]}>
@@ -91,8 +86,7 @@ export default props => {
           style={styles.guardar}
           icon="content-save"
           color={theme.colors.primary}
-          onPress={() => {
-          }}>Guardar</ButtonIcon>
+          onPress={() => {}}>Guardar</ButtonIcon>
       </View>
     </View>
   );
