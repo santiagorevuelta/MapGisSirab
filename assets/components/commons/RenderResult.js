@@ -7,7 +7,6 @@ import React from "react";
 import { responsiveFontSize } from "react-native-responsive-dimensions";
 
 export default function ({children,props}) {
-  console.log(props)
   return (
     <Animated.View style={styles.container}>
       <Text style={[theme.textos.Label, styles.txtRes]}>

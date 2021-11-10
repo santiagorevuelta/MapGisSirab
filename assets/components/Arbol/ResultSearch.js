@@ -47,7 +47,6 @@ function Mycard(props) {
       <Card.Content>
         <Pressable
           onPress={() => {
-            console.log(item);
             AsyncStorage.setItem("items", JSON.stringify(item));
             props.tabArbol("ViewTree");
           }}>

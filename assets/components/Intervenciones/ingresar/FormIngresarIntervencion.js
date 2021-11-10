@@ -21,7 +21,7 @@ export default props => {
   }, []);
 
   return (
-    <View style={{ paddingHorizontal: "5%" }}>
+    <View style={styles.body}>
       <View style={styles.form}>
       </View>
       <View style={styles.form}>

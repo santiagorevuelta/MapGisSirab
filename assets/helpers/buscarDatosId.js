@@ -24,7 +24,6 @@ export default async function (id, type) {
       })
       .catch(function (error) {
         resolve([]);
-        console.log(error);
       });
   });
 }

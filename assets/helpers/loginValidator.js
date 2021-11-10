@@ -29,12 +29,10 @@ export async function loginValidator(user, password, {navigation}) {
       } else if (resLogin === 2) {
         notifyMessage('Usuario sin servicios asociados');
       } else {
-        console.log(resLogin);
         notifyMessage('Hubo problemas con la peticion.');
       }
     })
     .catch(error => {
-      console.log(error);
       notifyMessage('Hubo problemas con la peticion.');
     });
 }

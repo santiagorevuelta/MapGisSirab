@@ -8,7 +8,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 
 let MapRef = React.createRef();
 const { width, height } = Dimensions.get("window");
-const coords = {}
+var coords = {};
+var coordsTrue = false;
 
 function MapComponent({ children }) {
   const [location, setLocation] = useState(0);
@@ -23,17 +24,14 @@ function MapComponent({ children }) {
     }, 100);
   }, []);
 
-
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "transparent" }}>
       <StatusBar barStyle="light-content" />
       <WebView
         ref={MapRef}
         onMessage={event => {
-          //notifyMessage(event.nativeEvent.data);
-          let result = JSON.parse(event.nativeEvent.data);
-          //coords = result;
-          AsyncStorage.setItem('coords', event.nativeEvent.data);
+          let data = event.nativeEvent.data;
+           AsyncStorage.setItem('coords', data);
         }}
         source={{
           html: html_script,
@@ -150,6 +148,10 @@ function limpiarMapa() {
 }
 
 async function getCoords() {
+  if (!MapRef.current) {
+    return [];
+  }
+  MapRef.current.injectJavaScript(`acctionMapGetP()`);
   return coords;
 }
 

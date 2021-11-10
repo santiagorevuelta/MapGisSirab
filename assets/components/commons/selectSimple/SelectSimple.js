@@ -57,7 +57,7 @@ const SelectSimple = ({
         />
       </Pressable>
       {showSelector && (
-        <ScrollView style={ [styles.containerList,!onSelected?{zIndex:-1, elevation:0}:null]} nestedScrollEnabled={true}>
+        <ScrollView style={styles.containerList} nestedScrollEnabled={true}>
           {listItems.map((item, i) => (
             <Pressable
               key={i}

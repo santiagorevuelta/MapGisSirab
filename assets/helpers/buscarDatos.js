@@ -10,14 +10,12 @@ export default async function (filtros, page = 1,type) {
   const params = new URLSearchParams({
     filtros: b64(filtrosStr),
   }).toString();
- console.log(params)
   let token = await consultToken();
   if (token === null) {
     notifyMessage('Sin autenticación');
     return;
   }
   let url = `${tsconfig[tsconfig.use][type].url}?${params}`;
-  console.log(url)
   const config = {
     url: url,
     method: 'get',

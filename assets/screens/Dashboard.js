@@ -39,6 +39,7 @@ export default function Dashboard({navigation}) {
   useEffect(() => {
     consultToken().then(r => {
       if (r) {
+        console.log('consulta token')
         return;
       }
       navigation.reset({

@@ -1,16 +1,15 @@
 import axios from "axios";
-import tsconfig from "../tsconfig.json";
 import { consultToken, notifyMessage } from "../core/general";
 
-export default async function() {
+export default async function(urlCombo) {
+  console.log(urlCombo)
   let token = await consultToken();
   if (token === null) {
     notifyMessage("Sin token");
     return;
   }
-  let url = tsconfig[tsconfig.use].searchTree.combos;
   const config = {
-    url: url,
+    url: urlCombo,
     method: "get",
     headers: {
       "access-token": token,
@@ -22,7 +21,7 @@ export default async function() {
         data = response.data;
       })
       .catch(function(error) {
-        console.info(url + " ", error.message);
+        console.info(urlCombo + " ", error.message);
       });
   return data;
 }

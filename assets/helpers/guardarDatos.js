@@ -10,6 +10,7 @@ export default async function (formData, type) {
   }
 
   let url = tsconfig[tsconfig.use][type].url;
+  console.log(url)
   const config = {
     headers: {
       'access-token': token,

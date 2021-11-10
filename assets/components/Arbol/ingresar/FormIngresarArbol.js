@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useEffect} from 'react';
 import consultarBarrios from '../../../helpers/consultaBarrios';
 import {Text, View} from 'react-native';
 import {theme} from '../../../core/theme';
@@ -15,11 +15,12 @@ import TabIngresar from '../ingresar/tab/TabIngresar';
 import TextSimple from '../../commons/TextSimple'
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {ScrollView} from 'react-native-gesture-handler'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 const selectPlace = 'Seleccione...';
 
-export default ({data = []}) => {
-  const [dataForm, setDataForm] = React.useState(json.datosArbol);
+export default ({data = [],fnGuardar}) => {
+    const [dataForm, setDataForm] = React.useState({});
   const [dataVar, setDataVar] = React.useState(json.datosVariables);
   const [dataImage, setDataImage] = React.useState([]);
   const [combos] = React.useState(data);
@@ -32,20 +33,31 @@ export default ({data = []}) => {
     });
   };
 
-
   const ubicarEnMapa = async () => {
-    await getCoords().then(data => {
-      setDataForm({...dataForm, latitud: data?.lat, longitud: data?.lng});
-    });
+      setTimeout(async ()=>{
+        let value = await AsyncStorage.getItem("coords");
+         value = (value === null ? null : JSON.parse(value));
+          if (value !== null) {
+            if(value.lat != dataForm.latitud) {
+                setDataForm({...dataForm, latitud: value.lat,longitud: value.lng});
+            }
+          }
+      },5000);
+     //setTimeout(async ()=>{ubicarEnMapa();},5000);
   };
 
   const guardar = async () => {
-    props.fnGuardar(dataForm, dataVar, dataImage);
+      let value = await AsyncStorage.getItem("coords");
+      value = (value === null ? null : JSON.parse(value));
+      if (value !== null) {
+         setDataForm({...dataForm, latitud: value.lat,longitud: value.lng});
+      }
+    fnGuardar(dataForm, dataVar, dataImage);
   };
 
   return (
       <ScrollView>
-    <KeyboardAwareScrollView style={{paddingHorizontal: '5%'}}>
+    <KeyboardAwareScrollView style={styles.body}>
       <View style={styles.form}>
         <SelectSimple
           label={'Especie'}
