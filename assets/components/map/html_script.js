@@ -92,18 +92,18 @@ module.exports = `<!DOCTYPE html>
   
   const marker = L.marker(mymap.getCenter(), {
     icon: myIcon
-  }).addTo(mymap);
+  });
 
     const radius = L.circle(mymap.getCenter(), {
         color: "#58D2FF",
         fillColor: "#58D2FF",
         radius: 20
-    }).addTo(mymap);
+    })
 
   function onMapClick(e) {
-    popup.setLatLng(e.latlng).setContent("You clicked the map at " + e.latlng.toString()).openOn(mymap);
+    marker.addTo(mymap);
+    popup.setLatLng(e.latlng).setContent("You clicked the map at " + e.latlng.toString()).openOn(mymap);1
     marker.setLatLng(e.latlng);
-    //radius.setLatLng(e.latlng)
     window.ReactNativeWebView.postMessage(JSON.stringify({lat:e.latlng.lat,lng:e.latlng.lng}));
   }
 
