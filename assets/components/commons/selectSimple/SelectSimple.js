@@ -19,10 +19,11 @@ const SelectSimple = ({
                         dependencia = false
                       }) => {
   const [showSelector, setShowSelector] = useState(false);
-  const [listItems, setListItems] = useState({});
+  const [listItems, setListItems] = useState([]);
   const [value, setValue] = useState(valueSelected);
 
   useEffect(() => {
+      console.log(dependencia)
       if(dependencia){
           setListItems(list);
       }else{
@@ -30,8 +31,6 @@ const SelectSimple = ({
           list.map((items) => {
               items.campo === id && data.push(items);
           });
-          console.log(id)
-          console.log(list)
           setTimeout(function(){
               setListItems(data);
           },1000)

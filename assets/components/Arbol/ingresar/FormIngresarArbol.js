@@ -26,11 +26,9 @@ export default ({combos = [],fnGuardar}) => {
   const [dataImage, setDataImage] = React.useState([]);
   const [combosBarrios, setCombosBarrios] = React.useState([]);
 
-  const llenarBarrio = id => {
-    consultarBarrios(id).then(barrios => {
-      setDataForm({...dataForm, segundo_nivel: null});
-      setCombosBarrios(barrios);
-    });
+  const llenarBarrio = async id => {
+    let data = await consultarBarrios(id);
+    setCombosBarrios(data);
   };
 
   const ubicarEnMapa = async () => {
@@ -63,6 +61,7 @@ export default ({combos = [],fnGuardar}) => {
           label={'Especie'}
           id="especie"
           placeholder={selectPlace}
+          selectedItem={dataForm.especie}
           onSelected={items => {
             if (items != null) {
               setDataForm({...dataForm, especie: items.id});

@@ -11,20 +11,28 @@ const inputAlto = width <= 380 ? 35 : 40;
 const fontSizeInput = width <= 380 ? 12 : 15;
 
 
-export default ({selectedItem, filterData, placeholder,label,id,list}) => {
-    const [listItems, setListItems] = useState({});
+export default ({selectedItem, filterData, placeholder,label,id,list,onSelected}) => {
+    const [listItems, setListItems] = useState([]);
+    const [itemsFilter, setItemsFilter] = useState([]);
     const [value, setValue] = useState(selectedItem);
     useEffect(() => {
         let data = [];
-        console.log(list)
         list.map((items) => {
             items.campo === id && data.push(items);
         });
-        setTimeout(function(){
-            setListItems(data);
-            console.log(data)
-        },1000)
+        setListItems(data);
     }, []);
+
+   const filterSelect = async (text) => {
+       if(text !== ''){
+           let datos = listItems.filter(function(element){
+               return element.dato.toLowerCase().indexOf(text.toLowerCase()) != -1;
+           });
+           setItemsFilter(datos);
+       }else{
+           setItemsFilter([]);
+       }
+   }
 
   return (
     <View
@@ -33,29 +41,31 @@ export default ({selectedItem, filterData, placeholder,label,id,list}) => {
         <Autocomplete
         autoCapitalize="none"
         defaultValue={selectedItem}
-        data={filterData}
+        data={itemsFilter}
         style={styleIos.input}
         containerStyle={styleIos.containerStyle}
         placeholder={placeholder}
         inputContainerStyle={styleIos.inputContainerStyle}
-        listContainerStyle={styleIos.listContainerStyle
-        }
+        listContainerStyle={styleIos.listContainerStyle}
         listStyle={styleIos.listStyle}
         hideResults={false}
         keyExtractor={(item, i) => i.toString()}
-        //onChangeText={text => {
-        //  props.onchangeInputs(text, 'direccion');
-        //  props.searchDirection(text);
-        //}}
+        onChangeText={text => {
+            filterSelect(text);
+        }}
         //onEndEditing={() => ubicarDireccion()}
         //onSubmitEditing={() => ubicarDireccion()}
-        renderItem={({item}) => (
+        renderItem={({item, index}) => (
           <TouchableOpacity
+            key={index}
             style={styleIos.SearchBoxTouch}
-            onPress={() => {}}>
+            onPress={() => {
+                onSelected(item);
+                filterSelect('')
+            }}>
             <Text
               style={styleIos.SearchBoxTextItem}>
-              {item}
+              {item.dato}
             </Text>
           </TouchableOpacity>
         )}

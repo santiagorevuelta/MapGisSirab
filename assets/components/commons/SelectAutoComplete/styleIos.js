@@ -46,7 +46,6 @@ module.exports = {
     margin: 5,
     borderWidth: 1,
     borderColor: '#B7B7B7',
-    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 18,

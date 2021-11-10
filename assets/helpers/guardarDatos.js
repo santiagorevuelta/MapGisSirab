@@ -10,8 +10,8 @@ export default async function (formData, type) {
   }
 
   let url = tsconfig[tsconfig.use][type].url;
-  console.log(url)
   const config = {
+    method: "post",
     headers: {
       'access-token': token,
       'Content-Type': 'application/json',
@@ -22,9 +22,11 @@ export default async function (formData, type) {
   await axios
     .post(url, formData, config)
     .then(function (res) {
+      console.log(res)
       response = res.data;
     })
     .catch(function (error) {
+      console.log(error)
       response = error.message;
     });
   return response;
