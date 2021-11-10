@@ -1,44 +1,46 @@
-import React from 'react';
-import {Dimensions, Platform, Pressable, Text, View} from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {Dimensions, Platform, Pressable, Text, View, TouchableOpacity} from 'react-native';
 import Autocomplete from 'react-native-autocomplete-input';
-import slyleios from './styleIos';
-import slyleAndroid from './styleAndroid';
+import  {responsiveHeight} from 'react-native-responsive-dimensions';
+const styleIos = require('./styleIos');
+const styleAndroid  = require('./styleAndroid');
+import {theme} from '../../../core/theme';
 
 const {width, height} = Dimensions.get('window');
-
 const inputAlto = width <= 380 ? 35 : 40;
 const fontSizeInput = width <= 380 ? 12 : 15;
 
-export default ({selectedItem, filterData, placeHolder}) => {
+
+export default ({selectedItem, filterData, placeholder,label,id,list}) => {
+    const [listItems, setListItems] = useState({});
+    const [value, setValue] = useState(selectedItem);
+    useEffect(() => {
+        let data = [];
+        console.log(list)
+        list.map((items) => {
+            items.campo === id && data.push(items);
+        });
+        setTimeout(function(){
+            setListItems(data);
+            console.log(data)
+        },1000)
+    }, []);
+
   return (
     <View
-      style={[{height: inputAlto}, Platform.OS === 'ios' ? {zIndex: 10} : {}]}>
-      <Autocomplete
+      style={styleIos.container}>
+        <Text style={theme.textos.LabelIn}>{label}</Text>
+        <Autocomplete
         autoCapitalize="none"
         defaultValue={selectedItem}
         data={filterData}
-        style={{
-          backgroundColor: 'transparent',
-          height: inputAlto,
-          fontSize: fontSizeInput,
-        }}
-        containerStyle={
-          Platform.OS === 'ios'
-            ? slyleios.containerStyle
-            : slyleAndroid.containerStyle
+        style={styleIos.input}
+        containerStyle={styleIos.containerStyle}
+        placeholder={placeholder}
+        inputContainerStyle={styleIos.inputContainerStyle}
+        listContainerStyle={styleIos.listContainerStyle
         }
-        placeholder={placeHolder}
-        inputContainerStyle={
-          Platform.OS === 'ios'
-            ? slyleios.inputContainerStyle
-            : slyleAndroid.inputContainerStyle
-        }
-        listContainerStyle={
-          Platform.OS === 'ios' ? null : slyleAndroid.listContainerStyle
-        }
-        listStyle={
-          Platform.OS === 'ios' ? slyleios.listStyle : slyleAndroid.listStyle
-        }
+        listStyle={styleIos.listStyle}
         hideResults={false}
         keyExtractor={(item, i) => i.toString()}
         //onChangeText={text => {
@@ -48,22 +50,14 @@ export default ({selectedItem, filterData, placeHolder}) => {
         //onEndEditing={() => ubicarDireccion()}
         //onSubmitEditing={() => ubicarDireccion()}
         renderItem={({item}) => (
-          <Pressable
-            style={
-              Platform.OS === 'ios'
-                ? slyleios.SearchBoxTouch
-                : slyleAndroid.SearchBoxTouch
-            }
+          <TouchableOpacity
+            style={styleIos.SearchBoxTouch}
             onPress={() => {}}>
             <Text
-              style={
-                Platform.OS === 'ios'
-                  ? slyleios.SearchBoxTextItem
-                  : slyleAndroid.SearchBoxTextItem
-              }>
+              style={styleIos.SearchBoxTextItem}>
               {item}
             </Text>
-          </Pressable>
+          </TouchableOpacity>
         )}
       />
       {/*      <Pressable

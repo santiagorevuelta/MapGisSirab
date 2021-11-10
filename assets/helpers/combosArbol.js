@@ -2,7 +2,6 @@ import axios from "axios";
 import { consultToken, notifyMessage } from "../core/general";
 
 export default async function(urlCombo) {
-  console.log(urlCombo)
   let token = await consultToken();
   if (token === null) {
     notifyMessage("Sin token");
@@ -15,13 +14,13 @@ export default async function(urlCombo) {
       "access-token": token,
     },
   };
-  let data = []
+  let resultCombo = []
   await axios(config)
       .then(function(response) {
-        data = response.data;
+        resultCombo = response.data;
       })
       .catch(function(error) {
         console.info(urlCombo + " ", error.message);
       });
-  return data;
+  return resultCombo;
 }

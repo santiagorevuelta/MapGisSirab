@@ -21,11 +21,10 @@ const ModalIngresarArbol = ({...props}) => {
     let res = await guardarDatos(formData, 'searchTree');
   };
 
-  useEffect(() => {
+  useEffect(async() => {
     let url = tsconfig[tsconfig.use].searchTree.combos
-    combosArbol(url).then(data => {
-      setCombos(data);
-    });
+    let res =  await combosArbol(url);
+    setCombos(res);
   }, []);
 
   return (
@@ -37,7 +36,7 @@ const ModalIngresarArbol = ({...props}) => {
       />
       <FormIngresarArbol
         fnGuardar={fnGuardar}
-        data={combos}
+        combos={combos}
         dataVar={dataVar}
         setDataVar={setDataVar}
         dataImage={dataImage}

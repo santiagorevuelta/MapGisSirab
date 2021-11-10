@@ -1,27 +1,35 @@
 import {Dimensions, Platform, StyleSheet} from 'react-native';
-import {responsiveFontSize} from 'react-native-responsive-dimensions';
-
+import {responsiveFontSize,responsiveWidth,responsiveHeight} from 'react-native-responsive-dimensions';
 const {width, height} = Dimensions.get('window');
+import {theme} from '../../../core/theme';
+const fontSizeText = responsiveFontSize(1.6);
+const fontSizeTitle = responsiveFontSize(1.5);
+const inputAlto = 40;
 
-const fontSizeText = responsiveFontSize(1.6); //width <= 380 ? 8 : 12;
-const fontSizeTitle = responsiveFontSize(1.5); // width <= 380 ? 10 : 13;
-const inputAlto = width <= 380 ? 35 : 40;
-
-const momserratI = Platform.OS !== 'ios' ? 'montserratreg' : 'Montserrat';
-export const styles = StyleSheet.create({
+module.exports = {
+  container: {
+    width: '100%',
+    height: responsiveHeight(theme.altoCampos),
+    marginVertical: responsiveWidth(3),
+    paddingHorizontal: "2%",
+  },
+  input:{
+    height: responsiveHeight(theme.altoCampos),
+    borderWidth: 1,
+    borderColor: theme.colors.border,
+    borderRadius: 50,
+    paddingLeft: 10,
+  },
   containerStyle: {
-    position: 'absolute',
     width: '100%',
     borderRadius: 5,
-    borderWidth: 1,
+    borderWidth: 0,
     borderColor: '#B7B7B7',
     marginBottom: 50,
   },
   inputContainerStyle: {
-    paddingLeft: 30,
-    paddingRight: 30,
     borderWidth: 0,
-    height: inputAlto,
+    height: responsiveHeight(theme.altoCampos),
     borderRadius: 5,
   },
   listStyle: {
@@ -49,9 +57,8 @@ export const styles = StyleSheet.create({
   SearchBoxTextItem: {
     margin: 3,
     fontSize: fontSizeTitle,
-    fontFamily: momserratI,
     marginLeft: 20,
     right: 2,
     width: '90%',
   },
-});
+};

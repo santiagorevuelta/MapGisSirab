@@ -14,16 +14,16 @@ import json from '../../../initialjson.json';
 import TabIngresar from '../ingresar/tab/TabIngresar';
 import TextSimple from '../../commons/TextSimple'
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
-import {ScrollView} from 'react-native-gesture-handler'
-import AsyncStorage from '@react-native-async-storage/async-storage'
+import {ScrollView} from 'react-native-gesture-handler';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import AutoComplete from '../../commons/SelectAutoComplete/AutoComplete';
 
 const selectPlace = 'Seleccione...';
 
-export default ({data = [],fnGuardar}) => {
-    const [dataForm, setDataForm] = React.useState({});
+export default ({combos = [],fnGuardar}) => {
+  const [dataForm, setDataForm] = React.useState({});
   const [dataVar, setDataVar] = React.useState(json.datosVariables);
   const [dataImage, setDataImage] = React.useState([]);
-  const [combos] = React.useState(data);
   const [combosBarrios, setCombosBarrios] = React.useState([]);
 
   const llenarBarrio = id => {
@@ -59,7 +59,7 @@ export default ({data = [],fnGuardar}) => {
       <ScrollView>
     <KeyboardAwareScrollView style={styles.body}>
       <View style={[styles.form,{zIndex:10}]}>
-        <SelectSimple
+        <AutoComplete
           label={'Especie'}
           id="especie"
           placeholder={selectPlace}
@@ -68,6 +68,7 @@ export default ({data = [],fnGuardar}) => {
               setDataForm({...dataForm, especie: items.id});
             }
           }}
+          list={combos}
         />
       </View>
       <View style={styles.form}>
