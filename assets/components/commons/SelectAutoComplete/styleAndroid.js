@@ -1,4 +1,4 @@
-import {Dimensions, Platform} from 'react-native';
+import {Dimensions, Platform, StyleSheet} from 'react-native';
 import {responsiveFontSize} from 'react-native-responsive-dimensions';
 
 const {width, height} = Dimensions.get('window');
@@ -8,7 +8,7 @@ const fontSizeTitle = responsiveFontSize(1.5);
 const inputAlto = width <= 380 ? 35 : 40;
 const segoeI = Platform.OS !== 'ios' ? 'segoeui' : 'SegoeUI';
 
-module.exports = {
+export const styles = StyleSheet.create({
   containerStyle: {
     position: 'absolute',
     backgroundColor: '#fff',
@@ -57,4 +57,4 @@ module.exports = {
     width: '90%',
     zIndex: 9,
   },
-};
+});

@@ -1,4 +1,4 @@
-import {Dimensions, Platform} from 'react-native';
+import {Dimensions, Platform, StyleSheet} from 'react-native';
 import {responsiveFontSize} from 'react-native-responsive-dimensions';
 
 const {width, height} = Dimensions.get('window');
@@ -8,7 +8,7 @@ const fontSizeTitle = responsiveFontSize(1.5); // width <= 380 ? 10 : 13;
 const inputAlto = width <= 380 ? 35 : 40;
 
 const momserratI = Platform.OS !== 'ios' ? 'montserratreg' : 'Montserrat';
-module.exports = {
+export const styles = StyleSheet.create({
   containerStyle: {
     position: 'absolute',
     width: '100%',
@@ -54,4 +54,4 @@ module.exports = {
     right: 2,
     width: '90%',
   },
-};
+});
