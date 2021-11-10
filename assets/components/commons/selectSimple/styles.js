@@ -30,7 +30,8 @@ export const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: theme.colors.border,
     borderRadius: 40,
-    zIndex: 8,
+    zIndex: 10,
+    elevation: 10
   },
   containerList: {
     position: "absolute",

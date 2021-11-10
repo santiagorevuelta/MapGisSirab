@@ -44,7 +44,6 @@ export default props => {
           placeholder={"dd/mm/aaaa"}
           value={dataForm.fecha}
           keyboardType="default"
-          onChangeText={text => setDataForm({ ...dataForm, fecha: text })}
           onSelectDate={text => setDataForm({ ...dataForm, fecha: text })} />
       </View>
       <View style={styles.form}>
@@ -79,6 +78,7 @@ export default props => {
             autoCapitalize="none"
             textContentType="name"
             keyboardType="default"
+            //onChangeTextInput={}
         />
         </View>
         <View style={[styles.form,{marginTop:10}]}>

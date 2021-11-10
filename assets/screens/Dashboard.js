@@ -41,10 +41,10 @@ export default function Dashboard({navigation}) {
       if (r) {
         return;
       }
-      /*navigation.reset({
+      navigation.reset({
         index: 0,
         routes: [{name: 'LoginScreen'}],
-      });*/
+      });
     });
   }, []);
 

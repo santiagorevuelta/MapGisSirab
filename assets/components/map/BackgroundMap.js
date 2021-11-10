@@ -4,6 +4,7 @@ import { WebView } from "react-native-webview";
 import Geolocation from "@react-native-community/geolocation";
 import { notifyMessage } from "../../core/general";
 import html_script from "./html_script";
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 let MapRef = React.createRef();
 const { width, height } = Dimensions.get("window");
@@ -31,8 +32,8 @@ function MapComponent({ children }) {
         onMessage={event => {
           //notifyMessage(event.nativeEvent.data);
           let result = JSON.parse(event.nativeEvent.data);
-          coords = result;
-          //AsyncStorage.setItem('coords', event.nativeEvent.data);
+          //coords = result;
+          AsyncStorage.setItem('coords', event.nativeEvent.data);
         }}
         source={{
           html: html_script,

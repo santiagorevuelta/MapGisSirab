@@ -26,18 +26,18 @@ const SelectSimple = ({
       if(dependencia){
           setListItems(list);
       }else{
+          let data = [];
+          list.map((items) => {
+              items.campo === id && data.push(items);
+          });
           setTimeout(function(){
-              let data = [];
-              list.map((items) => {
-                  items.campo === id && data.push(items);
-              });
               setListItems(data);
           },1000)
       }
   }, []);
 
   return (
-    <View style={styles.container} key={key}>
+    <View style={[styles.container,showSelector? {zIndex: 100}:{zIndex:-1}]} key={key}>
       <Text style={theme.textos.LabelIn}>{label}</Text>
       <Pressable
         disabled={disabledView}
@@ -57,7 +57,7 @@ const SelectSimple = ({
         />
       </Pressable>
       {showSelector && (
-        <ScrollView style={ [styles.containerList,!onSelected?{zIndex:0, elevation:0}:null]} nestedScrollEnabled={true}>
+        <ScrollView style={ [styles.containerList,!onSelected?{zIndex:-1, elevation:0}:null]} nestedScrollEnabled={true}>
           {listItems.map((item, i) => (
             <Pressable
               key={i}

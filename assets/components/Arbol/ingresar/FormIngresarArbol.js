@@ -13,14 +13,16 @@ import styles from '../../css/ingresarcss';
 import json from '../../../initialjson.json';
 import TabIngresar from '../ingresar/tab/TabIngresar';
 import TextSimple from '../../commons/TextSimple'
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import {ScrollView} from 'react-native-gesture-handler'
 
 const selectPlace = 'Seleccione...';
 
-export default props => {
+export default ({data = []}) => {
   const [dataForm, setDataForm] = React.useState(json.datosArbol);
   const [dataVar, setDataVar] = React.useState(json.datosVariables);
   const [dataImage, setDataImage] = React.useState([]);
-  const [combos] = React.useState(props.combos);
+  const [combos] = React.useState(data);
   const [combosBarrios, setCombosBarrios] = React.useState([]);
 
   const llenarBarrio = id => {
@@ -42,7 +44,8 @@ export default props => {
   };
 
   return (
-    <View style={{paddingHorizontal: '5%'}}>
+      <ScrollView>
+    <KeyboardAwareScrollView style={{paddingHorizontal: '5%'}}>
       <View style={styles.form}>
         <SelectSimple
           label={'Especie'}
@@ -59,18 +62,15 @@ export default props => {
         <TextInputForm
           label={'Código árbol'}
           placeholder={'Código árbol'}
-          returnKeyType="next"
           value={dataForm.codigo_arbol}
-          autoCapitalize="none"
           keyboardType="default"
-          onChangeText={text => setDataForm({...dataForm, codigo_arbol: text})}
+          onChangeTextInput={text => setDataForm({...dataForm, codigo_arbol: text})}
         />
         <DatePicker
           label={'Fecha de ingreso'}
           placeholder={'dd/mm/aaaa'}
           value={dataForm.fecha}
           keyboardType="default"
-          onChangeText={text => setDataForm({...dataForm, fecha: text})}
           onSelectDate={text => setDataForm({...dataForm, fecha: text})}
         />
       </View>
@@ -173,6 +173,7 @@ export default props => {
           Guardar
         </ButtonIcon>
       </View>
-    </View>
+    </KeyboardAwareScrollView>
+      </ScrollView>
   );
 };

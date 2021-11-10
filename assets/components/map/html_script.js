@@ -31,6 +31,7 @@ module.exports = `<!DOCTYPE html>
     iconAnchor: [10, 20], // point of the icon which will correspond to marker's location
     iconSize: [32, 40],
   });
+  
   //https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw
  
  let capa = "https://tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -57,17 +58,6 @@ module.exports = `<!DOCTYPE html>
   //santiagorevuel@gmail.com
   //Qweasd123*
   //https://tile.thunderforest.com/transport/{z}/{x}/{y}.png?apikey=854298cc8ba9483db1e1b43f0eac48b3
-
-  var popup = L.popup();
-  var marker = L.marker(mymap.getCenter(), {
-    icon: myIcon,
-  });
-
-  var radius = L.circle(mymap.getCenter(), {
-    color: "#58D2FF",
-    fillColor: "#58D2FF",
-    radius: 20,
-  });
 
   function acctionMap(latlng) {
     mymap.setView(latlng, 17);
@@ -98,12 +88,22 @@ module.exports = `<!DOCTYPE html>
     }
   }
 
+  const popup = L.popup();
+  
+  const marker = L.marker(mymap.getCenter(), {
+    icon: myIcon
+  }).addTo(mymap);
+
+    const radius = L.circle(mymap.getCenter(), {
+        color: "#58D2FF",
+        fillColor: "#58D2FF",
+        radius: 20
+    }).addTo(mymap);
 
   function onMapClick(e) {
-    //popup.setLatLng(e.latlng).setContent("You clicked the map at " + e.latlng.toString()).openOn(mymap);
-    //marker.setLatLng(e.latlng);
-    radius.addTo(mymap);
-    radius.setLatLng(e.latlng);
+    popup.setLatLng(e.latlng).setContent("You clicked the map at " + e.latlng.toString()).openOn(mymap);
+    marker.setLatLng(e.latlng);
+    //radius.setLatLng(e.latlng)
     window.ReactNativeWebView.postMessage(JSON.stringify({lat:e.latlng.lat,lng:e.latlng.lng}));
   }
 

@@ -48,6 +48,7 @@ const styles = StyleSheet.create({
     marginTop: '5%',
     justifyContent: 'space-between',
     flexDirection: 'row',
+    zIndex: -1
   },
   masFiltros: {
     alignItems: 'center'

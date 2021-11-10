@@ -1,11 +1,13 @@
 import React, {useEffect} from 'react';
 import HeaderModal from '../../home/HeaderModal';
-import FormConsultaArbol from './FormIngresarArbol';
+import FormIngresarArbol from './FormIngresarArbol';
 import encode64 from '../../../helpers/B64';
 import guardarDatos from '../../../helpers/guardarDatos';
 import combosArbol from '../../../helpers/combosArbol';
 
 const ModalIngresarArbol = ({...props}) => {
+  const [combos, setCombos] = React.useState([]);
+
   const fnGuardar = async (datosArbol, datosVariables, datosImagenes) => {
     let formData = new FormData();
     formData.append('datosArbol', encode64(JSON.stringify(datosArbol)));
@@ -16,14 +18,12 @@ const ModalIngresarArbol = ({...props}) => {
     console.log(res)
   };
 
-  const [combos, setCombos] = React.useState([]);
-
   useEffect(() => {
     combosArbol().then(data => {
       setCombos(data);
     });
   }, []);
-
+  console.log(combos)
   return (
     <>
       <HeaderModal
@@ -31,7 +31,7 @@ const ModalIngresarArbol = ({...props}) => {
         setOption={props.setOption}
         backIndex={props.back}
       />
-      <FormConsultaArbol fnGuardar={fnGuardar} combos={combos} />
+      <FormIngresarArbol fnGuardar={fnGuardar} data={combos} />
     </>
   );
 };

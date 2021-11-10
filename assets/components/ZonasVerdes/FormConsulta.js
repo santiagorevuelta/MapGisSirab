@@ -8,7 +8,7 @@ import Button from '../Button';
 import SelectSimple from '../commons/selectSimple/SelectSimple';
 import Buscar from "../commons/Buscar";
 import DatePicker from "../commons/DatePicker/DatePicker";
-
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
 export default props => {
   const [isSwitchOn, setIsSwitchOn] = React.useState(false);
@@ -17,16 +17,16 @@ export default props => {
   const [combos, setCombos] = React.useState([]);
 
   return (
-    <View style={{paddingHorizontal: '5%'}}>
+    <KeyboardAwareScrollView
+        enableOnAndroid={true}
+        enableAutomaticScroll={true}
+        enableResetScrollToCoords={true}
+        style={{paddingHorizontal: '5%'}}>
         <View style={styles.form}>
           <View />
           <TextInputForm
             label={'Código'}
             placeholder={'Código'}
-            returnKeyType="next"
-            autoCapitalize="none"
-            autoCompleteType="username"
-            textContentType="name"
             keyboardType="default"
           />
         </View>
@@ -36,14 +36,12 @@ export default props => {
             placeholder={"Fecha inicial"}
             value={filters.fechaini}
             keyboardType="default"
-            onChangeText={text => setFilters({ ...filters, fechaini: text })}
             onSelectDate={text => setFilters({ ...filters, fechaini: text })} />
         <DatePicker
             label={"Fecha final"}
             placeholder={"Fecha final"}
             value={filters.fechaFin}
             keyboardType="default"
-            onChangeText={text => setFilters({ ...filters, fechaFin: text })}
             onSelectDate={text => setFilters({ ...filters, fechaFin: text })} />
       </View>
       {isSwitchOn && (
@@ -77,7 +75,7 @@ export default props => {
           />
       </View>)}
       <Buscar isSwitchOn={isSwitchOn} onToggleSwitch={onToggleSwitch}  filtros={filters} fnBuscar={props.fnBuscar} fnLimpiar={props.fnLimpiar} />
-    </View>
+    </KeyboardAwareScrollView>
   );
 };
 

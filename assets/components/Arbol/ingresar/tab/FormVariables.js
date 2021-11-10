@@ -14,34 +14,30 @@ export default ({dataVar, setDataVar}) => {
           placeholder={'Altura'}
           value={dataVar.altura}
           keyboardType="numeric"
-          onChangeText={text => setDataVar({...dataVar, altura: text})}
+          onChangeTextInput={text => setDataVar({...dataVar, altura: text})}
         />
         <TextInputForm
           label={'Altura copa (m)'}
           placeholder={'Altura copa'}
           value={dataVar.altura_copa}
           keyboardType="numeric"
-          onChangeText={text => setDataVar({...dataVar, altura_copa: text})}
+          onChangeTextInput={text => setDataVar({...dataVar, altura_copa: text})}
         />
       </View>
       <View style={styles.form}>
         <TextInputForm
           label={'DAP1 (cm)'}
           placeholder={'DAP1'}
-          returnKeyType="next"
           value={dataVar.dap1}
-          autoCapitalize="none"
           keyboardType="numeric"
-          onChangeText={text => setDataVar({...dataVar, dap1: text})}
+          onChangeTextInput={text => setDataVar({...dataVar, dap1: text})}
         />
         <TextInputForm
           label={'DAP2 (cm)'}
           placeholder={'DAP2'}
-          returnKeyType="next"
           value={dataVar.dap2}
-          autoCapitalize="none"
           keyboardType="numeric"
-          onChangeText={text => setDataVar({...dataVar, dap2: text})}
+          onChangeTextInput={text => setDataVar({...dataVar, dap2: text})}
         />
       </View>
       <View style={styles.form}>
@@ -49,8 +45,7 @@ export default ({dataVar, setDataVar}) => {
           label={'Fecha ingreso'}
           placeholder={'dd/mm/aaaa'}
           value={dataVar.fecha_ingreso}
-          keyboardType="default"
-          onChangeText={text => setDataVar({...dataVar, fecha_ingreso: text})}
+          onChangeTextInput={text => setDataVar({...dataVar, fecha_ingreso: text})}
           onSelectDate={text => setDataVar({...dataVar, fecha_ingreso: text})}
         />
       </View>

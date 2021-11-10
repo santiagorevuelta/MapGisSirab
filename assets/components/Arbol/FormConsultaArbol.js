@@ -11,7 +11,6 @@ import Buscar from "../commons/Buscar";
 import { SelectMultiple } from "../commons/selectMultiple/SelectMultiple";
 import DatePicker from "../commons/DatePicker/DatePicker";
 
-
 export default props => {
   const [isSwitchOn, setIsSwitchOn] = React.useState(false);
   const [filters, setFilters] = React.useState({});
@@ -74,13 +73,13 @@ export default props => {
             autoCompleteType="username"
             textContentType="name"
             keyboardType="default"
-            onChangeText={text => setFilters({ ...filters, codigo_arbol: text })}
+            onChangeTextInput={text => setFilters({ ...filters, codigo_arbol: text })}
           />
         </View>
         <View style={styles.form}>
           <SelectSimple
             label={"Especie"}
-            id="especie"
+            id="especies"
             onSelected={items => {
               if (items != null) {
                 //console.log(items.value);
@@ -95,21 +94,19 @@ export default props => {
             placeholder={"Fecha inicial"}
             value={filters.fechaini}
             keyboardType="default"
-            onChangeText={text => setFilters({ ...filters, fechaini: text })}
             onSelectDate={text => setFilters({ ...filters, fechaini: text })} />
           <DatePicker
             label={"Fecha final"}
             placeholder={"Fecha final"}
             value={filters.fechaFin}
             keyboardType="default"
-            onChangeText={text => setFilters({ ...filters, fechaFin: text })}
             onSelectDate={text => setFilters({ ...filters, fechaFin: text })} />
         </View>
         {isSwitchOn && (<View style={styles.form}>
           <View>
             <SelectSimple
                 label={"Tipo árbol"}
-                id="especie"
+                id="tipo_arbol"
                 onSelected={items => {
                   if (items != null) {
                     setFilters({ ...filters, id_tipo_arbol: "6" });
@@ -121,7 +118,7 @@ export default props => {
           <View>
             <SelectSimple
                 label={"Tipo origen árbol"}
-                id="especie"
+                id="tipo_origen_arbol"
                 onSelected={items => {
                   if (items != null) {
                     setFilters({ ...filters, id_tipo_origen_arbol: "2" });
