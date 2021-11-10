@@ -18,6 +18,9 @@ module.exports = StyleSheet.create({
         flexDirection: "row",
         zIndex: -1,
     },
+    formSelect: {
+        zIndex: 10,
+    },
     guardar: {
         borderRadius: theme.radius + 20,
         marginTop: 10,

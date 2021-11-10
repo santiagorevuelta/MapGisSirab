@@ -7,6 +7,7 @@ import { responsiveHeight, responsiveWidth } from "react-native-responsive-dimen
 import SelectSimple from "../../commons/selectSimple/SelectSimple";
 import DatePicker from "../../commons/DatePicker/DatePicker";
 import styles from '../../css/ingresarcss'
+import tsconfig from "../../../tsconfig.json";
 
 const selectPlace = "Seleccione...";
 
@@ -15,7 +16,8 @@ export default props => {
   const [combos, setCombos] = React.useState([]);
 
   useEffect(() => {
-    combosArbol().then(data => {
+      let url = tsconfig[tsconfig.use].searchIntervencion.combos
+    combosArbol(url).then(data => {
       setCombos(data);
     });
   }, []);
@@ -24,7 +26,7 @@ export default props => {
     <View style={styles.body}>
       <View style={styles.form}>
       </View>
-      <View style={styles.form}>
+      <View style={[styles.form,{zIndex:10}]}>
         <SelectSimple
           label={"Tipo intervención"}
           id="tipo_intervencion"
@@ -44,7 +46,7 @@ export default props => {
           onChangeText={text => setDataForm({ ...dataForm, fecha: text })}
           onSelectDate={text => setDataForm({ ...dataForm, fecha: text })} />
       </View>
-      <View style={styles.form}>
+      <View style={[styles.form,{zIndex:9}]}>
         <SelectSimple
           label={"Tipo árbol"}
           id="tipo_arbol"

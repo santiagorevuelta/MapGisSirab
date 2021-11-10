@@ -21,7 +21,7 @@ export default ({data = []}) => {
     <View style={styles.body}>
       <View style={styles.form}>
       </View>
-      <View style={styles.form}>
+      <View style={[styles.form,styles.formSelect]}>
         <SelectSimple
           label={"Proyecto *"}
           id="entidad"
@@ -40,7 +40,7 @@ export default ({data = []}) => {
           keyboardType="default"
           onSelectDate={text => setDataForm({ ...dataForm, fecha: text })} />
       </View>
-      <View style={styles.form}>
+      <View style={[styles.form,{zIndex:8}]}>
         <SelectSimple
           label={"Tipo intervencion"}
           id="tipo_intervencion"

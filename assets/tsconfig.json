@@ -43,7 +43,7 @@
     },
     "searchIntervencion": {
       "url": "http://201.184.171.13:8888/api-sirab/intervencion",
-      "combos": "",
+      "combos": "http://201.184.171.13:8888/api-sirab/combosIntervencion",
       "setUrl": ""
     }
   },

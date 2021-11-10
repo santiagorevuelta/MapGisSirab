@@ -58,7 +58,7 @@ export default ({data = [],fnGuardar}) => {
   return (
       <ScrollView>
     <KeyboardAwareScrollView style={styles.body}>
-      <View style={styles.form}>
+      <View style={[styles.form,{zIndex:10}]}>
         <SelectSimple
           label={'Especie'}
           id="especie"
@@ -86,7 +86,7 @@ export default ({data = [],fnGuardar}) => {
           onSelectDate={text => setDataForm({...dataForm, fecha: text})}
         />
       </View>
-      <View style={styles.form}>
+      <View style={[styles.form,{zIndex:9}]}>
         <SelectSimple
           label={'Tipo árbol'}
           id="tipo_arbol"
@@ -112,7 +112,7 @@ export default ({data = [],fnGuardar}) => {
           list={combos}
         />
       </View>
-      <View style={styles.form}>
+      <View style={[styles.form,{zIndex:8}]}>
         <SelectSimple
           label={'Comuna'}
           id="primer_nivel"
