@@ -1,4 +1,4 @@
-import {Pressable, StyleSheet, Text, View} from 'react-native';
+import {Platform, Pressable, StyleSheet, Text, View} from 'react-native';
 import {theme} from '../../../core/theme';
 import IconAntDesign from 'react-native-vector-icons/AntDesign';
 import {
@@ -11,21 +11,21 @@ import React from 'react';
 const RenderHeader = props => (
   <View style={stylesHead.head}>
     <View>
-    <Pressable
-      style={stylesHead.regress}
-      onPress={() => {
-        props.nav('Dashboard');
-      }}>
-      <IconAntDesign
-        name={'back'}
-        color={theme.colors.headers}
-        size={responsiveFontSize(2)}
-      />
-      <Text style={[theme.textos.Label, stylesHead.regressTxt]}>
-        {'Regresar'}
-      </Text>
-    </Pressable>
-  </View>
+      <Pressable
+        style={stylesHead.regress}
+        onPress={() => {
+          props.nav('Dashboard');
+        }}>
+        <IconAntDesign
+          name={'back'}
+          color={theme.colors.headers}
+          size={responsiveFontSize(2)}
+        />
+        <Text style={[theme.textos.Label, stylesHead.regressTxt]}>
+          {'Regresar'}
+        </Text>
+      </Pressable>
+    </View>
     <View style={stylesHead.headCodigo}>
       <Text style={theme.textos.Label}>{'Código ' + props.codigo}</Text>
     </View>
@@ -45,7 +45,7 @@ const stylesHead = StyleSheet.create({
     zIndex: 1,
     position: 'absolute',
     flexDirection: 'row',
-    marginTop: '10%',
+    marginTop: Platform.OS === 'ios' ? '10%' : 0,
     paddingTop: responsiveHeight(2),
     paddingLeft: responsiveWidth(5),
     paddingRight: responsiveWidth(5),
@@ -59,7 +59,7 @@ const stylesHead = StyleSheet.create({
   regress: {
     zIndex: 10,
     elevation: 2,
-    flexDirection: "row",
+    flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: '#565656',
     borderRadius: 25,

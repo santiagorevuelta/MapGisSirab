@@ -1,26 +1,26 @@
-import axios from "axios";
-import { consultToken, notifyMessage } from "../core/general";
+import axios from 'axios';
+import {consultToken, notifyMessage} from '../core/general';
 
-export default async function(urlCombo) {
+export default async function (urlCombo) {
   let token = await consultToken();
   if (token === null) {
-    notifyMessage("Sin token");
+    notifyMessage('Sin token');
     return;
   }
   const config = {
     url: urlCombo,
-    method: "get",
+    method: 'get',
     headers: {
-      "access-token": token,
+      'access-token': token,
     },
   };
-  let resultCombo = []
+  let resultCombo = [];
   await axios(config)
-      .then(function(response) {
-        resultCombo = response.data;
-      })
-      .catch(function(error) {
-        console.info(urlCombo + " ", error.message);
-      });
+    .then(function (response) {
+      resultCombo = response.data;
+    })
+    .catch(function (error) {
+      console.info(urlCombo + ' urlCombo ', error.message);
+    });
   return resultCombo;
 }

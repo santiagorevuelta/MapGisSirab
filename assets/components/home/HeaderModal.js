@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import {StyleSheet, View, Pressable, Text} from 'react-native';
+import React from 'react';
+import {Pressable, StyleSheet, Text, View} from 'react-native';
 import {theme} from '../../core/theme';
 import {
   responsiveFontSize,
@@ -15,7 +15,7 @@ const Header = props => {
         <Pressable
           style={styles.regress}
           onPress={() => {
-            console.log(props.backIndex)
+            console.log(props.backIndex);
             props.setOption(props.backIndex);
           }}>
           <IconAntDesign
@@ -50,10 +50,10 @@ const styles = StyleSheet.create({
     height: responsiveHeight(3),
     paddingLeft: responsiveWidth(5),
     alignItems: 'baseline',
-    justifyContent:"space-between"
+    justifyContent: 'space-between',
   },
   regress: {
-    flexDirection: "row",
+    flexDirection: 'row',
     alignItems: 'center',
   },
   regressTxt: {

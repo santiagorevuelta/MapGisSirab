@@ -32,12 +32,19 @@ module.exports = `<!DOCTYPE html>
     iconSize: [32, 40],
   });
   
+   const myPerson = L.icon({
+    iconUrl: "https://www.seekpng.com/png/full/310-3101423_mircoles-26-de-agosto-de-persona-pensando-animado.png",
+    iconAnchor: [10, 20], // point of the icon which will correspond to marker's location
+    iconSize: [32, 40],
+  });
+  
   //https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw
  
  let capa = "https://tile.openstreetmap.org/{z}/{x}/{y}.png"
  
   var osmBase = L.tileLayer(capa, {
     maxZoom: 20,
+    minZoom: 12,
     attribution: "",
     id: "mapbox/streets-v11",
     tileSize: 512,
@@ -59,10 +66,10 @@ module.exports = `<!DOCTYPE html>
   //Qweasd123*
   //https://tile.thunderforest.com/transport/{z}/{x}/{y}.png?apikey=854298cc8ba9483db1e1b43f0eac48b3
 
-  function acctionMap(latlng) {
-    mymap.setView(latlng, 17);
-    // marker.setLatLng(latlng);
-    radius.setLatLng(latlng);
+  function acctionMap(latlng,obj) {
+    mymap.setView(latlng, 20);
+    markerPerson.addTo(mymap);
+    markerPerson.setLatLng(latlng);
   }
 
   function acctionMapVer(latlng) {
@@ -93,6 +100,11 @@ module.exports = `<!DOCTYPE html>
   const marker = L.marker(mymap.getCenter(), {
     icon: myIcon
   });
+  
+  const markerPerson = L.marker(mymap.getCenter(), {
+    icon: myPerson
+  });
+  
 
     const radius = L.circle(mymap.getCenter(), {
         color: "#58D2FF",

@@ -1,5 +1,5 @@
 import React, {useEffect, useMemo, useState} from 'react';
-import {MapComponent} from '../components/map/BackgroundMap';
+import {MapComponent, setCoords} from '../components/map/BackgroundMap';
 import {
   Header,
   ModalIngresarArbol,
@@ -14,12 +14,15 @@ import {
 import BottomSheet from '@gorhom/bottom-sheet';
 import {consultToken} from '../core/general';
 import config from '../tsconfig.json';
+import tsconfig from '../tsconfig.json';
 import {Platform} from 'react-native';
+import combosArbol from '../helpers/combosArbol';
 
 export default function Dashboard({navigation}) {
   const [headerHide, setHeaderHide] = useState(false);
   const [option, setOption] = useState('inicio');
   const [optionOld, setOptionOld] = useState(null);
+  const [combos, setCombos] = useState([]);
   const [snp, setSnp] = useState(1);
   const bottomSheetRef = React.useRef(null);
   const snapPoints = useMemo(() => ['3%', '25%'], []);
@@ -28,18 +31,20 @@ export default function Dashboard({navigation}) {
     [],
   ); //, '100%'
 
-  /*useEffect(() => {
-    AsyncStorage.getItem("option").then(value => {
-      if (value !== null) {
-        //setOption(value);
-      }
-    });
-  }, []);*/
+  useEffect(() => {
+    setCoords().then();
+  }, []);
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(async () => {
+    let url = tsconfig[tsconfig.use].searchTree.combos;
+    let res = await combosArbol(url);
+    setCombos(res);
+  }, []);
 
   useEffect(() => {
     consultToken().then(r => {
       if (r) {
-        console.log('consulta token')
         return;
       }
       navigation.reset({
@@ -47,16 +52,16 @@ export default function Dashboard({navigation}) {
         routes: [{name: 'LoginScreen'}],
       });
     });
-  }, []);
+  }, [navigation]);
 
   const setView = index => {
     if (!index) {
       setSnp(1);
     }
     setOptionOld(option);
-    setTimeout(()=>{
+    setTimeout(() => {
       setOption(index);
-    },100)
+    }, 100);
   };
 
   const tabArbol = name => {
@@ -96,6 +101,7 @@ export default function Dashboard({navigation}) {
               setOption={setView}
               type={option}
               back={optionOld}
+              combos={combos}
               label={optionOld + ' ' + option.toLowerCase()}
               tabArbol={tabArbol}
             />
@@ -133,13 +139,13 @@ export default function Dashboard({navigation}) {
             tabArbol={tabArbol}
           />
         ) : option === config.home[2].label ? (
-            <ModalIngresarZonaVerde
-                setOption={setView}
-                type={option}
-                back={optionOld}
-                label={optionOld + ' ' + option.toLowerCase()}
-                tabArbol={tabArbol}
-            />
+          <ModalIngresarZonaVerde
+            setOption={setView}
+            type={option}
+            back={optionOld}
+            label={optionOld + ' ' + option.toLowerCase()}
+            tabArbol={tabArbol}
+          />
         ) : null}
       </BottomSheet>
     </MapComponent>

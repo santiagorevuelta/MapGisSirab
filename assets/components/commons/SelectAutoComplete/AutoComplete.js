@@ -1,46 +1,44 @@
-import React, {useState, useEffect} from 'react';
-import {Dimensions, Platform, Pressable, Text, View, TouchableOpacity} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {Text, TouchableOpacity, View} from 'react-native';
 import Autocomplete from 'react-native-autocomplete-input';
-import  {responsiveHeight} from 'react-native-responsive-dimensions';
-const styleIos = require('./styleIos');
-const styleAndroid  = require('./styleAndroid');
 import {theme} from '../../../core/theme';
 
-const {width, height} = Dimensions.get('window');
-const inputAlto = width <= 380 ? 35 : 40;
-const fontSizeInput = width <= 380 ? 12 : 15;
+const styleIos = require('./styleIos');
 
+export default ({
+  selectedItem,
+  placeholder = 'Todos...',
+  label,
+  id,
+  list,
+  onSelected,
+}) => {
+  const [listItems, setListItems] = useState([]);
+  const [itemsFilter, setItemsFilter] = useState([]);
+  useEffect(() => {
+    let data = list.filter(item => {
+      return item.campo.indexOf(id) !== -1;
+    });
+    setListItems(data);
+  }, [id, list]);
 
-export default ({selectedItem, filterData, placeholder,label,id,list,onSelected}) => {
-    const [listItems, setListItems] = useState([]);
-    const [itemsFilter, setItemsFilter] = useState([]);
-    const [value, setValue] = useState(selectedItem);
-    useEffect(() => {
-        let data = [];
-        list.map((items) => {
-            items.campo === id && data.push(items);
-        });
-        setListItems(data);
-    }, []);
-
-   const filterSelect = async (text) => {
-       if(text !== ''){
-           let datos = listItems.filter(function(element){
-               return element.dato.toLowerCase().indexOf(text.toLowerCase()) != -1;
-           });
-           setItemsFilter(datos);
-       }else{
-           setItemsFilter([]);
-       }
-   }
+  const filterSelect = async text => {
+    if (text !== '') {
+      let datos = listItems.filter(function (element) {
+        return element.dato.toLowerCase().indexOf(text.toLowerCase()) !== -1;
+      });
+      setItemsFilter(datos);
+    } else {
+      setItemsFilter([]);
+    }
+  };
 
   return (
-    <View
-      style={styleIos.container}>
-        <Text style={theme.textos.LabelIn}>{label}</Text>
-        <Autocomplete
+    <View style={styleIos.container}>
+      <Text style={theme.textos.LabelIn}>{label}</Text>
+      <Autocomplete
         autoCapitalize="none"
-        defaultValue={selectedItem}
+        defaultValue={selectedItem?.dato}
         data={itemsFilter}
         style={styleIos.input}
         containerStyle={styleIos.containerStyle}
@@ -51,7 +49,7 @@ export default ({selectedItem, filterData, placeholder,label,id,list,onSelected}
         hideResults={false}
         keyExtractor={(item, i) => i.toString()}
         onChangeText={text => {
-            filterSelect(text);
+          filterSelect(text).then();
         }}
         //onEndEditing={() => ubicarDireccion()}
         //onSubmitEditing={() => ubicarDireccion()}
@@ -60,13 +58,10 @@ export default ({selectedItem, filterData, placeholder,label,id,list,onSelected}
             key={index}
             style={styleIos.SearchBoxTouch}
             onPress={() => {
-                onSelected(item);
-                filterSelect('')
+              onSelected(item);
+              filterSelect('');
             }}>
-            <Text
-              style={styleIos.SearchBoxTextItem}>
-              {item.dato}
-            </Text>
+            <Text style={styleIos.SearchBoxTextItem}>{item.dato}</Text>
           </TouchableOpacity>
         )}
       />

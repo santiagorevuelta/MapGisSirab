@@ -1,15 +1,9 @@
 import React from 'react';
 import PickerImageAcction from './PickerImageAcction';
-import {
-  Image,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {theme} from '../../../core/theme';
 import {responsiveFontSize} from 'react-native-responsive-dimensions';
+import {ScrollView} from 'react-native-gesture-handler';
 import {Button} from 'react-native-paper';
 
 export default function ({dataImage = [], setDataImage}) {
@@ -22,30 +16,33 @@ export default function ({dataImage = [], setDataImage}) {
         dataImage={dataImage}
         setDataImage={setDataImage}
       />
-      <ScrollView style={styles.slide} horizontal>
+      <ScrollView style={styles.slide} horizontal persistentScrollbar={true}>
         {dataImage.map((item, index) => (
           <View style={styles.container} key={index}>
             <Button
-                style={styles.icon}
-                color={theme.colors.primary}
-                compact={true}
-                labelStyle={{fontSize: responsiveFontSize(3)}}
-                icon="delete-circle-outline"
-                onPress={() => {
-                  let newJson = []
-                  for (const img of dataImage) {
-                    if(img.urlFoto != item.urlFoto)
-                      newJson.push(img)
+              style={styles.icon}
+              color={theme.colors.primary}
+              compact={true}
+              labelStyle={{fontSize: responsiveFontSize(3)}}
+              icon="delete-circle-outline"
+              onPress={() => {
+                let newJson = [];
+                for (const img of dataImage) {
+                  if (img.urlFoto !== item.urlFoto) {
+                    newJson.push(img);
                   }
-                  setDataImage(newJson);
-                }}
+                }
+                setDataImage(newJson);
+              }}
             />
             <View style={styles.content}>
               <Image source={{uri: item.urlFoto}} style={styles.fotos} />
             </View>
           </View>
         ))}
-        <TouchableOpacity onPress={() => setOpenModal(!openModal)} style={[styles.container,styles.containerAdd]}>
+        <TouchableOpacity
+          onPress={() => setOpenModal(!openModal)}
+          style={[styles.container, styles.containerAdd]}>
           <View style={styles.content}>
             <Text style={styles.text}>{'Agregar o tomar foto'}</Text>
           </View>
@@ -65,13 +62,13 @@ const styles = StyleSheet.create({
   container: {
     borderWidth: 1,
     borderColor: theme.colors.primary,
-    borderStyle:'dashed',
+    borderStyle: 'dashed',
     height: 150,
     width: 170,
     borderRadius: theme.radius,
-    marginRight: 10
+    marginRight: 10,
   },
-  icon:{
+  icon: {
     position: 'absolute',
     top: 0,
     right: 0,
@@ -81,24 +78,24 @@ const styles = StyleSheet.create({
     width: 31,
     backgroundColor: theme.colors.blanco,
   },
-  slide:{
+  slide: {
     flexDirection: 'row',
   },
   fotos: {
     height: '100%',
-    width:'100%',
+    width: '100%',
     resizeMode: 'cover',
-    borderRadius: theme.radius
+    borderRadius: theme.radius,
   },
   text: {
     color: theme.colors.secondary,
-    fontStyle: 'italic'
+    fontStyle: 'italic',
   },
-  containerAdd:{
+  containerAdd: {
     alignContent: 'center',
     alignItems: 'center',
     justifyContent: 'center',
     textAlign: 'center',
-    backgroundColor: '#B5B2B2'
-  }
+    backgroundColor: '#B5B2B2',
+  },
 });

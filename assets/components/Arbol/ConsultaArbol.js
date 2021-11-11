@@ -1,24 +1,28 @@
-import React, { useState } from "react";
-import { StyleSheet } from "react-native";
-import { theme } from "../../core/theme";
-import { responsiveFontSize, responsiveHeight, responsiveWidth } from "react-native-responsive-dimensions";
-import FormConsultaArbol from "./FormConsultaArbol";
-import ResultSearch from "./ResultSearch";
-import { notifyMessage } from "../../core/general";
-import HeaderModal from "../home/HeaderModal";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import buscarDatos from "../../helpers/buscarDatos";
-import { limpiarMapa, verEnMapaAllPoint } from "../map/BackgroundMap";
+import React, {useState} from 'react';
+import {StyleSheet} from 'react-native';
+import {theme} from '../../core/theme';
+import {
+  responsiveFontSize,
+  responsiveHeight,
+  responsiveWidth,
+} from 'react-native-responsive-dimensions';
+import FormConsultaArbol from './FormConsultaArbol';
+import ResultSearch from './ResultSearch';
+import {notifyMessage} from '../../core/general';
+import HeaderModal from '../home/HeaderModal';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import buscarDatos from '../../helpers/buscarDatos';
+import {limpiarMapa, verEnMapaAllPoint} from '../map/BackgroundMap';
 
-const ModalOptionsArbol = ({ ...props }) => {
+const ModalOptionsArbol = ({...props}) => {
   const [buscar, setBuscar] = useState(false);
   const [dataResult, setDataResult] = useState({});
   const fnBuscar = async (obj, filtros = {}) => {
     if (obj) {
-      AsyncStorage.setItem("filtros", JSON.stringify(filtros));
-      let response = await buscarDatos(filtros, 1, "searchTree");
+      AsyncStorage.setItem('filtros', JSON.stringify(filtros));
+      let response = await buscarDatos(filtros, 1, 'searchTree');
       if (response.data.length === 0) {
-        notifyMessage("La consulta no obtuvo resultados");
+        notifyMessage('La consulta no obtuvo resultados');
         limpiarMapa();
         return;
       }
@@ -28,17 +32,17 @@ const ModalOptionsArbol = ({ ...props }) => {
     setBuscar(obj);
   };
 
-  const fnLimpiar = (obj) => {
+  const fnLimpiar = obj => {
     setBuscar(obj);
     limpiarMapa();
   };
 
   const paginar = async page => {
-    let res = await AsyncStorage.getItem("filtros");
+    let res = await AsyncStorage.getItem('filtros');
     let filtros = res === null ? {} : JSON.parse(res);
-    let response = await buscarDatos(filtros, page, "searchTree");
+    let response = await buscarDatos(filtros, page, 'searchTree');
     if (response.length === 0) {
-      notifyMessage("La consulta no obtuvo resultados");
+      notifyMessage('La consulta no obtuvo resultados');
       limpiarMapa();
       return;
     }
@@ -53,7 +57,11 @@ const ModalOptionsArbol = ({ ...props }) => {
         setOption={props.setOption}
         backIndex={props.back}
       />
-      <FormConsultaArbol fnBuscar={fnBuscar} fnLimpiar={fnLimpiar} />
+      <FormConsultaArbol
+        fnBuscar={fnBuscar}
+        fnLimpiar={fnLimpiar}
+        combos={props.combos}
+      />
       {buscar ? (
         <ResultSearch
           tabArbol={props.tabArbol}
@@ -70,7 +78,7 @@ export default ModalOptionsArbol;
 
 const styles = StyleSheet.create({
   contend: {
-    flexDirection: "row",
+    flexDirection: 'row',
     height: responsiveHeight(5),
     paddingLeft: responsiveWidth(5),
   },
@@ -80,16 +88,16 @@ const styles = StyleSheet.create({
   regressTxt: {
     color: theme.colors.headers,
     fontSize: responsiveFontSize(1.5),
-    fontWeight: "normal",
-    fontStyle: "italic",
-    position: "absolute",
-    textDecorationLine: "underline",
+    fontWeight: 'normal',
+    fontStyle: 'italic',
+    position: 'absolute',
+    textDecorationLine: 'underline',
     top: responsiveWidth(1),
     paddingLeft: responsiveWidth(5),
     elevation: 5,
   },
   regressHead: {
-    textAlign: "center",
+    textAlign: 'center',
     fontSize: responsiveFontSize(2),
   },
 });

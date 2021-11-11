@@ -1,20 +1,15 @@
-import React, {useEffect} from "react";
-import HeaderModal from "../../home/HeaderModal";
-import FormIngresarIntervencion from "./FormIngresarIntervencion";
+import React from 'react';
+import HeaderModal from '../../home/HeaderModal';
+import FormIngresarIntervencion from './FormIngresarIntervencion';
 
-const ModalIngresarArbol = ({ ...props }) => {
-
-    const fnGuardar = () => {
-        console.log("ok")
-    };
+const ModalIngresarArbol = ({label, setOption, back}) => {
+  const fnGuardar = () => {
+    console.log('ok');
+  };
 
   return (
     <>
-      <HeaderModal
-        type={props.label}
-        setOption={props.setOption}
-        backIndex={props.back}
-      />
+      <HeaderModal type={label} setOption={setOption} backIndex={back} />
       <FormIngresarIntervencion fnGuardar={fnGuardar} />
     </>
   );

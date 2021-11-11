@@ -1,7 +1,7 @@
 import React from 'react';
 import {View} from 'react-native';
 import {theme} from '../../../../core/theme';
-import TextInputForm from '../../TextInputForm';
+import TextInputForm from '../../../commons/TextInputForm';
 import DatePicker from '../../../commons/DatePicker/DatePicker';
 import styles from '../../../css/ingresarcss';
 
@@ -21,7 +21,9 @@ export default ({dataVar, setDataVar}) => {
           placeholder={'Altura copa'}
           value={dataVar.altura_copa}
           keyboardType="numeric"
-          onChangeTextInput={text => setDataVar({...dataVar, altura_copa: text})}
+          onChangeTextInput={text =>
+            setDataVar({...dataVar, altura_copa: text})
+          }
         />
       </View>
       <View style={styles.form}>
@@ -45,7 +47,9 @@ export default ({dataVar, setDataVar}) => {
           label={'Fecha ingreso'}
           placeholder={'dd/mm/aaaa'}
           value={dataVar.fecha_ingreso}
-          onChangeTextInput={text => setDataVar({...dataVar, fecha_ingreso: text})}
+          onChangeTextInput={text =>
+            setDataVar({...dataVar, fecha_ingreso: text})
+          }
           onSelectDate={text => setDataVar({...dataVar, fecha_ingreso: text})}
         />
       </View>
