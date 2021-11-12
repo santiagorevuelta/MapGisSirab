@@ -26,6 +26,10 @@ module.exports = `<!DOCTYPE html>
     attributionControl: false,
   });
 
+  var drawPoint = new L.Draw.Marker(mymap);
+  var drawLine = new L.Draw.Polyline(mymap);
+  var drawPoly = new L.Draw.Polygon(mymap)
+
   const myIcon = L.icon({
     iconUrl: "https://www.medellin.gov.co/siro_portal/siro_portal/imagenes/icons/puntomapa.png",
     iconAnchor: [10, 20], // point of the icon which will correspond to marker's location
@@ -51,20 +55,6 @@ module.exports = `<!DOCTYPE html>
     zoomOffset: -1,
   }).addTo(mymap);
 
-  //https://wiki.openstreetmap.org/wiki/Tile_servers
-
-  //https://tile.openstreetmap.org/{z}/{x}/{y}.png
-  //https://a.tile.openstreetmap.de/{z}/{x}/{y}.png
-  //https://b.tile.openstreetmap.de/{z}/{x}/{y}.png
-  //https://c.tile.openstreetmap.de/{z}/{x}/{y}.png
-  //http://tile.memomaps.de/tilegen/{z}/{x}/{y}.png
-  //http://b.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png
-  // solo para pruebas
-
-  //https://manage.thunderforest.com/dashboard
-  //santiagorevuel@gmail.com
-  //Qweasd123*
-  //https://tile.thunderforest.com/transport/{z}/{x}/{y}.png?apikey=854298cc8ba9483db1e1b43f0eac48b3
 
   function acctionMap(latlng,obj) {
     mymap.setView(latlng, 20);
@@ -76,8 +66,7 @@ module.exports = `<!DOCTYPE html>
     mymap.removeLayer(layerOld);
     // for (const point of layerPoints) {
     //   mymap.removeLayer(point);
-    // }
-    
+    // }    
     marker.addTo(mymap);
     mymap.setView(latlng, 17);
     marker.setLatLng(latlng);    
@@ -166,6 +155,19 @@ module.exports = `<!DOCTYPE html>
       },
     }).addTo(mymap);   
   }
+  
+  function drawPolin(){
+     drawPoly.enable();
+       setTimeout(()=>{
+         mymap.on(L.Draw.Event.CREATED, e => {
+          if (geomTemp === e.layer) {
+            return;
+          }
+          geomTemp = e.layer;
+        },5000);
+     })  
+  }
+
 
 </script>
 </body>

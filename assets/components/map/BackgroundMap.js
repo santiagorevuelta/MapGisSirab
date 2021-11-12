@@ -168,6 +168,13 @@ async function setCoords() {
   );
 }
 
+function drawPolin() {
+  if (!MapRef.current) {
+    return [];
+  }
+  MapRef.current.injectJavaScript('drawPolin()');
+}
+
 module.exports = {
   getLocalize,
   MapComponent,
@@ -176,4 +183,5 @@ module.exports = {
   verEnMapaAllPoint,
   limpiarMapa,
   setCoords,
+  drawPolin,
 };
