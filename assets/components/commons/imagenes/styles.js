@@ -9,41 +9,50 @@ import {
 import {theme} from '../../../core/theme';
 
 export const styles = StyleSheet.create({
+  body: {
+    height: '100%',
+    backgroundColor: theme.colors.blanco,
+    paddingTop: '5%',
+    marginBottom: '5%',
+  },
   container: {
-    height: responsiveScreenHeight(15),
-    width: responsiveScreenWidth(80),
-    alignContent: 'center',
-    alignItems: 'center',
-    position: 'absolute',
-    justifyContent: 'center',
-    flexDirection: 'row',
-    backgroundColor: "#fff",
-    padding: responsiveWidth(10),
-    margin: responsiveWidth(10),
-    marginTop: responsiveHeight(40),
+    borderWidth: 1,
+    borderColor: theme.colors.primary,
+    borderStyle: 'dashed',
+    height: 150,
+    width: 170,
     borderRadius: theme.radius,
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
-    zIndex:4
+    marginRight: 10,
   },
-  modal: {
-    height: responsiveHeight(100),
-    width: responsiveScreenWidth(100),
-    backgroundColor: "rgba(0,0,0,0.5)",
-    justifyContent: "center",
+  icon: {
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    zIndex: 2,
+    borderRadius: 100,
+    height: 30,
+    width: 31,
+    backgroundColor: theme.colors.blanco,
+  },
+  slide: {
+    flexDirection: 'row',
+  },
+  fotos: {
+    height: '100%',
+    width: '100%',
+    resizeMode: 'cover',
+    borderRadius: theme.radius,
+  },
+  text: {
+    color: theme.colors.secondary,
+    fontStyle: 'italic',
+  },
+  containerAdd: {
     alignContent: 'center',
     alignItems: 'center',
-  },
-  buttonClose: {
-    marginTop: responsiveHeight(40),
-    position: 'absolute',
-    alignItems: "flex-end",
-    elevation: 6,
+    justifyContent: 'center',
+    textAlign: 'center',
+    flexDirection: 'row',
+    backgroundColor: '#B5B2B2',
   },
 });
