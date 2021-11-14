@@ -31,10 +31,10 @@
     "tokenValidator": {
       "url": "http://132.145.214.185:8002/mapgis/validacionToken.do"
     },
-    "searchTree": {
-      "url": "http://201.184.171.13:8888/api-sirab/arboles",
-      "combos": "http://201.184.171.13:8888/api-sirab/combosArbol",
-      "comboBarrio": "http://201.184.171.13:8888/api-sirab/comboSegundoNivel",
+    "searchTree": {//http://201.184.171.13:8888/api-sirab/arboles
+      "url": "http://192.168.1.15:8888/api-sirab/arboles",
+      "combos": "http://192.168.1.15:8888/api-sirab/combosArbol",
+      "comboBarrio": "http://192.168.1.15:8888/api-sirab/comboSegundoNivel",
     },
     "searchZone": {
       "url": "http://201.184.171.13:8888/api-sirab/zonaVerde",

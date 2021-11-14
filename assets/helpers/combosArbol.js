@@ -8,14 +8,13 @@ export default async function (urlCombo) {
     return;
   }
   const config = {
-    url: urlCombo,
-    method: 'get',
     headers: {
       'access-token': token,
     },
   };
   let resultCombo = [];
-  await axios(config)
+  await axios
+    .get(urlCombo, config)
     .then(function (response) {
       resultCombo = response.data;
     })

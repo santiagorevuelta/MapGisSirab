@@ -2,8 +2,6 @@ const {theme} = require('../../core/theme');
 const {
   responsiveWidth,
   responsiveHeight,
-  responsiveScreenWidth,
-  responsiveFontSize,
 } = require('react-native-responsive-dimensions');
 const {StyleSheet} = require('react-native');
 
@@ -18,7 +16,6 @@ module.exports = StyleSheet.create({
   },
   form: {
     flexDirection: 'row',
-    zIndex: -1,
   },
   formSelect: {
     zIndex: 10,

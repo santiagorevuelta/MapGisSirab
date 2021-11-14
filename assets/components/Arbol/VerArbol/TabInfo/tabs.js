@@ -10,12 +10,20 @@ import {
 } from 'react-native-responsive-dimensions';
 import {theme} from '../../../../core/theme';
 
-import Characteristics from './Characteristics';
-import Variables from './Variables';
+import FormCharacteristics from './Characteristics';
+import FormVariables from './Variables';
 
 const Tab = createMaterialTopTabNavigator();
 
-function getHome() {
+export default function getHome({dataArbol, dataVariables}) {
+  function Characteristics() {
+    return dataArbol ? <FormCharacteristics data={dataArbol} /> : null;
+  }
+
+  function Variables() {
+    return dataVariables ? <FormVariables data={dataVariables} /> : null;
+  }
+
   return (
     <View style={styles.floatModal}>
       <Tab.Navigator
@@ -78,4 +86,3 @@ const styles = StyleSheet.create({
     shadowRadius: 3.84,
   },
 });
-export default getHome;

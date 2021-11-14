@@ -19,17 +19,31 @@ const ModalOptionsArbol = ({...props}) => {
   const [dataResult, setDataResult] = useState({});
   const fnBuscar = async (obj, filtros = {}) => {
     if (obj) {
-      AsyncStorage.setItem('filtros', JSON.stringify(filtros));
+      let res = filter(filtros);
+      if (!res) {
+        notifyMessage('La fecha final es obligatoria');
+        return;
+      }
       let response = await buscarDatos(filtros, 1, 'searchTree');
-      if (response.data.length === 0) {
+      if (response.length === 0) {
         notifyMessage('La consulta no obtuvo resultados');
         limpiarMapa();
+        setBuscar(false);
         return;
       }
       setDataResult(response);
       verEnMapaAllPoint(response.data);
     }
     setBuscar(obj);
+  };
+
+  const filter = filtros => {
+    if (filtros.fecha && filtros.fecha !== '') {
+      if (filtros.fecha.split('-')[1] === '') {
+        return false;
+      }
+    }
+    return true;
   };
 
   const fnLimpiar = obj => {

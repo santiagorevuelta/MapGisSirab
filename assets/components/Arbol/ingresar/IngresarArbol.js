@@ -1,11 +1,11 @@
 import React, {useEffect} from 'react';
 import HeaderModal from '../../home/HeaderModal';
 import FormIngresarArbol from './FormIngresarArbol';
-import encode64 from '../../../helpers/B64';
+import base64 from 'react-native-base64';
 import guardarDatos from '../../../helpers/guardarDatos';
 import combosArbol from '../../../helpers/combosArbol';
-import json from '../../../initialjson.json';
-import tsconfig from "../../../tsconfig.json";
+import tsconfig from '../../../tsconfig.json';
+import {notifyMessage} from '../../../core/general';
 
 const ModalIngresarArbol = ({...props}) => {
   const [combos, setCombos] = React.useState([]);
@@ -15,17 +15,24 @@ const ModalIngresarArbol = ({...props}) => {
 
   const fnGuardar = async (datosArbol, datosVariables, datosImagenes) => {
     let formData = new FormData();
-    formData.append('datosArbol', encode64(JSON.stringify(datosArbol)));
-    formData.append('datosVariables', encode64(JSON.stringify(datosVariables)));
-    formData.append('datosImagenes', encode64(JSON.stringify(datosImagenes)));
+    formData.append('datosArbol', base64.encode(JSON.stringify(datosArbol)));
+    formData.append(
+      'datosVariables',
+      base64.encode(JSON.stringify(datosVariables)),
+    );
+    formData.append(
+      'datosImagenes',
+      base64.encode(JSON.stringify(datosImagenes)),
+    );
     let res = await guardarDatos(formData, 'searchTree');
+    notifyMessage(res.message);
   };
 
-  useEffect(async() => {
-    let url = tsconfig[tsconfig.use].searchTree.combos
-    let res =  await combosArbol(url);
+  useEffect(async () => {
+    let url = tsconfig[tsconfig.use].searchTree.combos;
+    let res = await combosArbol(url);
     setCombos(res);
-  }, []);
+  }, [setCombos]);
 
   return (
     <>

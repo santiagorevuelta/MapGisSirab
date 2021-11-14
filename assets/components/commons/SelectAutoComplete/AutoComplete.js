@@ -1,9 +1,13 @@
 import React, {useEffect, useState} from 'react';
-import {Text, TouchableOpacity, View} from 'react-native';
+import {Platform, Text, TouchableOpacity} from 'react-native';
 import Autocomplete from 'react-native-autocomplete-input';
 import {theme} from '../../../core/theme';
+import Animated from 'react-native-reanimated';
 
 const styleIos = require('./styleIos');
+const styleAndroid = require('./styleAndroid');
+
+const style = Platform.OS === 'ios' ? styleIos : styleAndroid;
 
 export default ({
   selectedItem,
@@ -20,6 +24,7 @@ export default ({
       return item.campo.indexOf(id) !== -1;
     });
     setListItems(data);
+    setItemsFilter(data.length === 0 ? [] : data.splice(0, 0));
   }, [id, list]);
 
   const filterSelect = async text => {
@@ -32,38 +37,39 @@ export default ({
       setItemsFilter([]);
     }
   };
-
   return (
-    <View style={styleIos.container}>
+    <Animated.View style={style.container} contentContainerStyle={{flex: 1}}>
       <Text style={theme.textos.LabelIn}>{label}</Text>
       <Autocomplete
         autoCapitalize="none"
-        defaultValue={selectedItem?.dato}
+        value={selectedItem}
         data={itemsFilter}
-        style={styleIos.input}
-        containerStyle={styleIos.containerStyle}
+        containerStyle={style.containerStyle}
         placeholder={placeholder}
-        inputContainerStyle={styleIos.inputContainerStyle}
-        listContainerStyle={styleIos.listContainerStyle}
-        listStyle={styleIos.listStyle}
+        inputContainerStyle={style.inputContainerStyle}
+        //listContainerStyle={style.listContainerStyle}
+        listStyle={style.listStyle}
         hideResults={false}
         keyExtractor={(item, i) => i.toString()}
         onChangeText={text => {
           filterSelect(text).then();
         }}
+        flatListProps={{
+          keyExtractor: (_, idx) => idx,
+          renderItem: ({item}) => (
+            <TouchableOpacity
+              style={style.SearchBoxTouch}
+              key={item.id}
+              onPress={() => {
+                onSelected(item);
+                filterSelect('').then();
+              }}>
+              <Text style={style.SearchBoxTextItem}>{item.dato}</Text>
+            </TouchableOpacity>
+          ),
+        }}
         //onEndEditing={() => ubicarDireccion()}
         //onSubmitEditing={() => ubicarDireccion()}
-        renderItem={({item, index}) => (
-          <TouchableOpacity
-            key={index}
-            style={styleIos.SearchBoxTouch}
-            onPress={() => {
-              onSelected(item);
-              filterSelect('');
-            }}>
-            <Text style={styleIos.SearchBoxTextItem}>{item.dato}</Text>
-          </TouchableOpacity>
-        )}
       />
       {/*      <Pressable
         style={
@@ -76,6 +82,6 @@ export default ({
           source={require('../../../../../iconos/ElipseX.png')}
         />
       </Pressable>*/}
-    </View>
+    </Animated.View>
   );
 };

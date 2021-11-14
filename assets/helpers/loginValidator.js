@@ -1,14 +1,14 @@
-import encode64 from './B64';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {notifyMessage, consultToken} from '../core/general';
+import {consultToken, notifyMessage} from '../core/general';
 import tsconfig from '../tsconfig.json';
+import base64 from 'react-native-base64';
 import axios from 'axios';
 
 export async function loginValidator(user, password, {navigation}) {
   let url = tsconfig[tsconfig.use].loginValidator.url;
   let data = new FormData();
-  data.append('id_Persona', encode64(user));
-  data.append('password', encode64(password));
+  data.append('id_Persona', base64.encode(user));
+  data.append('password', base64.encode(password));
   data.append('app', '161');
   data.append('tipo', 1);
   axios

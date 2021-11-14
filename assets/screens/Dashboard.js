@@ -17,6 +17,7 @@ import config from '../tsconfig.json';
 import tsconfig from '../tsconfig.json';
 import {Platform} from 'react-native';
 import combosArbol from '../helpers/combosArbol';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function Dashboard({navigation}) {
   const [headerHide, setHeaderHide] = useState(false);
@@ -39,8 +40,9 @@ export default function Dashboard({navigation}) {
   useEffect(async () => {
     let url = tsconfig[tsconfig.use].searchTree.combos;
     let res = await combosArbol(url);
+    AsyncStorage.setItem('comboarbol', JSON.stringify(res));
     setCombos(res);
-  }, []);
+  }, [setCombos]);
 
   useEffect(() => {
     consultToken().then(r => {

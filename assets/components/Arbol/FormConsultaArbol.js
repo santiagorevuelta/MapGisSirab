@@ -8,13 +8,20 @@ import SelectSimple from '../commons/selectSimple/SelectSimple';
 import {notifyMessage} from '../../core/general';
 import Buscar from '../commons/Buscar';
 import DatePicker from '../commons/DatePicker/DatePicker';
-import AutoComplete from '../commons/SelectAutoComplete/AutoComplete';
 import styles from '../css/ingresarcss';
 
 export default ({combos, fnBuscar, fnLimpiar}) => {
   const [isSwitchOn, setIsSwitchOn] = React.useState(false);
-  const [filters, setFilters] = React.useState({});
+  const [filters, setFilters] = React.useState({}); //UPB-000005
+  const [valorAutoComplete, setValorAutoComplete] = React.useState(null); //UPB-000005
   const onToggleSwitch = () => setIsSwitchOn(!isSwitchOn);
+
+  const limpiar = data => {
+    fnLimpiar(data);
+    setFilters({});
+    setValorAutoComplete(null);
+    onToggleSwitch();
+  };
 
   return (
     <View style={styles.body}>
@@ -31,32 +38,8 @@ export default ({combos, fnBuscar, fnLimpiar}) => {
                 notifyMessage('Seleccionar punto en mapa');
               }}
             />
-            <ButtonIcon
-              compact={true}
-              labelStyle={{fontSize: responsiveFontSize(3)}}
-              icon="vector-line"
-              color={theme.colors.primary}
-              onPress={() => {}}
-            />
-            <ButtonIcon
-              compact={true}
-              labelStyle={{fontSize: responsiveFontSize(3)}}
-              icon="vector-square"
-              color={theme.colors.primary}
-              onPress={() => {}}
-            />
-            <ButtonIcon
-              compact={true}
-              labelStyle={{fontSize: responsiveFontSize(3)}}
-              icon="umbrella"
-              color={theme.colors.primary}
-              onPress={() => {}}
-            />
           </View>
         </View>
-      </View>
-
-      <View style={styles.form}>
         <TextInputForm
           label={'Código árbol'}
           placeholder={'Código árbol'}
@@ -70,26 +53,28 @@ export default ({combos, fnBuscar, fnLimpiar}) => {
             setFilters({...filters, codigo_arbol: text})
           }
         />
-        <SelectSimple
-          label={'Estado'}
-          id="id_estado"
-          valueSelected={filters.id_estado}
+      </View>
+
+      <View style={[styles.form, {zIndex: 9}]}>
+        {/*        <AutoComplete
+          label={'Especie'}
+          id="especie"
+          selectedItem={valorAutoComplete}
           onSelected={items => {
             if (items != null) {
-              setFilters({...filters, id_estado: '6'});
+              setValorAutoComplete(items.dato);
+              setFilters({...filters, especie: items.id});
             }
           }}
           list={combos}
-        />
-      </View>
-      <View style={styles.form}>
-        <AutoComplete
+        />*/}
+        <SelectSimple
           label={'Especie'}
           id="especie"
-          selectedItem={filters.especie}
+          valueSelected={filters.especie}
           onSelected={items => {
             if (items != null) {
-              setFilters({...filters, especie: items.id});
+              setFilters({...filters, especie: items});
             }
           }}
           list={combos}
@@ -97,13 +82,14 @@ export default ({combos, fnBuscar, fnLimpiar}) => {
       </View>
       {isSwitchOn && (
         <>
-          <View style={styles.form}>
+          <View style={[styles.form, {zIndex: 8}]}>
             <SelectSimple
               label={'Tipo árbol'}
               id="tipo_arbol"
+              valueSelected={filters.id_tipo_arbol}
               onSelected={items => {
                 if (items != null) {
-                  setFilters({...filters, id_tipo_arbol: '6'});
+                  setFilters({...filters, id_tipo_arbol: items});
                 }
               }}
               list={combos}
@@ -111,28 +97,45 @@ export default ({combos, fnBuscar, fnLimpiar}) => {
             <SelectSimple
               label={'Tipo origen árbol'}
               id="origen_arbol"
+              valueSelected={filters.id_tipo_origen_arbol}
               onSelected={items => {
                 if (items != null) {
-                  setFilters({...filters, id_tipo_origen_arbol: '2'});
+                  setFilters({...filters, id_tipo_origen_arbol: items});
                 }
               }}
               list={combos}
             />
           </View>
-          <View style={styles.form}>
+          <View style={[styles.form, {zIndex: -1}]}>
             <DatePicker
               label={'Fecha inicial'}
               placeholder={'Fecha inicial'}
-              value={filters.fechaini}
+              value={filters.fecha?.split('-')[0]}
               keyboardType="default"
-              onSelectDate={text => setFilters({...filters, fechaini: text})}
+              onSelectDate={text => {
+                let fecha = filters.fecha?.split('-');
+                if (fecha?.length === 1) {
+                  fecha = `${text}-${fecha[1] === undefined ? '' : fecha[1]}`;
+                } else {
+                  fecha = `${text}-`;
+                }
+                setFilters({...filters, fecha: fecha});
+              }}
             />
             <DatePicker
               label={'Fecha final'}
               placeholder={'Fecha final'}
-              value={filters.fechaFin}
+              value={filters.fecha?.split('-')[1]}
               keyboardType="default"
-              onSelectDate={text => setFilters({...filters, fechaFin: text})}
+              onSelectDate={text => {
+                let fecha = filters.fecha?.split('-');
+                if (fecha.length > 0) {
+                  fecha = `${fecha[0]}-${text}`;
+                } else {
+                  fecha = `-${text}`;
+                }
+                setFilters({...filters, fecha: fecha});
+              }}
             />
           </View>
         </>
@@ -142,7 +145,7 @@ export default ({combos, fnBuscar, fnLimpiar}) => {
         onToggleSwitch={onToggleSwitch}
         filtros={filters}
         fnBuscar={fnBuscar}
-        fnLimpiar={fnLimpiar}
+        fnLimpiar={limpiar}
       />
     </View>
   );

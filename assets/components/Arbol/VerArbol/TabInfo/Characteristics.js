@@ -2,20 +2,10 @@ import {Pressable, ScrollView, StyleSheet, Text, View} from 'react-native';
 import {theme} from '../../../../core/theme';
 import React, {useState} from 'react';
 import {notifyMessage} from '../../../../core/general';
-import {Paragraph, Subheading} from 'react-native-paper';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import {Paragraph} from 'react-native-paper';
 
-export default function (props) {
-  const [items, setItems] = useState({});
-  const [swNew, setSwNew] = useState(true);
-  if (swNew){
-    AsyncStorage.getItem('verArbol').then(jsonValue => {
-      const item = jsonValue != null ? JSON.parse(jsonValue) : {};
-      setItems(item);
-    });
-    setSwNew(!swNew)
-  }
-
+export default function ({data}) {
+  const [items] = useState(data);
   return (
     <View style={styles.container}>
       <ScrollView>
@@ -65,7 +55,7 @@ function div(label, text) {
 const styles = StyleSheet.create({
   container: {
     justifyContent: 'center',
-    backgroundColor:theme.colors.blanco,
+    backgroundColor: theme.colors.blanco,
     height: '100%',
   },
   row: {

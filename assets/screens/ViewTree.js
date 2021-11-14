@@ -7,8 +7,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {SafeAreaView} from 'react-native';
 import {theme} from '../core/theme';
 import {responsiveHeight} from 'react-native-responsive-dimensions';
-import buscarDatosId from '../helpers/buscarDatosId'
-
+import buscarDatosId from '../helpers/buscarDatosId';
 
 export default class ViewTree extends React.Component {
   constructor() {
@@ -18,19 +17,23 @@ export default class ViewTree extends React.Component {
       codigo_arbol: {},
       fotos: [],
       intervenciones: [],
+      verArbol: {},
+      variables: {},
     };
   }
 
   async componentDidMount() {
     let item = await AsyncStorage.getItem('items');
-        item = item == null ? null : JSON.parse(item);
-    this.setState({ codigo_arbol:item.codigo_arbol});
-    let datosArbol = await buscarDatosId(item.id_arbol,'searchTree');
-    this.setState({fotos: datosArbol.fotos});
-    this.setState({intervenciones: datosArbol.intervenciones});
-    AsyncStorage.setItem('verArbol', JSON.stringify(datosArbol.verArbol))
-    AsyncStorage.setItem('variables', JSON.stringify(datosArbol.variables))
-
+    item = item == null ? null : JSON.parse(item);
+    let datosArbol = await buscarDatosId(item.id_arbol, 'searchTree');
+    // eslint-disable-next-line react/no-did-mount-set-state
+    this.setState({
+      fotos: datosArbol.fotos,
+      intervenciones: datosArbol.intervenciones,
+      verArbol: datosArbol.verArbol,
+      variables: datosArbol.variables,
+      codigo_arbol: item.codigo_arbol,
+    });
   }
 
   setCant = index => {
@@ -58,7 +61,10 @@ export default class ViewTree extends React.Component {
           index={this.state.index}
         />
         <CarouselCards data={this.state.fotos} setCant={this.setCant} />
-        <InfoArbol />
+        <InfoArbol
+          dataArbol={this.state.verArbol}
+          dataVariables={this.state.variables}
+        />
         <Interventions data={this.state.intervenciones} />
       </SafeAreaView>
     );

@@ -15,7 +15,6 @@ import TextSimple from '../../commons/TextSimple';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {ScrollView} from 'react-native-gesture-handler';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import AutoComplete from '../../commons/SelectAutoComplete/AutoComplete';
 
 const selectPlace = 'Seleccione...';
 
@@ -36,7 +35,11 @@ export default ({combos = [], fnGuardar}) => {
       value = value === null ? null : JSON.parse(value);
       if (value !== null) {
         if (value.lat !== dataForm.latitud) {
-          setDataForm({...dataForm, latitud: value.lat, longitud: value.lng});
+          setDataForm({
+            ...dataForm,
+            latitud: value.lat,
+            longitud: value.lng,
+          });
         }
       }
     }, 5000);
@@ -47,8 +50,14 @@ export default ({combos = [], fnGuardar}) => {
     let value = await AsyncStorage.getItem('coords');
     value = value === null ? null : JSON.parse(value);
     if (value !== null) {
-      setDataForm({...dataForm, latitud: value.lat, longitud: value.lng});
+      setDataForm({
+        ...dataForm,
+        latitud: value.lat,
+        longitud: value.lng,
+      });
     }
+
+    dataForm.fecha = dataForm.fecha.split('/').reverse().join('-');
     fnGuardar(dataForm, dataVar, dataImage);
   };
 
@@ -56,14 +65,26 @@ export default ({combos = [], fnGuardar}) => {
     <ScrollView>
       <KeyboardAwareScrollView style={styles.body}>
         <View style={[styles.form, {zIndex: 10, elevation: 10}]}>
-          <AutoComplete
+          {/*<AutoComplete*/}
+          {/*  label={'Especie'}*/}
+          {/*  id="especie"*/}
+          {/*  placeholder={selectPlace}*/}
+          {/*  selectedItem={dataForm.especie}*/}
+          {/*  onSelected={items => {*/}
+          {/*    if (items != null) {*/}
+          {/*      setDataForm({...dataForm, especie: items.id});*/}
+          {/*    }*/}
+          {/*  }}*/}
+          {/*  list={combos}*/}
+          {/*/>*/}
+          <SelectSimple
             label={'Especie'}
             id="especie"
             placeholder={selectPlace}
-            selectedItem={dataForm.especie}
+            valueSelected={dataForm.especie}
             onSelected={items => {
               if (items != null) {
-                setDataForm({...dataForm, especie: items.id});
+                setDataForm({...dataForm, especie: items});
               }
             }}
             list={combos}
@@ -84,7 +105,12 @@ export default ({combos = [], fnGuardar}) => {
             placeholder={'dd/mm/aaaa'}
             value={dataForm.fecha}
             keyboardType="default"
-            onSelectDate={text => setDataForm({...dataForm, fecha: text})}
+            onSelectDate={text =>
+              setDataForm({
+                ...dataForm,
+                fecha: text,
+              })
+            }
           />
         </View>
         <View style={[styles.form, {zIndex: 9}]}>
@@ -92,10 +118,10 @@ export default ({combos = [], fnGuardar}) => {
             label={'Tipo árbol'}
             id="tipo_arbol"
             placeholder={selectPlace}
-            valueSelected={dataForm.tipo_arbol}
+            valueSelected={dataForm.id_tipo_arbol}
             onSelected={items => {
               if (items != null) {
-                setDataForm({...dataForm, tipo_arbol: items.id});
+                setDataForm({...dataForm, id_tipo_arbol: items});
               }
             }}
             list={combos}
@@ -104,10 +130,10 @@ export default ({combos = [], fnGuardar}) => {
             label={'Tipo origen árbol'}
             id="origen_arbol"
             placeholder={selectPlace}
-            valueSelected={dataForm.origen_arbol}
+            valueSelected={dataForm.id_tipo_origen_arbol}
             onSelected={items => {
               if (items != null) {
-                setDataForm({...dataForm, origen_arbol: items.id});
+                setDataForm({...dataForm, id_tipo_origen_arbol: items});
               }
             }}
             list={combos}
@@ -118,11 +144,11 @@ export default ({combos = [], fnGuardar}) => {
             label={'Comuna'}
             id="primer_nivel"
             placeholder={selectPlace}
-            valueSelected={dataForm.comuna}
+            valueSelected={dataForm.primer_nivel}
             onSelected={items => {
               if (items != null) {
-                llenarBarrio(items.id);
-                setDataForm({...dataForm, primer_nivel: items.id});
+                llenarBarrio(items);
+                setDataForm({...dataForm, primer_nivel: items});
               }
             }}
             list={combos}
@@ -136,7 +162,7 @@ export default ({combos = [], fnGuardar}) => {
             valueSelected={dataForm.segundo_nivel}
             onSelected={items => {
               if (items != null) {
-                setDataForm({...dataForm, segundo_nivel: items.id});
+                setDataForm({...dataForm, segundo_nivel: items});
               }
             }}
             list={combosBarrios}

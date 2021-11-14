@@ -25,11 +25,11 @@ module.exports = `<!DOCTYPE html>
     zoomControl: false,
     attributionControl: false,
   });
-
+/*
   var drawPoint = new L.Draw.Marker(mymap);
   var drawLine = new L.Draw.Polyline(mymap);
   var drawPoly = new L.Draw.Polygon(mymap)
-
+*/
   const myIcon = L.icon({
     iconUrl: "https://www.medellin.gov.co/siro_portal/siro_portal/imagenes/icons/puntomapa.png",
     iconAnchor: [10, 20], // point of the icon which will correspond to marker's location
@@ -155,7 +155,7 @@ module.exports = `<!DOCTYPE html>
       },
     }).addTo(mymap);   
   }
-  
+  /*
   function drawPolin(){
      drawPoly.enable();
        setTimeout(()=>{
@@ -166,7 +166,7 @@ module.exports = `<!DOCTYPE html>
           geomTemp = e.layer;
         },5000);
      })  
-  }
+  }*/
 
 
 </script>
