@@ -40,7 +40,8 @@ export default function Dashboard({navigation}) {
   useEffect(async () => {
     let url = tsconfig[tsconfig.use].searchTree.combos;
     let res = await combosArbol(url);
-    AsyncStorage.setItem('comboarbol', JSON.stringify(res));
+    if(res)
+       AsyncStorage.setItem('comboarbol', JSON.stringify(res));
     setCombos(res);
   }, [setCombos]);
 

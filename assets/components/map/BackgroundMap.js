@@ -143,9 +143,12 @@ function verEnMapaP(coords) {
   if (!MapRef.current) {
     return;
   }
-  MapRef.current.injectJavaScript(
-    `acctionMapVerPoly(${JSON.stringify(coords)})`,
-  );
+  const injected = `
+    acctionMapVerPoly(${JSON.stringify(coords)});
+    true;
+  `
+
+  MapRef.current.injectJavaScript(injected);
 }
 
 function limpiarMapa() {
@@ -163,9 +166,11 @@ async function setCoords() {
   }
   let data = await AsyncStorage.getItem('ubicacion');
   data = data == null ? {} : JSON.parse(data);
-  MapRef.current.injectJavaScript(
-    `acctionMap([${data.lat}, ${data.lng}],true)`,
-  );
+  const injected = `
+    acctionMap([${data.lat}, ${data.lng}],true);
+    true;
+  `
+  MapRef.current.injectJavaScript(injected);
 }
 
 function drawPolin() {
