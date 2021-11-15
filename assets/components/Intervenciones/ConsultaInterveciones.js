@@ -5,6 +5,7 @@ import HeaderModal from '../home/HeaderModal';
 import buscarDatos from '../../helpers/buscarDatos';
 import ResultSearch from './ResultSearch';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {limpiarMapa} from '../map/BackgroundMap';
 
 const ModalConsult = ({...props}) => {
   const [buscar, setBuscar] = useState(false);
@@ -33,6 +34,11 @@ const ModalConsult = ({...props}) => {
     setDataResult(response);
   };
 
+  const fnLimpiar = obj => {
+    setBuscar(false);
+    limpiarMapa();
+  };
+
   return (
     <>
       <HeaderModal
@@ -40,7 +46,7 @@ const ModalConsult = ({...props}) => {
         setOption={props.setOption}
         backIndex={props.back}
       />
-      <FormConsulta fnBuscar={fnBuscar} />
+      <FormConsulta fnBuscar={fnBuscar} fnLimpiar={fnLimpiar} />
       {buscar ? (
         <ResultSearch
           tabArbol={props.tabArbol}

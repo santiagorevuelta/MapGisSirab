@@ -25,8 +25,12 @@ export default ({combos = [], fnGuardar}) => {
   const [combosBarrios, setCombosBarrios] = React.useState([]);
 
   const llenarBarrio = async id => {
-    let data = await consultarBarrios(id);
-    setCombosBarrios(data);
+    if (id !== '') {
+      let res = await consultarBarrios(id);
+      setCombosBarrios(res);
+    } else {
+      setCombosBarrios([]);
+    }
   };
 
   const ubicarEnMapa = async () => {
@@ -78,7 +82,7 @@ export default ({combos = [], fnGuardar}) => {
           {/*  list={combos}*/}
           {/*/>*/}
           <SelectSimple
-            label={'Especie'}
+            label={'Especie *'}
             id="especie"
             placeholder={selectPlace}
             valueSelected={dataForm.especie}
@@ -92,7 +96,7 @@ export default ({combos = [], fnGuardar}) => {
         </View>
         <View style={styles.form}>
           <TextInputForm
-            label={'Código árbol'}
+            label={'Código árbol *'}
             placeholder={'Código árbol'}
             value={dataForm.codigo_arbol}
             keyboardType="default"
@@ -101,7 +105,7 @@ export default ({combos = [], fnGuardar}) => {
             }
           />
           <DatePicker
-            label={'Fecha de ingreso'}
+            label={'Fecha de ingreso *'}
             placeholder={'dd/mm/aaaa'}
             value={dataForm.fecha}
             keyboardType="default"
@@ -115,7 +119,7 @@ export default ({combos = [], fnGuardar}) => {
         </View>
         <View style={[styles.form, {zIndex: 9}]}>
           <SelectSimple
-            label={'Tipo árbol'}
+            label={'Tipo árbol *'}
             id="tipo_arbol"
             placeholder={selectPlace}
             valueSelected={dataForm.id_tipo_arbol}
@@ -127,7 +131,7 @@ export default ({combos = [], fnGuardar}) => {
             list={combos}
           />
           <SelectSimple
-            label={'Tipo origen árbol'}
+            label={'Tipo origen árbol *'}
             id="origen_arbol"
             placeholder={selectPlace}
             valueSelected={dataForm.id_tipo_origen_arbol}
@@ -169,7 +173,9 @@ export default ({combos = [], fnGuardar}) => {
           />
         </View>
         <View style={[styles.form, styles.geo]}>
-          <Text style={theme.textos.LabelIn}>{'Coordenadas geográficas'}</Text>
+          <Text style={theme.textos.LabelIn}>
+            {'Coordenadas geográficas *'}
+          </Text>
           <View style={styles.geoButons}>
             <ButtonIcon
               compact={true}

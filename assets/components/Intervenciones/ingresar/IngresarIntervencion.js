@@ -31,6 +31,7 @@ const ModalIngresarArbol = ({label, setOption, back}) => {
         !data.fecha ||
         !data.tipo_intervencion ||
         !data.proyecto ||
+        !data.observacion ||
         !secondData.intervencion_secundaria
       ) {
         notifyMessage('Los campos marcados con (*) son obligatorios');

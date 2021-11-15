@@ -68,7 +68,7 @@ export default ({fnGuardar, combos = []}) => {
       </View>
       <View style={styles.form}>
         <TextArea
-          label={'Observaciones'}
+          label={'Observaciones *'}
           placeholder={''}
           returnKeyType="next"
           autoCapitalize="none"

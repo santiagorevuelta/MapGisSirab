@@ -11,17 +11,17 @@ const ModalIngresar = ({label, setOption, back}) => {
     console.log('ok');
   };
 
-  useEffect(() => {
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(async () => {
     let url = tsconfig[tsconfig.use].searchZone.combos;
-    combosArbol(url).then(data => {
-      setCombos(data);
-    });
+    let res = await combosArbol(url);
+    setCombos(res);
   }, [setCombos]);
 
   return (
     <>
       <HeaderModal type={label} setOption={setOption} backIndex={back} />
-      <FormIngresar fnGuardar={fnGuardar} data={combos} />
+      <FormIngresar fnGuardar={fnGuardar} combos={combos} />
     </>
   );
 };

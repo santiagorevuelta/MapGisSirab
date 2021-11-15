@@ -38,7 +38,7 @@
     },
     "searchZone": {
       "url": "http://192.168.0.104:8888/api-sirab/zonaVerde",
-      "combos": "http://192.168.0.104:8888/api-sirab/combosIntervencionZonaVerde",
+      "combos": "http://192.168.0.104:8888/api-sirab/combosZonaVerde",
       "setUrl": ""
     },
     "searchIntervencion": {

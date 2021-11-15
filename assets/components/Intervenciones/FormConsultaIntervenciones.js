@@ -27,6 +27,7 @@ export default props => {
         onToggleSwitch={onToggleSwitch}
         filtros={filters}
         fnBuscar={props.fnBuscar}
+        fnLimpiar={props.fnLimpiar}
       />
     </View>
   );

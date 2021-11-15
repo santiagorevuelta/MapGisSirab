@@ -1,5 +1,5 @@
 import React from 'react';
-import {View} from 'react-native';
+import {Text, View} from 'react-native';
 import {theme} from '../../../core/theme';
 import {Button as ButtonIcon} from 'react-native-paper';
 import SelectSimple from '../../commons/selectSimple/SelectSimple';
@@ -7,86 +7,183 @@ import DatePicker from '../../commons/DatePicker/DatePicker';
 import styles from '../../css/ingresarcss';
 import TextArea from '../../commons/TextArea';
 import FormImagenes from '../../../components/commons/imagenes/FormImagenes';
+import TextInputForm from '../../commons/TextInputForm';
+import consultarBarrios from '../../../helpers/consultaBarrios';
+import {responsiveFontSize} from 'react-native-responsive-dimensions';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import {notifyMessage} from '../../../core/general';
+import {ScrollView} from 'react-native-gesture-handler';
 
 const selectPlace = 'Seleccione...';
 
-export default ({data = []}) => {
+export default ({combos = [], fnGuardar}) => {
   const [dataForm, setDataForm] = React.useState({});
-  const [combos] = React.useState(data);
   const [dataImage, setDataImage] = React.useState([]);
+  const [combosBarrios, setCombosBarrios] = React.useState([]);
+
+  const llenarBarrio = async id => {
+    if (id !== '') {
+      let res = await consultarBarrios(id);
+      setCombosBarrios(res);
+    } else {
+      setCombosBarrios([]);
+    }
+  };
+
   return (
-    <View style={styles.body}>
-      <View style={styles.form} />
-      <View style={[styles.form, styles.formSelect]}>
-        <SelectSimple
-          label={'Proyecto *'}
-          id="entidad"
-          placeholder={selectPlace}
-          onSelected={items => {
-            if (items != null) {
-              setDataForm({...dataForm, id_proyecto: items.id});
+    <ScrollView>
+      <KeyboardAwareScrollView style={styles.body}>
+        <View style={styles.form}>
+          <TextInputForm
+            label={'Código zona verde *'}
+            placeholder={'Código zona verde'}
+            value={dataForm.codigo}
+            keyboardType="default"
+            onChangeTextInput={text => setDataForm({...dataForm, codigo: text})}
+          />
+          <DatePicker
+            label={'Fecha de ingreso'}
+            placeholder={'dd/mm/aaaa'}
+            value={dataForm.fecha}
+            keyboardType="default"
+            onSelectDate={text => setDataForm({...dataForm, fecha: text})}
+          />
+        </View>
+        <View style={[styles.form, {zIndex: 9}]}>
+          <TextInputForm
+            label={'Nombre zona verde *'}
+            placeholder={'Código árbol'}
+            value={dataForm.nombre}
+            keyboardType="default"
+            onChangeTextInput={text => setDataForm({...dataForm, nombre: text})}
+          />
+          <SelectSimple
+            label={'Tipo zona verde *'}
+            id="id_tipo_zona_verde"
+            placeholder={selectPlace}
+            valueSelected={dataForm.id_tipo_zona_verde}
+            onSelected={items => {
+              if (items != null) {
+                setDataForm({...dataForm, id_tipo_zona_verde: items});
+              }
+            }}
+            list={combos}
+          />
+        </View>
+        <View style={[styles.form, {zIndex: 8}]}>
+          <SelectSimple
+            label={'Comuna *'}
+            id="primer_nivel"
+            placeholder={selectPlace}
+            valueSelected={dataForm.primer_nivel}
+            onSelected={items => {
+              if (items != null) {
+                llenarBarrio(items);
+                setDataForm({...dataForm, primer_nivel: items});
+              }
+            }}
+            list={combos}
+          />
+          <SelectSimple
+            label={'Barrio *'}
+            id="segundo_nivel"
+            disabledView={combosBarrios.length === 0}
+            placeholder={selectPlace}
+            dependencia={true}
+            valueSelected={dataForm.segundo_nivel}
+            onSelected={items => {
+              if (items != null) {
+                setDataForm({...dataForm, segundo_nivel: items});
+              }
+            }}
+            list={combosBarrios}
+          />
+        </View>
+        <View style={[styles.form, {zIndex: 7}]}>
+          <View
+            style={[
+              styles.form,
+              styles.geo,
+              {width: '50%', flexDirection: 'column'},
+            ]}>
+            <Text style={theme.textos.LabelIn}>
+              {'Coordenadas geográficas *'}
+            </Text>
+            <View style={styles.geoButons}>
+              <ButtonIcon
+                compact={true}
+                labelStyle={{fontSize: responsiveFontSize(3)}}
+                icon="vector-polyline-plus"
+                color={theme.colors.primary}
+                onPress={() => {
+                  notifyMessage('Seleccionar en mapa');
+                }}
+              />
+            </View>
+          </View>
+          <SelectSimple
+            label={'Proyecto *'}
+            id="proyecto"
+            placeholder={selectPlace}
+            valueSelected={dataForm.id_proyecto}
+            onSelected={items => {
+              if (items != null) {
+                setDataForm({...dataForm, id_proyecto: items});
+              }
+            }}
+            list={combos}
+          />
+        </View>
+        <View style={styles.form}>
+          <TextInputForm
+            label={'Área m² *'}
+            placeholder={'Área'}
+            value={dataForm.area_m2}
+            keyboardType="default"
+            onChangeTextInput={text =>
+              setDataForm({...dataForm, area_m2: text})
             }
-          }}
-          list={combos}
-        />
-        <DatePicker
-          label={'Fecha intervencion'}
-          placeholder={'dd/mm/aaaa'}
-          value={dataForm.fecha}
-          keyboardType="default"
-          onSelectDate={text => setDataForm({...dataForm, fecha: text})}
-        />
-      </View>
-      <View style={[styles.form, {zIndex: 8}]}>
-        <SelectSimple
-          label={'Tipo intervencion'}
-          id="tipo_intervencion"
-          placeholder={selectPlace}
-          onSelected={items => {
-            if (items != null) {
-              setDataForm({...dataForm, fecha: items.id});
+          />
+          <TextInputForm
+            label={'Área calculada m² *'}
+            placeholder={'Área calculada'}
+            value={dataForm.area_m2_calculado}
+            keyboardType="default"
+            onChangeTextInput={text =>
+              setDataForm({...dataForm, area_m2_calculado: text})
             }
-          }}
-          list={combos}
-        />
-        <SelectSimple
-          label={'Intervecion secundaria'}
-          id="intervencion_secundaria"
-          placeholder={selectPlace}
-          onSelected={items => {
-            if (items != null) {
-              setDataForm({...dataForm, origen_arbol: items.id});
-            }
-          }}
-          list={combos}
-        />
-      </View>
-      <View style={styles.form}>
-        <TextArea
-          label={'Observaciones'}
-          placeholder={''}
-          returnKeyType="next"
-          autoCapitalize="none"
-          textContentType="name"
-          value={dataForm.descripcion}
-          keyboardType="default"
-          onChangeText={text => setDataForm({...dataForm, descripcion: text})}
-        />
-      </View>
-      <View style={[styles.form, {marginTop: 10}]}>
-        <FormImagenes dataImage={dataImage} setDataImage={setDataImage} />
-      </View>
-      <View style={[styles.form, {justifyContent: 'flex-end'}]}>
-        <ButtonIcon
-          compact={true}
-          mode="contained"
-          style={styles.guardar}
-          icon="content-save"
-          color={theme.colors.primary}
-          onPress={() => {}}>
-          Guardar
-        </ButtonIcon>
-      </View>
-    </View>
+          />
+        </View>
+
+        <View style={styles.form}>
+          <TextArea
+            label={'Descripción'}
+            placeholder={'Descripción'}
+            returnKeyType="next"
+            autoCapitalize="none"
+            textContentType="name"
+            value={dataForm.descripcion}
+            keyboardType="default"
+            onChangeText={text => setDataForm({...dataForm, descripcion: text})}
+          />
+        </View>
+        <View style={[styles.form, {marginTop: 10}]}>
+          <FormImagenes dataImage={dataImage} setDataImage={setDataImage} />
+        </View>
+        <View style={[styles.form, {justifyContent: 'flex-end'}]}>
+          <ButtonIcon
+            compact={true}
+            mode="contained"
+            style={styles.guardar}
+            icon="content-save"
+            color={theme.colors.primary}
+            onPress={() => {
+              fnGuardar();
+            }}>
+            Guardar
+          </ButtonIcon>
+        </View>
+      </KeyboardAwareScrollView>
+    </ScrollView>
   );
 };
