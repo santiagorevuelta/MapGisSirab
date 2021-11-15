@@ -25,7 +25,7 @@ function MapComponent({children}) {
         setLocation(1);
       }
     }, 100);
-  }, []);
+  }, [location]);
 
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: 'transparent'}}>
@@ -34,7 +34,12 @@ function MapComponent({children}) {
         ref={MapRef}
         onMessage={event => {
           let data = event.nativeEvent.data;
-          AsyncStorage.setItem('coords', data);
+          let count = JSON.parse(data);
+          if (count.length > 1) {
+            AsyncStorage.setItem('polygon', data);
+          } else {
+            AsyncStorage.setItem('coords', data);
+          }
         }}
         source={{
           html: html_script,
@@ -146,7 +151,7 @@ function verEnMapaP(coords) {
   const injected = `
     acctionMapVerPoly(${JSON.stringify(coords)});
     true;
-  `
+  `;
 
   MapRef.current.injectJavaScript(injected);
 }
@@ -169,7 +174,7 @@ async function setCoords() {
   const injected = `
     acctionMap([${data.lat}, ${data.lng}],true);
     true;
-  `
+  `;
   MapRef.current.injectJavaScript(injected);
 }
 
@@ -177,7 +182,26 @@ function drawPolin() {
   if (!MapRef.current) {
     return [];
   }
-  MapRef.current.injectJavaScript('drawPolin()');
+  AsyncStorage.setItem('polygon', '');
+  const injected = `
+    drawPolin();
+    true;
+  `;
+
+  MapRef.current.injectJavaScript(injected);
+}
+
+function getPoint() {
+  if (!MapRef.current) {
+    return [];
+  }
+
+  const injected = `
+    acctionMapGetPoint();
+    true;
+  `;
+
+  MapRef.current.injectJavaScript(injected);
 }
 
 module.exports = {
@@ -188,5 +212,6 @@ module.exports = {
   verEnMapaAllPoint,
   limpiarMapa,
   setCoords,
+  getPoint,
   drawPolin,
 };

@@ -15,6 +15,7 @@ import TextSimple from '../../commons/TextSimple';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {ScrollView} from 'react-native-gesture-handler';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {getPoint} from '../../map/BackgroundMap';
 
 const selectPlace = 'Seleccione...';
 
@@ -34,33 +35,23 @@ export default ({combos = [], fnGuardar}) => {
   };
 
   const ubicarEnMapa = async () => {
-    setTimeout(async () => {
-      let value = await AsyncStorage.getItem('coords');
-      value = value === null ? null : JSON.parse(value);
-      if (value !== null) {
-        if (value.lat !== dataForm.latitud) {
-          setDataForm({
-            ...dataForm,
-            latitud: value.lat,
-            longitud: value.lng,
-          });
-        }
-      }
-    }, 5000);
-    //setTimeout(async ()=>{ubicarEnMapa();},5000);
+    getPoint();
+    let result = await AsyncStorage.getItem('coords');
+    if (result != null) {
+      result = JSON.parse(result);
+      setDataForm({
+        ...dataForm,
+        latitud: result.lat,
+        longitud: result.lng,
+      });
+    } else {
+      setTimeout(() => {
+        ubicarEnMapa().then();
+      }, 2000);
+    }
   };
 
   const guardar = async () => {
-    let value = await AsyncStorage.getItem('coords');
-    value = value === null ? null : JSON.parse(value);
-    if (value !== null) {
-      setDataForm({
-        ...dataForm,
-        latitud: value.lat,
-        longitud: value.lng,
-      });
-    }
-
     dataForm.fecha = dataForm.fecha.split('/').reverse().join('-');
     fnGuardar(dataForm, dataVar, dataImage);
   };
@@ -184,6 +175,7 @@ export default ({combos = [], fnGuardar}) => {
               color={theme.colors.primary}
               onPress={() => {
                 notifyMessage('Seleccionar punto en mapa');
+                AsyncStorage.setItem('coords', '');
                 ubicarEnMapa();
               }}
             />

@@ -13,23 +13,22 @@ module.exports = `<!DOCTYPE html>
           crossorigin=""></script>
   <script src="https://d19vzq90twjlae.cloudfront.net/leaflet-0.7/leaflet.js"></script>
   <script src="http://cdn.leafletjs.com/leaflet-0.7/leaflet.js"></script>
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.css"/>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js"></script>
+  
 </head>
 <body style="padding: 0; margin: 0">
 <div id="mapid" style="width: 100%; height: 100vh;"></div>
 <script>
-
-
   const mymap = L.map("mapid", {
     center: [6.2447305, -75.5760133],
     zoom: 12,
     zoomControl: false,
     attributionControl: false,
   });
-/*
-  var drawPoint = new L.Draw.Marker(mymap);
-  var drawLine = new L.Draw.Polyline(mymap);
-  var drawPoly = new L.Draw.Polygon(mymap)
-*/
+
+
   const myIcon = L.icon({
     iconUrl: "https://www.medellin.gov.co/siro_portal/siro_portal/imagenes/icons/puntomapa.png",
     iconAnchor: [10, 20], // point of the icon which will correspond to marker's location
@@ -95,11 +94,11 @@ module.exports = `<!DOCTYPE html>
   });
   
 
-    const radius = L.circle(mymap.getCenter(), {
-        color: "#58D2FF",
-        fillColor: "#58D2FF",
-        radius: 20
-    })
+  const radius = L.circle(mymap.getCenter(), {
+      color: "#58D2FF",
+      fillColor: "#58D2FF",
+      radius: 20
+  })
 
   function onMapClick(e) {
     marker.addTo(mymap);
@@ -110,11 +109,9 @@ module.exports = `<!DOCTYPE html>
   
   
   function acctionMapGetPoint(){
-     let e = marker.getLatLng();
-     window.ReactNativeWebView.postMessage(JSON.stringify({lat:e.lat,lng:e.lng}));
+     mymap.on("click", onMapClick);
   }
-
-  mymap.on("click", onMapClick);
+  
 
   mymap.on("move", function(e) {
     // marker.setLatLng(mymap.getCenter());
@@ -156,20 +153,67 @@ module.exports = `<!DOCTYPE html>
     }).addTo(mymap);
     mymap.fitBounds(layerOld.getBounds());
   }
-  /*
+
+
+</script>
+<script>
+
+
+var editableLayers = new L.FeatureGroup();
+mymap.addLayer(editableLayers);
+
+var drawPluginOptions = {
+  position: 'bottomright',
+  draw: {
+    polygon: {
+      allowIntersection: false, // Restricts shapes to simple polygons
+      drawError: {
+        color: '#e1e100', // Color the shape will turn when intersects
+        message: '<strong>Oh snap!<strong> you can\\'t draw that!' // Message that will show when intersect
+      },
+      shapeOptions: {
+        color: '#97009c'
+      },
+      metric: ['m']
+    },
+    // disable toolbar item by setting it to false
+    polyline: false,
+    circle: false, // Turns off this drawing tool
+    rectangle: false,
+    marker: false,
+    circlemarker: false
+    },
+  edit: {
+    featureGroup: editableLayers, //REQUIRED!!
+    remove: false
+  }
+};
+
+// Initialise the draw control and pass it the FeatureGroup of editable layers
+var drawControl = new L.Control.Draw(drawPluginOptions);
+//mymap.addControl(drawControl);
+
+var editableLayers = new L.FeatureGroup();
+mymap.addLayer(editableLayers);
+
+mymap.on('draw:created', function(e) {
+  var type = e.layerType,
+    layer = e.layer;
+  
+  if (type === 'marker') {
+    layer.bindPopup('A popup!');
+  }
+   window.ReactNativeWebView.postMessage(JSON.stringify(layer.getLatLngs()));
+   editableLayers.addLayer(layer);
+});
+
   function drawPolin(){
-     drawPoly.enable();
-       setTimeout(()=>{
-         mymap.on(L.Draw.Event.CREATED, e => {
-          if (geomTemp === e.layer) {
-            return;
-          }
-          geomTemp = e.layer;
-        },5000);
-     })  
-  }*/
-
-
+    mymap.on("click", ()=>{});
+    var polyEdit = new L.Draw.Polygon(mymap);
+    polyEdit.enable();
+    //polyEdit.addVertex(e.latlng);
+  }
+  
 </script>
 </body>
 </html>`;

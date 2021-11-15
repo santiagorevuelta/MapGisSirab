@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Text, View} from 'react-native';
 import {theme} from '../../../core/theme';
 import {Button as ButtonIcon} from 'react-native-paper';
@@ -11,15 +11,21 @@ import TextInputForm from '../../commons/TextInputForm';
 import consultarBarrios from '../../../helpers/consultaBarrios';
 import {responsiveFontSize} from 'react-native-responsive-dimensions';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
-import {notifyMessage} from '../../../core/general';
 import {ScrollView} from 'react-native-gesture-handler';
+import {drawPolin, limpiarMapa} from '../../map/BackgroundMap';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const selectPlace = 'Seleccione...';
 
 export default ({combos = [], fnGuardar}) => {
   const [dataForm, setDataForm] = React.useState({});
   const [dataImage, setDataImage] = React.useState([]);
+  const [polygon, setPolygon] = React.useState([]);
   const [combosBarrios, setCombosBarrios] = React.useState([]);
+
+  useEffect(() => {
+    limpiarMapa();
+  }, []);
 
   const llenarBarrio = async id => {
     if (id !== '') {
@@ -27,6 +33,23 @@ export default ({combos = [], fnGuardar}) => {
       setCombosBarrios(res);
     } else {
       setCombosBarrios([]);
+    }
+  };
+
+  const getPolygon = async () => {
+    let result = await AsyncStorage.getItem('polygon');
+    if (result != null) {
+      result = JSON.parse(result);
+      let finalJ = '';
+      for (const data of result) {
+        finalJ += `${data.lat} ${data.lng},`;
+      }
+      finalJ += `${result[0].lat} ${result[0].lng}`;
+      setDataForm({...dataForm, geom: `POLYGON(${finalJ})`});
+    } else {
+      setTimeout(() => {
+        getPolygon().then();
+      }, 2000);
     }
   };
 
@@ -116,7 +139,8 @@ export default ({combos = [], fnGuardar}) => {
                 icon="vector-polyline-plus"
                 color={theme.colors.primary}
                 onPress={() => {
-                  notifyMessage('Seleccionar en mapa');
+                  drawPolin();
+                  getPolygon().then();
                 }}
               />
             </View>
@@ -178,7 +202,7 @@ export default ({combos = [], fnGuardar}) => {
             icon="content-save"
             color={theme.colors.primary}
             onPress={() => {
-              fnGuardar();
+              fnGuardar(dataForm, dataImage);
             }}>
             Guardar
           </ButtonIcon>
