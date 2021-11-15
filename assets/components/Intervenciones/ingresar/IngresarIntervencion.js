@@ -26,21 +26,37 @@ const ModalIngresarArbol = ({label, setOption, back}) => {
   }, [setCombos]);
 
   const fnGuardar = async (data, secondData, images = []) => {
-    let formData = new FormData();
-    data.fecha = data.fecha.split('/').reverse().join('-');
-    secondData = secondData.intervencion_secundaria.split(',');
-    formData.append('idArbol', base64.encode(idArbol));
-    formData.append('datosIntervencion', base64.encode(JSON.stringify(data)));
-    formData.append('datosImagenes', base64.encode(JSON.stringify(images)));
-    formData.append(
-      'datosSecundarias',
-      base64.encode(JSON.stringify(secondData)),
-    );
-    let res = await guardarDatos(formData, 'searchIntervencion');
-    if (res.message) {
-      notifyMessage(res.message);
+    if (idArbol !== null) {
+      if (
+        !data.fecha ||
+        !data.tipo_intervencion ||
+        !data.proyecto ||
+        !secondData.intervencion_secundaria
+      ) {
+        notifyMessage('Los campos marcados con (*) son obligatorios');
+        return;
+      }
+
+      let formData = new FormData();
+      data.fecha = data.fecha.split('/').reverse().join('-');
+      secondData = secondData.intervencion_secundaria.split(',');
+      formData.append('idArbol', base64.encode(idArbol));
+      formData.append('datosIntervencion', base64.encode(JSON.stringify(data)));
+      formData.append('datosImagenes', base64.encode(JSON.stringify(images)));
+      formData.append(
+        'datosSecundarias',
+        base64.encode(JSON.stringify(secondData)),
+      );
+      let res = await guardarDatos(formData, 'searchIntervencion');
+      if (res.message) {
+        notifyMessage(res.message);
+        setIdArbol(null);
+        setArboles(false);
+      } else {
+        notifyMessage('Error al guardar');
+      }
     } else {
-      notifyMessage('Error al guardar');
+      notifyMessage('Sin arbol para asociar');
     }
   };
 
@@ -56,6 +72,7 @@ const ModalIngresarArbol = ({label, setOption, back}) => {
         if (result.error) {
           notifyMessage(result.message);
         } else {
+          notifyMessage('Arbol encontrado correctamente');
           setIdArbol(result.data[0].id_arbol);
           setArboles(true);
         }

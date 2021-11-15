@@ -25,9 +25,10 @@ const ModalIntervention = ({
         <View style={styles.modalView}>
           <View style={styles.closeModal}>
             <Button
-              icon={'close-circle-multiple'}
+              icon={'close-circle-outline'}
+              mode={'outlined'}
               color={theme.colors.primary}
-              labelStyle={{fontSize: responsiveFontSize(3)}}
+              labelStyle={{fontSize: responsiveFontSize(4)}}
               style={styles.closeButton}
               compact={true}
               onPress={() => {

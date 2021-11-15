@@ -19,7 +19,7 @@ export default ({fnGuardar, combos = []}) => {
     <View style={styles.body}>
       <View style={[styles.form, {zIndex: 10}]}>
         <SelectSimple
-          label={'Tipo intervención'}
+          label={'Tipo intervención *'}
           id="tipo_intervencion"
           placeholder={selectPlace}
           valueSelected={dataForm.tipo_intervencion}
@@ -31,7 +31,7 @@ export default ({fnGuardar, combos = []}) => {
           list={combos}
         />
         <DatePicker
-          label={'Fecha intervencion'}
+          label={'Fecha intervencion *'}
           placeholder={'dd/mm/aaaa'}
           value={dataForm.fecha}
           onSelectDate={text => setDataForm({...dataForm, fecha: text})}
@@ -39,7 +39,7 @@ export default ({fnGuardar, combos = []}) => {
       </View>
       <View style={[styles.form, {zIndex: 9}]}>
         <SelectSimple
-          label={'Proyecto'}
+          label={'Proyecto *'}
           id="proyecto"
           placeholder={selectPlace}
           valueSelected={dataForm.proyecto}
@@ -51,7 +51,7 @@ export default ({fnGuardar, combos = []}) => {
           list={combos}
         />
         <SelectSimple
-          label={'Intervencion secundaria'}
+          label={'Intervencion secundaria *'}
           id="intervencion_secundaria"
           placeholder={selectPlace}
           valueSelected={dataSecondary.intervencion_secundaria}
