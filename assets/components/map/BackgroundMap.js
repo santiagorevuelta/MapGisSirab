@@ -178,6 +178,19 @@ async function setCoords() {
   MapRef.current.injectJavaScript(injected);
 }
 
+function getPoint() {
+  if (!MapRef.current) {
+    return [];
+  }
+
+  const injected = `
+    acctionMapGetPoint();
+    true;
+  `;
+
+  MapRef.current.injectJavaScript(injected);
+}
+
 function drawPolin() {
   if (!MapRef.current) {
     return [];
@@ -191,13 +204,13 @@ function drawPolin() {
   MapRef.current.injectJavaScript(injected);
 }
 
-function getPoint() {
+function limpiarMapaPolygon() {
   if (!MapRef.current) {
     return [];
   }
-
+  AsyncStorage.setItem('polygon', '');
   const injected = `
-    acctionMapGetPoint();
+    limpiarDrawPolygon();
     true;
   `;
 
@@ -214,4 +227,5 @@ module.exports = {
   setCoords,
   getPoint,
   drawPolin,
+  limpiarMapaPolygon,
 };

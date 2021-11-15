@@ -12,19 +12,19 @@ import consultarBarrios from '../../../helpers/consultaBarrios';
 import {responsiveFontSize} from 'react-native-responsive-dimensions';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {ScrollView} from 'react-native-gesture-handler';
-import {drawPolin, limpiarMapa} from '../../map/BackgroundMap';
+import {drawPolin, limpiarMapaPolygon} from '../../map/BackgroundMap';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {notifyMessage} from '../../../core/general';
 
 const selectPlace = 'Seleccione...';
 
 export default ({combos = [], fnGuardar}) => {
   const [dataForm, setDataForm] = React.useState({});
   const [dataImage, setDataImage] = React.useState([]);
-  const [polygon, setPolygon] = React.useState([]);
   const [combosBarrios, setCombosBarrios] = React.useState([]);
 
   useEffect(() => {
-    limpiarMapa();
+    //limpiarMapaPolygon();
   }, []);
 
   const llenarBarrio = async id => {
@@ -42,10 +42,10 @@ export default ({combos = [], fnGuardar}) => {
       result = JSON.parse(result);
       let finalJ = '';
       for (const data of result) {
-        finalJ += `${data.lat} ${data.lng},`;
+        finalJ += `${data.lng} ${data.lat},`;
       }
-      finalJ += `${result[0].lat} ${result[0].lng}`;
-      setDataForm({...dataForm, geom: `POLYGON(${finalJ})`});
+      finalJ += `${result[0].lng} ${result[0].lat}`;
+      setDataForm({...dataForm, geom: `POLYGON((${finalJ}))`});
     } else {
       setTimeout(() => {
         getPolygon().then();
@@ -139,8 +139,18 @@ export default ({combos = [], fnGuardar}) => {
                 icon="vector-polyline-plus"
                 color={theme.colors.primary}
                 onPress={() => {
+                  notifyMessage('Click para dibujar');
                   drawPolin();
                   getPolygon().then();
+                }}
+              />
+              <ButtonIcon
+                compact={true}
+                labelStyle={{fontSize: responsiveFontSize(3)}}
+                icon="cached"
+                color={theme.colors.primary}
+                onPress={() => {
+                  limpiarMapaPolygon();
                 }}
               />
             </View>

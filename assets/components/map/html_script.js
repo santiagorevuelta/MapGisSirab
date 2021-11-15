@@ -102,7 +102,7 @@ module.exports = `<!DOCTYPE html>
 
   function onMapClick(e) {
     marker.addTo(mymap);
-    popup.setLatLng(e.latlng).setContent("You clicked the map at " + e.latlng.toString()).openOn(mymap);1
+    //popup.setLatLng(e.latlng).setContent("You clicked the map at " + e.latlng.toString()).openOn(mymap);
     marker.setLatLng(e.latlng);
     window.ReactNativeWebView.postMessage(JSON.stringify({lat:e.latlng.lat,lng:e.latlng.lng}));
   }
@@ -110,6 +110,7 @@ module.exports = `<!DOCTYPE html>
   
   function acctionMapGetPoint(){
      mymap.on("click", onMapClick);
+     marker.addTo(mymap);
   }
   
 
@@ -196,6 +197,8 @@ var drawControl = new L.Control.Draw(drawPluginOptions);
 var editableLayers = new L.FeatureGroup();
 mymap.addLayer(editableLayers);
 
+var polygon
+
 mymap.on('draw:created', function(e) {
   var type = e.layerType,
     layer = e.layer;
@@ -205,6 +208,7 @@ mymap.on('draw:created', function(e) {
   }
    window.ReactNativeWebView.postMessage(JSON.stringify(layer.getLatLngs()));
    editableLayers.addLayer(layer);
+   polygon = layer;
 });
 
   function drawPolin(){
@@ -212,6 +216,11 @@ mymap.on('draw:created', function(e) {
     var polyEdit = new L.Draw.Polygon(mymap);
     polyEdit.enable();
     //polyEdit.addVertex(e.latlng);
+  }
+  
+  
+  function limpiarDrawPolygon(){
+    editableLayers.removeLayer(polygon);
   }
   
 </script>

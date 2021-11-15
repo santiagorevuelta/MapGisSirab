@@ -7,7 +7,7 @@ import combosArbol from '../../../helpers/combosArbol';
 import tsconfig from '../../../tsconfig.json';
 import {notifyMessage} from '../../../core/general';
 
-const ModalIngresarArbol = ({...props}) => {
+const ModalIngresarArbol = ({label, setOption, back}) => {
   const [combos, setCombos] = React.useState([]);
   const [dataForm, setDataForm] = React.useState({});
   const [dataVar, setDataVar] = React.useState({});
@@ -25,7 +25,12 @@ const ModalIngresarArbol = ({...props}) => {
       base64.encode(JSON.stringify(datosImagenes)),
     );
     let res = await guardarDatos(formData, 'searchTree');
-    notifyMessage(res.message);
+    if (res.message) {
+      notifyMessage(res.message);
+      setOption(back);
+    } else {
+      notifyMessage('Error al guardar');
+    }
   };
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -37,11 +42,7 @@ const ModalIngresarArbol = ({...props}) => {
 
   return (
     <>
-      <HeaderModal
-        type={props.label}
-        setOption={props.setOption}
-        backIndex={props.back}
-      />
+      <HeaderModal type={label} setOption={setOption} backIndex={back} />
       <FormIngresarArbol
         fnGuardar={fnGuardar}
         combos={combos}

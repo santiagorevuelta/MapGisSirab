@@ -27,13 +27,8 @@ const ModalIngresarArbol = ({label, setOption, back}) => {
 
   const fnGuardar = async (data, secondData, images = []) => {
     if (idArbol !== null) {
-      if (
-        !data.fecha ||
-        !data.tipo_intervencion ||
-        !data.proyecto ||
-        !data.observacion ||
-        !secondData.intervencion_secundaria
-      ) {
+      let valid = validarObligatorio(data, secondData);
+      if (!valid) {
         notifyMessage('Los campos marcados con (*) son obligatorios');
         return;
       }
@@ -60,6 +55,16 @@ const ModalIngresarArbol = ({label, setOption, back}) => {
       notifyMessage('Sin arbol para asociar');
     }
   };
+
+  function validarObligatorio(data, secondData) {
+    return !(
+      !data.fecha ||
+      !data.tipo_intervencion ||
+      !data.proyecto ||
+      !data.observacion ||
+      !secondData.intervencion_secundaria
+    );
+  }
 
   const fnSearch = async () => {
     if (dataArbol.codigo_arbol === '') {
