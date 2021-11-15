@@ -1,6 +1,6 @@
 import axios from 'axios';
 import tsconfig from '../tsconfig.json';
-import {consultToken, notifyMessage} from '../core/general';
+import {catchError, consultToken, notifyMessage} from '../core/general';
 
 export default async function (id) {
   let token = await consultToken();
@@ -22,6 +22,7 @@ export default async function (id) {
     })
     .catch(function (error) {
       console.info(url + ' ', error.message);
+      catchError(error.message);
     });
   return data;
 }

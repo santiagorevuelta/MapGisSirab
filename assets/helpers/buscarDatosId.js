@@ -1,9 +1,8 @@
 import axios from 'axios';
 import tsconfig from '../tsconfig.json';
-import {notifyMessage, consultToken} from '../core/general';
+import {catchError, consultToken, notifyMessage} from '../core/general';
 
 export default async function (id, type) {
-
   let token = await consultToken();
   if (token === null) {
     notifyMessage('Sin autenticación');
@@ -24,6 +23,7 @@ export default async function (id, type) {
       })
       .catch(function (error) {
         resolve([]);
+        catchError(error.message);
       });
   });
 }

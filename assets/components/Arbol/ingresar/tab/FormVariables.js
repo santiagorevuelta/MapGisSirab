@@ -4,53 +4,63 @@ import {theme} from '../../../../core/theme';
 import TextInputForm from '../../../commons/TextInputForm';
 import DatePicker from '../../../commons/DatePicker/DatePicker';
 import styles from '../../../css/ingresarcss';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export default ({dataVar, setDataVar}) => {
+export default ({}) => {
+  const [vataVariables, setVataVariables] = React.useState({});
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  React.useEffect(async () => {
+    let data = await AsyncStorage.getItem('variables');
+    data = data === null ? {} : JSON.parse(data);
+    setVataVariables(data);
+  }, []);
+
+  const setData = (name, text) => {
+    setVataVariables({...vataVariables, [name]: text});
+    AsyncStorage.setItem('variables', JSON.stringify(vataVariables));
+  };
+
   return (
     <View style={{height: '100%', backgroundColor: theme.colors.blanco}}>
       <View style={styles.form}>
         <TextInputForm
-          label={'Altura de árbol (m)'}
+          label={'Altura de árbol (m) *'}
           placeholder={'Altura'}
-          value={dataVar.altura}
+          value={vataVariables.altura}
           keyboardType="numeric"
-          onChangeTextInput={text => setDataVar({...dataVar, altura: text})}
+          onChangeTextInput={text => setData('altura', text)}
         />
         <TextInputForm
-          label={'Altura copa (m)'}
+          label={'Altura copa (m) *'}
           placeholder={'Altura copa'}
-          value={dataVar.altura_copa}
+          value={vataVariables.altura_copa}
           keyboardType="numeric"
-          onChangeTextInput={text =>
-            setDataVar({...dataVar, altura_copa: text})
-          }
+          onChangeTextInput={text => setData('altura_copa', text)}
         />
       </View>
       <View style={styles.form}>
         <TextInputForm
-          label={'DAP1 (cm)'}
+          label={'DAP1 (cm) *'}
           placeholder={'DAP1'}
-          value={dataVar.dap1}
+          value={vataVariables.dap1}
           keyboardType="numeric"
-          onChangeTextInput={text => setDataVar({...dataVar, dap1: text})}
+          onChangeTextInput={text => setData('dap1', text)}
         />
         <TextInputForm
-          label={'DAP2 (cm)'}
+          label={'DAP2 (cm) *'}
           placeholder={'DAP2'}
-          value={dataVar.dap2}
+          value={vataVariables.dap2}
           keyboardType="numeric"
-          onChangeTextInput={text => setDataVar({...dataVar, dap2: text})}
+          onChangeTextInput={text => setData('dap2', text)}
         />
       </View>
       <View style={styles.form}>
         <DatePicker
-          label={'Fecha ingreso'}
+          label={'Fecha ingreso *'}
           placeholder={'dd/mm/aaaa'}
-          value={dataVar.fecha_ingreso}
-          onChangeTextInput={text =>
-            setDataVar({...dataVar, fecha_ingreso: text})
-          }
-          onSelectDate={text => setDataVar({...dataVar, fecha_ingreso: text})}
+          value={vataVariables.fecha_ingreso}
+          onSelectDate={text => setData('fecha_ingreso', text)}
         />
       </View>
     </View>

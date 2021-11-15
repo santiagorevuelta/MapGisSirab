@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {consultToken, notifyMessage} from '../core/general';
+import {catchError, consultToken, notifyMessage} from '../core/general';
 
 export default async function (urlCombo) {
   let token = await consultToken();
@@ -20,6 +20,9 @@ export default async function (urlCombo) {
     })
     .catch(function (error) {
       console.info(urlCombo + ' urlCombo ', error.message);
+      if (error.message) {
+        catchError(error.message);
+      }
     });
   return resultCombo;
 }

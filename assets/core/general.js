@@ -29,4 +29,20 @@ async function consultToken() {
   return token;
 }
 
-module.exports = {notifyMessage, consultToken};
+function catchError(msg) {
+  if (msg.indexOf('503') !== -1) {
+    notifyMessage(
+      'El servidor no está disponible en ese momento.\n Prueba de nuevo en unos minutos.',
+    );
+  } else if (msg.indexOf('500') !== -1) {
+    notifyMessage('Hay un problema en el servidor');
+  } else if (msg.indexOf('400') !== -1) {
+    notifyMessage('Algo ha ido mal con la petición');
+  } else if (msg.indexOf('401') !== -1) {
+    notifyMessage('No tienes permiso para recibir ese contenido');
+  } else {
+    notifyMessage(msg);
+  }
+}
+
+module.exports = {notifyMessage, consultToken, catchError};

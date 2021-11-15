@@ -1,6 +1,6 @@
 import axios from 'axios';
 import tsconfig from '../tsconfig.json';
-import {consultToken, notifyMessage} from '../core/general';
+import {catchError, consultToken, notifyMessage} from '../core/general';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import base64 from 'react-native-base64';
 
@@ -34,6 +34,7 @@ export default async function (filtros, page = 1, type) {
     })
     .catch(function (error) {
       console.log(error);
+      catchError(error.message);
     });
   return data;
 }

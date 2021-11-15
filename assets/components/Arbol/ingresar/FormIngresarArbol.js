@@ -9,7 +9,6 @@ import SelectSimple from '../../commons/selectSimple/SelectSimple';
 import DatePicker from '../../commons/DatePicker/DatePicker';
 import {notifyMessage} from '../../../core/general';
 import styles from '../../css/ingresarcss';
-import json from '../../../initialjson.json';
 import TabIngresar from '../ingresar/tab/TabIngresar';
 import TextSimple from '../../commons/TextSimple';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
@@ -21,7 +20,6 @@ const selectPlace = 'Seleccione...';
 
 export default ({combos = [], fnGuardar}) => {
   const [dataForm, setDataForm] = React.useState({});
-  const [dataVar, setDataVar] = React.useState(json.datosVariables);
   const [dataImage, setDataImage] = React.useState([]);
   const [combosBarrios, setCombosBarrios] = React.useState([]);
 
@@ -52,9 +50,37 @@ export default ({combos = [], fnGuardar}) => {
   };
 
   const guardar = async () => {
+    let data = await AsyncStorage.getItem('variables');
+    data = data == null ? {} : JSON.parse(data);
+
+    let valid = validarObligatorio(dataForm, data);
+    if (!valid) {
+      notifyMessage('Los campos marcados con (*) son obligatorios');
+      return;
+    }
     dataForm.fecha = dataForm.fecha.split('/').reverse().join('-');
-    fnGuardar(dataForm, dataVar, dataImage);
+
+    fnGuardar(dataForm, data, dataImage);
   };
+
+  function validarObligatorio(datos, dataVar) {
+    return !(
+      !datos.especie ||
+      !datos.codigo_arbol ||
+      !datos.fecha ||
+      !datos.id_tipo_arbol ||
+      !datos.id_tipo_origen_arbol ||
+      !datos.primer_nivel ||
+      !datos.segundo_nivel ||
+      !datos.latitud ||
+      !datos.longitud ||
+      !dataVar.altura ||
+      !dataVar.altura_copa ||
+      !dataVar.dap1 ||
+      !dataVar.dap2 ||
+      !dataVar.fecha_ingreso
+    );
+  }
 
   return (
     <ScrollView>
@@ -136,7 +162,7 @@ export default ({combos = [], fnGuardar}) => {
         </View>
         <View style={[styles.form]}>
           <SelectSimple
-            label={'Comuna'}
+            label={'Comuna *'}
             id="primer_nivel"
             placeholder={selectPlace}
             valueSelected={dataForm.primer_nivel}
@@ -149,7 +175,7 @@ export default ({combos = [], fnGuardar}) => {
             list={combos}
           />
           <SelectSimple
-            label={'Barrio'}
+            label={'Barrio *'}
             id="segundo_nivel"
             disabledView={combosBarrios.length === 0}
             placeholder={selectPlace}
@@ -185,12 +211,7 @@ export default ({combos = [], fnGuardar}) => {
           <TextSimple label={'latitud'} value={dataForm.latitud} />
           <TextSimple label={'longitud'} value={dataForm.longitud} />
         </View>
-        <TabIngresar
-          dataVar={dataVar}
-          dataImage={dataImage}
-          setDataVar={setDataVar}
-          setDataImage={setDataImage}
-        />
+        <TabIngresar dataImage={dataImage} setDataImage={setDataImage} />
         <View style={[styles.form, {justifyContent: 'flex-end'}]}>
           <ButtonIcon
             compact={true}

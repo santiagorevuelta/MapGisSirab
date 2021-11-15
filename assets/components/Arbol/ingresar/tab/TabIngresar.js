@@ -12,14 +12,9 @@ import FormVariables from './FormVariables';
 
 const Tab = createMaterialTopTabNavigator();
 
-function getHome({dataImage, setDataImage, dataVar, setDataVar}) {
-
+function getHome({dataImage, setDataImage}) {
   function imagenes() {
     return <FormImagenes dataImage={dataImage} setDataImage={setDataImage} />;
-  }
-
-  function variables() {
-    return <FormVariables dataVar={dataVar} setDataVar={setDataVar} />;
   }
 
   return (
@@ -27,18 +22,18 @@ function getHome({dataImage, setDataImage, dataVar, setDataVar}) {
       <Tab.Navigator
         theme={theme}
         screenOptions={{
-          tabBarOptions: {upperCaseLabel: false, textTransform: 'none' },
+          tabBarOptions: {upperCaseLabel: false},
           tabBarActiveTintColor: theme.colors.primary,
           tabBarInactiveTintColor: 'red',
           tabBarLabelStyle: [theme.ver.Label, styles.header],
         }}>
         <Tab.Screen
           name="variables"
-          component={variables}
+          component={FormVariables}
           options={{
             title: 'Variables dasométricas',
             headerShown: false,
-            upperCaseLabel: false
+            upperCaseLabel: false,
           }}
         />
         <Tab.Screen
