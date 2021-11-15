@@ -1,11 +1,4 @@
-import React, {useState} from 'react';
-import {StyleSheet} from 'react-native';
-import {theme} from '../../core/theme';
-import {
-  responsiveFontSize,
-  responsiveHeight,
-  responsiveWidth,
-} from 'react-native-responsive-dimensions';
+import React, {useEffect, useState} from 'react';
 import FormConsultaArbol from './FormConsultaArbol';
 import ResultSearch from './ResultSearch';
 import {notifyMessage} from '../../core/general';
@@ -13,12 +6,26 @@ import HeaderModal from '../home/HeaderModal';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import buscarDatos from '../../helpers/buscarDatos';
 import {limpiarMapa, verEnMapaAllPoint} from '../map/BackgroundMap';
+import tsconfig from '../../tsconfig.json';
+import combosArbol from '../../helpers/combosArbol';
 
 const ModalOptionsArbol = ({...props}) => {
   const [buscar, setBuscar] = useState(false);
   const [dataResult, setDataResult] = useState({});
+  const [combos, setCombos] = useState([]);
+
+  useEffect(() => {
+    let url = tsconfig[tsconfig.use].searchTree.combos;
+    combosArbol(url).then(res => {
+      setCombos(res);
+    });
+  }, [setCombos]);
+
   const fnBuscar = async (obj, filtros = {}) => {
     if (obj) {
+      if (filtros.fecha && filtros.fecha === '-') {
+        delete filtros.fecha;
+      }
       let res = filter(filtros);
       if (!res) {
         notifyMessage('La fecha final es obligatoria');
@@ -47,7 +54,7 @@ const ModalOptionsArbol = ({...props}) => {
   };
 
   const fnLimpiar = obj => {
-    setBuscar(obj);
+    setBuscar(false);
     limpiarMapa();
   };
 
@@ -74,7 +81,7 @@ const ModalOptionsArbol = ({...props}) => {
       <FormConsultaArbol
         fnBuscar={fnBuscar}
         fnLimpiar={fnLimpiar}
-        combos={props.combos}
+        combos={combos}
       />
       {buscar ? (
         <ResultSearch
@@ -89,29 +96,3 @@ const ModalOptionsArbol = ({...props}) => {
 };
 
 export default ModalOptionsArbol;
-
-const styles = StyleSheet.create({
-  contend: {
-    flexDirection: 'row',
-    height: responsiveHeight(5),
-    paddingLeft: responsiveWidth(5),
-  },
-  regress: {
-    width: responsiveWidth(30),
-  },
-  regressTxt: {
-    color: theme.colors.headers,
-    fontSize: responsiveFontSize(1.5),
-    fontWeight: 'normal',
-    fontStyle: 'italic',
-    position: 'absolute',
-    textDecorationLine: 'underline',
-    top: responsiveWidth(1),
-    paddingLeft: responsiveWidth(5),
-    elevation: 5,
-  },
-  regressHead: {
-    textAlign: 'center',
-    fontSize: responsiveFontSize(2),
-  },
-});

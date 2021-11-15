@@ -1,17 +1,17 @@
-import {Dimensions, StyleSheet} from 'react-native';
-
-const {width, height} = Dimensions.get('window');
+import {StyleSheet} from 'react-native';
+import {responsiveHeight} from 'react-native-responsive-dimensions';
+import {theme} from '../../../core/theme';
 
 export const styles = StyleSheet.create({
   centeredView: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 22,
+    backgroundColor: 'rgba(0,0,0, 0.5)',
   },
   modalView: {
     margin: 20,
-    backgroundColor: 'white',
+    backgroundColor: '#fff',
     borderRadius: 20,
     padding: 25,
     alignItems: 'center',
@@ -24,32 +24,39 @@ export const styles = StyleSheet.create({
     shadowRadius: 3.84,
     elevation: 5,
   },
-  openButton: {
-    top: '1%',
-    right: '1%',
-    width: 25,
-    height: 25,
-    position: 'absolute',
-    textAlign: 'center',
-    borderRadius: 50,
-    borderWidth: 1,
-    backgroundColor: '#fff',
-    borderColor: '#08517F',
-  },
-  textStyle: {
-    color: '#08517F',
-    top: -8,
-    textAlign: 'center',
-    fontSize: 22,
-  },
   fotoModal: {
-    width: width / 2 + 100,
-    height: height / 2,
+    resizeMode: 'contain',
     borderRadius: 5,
+    width: '100%',
   },
-  viewCamposBtn: {
+  closeModal: {
+    alignItems: 'flex-end',
     flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: 'flex-end',
+    width: '100%',
+    height: 0,
+  },
+  closeButton: {
+    backgroundColor: theme.colors.blanco,
+    elevation: 10,
+    borderWidth: 0,
+    borderRadius: 50,
+    height: 40,
+    width: 40,
+    right: -20,
+    top: '5%',
+  },
+  row: {
+    flexDirection: 'row',
+  },
+  div: {
+    width: '50%',
+    justifyContent: 'flex-start',
+  },
+  slider: {
+    height: responsiveHeight(40),
+    margin: 0,
+    padding: 0,
+    borderRadius: 5,
   },
 });

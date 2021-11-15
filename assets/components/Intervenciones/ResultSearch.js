@@ -1,26 +1,40 @@
 import React from 'react';
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import {Pressable, StyleSheet, Text} from 'react-native';
 import {theme} from '../../core/theme';
-import {Button, Card, Paragraph, Title} from 'react-native-paper';
+import {Card, Paragraph, Title} from 'react-native-paper';
 import {responsiveFontSize} from 'react-native-responsive-dimensions';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import Animated from 'react-native-reanimated';
 import {ScrollView} from 'react-native-gesture-handler';
-import {notifyMessage,verifiedImage} from '../../core/general';
+import {notifyMessage} from '../../core/general';
 import Pagination from '../../core/Pagination';
 import styleCard from '../css/cardsCss';
-import RenderImage from "../commons/RenderImagen";
+import RenderImage from '../commons/RenderImagenCard';
+import ModalIntervention from './Ver/modalIntervention';
 
-export default function (props) {
+export default function ({data, meta, paginar}) {
+  const [dataItem, setDataItem] = React.useState({});
+  const [visible, setVisible] = React.useState(false);
+
   return (
     <Animated.View style={styles.container}>
+      <ModalIntervention
+        modalVisible={visible}
+        onModalVisible={setVisible}
+        data={dataItem}
+      />
       <Text style={[theme.textos.Label, styles.txtRes]}>
         Resultado de la búsqueda
       </Text>
       <ScrollView persistentScrollbar={true} horizontal>
-        {Mycard(props)}
+        <Mycard
+          data={data}
+          dataItem={dataItem}
+          visible={visible}
+          setVisible={setVisible}
+          setDataItem={setDataItem}
+        />
       </ScrollView>
-      <Pagination meta={props.meta} paginar={props.paginar} />
+      <Pagination meta={meta} paginar={paginar} />
     </Animated.View>
   );
 }
@@ -36,8 +50,7 @@ const styles = StyleSheet.create({
   },
 });
 
-function Mycard(props) {
-  let data = props.data;
+function Mycard({data, visible, setVisible, setDataItem}) {
   return data.map((item, index) => (
     <Card key={'card' + index} style={styleCard.container}>
       <Title style={[theme.textos.Label, styleCard.title]}>
@@ -46,9 +59,8 @@ function Mycard(props) {
       <Card.Content>
         <Pressable
           onPress={() => {
-            AsyncStorage.setItem('items', JSON.stringify(item));
-            notifyMessage(JSON.stringify(item))
-            //props.tabArbol(config.home[0].items.ver);
+            setDataItem(item);
+            setVisible(!visible);
           }}>
           <Pressable
             onPress={() => {

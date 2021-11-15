@@ -140,7 +140,7 @@ module.exports = `<!DOCTYPE html>
   
   var layerOld = {}
   
-  function acctionMapVerPoly(coords, fillColor = "#258B20",color = "green") {
+  function acctionMapVerPoly(coords, fillColor = "#258B20",color = "red") {
     mymap.removeLayer(layerOld);
     geojsonFeaturePolygon[0].geometry = JSON.parse(coords);
      layerOld = new L.geoJson(geojsonFeaturePolygon, {
@@ -153,7 +153,8 @@ module.exports = `<!DOCTYPE html>
           fillOpacity: 0.3, // transparencia de relleno
         };
       },
-    }).addTo(mymap);   
+    }).addTo(mymap);
+    mymap.fitBounds(layerOld.getBounds());
   }
   /*
   function drawPolin(){

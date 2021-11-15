@@ -33,10 +33,14 @@ const SelectSimple = ({
     if (dependencia) {
       setListItems(list);
     } else {
-      let data = list.filter(function (item) {
-        return item.campo.indexOf(id) !== -1;
-      });
-      setListItems(data);
+      try {
+        let data = list.filter(function (item) {
+          return item.campo.indexOf(id) !== -1;
+        });
+        setListItems(data);
+      } catch (e) {
+        setListItems([]);
+      }
     }
   }, [dependencia, id, list]);
 

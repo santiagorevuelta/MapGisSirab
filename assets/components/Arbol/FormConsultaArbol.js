@@ -20,7 +20,7 @@ export default ({combos, fnBuscar, fnLimpiar}) => {
     fnLimpiar(data);
     setFilters({});
     setValorAutoComplete(null);
-    onToggleSwitch();
+    setIsSwitchOn(false);
   };
 
   return (

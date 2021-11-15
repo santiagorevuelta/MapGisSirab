@@ -14,7 +14,7 @@ export default class ViewTree extends React.Component {
     super();
     this.state = {
       index: 0,
-      codigo_arbol: {},
+      codigo_arbol: '',
       fotos: [],
       intervenciones: [],
       verArbol: {},

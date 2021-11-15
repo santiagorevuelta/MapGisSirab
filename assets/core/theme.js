@@ -1,68 +1,71 @@
-import { DefaultTheme } from "react-native-paper";
-import { responsiveFontSize, responsiveWidth } from "react-native-responsive-dimensions";
+import {DefaultTheme} from 'react-native-paper';
+import {
+  responsiveFontSize,
+  responsiveWidth,
+} from 'react-native-responsive-dimensions';
 
 export const theme = {
   ...DefaultTheme,
-  pressed: "#d9d9d9",
-  offPressed: "#fff",
+  pressed: '#d9d9d9',
+  offPressed: '#fff',
   radius: 15,
-  roboto: "roboto",
+  roboto: 'roboto',
   altoCampos: 5,
   colors: {
     ...DefaultTheme.colors,
-    text: "#000000",
-    primary: "#258B20",
-    secondary: "#414757",
-    error: "#f13a59",
-    focus: "rgba(37,139,32,0.15)",
-    headers: "#959595",
-    border: "rgba(149,149,149,0.24)",
-    blanco: "#fff",
-    negro: "#000",
-    hover: "rgb(125,211,122)",
+    text: '#000000',
+    primary: '#258B20',
+    secondary: '#414757',
+    error: '#f13a59',
+    focus: 'rgba(37,139,32,0.15)',
+    headers: '#959595',
+    border: 'rgba(149,149,149,0.24)',
+    blanco: '#fff',
+    negro: '#000',
+    hover: 'rgb(125,211,122)',
   },
   buttons: {
     principales: {
       height: 25,
       width: 56,
       borderRadius: 23,
-      color: "#258B20",
+      color: '#258B20',
     },
     Secundarios: {
       height: 25,
       width: 56,
       borderRadius: 23,
-      color: "#ffffff",
+      color: '#ffffff',
       borderWidth: 1,
-      borderColor: "#258B20",
+      borderColor: '#258B20',
     },
   },
   textos: {
     Label: {
       fontSize: responsiveFontSize(1.6),
-      color: "#258B20",
-      fontWeight: "bold",
+      color: '#258B20',
+      fontWeight: 'bold',
     },
     LabelIn: {
       fontSize: responsiveFontSize(1.5),
-      color: "#3F793B",
-      fontWeight: "bold",
+      color: '#258B20',
+      fontWeight: 'bold',
       paddingLeft: responsiveWidth(1),
     },
     Textos: {
-      color: "#959595",
-      textAlign: "center",
+      color: '#959595',
+      textAlign: 'center',
     },
   },
   ver: {
     Label: {
       fontSize: responsiveFontSize(1.8),
-      color: "#258B20",
+      color: '#258B20',
     },
     Textos: {
       fontSize: responsiveFontSize(1.5),
-      color: "#959595",
-      textAlign: "left",
+      color: '#959595',
+      textAlign: 'left',
     },
   },
   input: {
@@ -70,6 +73,6 @@ export const theme = {
     width: 140,
     borderRadius: 15,
     borderWidth: 1,
-    borderColor: "#959595",
+    borderColor: '#959595',
   },
 };

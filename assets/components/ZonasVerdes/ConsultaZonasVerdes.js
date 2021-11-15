@@ -1,29 +1,22 @@
 import React, {useState} from 'react';
-import {StyleSheet, View, Text, Pressable} from 'react-native';
-import {theme} from '../../core/theme';
-import {
-  responsiveFontSize,
-  responsiveHeight,
-  responsiveWidth,
-} from 'react-native-responsive-dimensions';
 import FormConsulta from '../ZonasVerdes/FormConsulta';
 import {notifyMessage} from '../../core/general';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import HeaderModal from '../home/HeaderModal';
-import buscarDatos from "../../helpers/buscarDatos";
-import ResultSearch from './ResultSearch'
-import { limpiarMapa } from "../map/BackgroundMap";
+import buscarDatos from '../../helpers/buscarDatos';
+import ResultSearch from './ResultSearch';
+import {limpiarMapa} from '../map/BackgroundMap';
 
-const ModalConsult = ({...props}) => {
+const ModalConsult = ({label, setOption, back, tabArbol}) => {
   const [buscar, setBuscar] = useState(false);
   const [dataResult, setDataResult] = useState({});
 
   const fnBuscar = async (obj, filtros = {}) => {
     if (obj) {
-      let response = await buscarDatos(filtros, 1,'searchZone');
+      let response = await buscarDatos(filtros, 1, 'searchZone');
       if (response.length === 0) {
         notifyMessage('La consulta no obtuvo resultados');
-        limpiarMapa()
+        limpiarMapa();
         return;
       }
       setDataResult(response);
@@ -34,31 +27,27 @@ const ModalConsult = ({...props}) => {
   const paginar = async page => {
     let res = await AsyncStorage.getItem('filtros');
     let filtros = res ? {} : JSON.parse(res);
-    let response = await buscarDatos(filtros, page,'searchZone');
+    let response = await buscarDatos(filtros, page, 'searchZone');
     if (response.length === 0) {
       notifyMessage('La consulta no obtuvo resultados');
-      limpiarMapa()
+      limpiarMapa();
       return;
     }
     setDataResult(response);
   };
 
-  const fnLimpiar = (obj) => {
+  const fnLimpiar = obj => {
     setBuscar(obj);
     limpiarMapa();
-  }
+  };
 
   return (
     <>
-      <HeaderModal
-        type={props.label}
-        setOption={props.setOption}
-        backIndex={props.back}
-      />
+      <HeaderModal type={label} setOption={setOption} backIndex={back} />
       <FormConsulta fnBuscar={fnBuscar} fnLimpiar={fnLimpiar} />
-       {buscar ? (
+      {buscar ? (
         <ResultSearch
-          tabArbol={props.tabArbol}
+          tabArbol={tabArbol}
           data={dataResult.data}
           meta={dataResult.meta}
           paginar={paginar}
@@ -69,29 +58,3 @@ const ModalConsult = ({...props}) => {
 };
 
 export default ModalConsult;
-
-const styles = StyleSheet.create({
-  contend: {
-    flexDirection: 'row',
-    height: responsiveHeight(5),
-    paddingLeft: responsiveWidth(5),
-  },
-  regress: {
-    width: responsiveWidth(30),
-  },
-  regressTxt: {
-    color: theme.colors.headers,
-    fontSize: responsiveFontSize(1.5),
-    fontWeight: 'normal',
-    fontStyle: 'italic',
-    position: 'absolute',
-    textDecorationLine: 'underline',
-    top: responsiveWidth(1),
-    paddingLeft: responsiveWidth(5),
-    elevation: 5,
-  },
-  regressHead: {
-    textAlign: 'center',
-    fontSize: responsiveFontSize(2),
-  },
-});

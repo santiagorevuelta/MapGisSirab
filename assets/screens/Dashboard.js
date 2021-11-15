@@ -14,16 +14,15 @@ import {
 import BottomSheet from '@gorhom/bottom-sheet';
 import {consultToken} from '../core/general';
 import config from '../tsconfig.json';
-import tsconfig from '../tsconfig.json';
-import {Platform} from 'react-native';
-import combosArbol from '../helpers/combosArbol';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import {LogBox, Platform} from 'react-native';
+
+LogBox.ignoreLogs(['new NativeEventEmitter']); // Ignore log notification by message
+LogBox.ignoreAllLogs(); //Ignore all log notifications
 
 export default function Dashboard({navigation}) {
   const [headerHide, setHeaderHide] = useState(false);
   const [option, setOption] = useState('inicio');
   const [optionOld, setOptionOld] = useState(null);
-  const [combos, setCombos] = useState([]);
   const [snp, setSnp] = useState(1);
   const bottomSheetRef = React.useRef(null);
   const snapPoints = useMemo(() => ['3%', '25%'], []);
@@ -34,20 +33,8 @@ export default function Dashboard({navigation}) {
 
   useEffect(() => {
     setCoords().then();
-  }, []);
-
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  useEffect(async () => {
-    let url = tsconfig[tsconfig.use].searchTree.combos;
-    let res = await combosArbol(url);
-    if(res)
-       AsyncStorage.setItem('comboarbol', JSON.stringify(res));
-    setCombos(res);
-  }, [setCombos]);
-
-  useEffect(() => {
-    consultToken().then(r => {
-      if (r) {
+    consultToken().then(res => {
+      if (res) {
         return;
       }
       navigation.reset({
@@ -104,7 +91,6 @@ export default function Dashboard({navigation}) {
               setOption={setView}
               type={option}
               back={optionOld}
-              combos={combos}
               label={optionOld + ' ' + option.toLowerCase()}
               tabArbol={tabArbol}
             />

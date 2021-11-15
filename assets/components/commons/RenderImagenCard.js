@@ -1,10 +1,10 @@
 import React from 'react';
-import {Image} from 'react-native';
+import {Card} from 'react-native-paper';
 
 export default function ImageRender({style, url}) {
   const [imageError, setImageError] = React.useState(url == null);
   return (
-    <Image
+    <Card.Cover
       style={style}
       source={imageError ? require('../../assets/imagen.png') : {uri: url}}
       onError={() => {

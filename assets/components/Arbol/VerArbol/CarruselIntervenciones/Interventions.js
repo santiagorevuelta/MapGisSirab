@@ -1,4 +1,10 @@
-import {ScrollView, StyleSheet, Text, View} from 'react-native';
+import {
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import {theme} from '../../../../core/theme';
 import React from 'react';
 import {
@@ -7,22 +13,38 @@ import {
   responsiveWidth,
 } from 'react-native-responsive-dimensions';
 import {Card} from 'react-native-paper';
+import RenderImagen from '../../../commons/RenderImagenCard';
+import ModalIntervention from '../../../Intervenciones/Ver/modalIntervention';
 
-export default function (props) {
+export default function ({data = []}) {
+  const [dataItem, setDataItem] = React.useState({});
+  const [visible, setVisible] = React.useState(false);
+
   return (
     <View style={styles.container}>
-      {props.length === 0 ? null : (
+      <ModalIntervention
+        modalVisible={visible}
+        onModalVisible={setVisible}
+        data={dataItem}
+      />
+      {data.length === 0 ? null : (
         <Text style={[theme.textos.Label, styles.h1]}>
           {'Intervenciones del árbol'}
         </Text>
       )}
-      {props.length === 0 ? null : (
+      {data.length === 0 ? null : (
         <Text style={[theme.textos.Label, styles.h1, styles.content]}>
-          {'Total(' + props.data.length + ')'}
+          {'Total(' + data.length + ')'}
         </Text>
       )}
       <ScrollView horizontal style={styles.scroll}>
-        {rows(props)}
+        <Rows
+          data={data}
+          dataItem={dataItem}
+          visible={visible}
+          setVisible={setVisible}
+          setDataItem={setDataItem}
+        />
       </ScrollView>
     </View>
   );
@@ -66,8 +88,8 @@ const styles = StyleSheet.create({
   },
 });
 
-function rows(props) {
-  return props.data.map((item, index) => (
+function Rows({data, visible, setVisible, setDataItem}) {
+  return data.map((item, index) => (
     <Card key={'card' + index} style={stylesCards.container}>
       <Card.Content>
         <Text style={stylesCards.title}>{'# ' + item.codigo_arbol}</Text>
@@ -79,10 +101,13 @@ function rows(props) {
           </Text>
           <Text style={stylesCards.textos}>{item.fecha}</Text>
         </View>
-        <Card.Cover
-          style={stylesCards.image}
-          source={require('../../../../assets/imagen.png')} //ruta_foto_web
-        />
+        <TouchableOpacity
+          onPress={() => {
+            setDataItem(item);
+            setVisible(!visible);
+          }}>
+          <RenderImagen style={stylesCards.image} url={item.ruta_foto_web} />
+        </TouchableOpacity>
       </Card.Content>
       <Card.Actions>
         <Card.Content>

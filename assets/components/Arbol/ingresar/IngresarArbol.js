@@ -28,6 +28,7 @@ const ModalIngresarArbol = ({...props}) => {
     notifyMessage(res.message);
   };
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(async () => {
     let url = tsconfig[tsconfig.use].searchTree.combos;
     let res = await combosArbol(url);

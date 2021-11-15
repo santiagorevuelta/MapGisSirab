@@ -32,18 +32,18 @@
       "url": "http://132.145.214.185:8002/mapgis/validacionToken.do"
     },
     "searchTree": {//http://201.184.171.13:8888/api-sirab/arboles
-      "url": "http://192.168.1.15:8888/api-sirab/arboles",
-      "combos": "http://192.168.1.15:8888/api-sirab/combosArbol",
-      "comboBarrio": "http://192.168.1.15:8888/api-sirab/comboSegundoNivel",
+      "url": "http://192.168.0.104:8888/api-sirab/arboles",
+      "combos": "http://192.168.0.104:8888/api-sirab/combosArbol",
+      "comboBarrio": "http://192.168.0.104:8888/api-sirab/comboSegundoNivel",
     },
     "searchZone": {
-      "url": "http://201.184.171.13:8888/api-sirab/zonaVerde",
-      "combos": "http://201.184.171.13:8888/api-sirab/combosIntervencionZonaVerde",
+      "url": "http://192.168.0.104:8888/api-sirab/zonaVerde",
+      "combos": "http://192.168.0.104:8888/api-sirab/combosIntervencionZonaVerde",
       "setUrl": ""
     },
     "searchIntervencion": {
-      "url": "http://201.184.171.13:8888/api-sirab/intervencion",
-      "combos": "http://201.184.171.13:8888/api-sirab/combosIntervencion",
+      "url": "http://192.168.0.104:8888/api-sirab/intervencion",
+      "combos": "http://192.168.0.104:8888/api-sirab/combosIntervencion",
       "setUrl": ""
     }
   },

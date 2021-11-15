@@ -22,7 +22,6 @@ export default ({
         selectedValue={value}
         style={styles.selectCss}
         onValueChange={(itemValue, itemIndex) => {
-          console.log(itemValue);
           onSelected(itemValue);
         }}>
         <Picker.Item key={'0'} label={placeholder} value={''} />

@@ -1,5 +1,5 @@
 import React from 'react';
-import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {Image, PermissionsAndroid, Platform, View} from 'react-native';
 import {theme} from '../../../core/theme';
 import {responsiveFontSize} from 'react-native-responsive-dimensions';
 import {ScrollView} from 'react-native-gesture-handler';
@@ -9,7 +9,6 @@ import {styles} from './styles';
 import ImagePicker from 'react-native-image-crop-picker';
 import ImageResizer from 'react-native-image-resizer';
 import * as RNFS from 'react-native-fs';
-import IconAntDesign from 'react-native-vector-icons/AntDesign';
 
 const options = {
   storageOptions: {
@@ -30,7 +29,6 @@ const options = {
 let images = [];
 
 export default function ({dataImage = [], setDataImage}) {
-  const [openModal, setOpenModal] = React.useState(false);
   images = dataImage;
   return (
     <View style={styles.body}>
@@ -59,61 +57,65 @@ export default function ({dataImage = [], setDataImage}) {
           </View>
         ))}
         <View style={[styles.container, styles.containerAdd]}>
-            <Button
-                color={theme.colors.primary}
-                compact={true}
-                labelStyle={{fontSize: responsiveFontSize(5)}}
-                icon="camera-plus-outline"
-                onPress={() => {
-                  camaraPress(setDataImage).then();
-                }}
-            />
-            <Button
-                labelStyle={{fontSize: responsiveFontSize(5)}}
-                color={theme.colors.primary}
-                compact={true}
-                icon="camera-image"
-                onPress={() => {
-                  galleryPress(setDataImage).then();
-                }}
-            />
+          <Button
+            color={theme.colors.primary}
+            compact={true}
+            labelStyle={{fontSize: responsiveFontSize(5)}}
+            icon="camera-plus-outline"
+            onPress={() => {
+              camaraPress(setDataImage).then();
+            }}
+          />
+          <Button
+            labelStyle={{fontSize: responsiveFontSize(5)}}
+            color={theme.colors.primary}
+            compact={true}
+            icon="camera-image"
+            onPress={() => {
+              galleryPress(setDataImage).then();
+            }}
+          />
         </View>
       </ScrollView>
     </View>
   );
 }
 
-async function galleryPress({setDataImage}) {
+async function galleryPress(setDataImage) {
   await requestCameraPermission();
   await ImagePicker.openPicker(options)
-      .then(image => {
-        renderFile(image, setDataImage).then();
-      })
-      .catch(e => {
-        console.log(e);
-      });
+    .then(image => {
+      renderFile(image, setDataImage).then();
+    })
+    .catch();
 }
 
-async function camaraPress({setDataImage}) {
+async function camaraPress(setDataImage) {
   await requestCameraPermission();
   ImagePicker.openCamera(options)
-      .then(image => {
-        renderFile(image, setDataImage).then();
-      })
-      .catch(error => {
-        console.log(error.message);
-      });
+    .then(image => {
+      renderFile(image, setDataImage).then();
+    })
+    .catch();
 }
 
 async function renderFile(response, setDataImage) {
   if (response !== undefined) {
     let pathImg = response.path == undefined ? response.uri : response.path;
-    const resizedImageUrl = await ImageResizer.createResizedImage(pathImg,1024,768,'JPEG',40,0,RNFS.DocumentDirectoryPath);
+    const resizedImageUrl = await ImageResizer.createResizedImage(
+      pathImg,
+      1024,
+      768,
+      'JPEG',
+      40,
+      0,
+      RNFS.DocumentDirectoryPath,
+    );
     const base64 = await RNFS.readFile(resizedImageUrl.uri, 'base64');
-    images.push({urlFoto: pathImg, base64: base64})
-    setTimeout(()=>{
+    images.push({urlFoto: pathImg, base64: base64});
+    setTimeout(() => {
       setDataImage(images);
-    },200)
+    }, 1000);
   }
 }
 
@@ -126,10 +128,10 @@ async function requestCameraPermission() {
       ]);
 
       const permissionCamera = await PermissionsAndroid.check(
-          'android.permission.CAMERA',
+        'android.permission.CAMERA',
       );
       const permissionWriteStorage = await PermissionsAndroid.check(
-          'android.permission.WRITE_EXTERNAL_STORAGE',
+        'android.permission.WRITE_EXTERNAL_STORAGE',
       );
       if (permissionCamera && permissionWriteStorage) {
         await requestCameraPermission;

@@ -1,21 +1,15 @@
 import React from 'react';
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import {Pressable, StyleSheet, Text} from 'react-native';
 import {theme} from '../../core/theme';
 import {Button, Card, Paragraph, Title} from 'react-native-paper';
-import {
-  responsiveFontSize,
-  responsiveScreenWidth,
-  responsiveWidth,
-} from 'react-native-responsive-dimensions';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import {responsiveFontSize} from 'react-native-responsive-dimensions';
 import Animated from 'react-native-reanimated';
 import {ScrollView} from 'react-native-gesture-handler';
-import {notifyMessage,verifiedImage} from '../../core/general';
+import {notifyMessage} from '../../core/general';
 import {verEnMapaP} from '../map/BackgroundMap';
 import Pagination from '../../core/Pagination';
-import config from '../../tsconfig.json';
 import styleCard from '../css/cardsCss';
-import RenderImage from "../commons/RenderImagen";
+import RenderImage from '../commons/RenderImagenCard';
 
 export default function (props) {
   return (

@@ -15,7 +15,6 @@ const Header = props => {
         <Pressable
           style={styles.regress}
           onPress={() => {
-            console.log(props.backIndex);
             props.setOption(props.backIndex);
           }}>
           <IconAntDesign

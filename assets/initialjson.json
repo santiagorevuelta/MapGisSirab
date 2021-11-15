@@ -15,7 +15,14 @@
     "altura_copa": "",
     "dap1": "",
     "dap2": "",
-    "fecha_ingreso": ""
+    "fecha_ingreso": "",
+    "observaciones": ""
+  },
+  "initialIntervencion": {
+    "tipo_intervencion": "",
+    "fecha": "",
+    "proyecto": "",
+    "descripcion": ""
   },
   "initialStateZona": {
     "nombre": "",

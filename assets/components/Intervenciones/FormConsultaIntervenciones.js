@@ -1,7 +1,7 @@
 import React from 'react';
-import {StyleSheet, View, Text} from 'react-native';
-import {theme} from '../../core/theme';
-import Buscar from "../commons/Buscar";
+import {View} from 'react-native';
+import Buscar from '../commons/Buscar';
+import style from '../../components/css/ingresarcss';
 
 export default props => {
   const [isSwitchOn, setIsSwitchOn] = React.useState(false);
@@ -9,32 +9,25 @@ export default props => {
   const [filters, setFilters] = React.useState({});
 
   return (
-    <View style={{paddingHorizontal: '5%'}}>
-        {/*<View style={styles.form}>*/}
-        {/*  <View />*/}
-        {/*  <TextInputForm*/}
-        {/*    label={'Código'}*/}
-        {/*    placeholder={'Código'}*/}
-        {/*    returnKeyType="next"*/}
-        {/*    autoCapitalize="none"*/}
-        {/*    autoCompleteType="username"*/}
-        {/*    textContentType="name"*/}
-        {/*    keyboardType="default"*/}
-        {/*  />*/}
-        {/*</View>*/}
-      <Buscar isSwitchOn={isSwitchOn} onToggleSwitch={onToggleSwitch}  filtros={filters} fnBuscar={props.fnBuscar} />
+    <View style={style.body}>
+      {/*<View style={styles.form}>*/}
+      {/*  <View />*/}
+      {/*  <TextInputForm*/}
+      {/*    label={'Código'}*/}
+      {/*    placeholder={'Código'}*/}
+      {/*    returnKeyType="next"*/}
+      {/*    autoCapitalize="none"*/}
+      {/*    autoCompleteType="username"*/}
+      {/*    textContentType="name"*/}
+      {/*    keyboardType="default"*/}
+      {/*  />*/}
+      {/*</View>*/}
+      <Buscar
+        isSwitchOn={isSwitchOn}
+        onToggleSwitch={onToggleSwitch}
+        filtros={filters}
+        fnBuscar={props.fnBuscar}
+      />
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: theme.colors.blanco,
-    color: theme.colors.secondary,
-    flexDirection: 'column',
-  },
-  form: {
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
-  },
-});

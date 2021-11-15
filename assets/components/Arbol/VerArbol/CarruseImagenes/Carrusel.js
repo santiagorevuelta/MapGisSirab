@@ -1,10 +1,10 @@
 import React from 'react';
 import {StyleSheet, View} from 'react-native';
 import Carousel, {Pagination} from 'react-native-snap-carousel';
-import CarouselCardItem, {SLIDER_WIDTH, ITEM_WIDTH} from './CarouselCardItem';
+import CarouselCardItem, {ITEM_WIDTH, SLIDER_WIDTH} from './CarouselCardItem';
 import {responsiveWidth} from 'react-native-responsive-dimensions';
 
-const CarouselCards = props => {
+const CarouselCards = ({data, setCant}) => {
   const [index, setIndex] = React.useState(0);
   const isCarousel = React.useRef(null);
 
@@ -14,21 +14,21 @@ const CarouselCards = props => {
         layout="tinder"
         layoutCardOffset={9}
         ref={isCarousel}
-        data={props.data}
+        data={data.length === 0 ? [{}] : data}
         autoplay={false}
         loop={false}
         renderItem={CarouselCardItem}
         sliderWidth={SLIDER_WIDTH}
         itemWidth={ITEM_WIDTH}
-        onSnapToItem={index => {
-          setIndex(index);
-          props.setCant(index);
+        onSnapToItem={i => {
+          setIndex(i);
+          setCant(i);
         }}
         useScrollView={true}
       />
       <View style={styles.pag}>
         <Pagination
-          dotsLength={props.data.length}
+          dotsLength={data.length}
           activeDotIndex={index}
           carouselRef={isCarousel}
           dotStyle={{
