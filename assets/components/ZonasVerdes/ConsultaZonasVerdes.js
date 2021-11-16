@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import FormConsulta from '../ZonasVerdes/FormConsulta';
 import {notifyMessage} from '../../core/general';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -6,14 +6,32 @@ import HeaderModal from '../home/HeaderModal';
 import buscarDatos from '../../helpers/buscarDatos';
 import ResultSearch from './ResultSearch';
 import {limpiarMapa} from '../map/BackgroundMap';
+import tsconfig from '../../tsconfig.json';
+import combosArbol from '../../helpers/combosArbol';
 
 const ModalConsult = ({label, setOption, back, tabArbol}) => {
   const [buscar, setBuscar] = useState(false);
   const [dataResult, setDataResult] = useState({});
+  const [combos, setCombos] = useState([]);
 
-  const fnBuscar = async (obj, filtros = {}) => {
+  useEffect(() => {
+    let url = tsconfig[tsconfig.use].searchZone.combos;
+    combosArbol(url).then(res => {
+      setCombos(res);
+    });
+  }, [setCombos]);
+
+  const fnBuscar = async (obj, filtros = {}, page = 1) => {
     if (obj) {
-      let response = await buscarDatos(filtros, 1, 'searchZone');
+      if (filtros.fecha && filtros.fecha === '-') {
+        delete filtros.fecha;
+      }
+      let res = filter(filtros);
+      if (!res) {
+        notifyMessage('La fecha final es obligatoria');
+        return;
+      }
+      let response = await buscarDatos(filtros, page, 'searchZone');
       if (response.length === 0) {
         notifyMessage('La consulta no obtuvo resultados');
         limpiarMapa();
@@ -27,24 +45,26 @@ const ModalConsult = ({label, setOption, back, tabArbol}) => {
   const paginar = async page => {
     let res = await AsyncStorage.getItem('filtros');
     let filtros = res ? {} : JSON.parse(res);
-    let response = await buscarDatos(filtros, page, 'searchZone');
-    if (response.length === 0) {
-      notifyMessage('La consulta no obtuvo resultados');
-      limpiarMapa();
-      return;
+    await fnBuscar(true, filtros, page);
+  };
+
+  const filter = filtros => {
+    if (filtros.fecha && filtros.fecha !== '') {
+      if (filtros.fecha.split('-')[1] === '') {
+        return false;
+      }
     }
-    setDataResult(response);
+    return true;
   };
 
   const fnLimpiar = obj => {
     setBuscar(obj);
-    limpiarMapa();
   };
 
   return (
     <>
       <HeaderModal type={label} setOption={setOption} backIndex={back} />
-      <FormConsulta fnBuscar={fnBuscar} fnLimpiar={fnLimpiar} />
+      <FormConsulta fnBuscar={fnBuscar} fnLimpiar={fnLimpiar} combos={combos} />
       {buscar ? (
         <ResultSearch
           tabArbol={tabArbol}

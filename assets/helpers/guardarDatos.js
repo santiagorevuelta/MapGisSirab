@@ -24,7 +24,6 @@ export default async function (formData, type) {
       response = res.data;
     })
     .catch(function (error) {
-      console.log(error);
       response = error.message;
       catchError(error.message);
     });

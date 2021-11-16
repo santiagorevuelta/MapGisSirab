@@ -36,9 +36,9 @@ module.exports = `<!DOCTYPE html>
   });
   
    const myPerson = L.icon({
-    iconUrl: "https://www.seekpng.com/png/full/310-3101423_mircoles-26-de-agosto-de-persona-pensando-animado.png",
-    iconAnchor: [10, 20], // point of the icon which will correspond to marker's location
-    iconSize: [32, 40],
+    iconUrl: "https://img.telecamiseta.com/designs/1/111.png",//"https://www.seekpng.com/png/full/310-3101423_mircoles-26-de-agosto-de-persona-pensando-animado.png",
+    iconAnchor: [25, 80], // point of the icon which will correspond to marker's location
+    iconSize: [100, 100],
   });
   
   //https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw
@@ -55,7 +55,7 @@ module.exports = `<!DOCTYPE html>
   }).addTo(mymap);
 
 
-  function acctionMap(latlng,obj) {
+  function acctionMap(latlng) {
     mymap.setView(latlng, 20);
     markerPerson.addTo(mymap);
     markerPerson.setLatLng(latlng);
@@ -112,6 +112,13 @@ module.exports = `<!DOCTYPE html>
      mymap.on("click", onMapClick);
      marker.addTo(mymap);
   }
+  
+    function limpiarMapaPoints(){
+       mymap.removeLayer(layerOld);
+       for (const point of layerPoints ) {
+        mymap.removeLayer(point);
+      } 
+   }
   
 
   mymap.on("move", function(e) {
@@ -221,6 +228,7 @@ mymap.on('draw:created', function(e) {
   
   function limpiarDrawPolygon(){
     editableLayers.removeLayer(polygon);
+    mymap.removeLayer(layerOld);
   }
   
 </script>

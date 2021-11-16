@@ -33,7 +33,6 @@ export default async function (filtros, page = 1, type) {
       data = response.data;
     })
     .catch(function (error) {
-      console.log(error);
       catchError(error.message);
     });
   return data;

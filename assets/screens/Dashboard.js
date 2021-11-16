@@ -1,5 +1,10 @@
 import React, {useEffect, useMemo, useState} from 'react';
-import {MapComponent, setCoords} from '../components/map/BackgroundMap';
+import {
+  limpiarMapaPoints,
+  limpiarMapaPolygon,
+  MapComponent,
+  setCoords,
+} from '../components/map/BackgroundMap';
 import {
   Header,
   ModalIngresarArbol,
@@ -49,6 +54,10 @@ export default function Dashboard({navigation}) {
       setSnp(1);
     }
     setOptionOld(option);
+    if ('Consulta,Ingresar'.indexOf(index) !== -1 && optionOld !== 'inicio') {
+      limpiarMapaPolygon();
+      limpiarMapaPoints();
+    }
     setTimeout(() => {
       setOption(index);
     }, 100);

@@ -18,7 +18,7 @@ export default function (props) {
         Resultado de la búsqueda
       </Text>
       <ScrollView persistentScrollbar={true} horizontal>
-        {Mycard(props)}
+        <Mycard data={props.data} />
       </ScrollView>
       <Pagination meta={props.meta} paginar={props.paginar} />
     </Animated.View>
@@ -36,8 +36,7 @@ const styles = StyleSheet.create({
   },
 });
 
-function Mycard(props) {
-  let data = props.data;
+function Mycard({data = []}) {
   return data.map((item, index) => (
     <Card key={'card' + index} style={styleCard.container}>
       <Title style={[theme.textos.Label, styleCard.title]}>

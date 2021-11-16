@@ -1,19 +1,36 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import FormConsulta from './FormConsultaIntervenciones';
 import {notifyMessage} from '../../core/general';
 import HeaderModal from '../home/HeaderModal';
 import buscarDatos from '../../helpers/buscarDatos';
 import ResultSearch from './ResultSearch';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {limpiarMapa} from '../map/BackgroundMap';
+import tsconfig from '../../tsconfig.json';
+import combosArbol from '../../helpers/combosArbol';
 
 const ModalConsult = ({...props}) => {
   const [buscar, setBuscar] = useState(false);
   const [dataResult, setDataResult] = useState({});
+  const [combos, setCombos] = useState([]);
 
-  const fnBuscar = async (obj, filtros = {}) => {
+  useEffect(() => {
+    let url = tsconfig[tsconfig.use].searchIntervencion.combos;
+    combosArbol(url).then(res => {
+      setCombos(res);
+    });
+  }, [setCombos]);
+
+  const fnBuscar = async (obj, filtros = {}, page = 1) => {
     if (obj) {
-      let response = await buscarDatos(filtros, 1, 'searchIntervencion');
+      if (filtros.fecha && filtros.fecha === '-') {
+        delete filtros.fecha;
+      }
+      let res = filter(filtros);
+      if (!res) {
+        notifyMessage('La fecha final es obligatoria');
+        return;
+      }
+      let response = await buscarDatos(filtros, page, 'searchIntervencion');
       if (response.length === 0) {
         notifyMessage('La consulta no obtuvo resultados');
         return;
@@ -23,20 +40,23 @@ const ModalConsult = ({...props}) => {
     setBuscar(obj);
   };
 
+  const filter = filtros => {
+    if (filtros.fecha && filtros.fecha !== '') {
+      if (filtros.fecha.split('-')[1] === '') {
+        return false;
+      }
+    }
+    return true;
+  };
+
   const paginar = async page => {
     let res = await AsyncStorage.getItem('filtros');
     let filtros = res ? {} : JSON.parse(res);
-    let response = await buscarDatos(filtros, page, 'searchIntervencion');
-    if (response.length === 0) {
-      notifyMessage('La consulta no obtuvo resultados');
-      return;
-    }
-    setDataResult(response);
+    await fnBuscar(true, filtros, page);
   };
 
   const fnLimpiar = obj => {
     setBuscar(false);
-    limpiarMapa();
   };
 
   return (
@@ -46,7 +66,7 @@ const ModalConsult = ({...props}) => {
         setOption={props.setOption}
         backIndex={props.back}
       />
-      <FormConsulta fnBuscar={fnBuscar} fnLimpiar={fnLimpiar} />
+      <FormConsulta fnBuscar={fnBuscar} fnLimpiar={fnLimpiar} combos={combos} />
       {buscar ? (
         <ResultSearch
           tabArbol={props.tabArbol}

@@ -217,6 +217,18 @@ function limpiarMapaPolygon() {
   MapRef.current.injectJavaScript(injected);
 }
 
+function limpiarMapaPoints() {
+  if (!MapRef.current) {
+    return [];
+  }
+  const injected = `
+    limpiarMapaPoints();
+    true;
+  `;
+
+  MapRef.current.injectJavaScript(injected);
+}
+
 module.exports = {
   getLocalize,
   MapComponent,
@@ -228,4 +240,5 @@ module.exports = {
   getPoint,
   drawPolin,
   limpiarMapaPolygon,
+  limpiarMapaPoints,
 };

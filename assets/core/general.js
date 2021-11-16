@@ -24,7 +24,7 @@ async function consultToken() {
       }
     })
     .catch(error => {
-      //notifyMessage("Error en el token");
+      catchError(error.message);
     });
   return token;
 }

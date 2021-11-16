@@ -7,8 +7,8 @@ import {responsiveFontSize} from 'react-native-responsive-dimensions';
 import SelectSimple from '../commons/selectSimple/SelectSimple';
 import {notifyMessage} from '../../core/general';
 import Buscar from '../commons/Buscar';
-import DatePicker from '../commons/DatePicker/DatePicker';
 import styles from '../css/ingresarcss';
+import FiltroFecha from '../commons/FechaBusqueda/FiltroFecha';
 
 export default ({combos, fnBuscar, fnLimpiar}) => {
   const [isSwitchOn, setIsSwitchOn] = React.useState(false);
@@ -106,38 +106,7 @@ export default ({combos, fnBuscar, fnLimpiar}) => {
               list={combos}
             />
           </View>
-          <View style={[styles.form, {zIndex: -1}]}>
-            <DatePicker
-              label={'Fecha inicial'}
-              placeholder={'Fecha inicial'}
-              value={filters.fecha?.split('-')[0]}
-              keyboardType="default"
-              onSelectDate={text => {
-                let fecha = filters.fecha?.split('-');
-                if (fecha?.length === 1) {
-                  fecha = `${text}-${fecha[1] === undefined ? '' : fecha[1]}`;
-                } else {
-                  fecha = `${text}-`;
-                }
-                setFilters({...filters, fecha: fecha});
-              }}
-            />
-            <DatePicker
-              label={'Fecha final'}
-              placeholder={'Fecha final'}
-              value={filters.fecha?.split('-')[1]}
-              keyboardType="default"
-              onSelectDate={text => {
-                let fecha = filters.fecha?.split('-');
-                if (fecha.length > 0) {
-                  fecha = `${fecha[0]}-${text}`;
-                } else {
-                  fecha = `-${text}`;
-                }
-                setFilters({...filters, fecha: fecha});
-              }}
-            />
-          </View>
+          <FiltroFecha filters={filters} setFilters={setFilters} />
         </>
       )}
       <Buscar
