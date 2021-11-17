@@ -61,13 +61,11 @@ export default ({combos, fnBuscar, fnLimpiar}) => {
           label={'Especie'}
           id="especie"
           onSelected={items => {
-            console.log(items)
+            console.log(items);
             if (items != null) {
-              let data = items
-                .map(e => {
-                  return e.id;
-                })
-                .join(',');
+              let data = items.map(e => {
+                return e.id;
+              });
               setFilters({
                 ...filters,
                 especie: data,

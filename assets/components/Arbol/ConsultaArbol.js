@@ -26,7 +26,6 @@ const ModalOptionsArbol = ({...props}) => {
 
   const fnBuscar = async (obj, filtros = {}, page = 1) => {
     if (obj) {
-      console.log(filtros)
       if (filtros.fecha && filtros.fecha === '-') {
         delete filtros.fecha;
       }
