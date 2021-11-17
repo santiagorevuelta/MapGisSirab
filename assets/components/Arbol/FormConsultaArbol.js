@@ -9,6 +9,7 @@ import {notifyMessage} from '../../core/general';
 import Buscar from '../commons/Buscar';
 import styles from '../css/ingresarcss';
 import FiltroFecha from '../commons/FechaBusqueda/FiltroFecha';
+import AutoComplete from '../commons/SelectAutoComplete/AutoComplete';
 
 export default ({combos, fnBuscar, fnLimpiar}) => {
   const [isSwitchOn, setIsSwitchOn] = React.useState(false);
@@ -56,25 +57,21 @@ export default ({combos, fnBuscar, fnLimpiar}) => {
       </View>
 
       <View style={[styles.form, {zIndex: 9}]}>
-        {/*        <AutoComplete
+        <AutoComplete
           label={'Especie'}
           id="especie"
-          selectedItem={valorAutoComplete}
           onSelected={items => {
+            console.log(items)
             if (items != null) {
-              setValorAutoComplete(items.dato);
-              setFilters({...filters, especie: items.id});
-            }
-          }}
-          list={combos}
-        />*/}
-        <SelectSimple
-          label={'Especie'}
-          id="especie"
-          valueSelected={filters.especie}
-          onSelected={items => {
-            if (items != null) {
-              setFilters({...filters, especie: items});
+              let data = items
+                .map(e => {
+                  return e.id;
+                })
+                .join(',');
+              setFilters({
+                ...filters,
+                especie: data,
+              });
             }
           }}
           list={combos}

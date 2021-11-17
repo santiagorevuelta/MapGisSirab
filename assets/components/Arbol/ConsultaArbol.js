@@ -9,6 +9,9 @@ import {limpiarMapa, verEnMapaAllPoint} from '../map/BackgroundMap';
 import tsconfig from '../../tsconfig.json';
 import combosArbol from '../../helpers/combosArbol';
 
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import  {ScrollView} from 'react-native-swipe-gestures'
+
 const ModalOptionsArbol = ({...props}) => {
   const [buscar, setBuscar] = useState(false);
   const [dataResult, setDataResult] = useState({});
@@ -23,6 +26,7 @@ const ModalOptionsArbol = ({...props}) => {
 
   const fnBuscar = async (obj, filtros = {}, page = 1) => {
     if (obj) {
+      console.log(filtros)
       if (filtros.fecha && filtros.fecha === '-') {
         delete filtros.fecha;
       }
@@ -76,14 +80,14 @@ const ModalOptionsArbol = ({...props}) => {
         fnLimpiar={fnLimpiar}
         combos={combos}
       />
-      {buscar ? (
+      {buscar && (
         <ResultSearch
           tabArbol={props.tabArbol}
           data={dataResult.data}
           meta={dataResult.meta}
           paginar={paginar}
         />
-      ) : null}
+      )}
     </>
   );
 };

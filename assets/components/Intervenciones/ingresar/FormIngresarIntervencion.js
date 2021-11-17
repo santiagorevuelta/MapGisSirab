@@ -7,10 +7,11 @@ import DatePicker from '../../commons/DatePicker/DatePicker';
 import styles from '../../css/ingresarcss';
 import TextArea from '../../commons/TextArea';
 import FormImagenes from '../../commons/imagenes/FormImagenes';
+import TextInputForm from '../../commons/TextInputForm';
 
 const selectPlace = 'Seleccione...';
 
-export default ({fnGuardar, combos = []}) => {
+export default ({fnGuardar, combos = [], zonaVerde}) => {
   const [dataForm, setDataForm] = React.useState({});
   const [dataSecondary, setDataSecondarym] = React.useState({});
   const [dataImage, setDataImage] = React.useState([]);
@@ -66,6 +67,24 @@ export default ({fnGuardar, combos = []}) => {
           list={combos}
         />
       </View>
+      {zonaVerde && (
+        <View style={styles.form}>
+          <TextInputForm
+            label={'Área'}
+            placeholder={'Área'}
+            value={dataForm.area}
+            keyboardType="default"
+            onChangeTextInput={text => setDataForm({...dataForm, area: text})}
+          />
+          <TextInputForm
+            label={'Costo'}
+            placeholder={'Costo'}
+            value={dataForm.costo}
+            keyboardType="default"
+            onChangeTextInput={text => setDataForm({...dataForm, costo: text})}
+          />
+        </View>
+      )}
       <View style={styles.form}>
         <TextArea
           label={'Observaciones *'}

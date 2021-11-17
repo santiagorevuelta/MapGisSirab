@@ -1,8 +1,23 @@
 import React, {useEffect, useState} from 'react';
-import {Platform, Text, TouchableOpacity} from 'react-native';
-import Autocomplete from 'react-native-autocomplete-input';
+import {
+  Modal,
+  Platform,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import {theme} from '../../../core/theme';
-import Animated from 'react-native-reanimated';
+import Autocomplete from 'react-native-autocomplete-input';
+import {styles} from '../../Intervenciones/Ver/modalStyle';
+import {
+  responsiveFontSize,
+  responsiveHeight,
+  responsiveScreenWidth,
+} from 'react-native-responsive-dimensions';
+import {Button, Chip} from 'react-native-paper';
+import {ScrollView} from 'react-native-gesture-handler';
+import IconAntDesign from 'react-native-vector-icons/AntDesign';
 
 const styleIos = require('./styleIos');
 const styleAndroid = require('./styleAndroid');
@@ -10,21 +25,25 @@ const styleAndroid = require('./styleAndroid');
 const style = Platform.OS === 'ios' ? styleIos : styleAndroid;
 
 export default ({
-  selectedItem,
   placeholder = 'Todos...',
   label,
   id,
   list,
-  onSelected,
+  onSelected = [],
 }) => {
   const [listItems, setListItems] = useState([]);
+  const [selectedItems, setSelectedItems] = useState([]);
   const [itemsFilter, setItemsFilter] = useState([]);
+  const [visible, setVisible] = React.useState(false);
+  const showDialog = () => setVisible(true);
+  const hideDialog = () => setVisible(false);
+
   useEffect(() => {
     let data = list.filter(item => {
       return item.campo.indexOf(id) !== -1;
     });
     setListItems(data);
-    setItemsFilter(data.length === 0 ? [] : data.splice(0, 0));
+    setItemsFilter(data.length === 0 ? [] : data.splice(0, 20));
   }, [id, list]);
 
   const filterSelect = async text => {
@@ -34,54 +53,168 @@ export default ({
       });
       setItemsFilter(datos);
     } else {
-      setItemsFilter([]);
+      //setItemsFilter([]);
     }
   };
   return (
-    <Animated.View style={style.container} contentContainerStyle={{flex: 1}}>
-      <Text style={theme.textos.LabelIn}>{label}</Text>
-      <Autocomplete
-        autoCapitalize="none"
-        value={selectedItem}
-        data={itemsFilter}
-        containerStyle={style.containerStyle}
-        placeholder={placeholder}
-        inputContainerStyle={style.inputContainerStyle}
-        //listContainerStyle={style.listContainerStyle}
-        listStyle={style.listStyle}
-        hideResults={false}
-        keyExtractor={(item, i) => i.toString()}
-        onChangeText={text => {
-          filterSelect(text).then();
-        }}
-        flatListProps={{
-          keyExtractor: (_, idx) => idx,
-          renderItem: ({item}) => (
-            <TouchableOpacity
-              style={style.SearchBoxTouch}
-              key={item.id}
-              onPress={() => {
-                onSelected(item);
-                filterSelect('').then();
-              }}>
-              <Text style={style.SearchBoxTextItem}>{item.dato}</Text>
-            </TouchableOpacity>
-          ),
-        }}
-        //onEndEditing={() => ubicarDireccion()}
-        //onSubmitEditing={() => ubicarDireccion()}
-      />
-      {/*      <Pressable
-        style={
-            ? styles.btnOculto
-            : styles.btnLimpiar
-        }
-        onPress={limpiar}>
-        <Image
-          style={styles.iconoText}
-          source={require('../../../../../iconos/ElipseX.png')}
-        />
-      </Pressable>*/}
-    </Animated.View>
+    <>
+      <View>
+        <Text style={theme.textos.LabelIn}>{label}</Text>
+        <View style={styleSelect.campoSelect}>
+          <ScrollView style={styleSelect.content} persistentScrollbar={true}>
+            <GetChip />
+          </ScrollView>
+          <TouchableOpacity
+            style={styleSelect.btn}
+            onPress={() => {
+              showDialog();
+            }}>
+            <IconAntDesign
+              name={visible ? 'up' : 'down'}
+              color={theme.colors.primary}
+              size={responsiveFontSize(2)}
+            />
+          </TouchableOpacity>
+        </View>
+      </View>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={visible}
+        onRequestClose={() => {
+          hideDialog(false);
+        }}>
+        <View style={styles.centeredView}>
+          <View style={[styles.modalView, styleSelect.modal]}>
+            <View style={[styles.closeModal, {height: 30}]}>
+              <TouchableOpacity
+                style={styleSelect.btnClose}
+                onPress={() => {
+                  hideDialog();
+                }}>
+                <IconAntDesign
+                  name={'close'}
+                  color={theme.colors.primary}
+                  size={responsiveFontSize(3)}
+                />
+              </TouchableOpacity>
+            </View>
+            <Autocomplete
+              autoCapitalize="none"
+              data={itemsFilter}
+              containerStyle={style.containerStyle}
+              placeholder={placeholder}
+              inputContainerStyle={style.inputContainerStyle}
+              listStyle={style.listStyle}
+              keyExtractor={(item, i) => i.toString()}
+              onChangeText={text => {
+                filterSelect(text).then();
+              }}
+              flatListProps={{
+                keyExtractor: (_, idx) => idx,
+                renderItem: ({item}) => (
+                  <Chip
+                    icon={ex(item.id) ? 'tree' : 'tree-outline'}
+                    mode={ex(item.id) ? 'flat' : 'outlined'}
+                    style={style.SearchBoxTouch}
+                    key={item.id}
+                    selectedColor={theme.colors.primary}
+                    selected={ex(item.id)}
+                    onPress={() => {
+                      let dato = item;
+                      if (ex(dato.id)) {
+                        let data = fl(dato.id);
+                        setSelectedItems(data);
+                        onSelected(data);
+                      } else {
+                        setSelectedItems([...selectedItems, dato]);
+                        onSelected([...selectedItems, dato]);
+                        hideDialog();
+                      }
+                    }}>
+                    {item.dato}
+                  </Chip>
+                ),
+              }}
+            />
+          </View>
+        </View>
+      </Modal>
+    </>
   );
+  function ex(index) {
+    return (
+      selectedItems.filter(function (i) {
+        return i.id === index + '';
+      }).length > 0
+    );
+  }
+
+  function fl(index) {
+    return selectedItems.filter(function (i) {
+      return i.id !== index;
+    });
+  }
+
+  function GetChip() {
+    let arr = [];
+    if (selectedItems.length === 0) {
+      return <Text> Todos...</Text>;
+    }
+
+    for (const index of selectedItems) {
+      arr.push(
+        <Chip
+          key={index.id}
+          data={index}
+          style={styleSelect.selec}
+          icon="tree"
+          selectedColor={theme.colors.primary}
+          closeIcon
+          onClose={() => {
+            let item = fl(index.id);
+            onSelected(item);
+            setSelectedItems(item);
+          }}>
+          {index.dato}
+        </Chip>,
+      );
+    }
+    return arr;
+  }
 };
+
+const styleSelect = StyleSheet.create({
+  modal: {
+    width: '90%',
+    height: '90%',
+    margin: 0,
+    padding: 10,
+  },
+  campoSelect: {
+    width: responsiveScreenWidth(90),
+    borderWidth: 1,
+    flexDirection: 'row',
+    borderRadius: theme.radius+5,
+    alignItems: 'center',
+    alignContent: 'center',
+    borderColor: theme.colors.border,
+    minHeight: responsiveHeight(theme.altoCampos),
+    maxHeight: responsiveHeight(theme.altoCampos * 2),
+    paddingBottom: 1,
+  },
+  content: {
+    borderRadius: theme.radius,
+    paddingRight: 10,
+  },
+  selec: {
+    marginTop: 1,
+  },
+  btnClose: {
+    marginBottom: 10,
+  },
+  btn: {
+    width: '10%',
+    alignItems: 'center',
+  },
+});

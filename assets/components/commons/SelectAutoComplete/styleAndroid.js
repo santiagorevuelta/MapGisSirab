@@ -4,24 +4,12 @@ const {
   responsiveScreenHeight,
 } = require('react-native-responsive-dimensions');
 const {theme} = require('../../../core/theme');
+
 module.exports = {
-  container: {
-    width: '100%',
-    height: responsiveHeight(theme.altoCampos),
-    marginVertical: responsiveWidth(3),
-    paddingHorizontal: '2%',
-  },
-  input: {
-    height: responsiveHeight(theme.altoCampos),
-    borderColor: theme.colors.border,
-    borderRadius: 50,
-    paddingLeft: 10,
-    backgroundColor: 'red',
-  },
+  container: {},
+  input: {},
   containerStyle: {
-    backgroundColor: '#fff',
     width: '100%',
-    borderRadius: 5,
     borderWidth: 0,
     borderColor: '#B7B7B7',
   },
@@ -33,25 +21,18 @@ module.exports = {
     borderRadius: 25,
   },
   listContainerStyle: {
-    width: '100%',
-    elevation: 8,
-    borderRadius: 18,
+    height: '90%',
   },
   listStyle: {
+    height: '90%',
     borderWidth: 0,
-    elevation: 10,
-    overflow: 'scroll',
-    maxHeight: responsiveScreenHeight(50),
   },
   SearchBoxTouch: {
-    borderBottomWidth: 1,
     borderColor: '#B7B7B7',
-    justifyContent: 'center',
-    paddingTop: 2,
+    marginTop: 2,
+    width: '100%',
   },
   SearchBoxTextItem: {
-    margin: 5,
-    marginLeft: 10,
     textAlign: 'left',
   },
 };

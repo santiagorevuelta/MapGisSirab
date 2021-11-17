@@ -4,19 +4,21 @@ import FormIngresarIntervencion from './FormIngresarIntervencion';
 import {View} from 'react-native';
 import styles from '../../css/ingresarcss';
 import TextInputForm from '../../commons/TextInputForm';
-import Button from '../../Button';
 import {notifyMessage} from '../../../core/general';
 import buscarDatos from '../../../helpers/buscarDatos';
 import tsconfig from '../../../tsconfig.json';
 import combosArbol from '../../../helpers/combosArbol';
 import base64 from 'react-native-base64';
 import guardarDatos from '../../../helpers/guardarDatos';
+import {Button as ButtonIcon} from 'react-native-paper';
+import {theme} from '../../../core/theme';
 
 const ModalIngresarArbol = ({label, setOption, back}) => {
   const [arboles, setArboles] = useState(false);
   const [idArbol, setIdArbol] = useState(null);
-  const [dataArbol, setDataArbol] = useState({codigo_arbol: ''});
+  const [dataArbol, setDataArbol] = useState({});
   const [combos, setCombos] = React.useState([]);
+  const [zonaVerde, setZonaVerde] = useState(false);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(async () => {
@@ -27,7 +29,7 @@ const ModalIngresarArbol = ({label, setOption, back}) => {
 
   const fnGuardar = async (data, secondData, images = []) => {
     if (idArbol !== null) {
-      let valid = validarObligatorio(data, secondData);
+      let valid = validatorObligatory(data, secondData);
       if (!valid) {
         notifyMessage('Los campos marcados con (*) son obligatorios');
         return;
@@ -56,7 +58,38 @@ const ModalIngresarArbol = ({label, setOption, back}) => {
     }
   };
 
-  function validarObligatorio(data, secondData) {
+  const fnGuardarZonaVerde = async (data, secondData, images = []) => {
+    if (idArbol !== null) {
+      let valid = validatorObligatory(data, secondData);
+      if (!valid) {
+        notifyMessage('Los campos marcados con (*) son obligatorios');
+        return;
+      }
+
+      let formData = new FormData();
+      data.fecha = data.fecha.split('/').reverse().join('-');
+      secondData = secondData.intervencion_secundaria.split(',');
+      formData.append('idArbol', base64.encode(idArbol));
+      formData.append('datosIntervencion', base64.encode(JSON.stringify(data)));
+      formData.append('datosImagenes', base64.encode(JSON.stringify(images)));
+      formData.append(
+        'datosSecundarias',
+        base64.encode(JSON.stringify(secondData)),
+      );
+      let res = await guardarDatos(formData, 'searchIntervencion');
+      if (res.message) {
+        notifyMessage(res.message);
+        setIdArbol(null);
+        setArboles(false);
+      } else {
+        notifyMessage('Error al guardar');
+      }
+    } else {
+      notifyMessage('Sin arbol para asociar');
+    }
+  };
+
+  function validatorObligatory(data, secondData) {
     return !(
       !data.fecha ||
       !data.tipo_intervencion ||
@@ -67,21 +100,40 @@ const ModalIngresarArbol = ({label, setOption, back}) => {
   }
 
   const fnSearch = async () => {
-    if (dataArbol.codigo_arbol === '') {
-      notifyMessage('Debe ingresar un codigo arbol');
+    if (!dataArbol.codigo_arbol && !dataArbol.codigo) {
+      notifyMessage('Debe ingresar uno de los codigo');
+      return;
+    }
+    let url = 'searchTree';
+    if (dataArbol.codigo_arbol) {
+      if (dataArbol.codigo_arbol === '') {
+        notifyMessage('Debe ingresar un código árbol');
+        return;
+      }
+    }
+    if (dataArbol.codigo) {
+      if (dataArbol.codigo === '') {
+        notifyMessage('Debe ingresar un código zona verde');
+        return;
+      }
+      url = 'searchZone';
+      setZonaVerde(true);
+    }
+    let result = await buscarDatos(dataArbol, 1, url);
+    if (result.data?.length === 0) {
+      notifyMessage('No encontrado');
     } else {
-      //let datos = dataArbol.codigo_arbol.split(',');
-      let result = await buscarDatos(dataArbol, 1, 'searchTree');
-      if (result.data?.length === 0) {
-        notifyMessage('Arbol no encontrado');
+      if (result.error) {
+        notifyMessage(result.message);
       } else {
-        if (result.error) {
-          notifyMessage(result.message);
-        } else {
-          notifyMessage('Arbol encontrado correctamente');
-          setIdArbol(result.data[0].id_arbol);
-          setArboles(true);
-        }
+        notifyMessage('Encontrado correctamente');
+        console.log(result.data);
+        setIdArbol(
+          result.data[0].id_arbol
+            ? result.data[0].id_arbol
+            : result.data[0].id_zona,
+        );
+        setArboles(true);
       }
     }
   };
@@ -90,7 +142,11 @@ const ModalIngresarArbol = ({label, setOption, back}) => {
     <>
       <HeaderModal type={label} setOption={setOption} backIndex={back} />
       {arboles ? (
-        <FormIngresarIntervencion fnGuardar={fnGuardar} combos={combos} />
+        <FormIngresarIntervencion
+          fnGuardar={!zonaVerde ? fnGuardar : fnGuardarZonaVerde}
+          combos={combos}
+          zonaVerde={zonaVerde}
+        />
       ) : (
         <View style={styles.body}>
           <View style={styles.form}>
@@ -99,24 +155,38 @@ const ModalIngresarArbol = ({label, setOption, back}) => {
               placeholder={'Código árbol'}
               value={dataArbol.codigo_arbol}
               keyboardType="default"
+              editable={!dataArbol.codigo}
               autoCorrect={false}
               autoComplete={false}
-              onChangeTextInput={text =>
-                setDataArbol({codigo_arbol: text.trimStart()})
-              }
+              onChangeTextInput={text => {
+                delete dataArbol.codigo;
+                setDataArbol({codigo_arbol: text.trimStart()});
+              }}
             />
-            <View
-              style={{
-                alignContent: 'center',
-                justifyContent: 'center',
-                alignItems: 'flex-end',
-                width: '50%',
-                top: '3%',
-              }}>
-              <Button mode="contained" onPress={() => fnSearch()}>
-                Buscar
-              </Button>
-            </View>
+            <TextInputForm
+              label={'Código zona verde'}
+              placeholder={'Código árbol'}
+              value={dataArbol.codigo}
+              keyboardType="default"
+              autoCorrect={false}
+              autoComplete={false}
+              editable={!dataArbol.codigo_arbol}
+              onChangeTextInput={text => {
+                delete dataArbol.codigo_arbol;
+                setDataArbol({codigo: text.trimStart()});
+              }}
+            />
+          </View>
+          <View style={[styles.form, {justifyContent: 'flex-end'}]}>
+            <ButtonIcon
+              compact={true}
+              mode="contained"
+              style={styles.guardar}
+              icon="content-save"
+              color={theme.colors.primary}
+              onPress={() => fnSearch()}>
+              Buscar
+            </ButtonIcon>
           </View>
         </View>
       )}
