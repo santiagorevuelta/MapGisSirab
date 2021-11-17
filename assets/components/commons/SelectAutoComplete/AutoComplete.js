@@ -15,7 +15,7 @@ import {
   responsiveHeight,
   responsiveScreenWidth,
 } from 'react-native-responsive-dimensions';
-import {Button, Chip} from 'react-native-paper';
+import {Chip} from 'react-native-paper';
 import {ScrollView} from 'react-native-gesture-handler';
 import IconAntDesign from 'react-native-vector-icons/AntDesign';
 
@@ -49,11 +49,11 @@ export default ({
   const filterSelect = async text => {
     if (text !== '') {
       let datos = listItems.filter(function (element) {
-        return element.dato.toLowerCase().indexOf(text.toLowerCase()) !== -1;
+        return element.dato.toLowerCase().includes(text.toLowerCase());
       });
       setItemsFilter(datos);
     } else {
-      //setItemsFilter([]);
+      setItemsFilter(listItems.splice(0, 20));
     }
   };
   return (
@@ -108,7 +108,7 @@ export default ({
               listStyle={style.listStyle}
               keyExtractor={(item, i) => i.toString()}
               onChangeText={text => {
-                filterSelect(text).then();
+                  filterSelect(text.toLowerCase()).then();
               }}
               flatListProps={{
                 keyExtractor: (_, idx) => idx,
@@ -159,7 +159,7 @@ export default ({
   function GetChip() {
     let arr = [];
     if (selectedItems.length === 0) {
-      return <Text> Todos...</Text>;
+      return <Text style={styleSelect.placeholder}> Todos...</Text>;
     }
 
     for (const index of selectedItems) {
@@ -195,7 +195,7 @@ const styleSelect = StyleSheet.create({
     width: responsiveScreenWidth(90),
     borderWidth: 1,
     flexDirection: 'row',
-    borderRadius: theme.radius+5,
+    borderRadius: theme.radius + 5,
     alignItems: 'center',
     alignContent: 'center',
     borderColor: theme.colors.border,
@@ -206,12 +206,19 @@ const styleSelect = StyleSheet.create({
   content: {
     borderRadius: theme.radius,
     paddingRight: 10,
+    alignContent: 'space-between',
+    alignSelf: 'auto',
+    flexWrap: 'wrap',
   },
   selec: {
     marginTop: 1,
   },
   btnClose: {
     marginBottom: 10,
+  },
+  placeholder: {
+    marginLeft: 10,
+    color: theme.colors.headers,
   },
   btn: {
     width: '10%',

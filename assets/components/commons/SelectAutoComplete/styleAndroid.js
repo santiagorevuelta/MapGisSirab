@@ -1,10 +1,3 @@
-const {
-  responsiveHeight,
-  responsiveWidth,
-  responsiveScreenHeight,
-} = require('react-native-responsive-dimensions');
-const {theme} = require('../../../core/theme');
-
 module.exports = {
   container: {},
   input: {},
@@ -30,7 +23,6 @@ module.exports = {
   SearchBoxTouch: {
     borderColor: '#B7B7B7',
     marginTop: 2,
-    width: '100%',
   },
   SearchBoxTextItem: {
     textAlign: 'left',

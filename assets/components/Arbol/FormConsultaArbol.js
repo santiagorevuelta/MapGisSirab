@@ -64,7 +64,7 @@ export default ({combos, fnBuscar, fnLimpiar}) => {
             console.log(items);
             if (items != null) {
               let data = items.map(e => {
-                return e.id;
+                return parseInt(e.id, 10);
               });
               setFilters({
                 ...filters,
