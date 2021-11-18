@@ -3,7 +3,7 @@ import {Pressable, Text, View} from 'react-native';
 import {Button, Card, Paragraph, Title} from 'react-native-paper';
 import style from '../core/css/Pagination';
 import {theme} from './theme';
-import { responsiveFontSize } from "react-native-responsive-dimensions";
+import {responsiveFontSize} from 'react-native-responsive-dimensions';
 
 export default function Pagination(props) {
   let paginaFinal = props.meta.last_page <= 5 ? props.meta.last_page : 5;
@@ -62,11 +62,11 @@ export default function Pagination(props) {
         mode="text"
         compact={true}
         key={i}
-        color={!active?theme.colors.primary:theme.colors.blanco}
+        color={!active ? theme.colors.primary : theme.colors.blanco}
         onPress={() => {
           props.paginar(i);
         }}
-        style={[style.numberpage, active? style.pageactive : {}]}>
+        style={[style.numberpage, active ? style.pageactive : {}]}>
         {i}
       </Button>,
     );

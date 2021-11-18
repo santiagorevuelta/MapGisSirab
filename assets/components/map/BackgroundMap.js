@@ -144,7 +144,6 @@ function verEnMapaAllPoint(response) {
     true;
   `;
   MapRef.current.injectJavaScript(injected);
-
 }
 
 function verEnMapaP(coords) {
@@ -180,7 +179,6 @@ async function setCoords() {
   `;
   MapRef.current.injectJavaScript(injected);
 }
-
 
 function getPoint() {
   if (!MapRef.current) {

@@ -1,13 +1,13 @@
 import axios from 'axios';
 import tsconfig from '../tsconfig.json';
 import {catchError, consultToken, notifyMessage} from '../core/general';
-import {setCoords} from '../components/map/BackgroundMap'
-import base64 from "react-native-base64";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import {setCoords} from '../components/map/BackgroundMap';
+import base64 from 'react-native-base64';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default async function (direccion) {
-  console.log(valor)
-  if(direccion === ''){
+  console.log(valor);
+  if (direccion === '') {
     return;
   }
 
@@ -16,9 +16,7 @@ export default async function (direccion) {
     notifyMessage('Sin token');
     return;
   }
-  let url = `${tsconfig[tsconfig.use].search}${base64.encode(
-    direccion,
-  )}`;
+  let url = `${tsconfig[tsconfig.use].search}${base64.encode(direccion)}`;
   const config = {
     headers: {
       'access-token': token,

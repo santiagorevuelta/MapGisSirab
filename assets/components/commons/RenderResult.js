@@ -1,12 +1,12 @@
-import Animated from "react-native-reanimated";
-import { StyleSheet, Text } from "react-native";
-import { theme } from "../../core/theme";
-import { ScrollView } from "react-native-gesture-handler";
-import Pagination from "../../core/Pagination";
-import React from "react";
-import { responsiveFontSize } from "react-native-responsive-dimensions";
+import Animated from 'react-native-reanimated';
+import {StyleSheet, Text} from 'react-native';
+import {theme} from '../../core/theme';
+import {ScrollView} from 'react-native-gesture-handler';
+import Pagination from '../../core/Pagination';
+import React from 'react';
+import {responsiveFontSize} from 'react-native-responsive-dimensions';
 
-export default function ({children,props}) {
+export default function ({children, props}) {
   return (
     <Animated.View style={styles.container}>
       <Text style={[theme.textos.Label, styles.txtRes]}>
@@ -19,7 +19,6 @@ export default function ({children,props}) {
     </Animated.View>
   );
 }
-
 
 const styles = StyleSheet.create({
   container: {

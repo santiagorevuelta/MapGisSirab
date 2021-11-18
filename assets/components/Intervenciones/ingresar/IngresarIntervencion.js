@@ -65,7 +65,7 @@ const ModalIngresarArbol = ({label, setOption, back}) => {
       !data.fecha ||
       !data.tipo_intervencion ||
       !data.proyecto ||
-      (!zonaVerde?!data.observacion:false) ||
+      (!zonaVerde ? !data.observacion : false) ||
       !secondData.intervencion_secundaria ||
       secondData.intervencion_secundaria.length === 0
     );

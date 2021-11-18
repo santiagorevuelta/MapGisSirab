@@ -1,20 +1,23 @@
-import { StyleSheet } from "react-native";
-import { responsiveHeight, responsiveWidth } from "react-native-responsive-dimensions";
-import { theme } from "../../../core/theme";
+import {StyleSheet} from 'react-native';
+import {
+  responsiveHeight,
+  responsiveWidth,
+} from 'react-native-responsive-dimensions';
+import {theme} from '../../../core/theme';
 
 export const styles = StyleSheet.create({
   modal: {
     flex: 1,
     height: responsiveHeight(100),
-    backgroundColor: "rgba(0,0,0,0.5)",
-    justifyContent: "center",
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    justifyContent: 'center',
   },
   container: {
-    backgroundColor: "#fff",
+    backgroundColor: '#fff',
     padding: responsiveWidth(5),
     margin: responsiveWidth(5),
     marginTop: responsiveWidth(15),
-    shadowColor: "#000",
+    shadowColor: '#000',
     shadowOffset: {
       width: 0,
       height: 2,
@@ -26,7 +29,6 @@ export const styles = StyleSheet.create({
   },
 
   buttonClose: {
-    alignItems: "flex-end",
+    alignItems: 'flex-end',
   },
-
 });

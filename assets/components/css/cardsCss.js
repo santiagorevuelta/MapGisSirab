@@ -1,7 +1,9 @@
 const {theme} = require('../../core/theme');
 const {
   responsiveWidth,
-  responsiveHeight, responsiveScreenWidth, responsiveFontSize,
+  responsiveHeight,
+  responsiveScreenWidth,
+  responsiveFontSize,
 } = require('react-native-responsive-dimensions');
 const {StyleSheet} = require('react-native');
 
@@ -41,7 +43,7 @@ module.exports = StyleSheet.create({
     fontSize: responsiveFontSize(3.5),
     fontStyle: 'italic',
   },
-  contentFooter:{
-   justifyContent:'space-between'
-  }
-})
+  contentFooter: {
+    justifyContent: 'space-between',
+  },
+});

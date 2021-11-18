@@ -1,9 +1,20 @@
-import CalendarComponent from "./index";
-import React from "react";
-import { Keyboard, StyleSheet, Text, TextInput as Input, TouchableOpacity, View } from "react-native";
-import { theme } from "../../../core/theme";
-import { responsiveFontSize, responsiveHeight, responsiveWidth } from "react-native-responsive-dimensions";
-import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import CalendarComponent from './index';
+import React from 'react';
+import {
+  Keyboard,
+  StyleSheet,
+  Text,
+  TextInput as Input,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import {theme} from '../../../core/theme';
+import {
+  responsiveFontSize,
+  responsiveHeight,
+  responsiveWidth,
+} from 'react-native-responsive-dimensions';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 export default props => {
   const [calendarShow, setCalendarShow] = React.useState(false);
@@ -14,13 +25,12 @@ export default props => {
         <Input
           style={[
             styles.input,
-            props.isFocus ? { color: theme.colors.primary } : {},
+            props.isFocus ? {color: theme.colors.primary} : {},
           ]}
-          onFocus={(e) => {
+          onFocus={e => {
             setCalendarShow(!calendarShow);
             Keyboard.dismiss();
-          }
-          }
+          }}
           {...props}
         />
         <TouchableOpacity
@@ -36,29 +46,31 @@ export default props => {
         </TouchableOpacity>
       </View>
       <CalendarComponent
-        dateValue={props.value?.split("/").reverse().join("-")}
+        dateValue={props.value?.split('/').reverse().join('-')}
         calendarVisible={calendarShow}
-        onDatePress={(date) => {
-          if (props.value === date?.dateString.split("-").reverse().join("/")) {
-            props.onSelectDate("");
+        onDatePress={date => {
+          if (props.value === date?.dateString.split('-').reverse().join('/')) {
+            props.onSelectDate('');
           } else {
-            props.onSelectDate(date?.dateString.split("-").reverse().join("/"));
+            props.onSelectDate(date?.dateString.split('-').reverse().join('/'));
           }
 
           setCalendarShow(!calendarShow);
         }}
         onCalendarClose={() => {
           setCalendarShow(!calendarShow);
-        }} />
-    </View>);
-}
+        }}
+      />
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
     width: responsiveWidth(45),
     height: responsiveHeight(theme.altoCampos),
     marginVertical: responsiveWidth(3),
-    paddingHorizontal: "2%",
+    paddingHorizontal: '2%',
   },
   input: {
     backgroundColor: theme.colors.surface,
@@ -66,22 +78,22 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 25,
     borderTopRightRadius: 25,
     borderWidth: 1,
-    height: "100%",
-    width: "100%",
+    height: '100%',
+    width: '100%',
     marginTop: 1,
     paddingLeft: 10,
     borderColor: theme.colors.border,
   },
   content: {
-    flexDirection: "row",
-    alignContent: "center",
-    height: "100%",
-    alignItems: "center",
-    justifyContent: "center",
+    flexDirection: 'row',
+    alignContent: 'center',
+    height: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
     width: responsiveWidth(43),
   },
   icondate: {
-    position: "absolute",
-    right: "5%",
+    position: 'absolute',
+    right: '5%',
   },
 });

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Image, PermissionsAndroid, Platform, Text, View } from "react-native";
+import {Image, PermissionsAndroid, Platform, Text, View} from 'react-native';
 import {theme} from '../../../core/theme';
 import {responsiveFontSize} from 'react-native-responsive-dimensions';
 import {ScrollView} from 'react-native-gesture-handler';
@@ -26,8 +26,11 @@ const options = {
   multiple: false,
 };
 
-
-export default function ({dataImage = [], setDataImage,label = 'Registro Fotografico'}) {
+export default function ({
+  dataImage = [],
+  setDataImage,
+  label = 'Registro Fotografico',
+}) {
   return (
     <View style={styles.body}>
       <Text style={theme.textos.Label}>{label}</Text>
@@ -99,7 +102,7 @@ export default function ({dataImage = [], setDataImage,label = 'Registro Fotogra
 
   async function renderFile(response) {
     if (response !== undefined) {
-      console.log(response)
+      console.log(response);
       let pathImg = response.path == undefined ? response.uri : response.path;
       const resizedImageUrl = await ImageResizer.createResizedImage(
         pathImg,

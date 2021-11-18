@@ -1,7 +1,5 @@
 import {StyleSheet} from 'react-native';
-import {
-  responsiveScreenWidth,
-} from 'react-native-responsive-dimensions';
+import {responsiveScreenWidth} from 'react-native-responsive-dimensions';
 import {theme} from '../../../core/theme';
 
 export const styles = StyleSheet.create({

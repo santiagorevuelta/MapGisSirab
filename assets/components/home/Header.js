@@ -1,5 +1,11 @@
 import React, {useState} from 'react';
-import { StyleSheet, View, Pressable, Platform, TouchableOpacity } from "react-native";
+import {
+  StyleSheet,
+  View,
+  Pressable,
+  Platform,
+  TouchableOpacity,
+} from 'react-native';
 import {theme} from '../../core/theme';
 import {
   responsiveFontSize,
@@ -12,15 +18,14 @@ import Home from '../icons/Home';
 import Location from '../icons/Ubicacion';
 import IconAntDesign from 'react-native-vector-icons/AntDesign';
 import {getLocalize} from '../map/BackgroundMap';
-import consultDireccion from '../../helpers/consultaDireccion'
-
+import consultDireccion from '../../helpers/consultaDireccion';
 
 const Header = props => {
   const [valor, setValor] = useState('');
   return (
     <View style={styles.header}>
       <Pressable
-        onPress={()=>{
+        onPress={() => {
           props.setOption('inicio');
         }}
         style={({pressed}) => [
@@ -50,7 +55,7 @@ const Header = props => {
             size={responsiveFontSize(2.5)}
           />
         </TouchableOpacity>
-        </View>
+      </View>
       <Pressable
         style={({pressed}) => [
           {
@@ -91,9 +96,9 @@ const styles = StyleSheet.create({
   },
   search: {
     bottom: 0,
-    alignContent:'center',
-    alignItems: "center",
-    justifyContent:'center'
+    alignContent: 'center',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   icons: {
     zIndex: 3,
