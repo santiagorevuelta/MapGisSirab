@@ -34,49 +34,20 @@ const ModalIngresarArbol = ({label, setOption, back}) => {
         notifyMessage('Los campos marcados con (*) son obligatorios');
         return;
       }
-
       let formData = new FormData();
       data.fecha = data.fecha.split('/').reverse().join('-');
-      secondData = secondData.intervencion_secundaria.split(',');
-      formData.append('idArbol', base64.encode(idArbol));
+      formData.append(zonaVerde ? 'idZona' : 'idArbol', base64.encode(idArbol));
       formData.append('datosIntervencion', base64.encode(JSON.stringify(data)));
       formData.append('datosImagenes', base64.encode(JSON.stringify(images)));
       formData.append(
         'datosSecundarias',
-        base64.encode(JSON.stringify(secondData)),
+        base64.encode(JSON.stringify(secondData.intervencion_secundaria)),
       );
-      let res = await guardarDatos(formData, 'searchIntervencion');
-      if (res.message) {
-        notifyMessage(res.message);
-        setIdArbol(null);
-        setArboles(false);
-      } else {
-        notifyMessage('Error al guardar');
-      }
-    } else {
-      notifyMessage('Sin arbol para asociar');
-    }
-  };
 
-  const fnGuardarZonaVerde = async (data, secondData, images = []) => {
-    if (idArbol !== null) {
-      let valid = validatorObligatory(data, secondData);
-      if (!valid) {
-        notifyMessage('Los campos marcados con (*) son obligatorios');
-        return;
-      }
-
-      let formData = new FormData();
-      data.fecha = data.fecha.split('/').reverse().join('-');
-      secondData = secondData.intervencion_secundaria.split(',');
-      formData.append('idArbol', base64.encode(idArbol));
-      formData.append('datosIntervencion', base64.encode(JSON.stringify(data)));
-      formData.append('datosImagenes', base64.encode(JSON.stringify(images)));
-      formData.append(
-        'datosSecundarias',
-        base64.encode(JSON.stringify(secondData)),
+      let res = await guardarDatos(
+        formData,
+        zonaVerde ? 'intervencionZonaVerde' : 'searchIntervencion',
       );
-      let res = await guardarDatos(formData, 'searchIntervencion');
       if (res.message) {
         notifyMessage(res.message);
         setIdArbol(null);
@@ -94,8 +65,9 @@ const ModalIngresarArbol = ({label, setOption, back}) => {
       !data.fecha ||
       !data.tipo_intervencion ||
       !data.proyecto ||
-      !data.observacion ||
-      !secondData.intervencion_secundaria
+      (!zonaVerde?!data.observacion:false) ||
+      !secondData.intervencion_secundaria ||
+      secondData.intervencion_secundaria.length === 0
     );
   }
 
@@ -118,6 +90,9 @@ const ModalIngresarArbol = ({label, setOption, back}) => {
       }
       url = 'searchZone';
       setZonaVerde(true);
+      let combo = tsconfig[tsconfig.use].intervencionZonaVerde.combos;
+      let data = await combosArbol(combo);
+      setCombos(data);
     }
     let result = await buscarDatos(dataArbol, 1, url);
     if (result.data?.length === 0) {
@@ -127,7 +102,6 @@ const ModalIngresarArbol = ({label, setOption, back}) => {
         notifyMessage(result.message);
       } else {
         notifyMessage('Encontrado correctamente');
-        console.log(result.data);
         setIdArbol(
           result.data[0].id_arbol
             ? result.data[0].id_arbol
@@ -143,8 +117,9 @@ const ModalIngresarArbol = ({label, setOption, back}) => {
       <HeaderModal type={label} setOption={setOption} backIndex={back} />
       {arboles ? (
         <FormIngresarIntervencion
-          fnGuardar={!zonaVerde ? fnGuardar : fnGuardarZonaVerde}
+          fnGuardar={fnGuardar}
           combos={combos}
+          dataArbol={dataArbol}
           zonaVerde={zonaVerde}
         />
       ) : (

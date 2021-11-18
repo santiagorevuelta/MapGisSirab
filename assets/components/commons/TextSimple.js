@@ -14,7 +14,7 @@ export default function TextSimple({label,value = 0}) {
 
 const styles = StyleSheet.create({
     container: {
-        width: responsiveWidth(50),
+        width: responsiveWidth(45),
         height: responsiveHeight(5),
         marginVertical: responsiveWidth(3),
         paddingHorizontal: "2%",

@@ -22,7 +22,7 @@ export default async function (filtros, page = 1, type) {
     headers: {
       'access-token': token,
       page: page,
-      limit: 6,
+      limit: '4',
     },
   };
 

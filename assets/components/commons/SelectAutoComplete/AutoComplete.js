@@ -14,6 +14,7 @@ import {
   responsiveFontSize,
   responsiveHeight,
   responsiveScreenWidth,
+  responsiveWidth,
 } from 'react-native-responsive-dimensions';
 import {Chip} from 'react-native-paper';
 import {ScrollView} from 'react-native-gesture-handler';
@@ -25,6 +26,7 @@ const styleAndroid = require('./styleAndroid');
 const style = Platform.OS === 'ios' ? styleIos : styleAndroid;
 
 export default ({
+  stylesNew = {},
   placeholder = 'Todos...',
   label,
   id,
@@ -57,25 +59,23 @@ export default ({
     }
   };
   return (
-    <>
-      <View>
-        <Text style={theme.textos.LabelIn}>{label}</Text>
-        <View style={styleSelect.campoSelect}>
-          <ScrollView style={styleSelect.content} persistentScrollbar={true}>
-            <GetChip />
-          </ScrollView>
-          <TouchableOpacity
-            style={styleSelect.btn}
-            onPress={() => {
-              showDialog();
-            }}>
-            <IconAntDesign
-              name={visible ? 'up' : 'down'}
-              color={theme.colors.primary}
-              size={responsiveFontSize(2)}
-            />
-          </TouchableOpacity>
-        </View>
+    <View style={[styleSelect.container, stylesNew]}>
+      <Text style={theme.textos.LabelIn}>{label}</Text>
+      <View style={styleSelect.campoSelect}>
+        <ScrollView style={styleSelect.content} persistentScrollbar={true}>
+          <GetChip />
+        </ScrollView>
+        <TouchableOpacity
+          style={styleSelect.btn}
+          onPress={() => {
+            showDialog();
+          }}>
+          <IconAntDesign
+            name={visible ? 'up' : 'down'}
+            color={theme.colors.primary}
+            size={responsiveFontSize(2)}
+          />
+        </TouchableOpacity>
       </View>
       <Modal
         animationType="slide"
@@ -108,7 +108,7 @@ export default ({
               listStyle={style.listStyle}
               keyExtractor={(item, i) => i.toString()}
               onChangeText={text => {
-                  filterSelect(text.toLowerCase()).then();
+                filterSelect(text.toLowerCase()).then();
               }}
               flatListProps={{
                 keyExtractor: (_, idx) => idx,
@@ -140,7 +140,7 @@ export default ({
           </View>
         </View>
       </Modal>
-    </>
+    </View>
   );
   function ex(index) {
     return (
@@ -159,7 +159,7 @@ export default ({
   function GetChip() {
     let arr = [];
     if (selectedItems.length === 0) {
-      return <Text style={styleSelect.placeholder}> Todos...</Text>;
+      return <Text style={styleSelect.placeholder}>{placeholder}.</Text>;
     }
 
     for (const index of selectedItems) {
@@ -185,6 +185,10 @@ export default ({
 };
 
 const styleSelect = StyleSheet.create({
+  container: {
+    width: responsiveWidth(89),
+    marginTop: responsiveWidth(3),
+  },
   modal: {
     width: '90%',
     height: '90%',
@@ -192,7 +196,7 @@ const styleSelect = StyleSheet.create({
     padding: 10,
   },
   campoSelect: {
-    width: responsiveScreenWidth(90),
+    width: '100%',
     borderWidth: 1,
     flexDirection: 'row',
     borderRadius: theme.radius + 5,

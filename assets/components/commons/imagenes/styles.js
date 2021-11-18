@@ -1,10 +1,6 @@
 import {StyleSheet} from 'react-native';
 import {
-  responsiveWidth,
-  responsiveScreenHeight,
   responsiveScreenWidth,
-  responsiveHeight,
-  responsiveFontSize,
 } from 'react-native-responsive-dimensions';
 import {theme} from '../../../core/theme';
 
@@ -12,15 +8,15 @@ export const styles = StyleSheet.create({
   body: {
     height: '100%',
     backgroundColor: theme.colors.blanco,
-    paddingTop: '5%',
+    paddingTop: '2%',
     marginBottom: '5%',
   },
   container: {
     borderWidth: 1,
     borderColor: theme.colors.primary,
     borderStyle: 'dashed',
-    height: 150,
-    width: 170,
+    height: responsiveScreenWidth(40),
+    width: responsiveScreenWidth(43),
     borderRadius: theme.radius,
     marginRight: 10,
   },
@@ -30,12 +26,13 @@ export const styles = StyleSheet.create({
     right: 0,
     zIndex: 2,
     borderRadius: 100,
-    height: 30,
-    width: 31,
-    backgroundColor: theme.colors.blanco,
+    height: responsiveScreenWidth(8),
+    width: responsiveScreenWidth(8),
+    backgroundColor: theme.colors.border,
   },
   slide: {
     flexDirection: 'row',
+    paddingTop: 3,
   },
   fotos: {
     height: '100%',
@@ -53,6 +50,6 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     textAlign: 'center',
     flexDirection: 'row',
-    backgroundColor: '#B5B2B2',
+    backgroundColor: theme.colors.border,
   },
 });

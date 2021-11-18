@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {StyleSheet, View, Pressable, Platform} from 'react-native';
+import { StyleSheet, View, Pressable, Platform, TouchableOpacity } from "react-native";
 import {theme} from '../../core/theme';
 import {
   responsiveFontSize,
@@ -12,6 +12,8 @@ import Home from '../icons/Home';
 import Location from '../icons/Ubicacion';
 import IconAntDesign from 'react-native-vector-icons/AntDesign';
 import {getLocalize} from '../map/BackgroundMap';
+import consultDireccion from '../../helpers/consultaDireccion'
+
 
 const Header = props => {
   const [valor, setValor] = useState('');
@@ -33,17 +35,22 @@ const Header = props => {
         <TextInput
           returnKeyType="next"
           value={valor}
-          onChangeText={text => setValor(text)}
+          onChangeText={text => setValor(text.trimStart())}
           autoCapitalize="none"
+          onEndEditing={() => consultDireccion(valor)}
+          onSubmitEditing={() => consultDireccion(valor)}
           keyboardType="default"
         />
-        <IconAntDesign
-          name={'search1'}
-          color={theme.colors.headers}
+        <TouchableOpacity
           style={styles.icon}
-          size={responsiveFontSize(2.5)}
-        />
-      </View>
+          onPress={() => consultDireccion(valor)}>
+          <IconAntDesign
+            name={'search1'}
+            color={theme.colors.headers}
+            size={responsiveFontSize(2.5)}
+          />
+        </TouchableOpacity>
+        </View>
       <Pressable
         style={({pressed}) => [
           {

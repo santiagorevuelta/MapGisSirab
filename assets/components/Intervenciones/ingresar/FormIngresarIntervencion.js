@@ -8,10 +8,13 @@ import styles from '../../css/ingresarcss';
 import TextArea from '../../commons/TextArea';
 import FormImagenes from '../../commons/imagenes/FormImagenes';
 import TextInputForm from '../../commons/TextInputForm';
+import AutoComplete from '../../commons/SelectAutoComplete/AutoComplete';
+import {responsiveWidth} from 'react-native-responsive-dimensions';
+import TextSimple from '../../commons/TextSimple';
 
 const selectPlace = 'Seleccione...';
 
-export default ({fnGuardar, combos = [], zonaVerde}) => {
+export default ({fnGuardar, combos = [], zonaVerde, dataArbol}) => {
   const [dataForm, setDataForm] = React.useState({});
   const [dataSecondary, setDataSecondarym] = React.useState({});
   const [dataImage, setDataImage] = React.useState([]);
@@ -19,6 +22,10 @@ export default ({fnGuardar, combos = [], zonaVerde}) => {
   return (
     <View style={styles.body}>
       <View style={[styles.form, {zIndex: 10}]}>
+        <TextSimple
+          label={'Codigo'}
+          value={dataArbol.codigo ? dataArbol.codigo : dataArbol.codigo_arbol}
+        />
         <SelectSimple
           label={'Tipo intervención *'}
           id="tipo_intervencion"
@@ -30,12 +37,6 @@ export default ({fnGuardar, combos = [], zonaVerde}) => {
             }
           }}
           list={combos}
-        />
-        <DatePicker
-          label={'Fecha intervencion *'}
-          placeholder={'dd/mm/aaaa'}
-          value={dataForm.fecha}
-          onSelectDate={text => setDataForm({...dataForm, fecha: text})}
         />
       </View>
       <View style={[styles.form, {zIndex: 9}]}>
@@ -51,52 +52,64 @@ export default ({fnGuardar, combos = [], zonaVerde}) => {
           }}
           list={combos}
         />
-        <SelectSimple
+        <DatePicker
+          label={'Fecha intervencion *'}
+          placeholder={'dd/mm/aaaa'}
+          value={dataForm.fecha}
+          onSelectDate={text => setDataForm({...dataForm, fecha: text})}
+        />
+      </View>
+      <View style={styles.form}>
+        <AutoComplete
           label={'Intervencion secundaria *'}
           id="intervencion_secundaria"
           placeholder={selectPlace}
-          valueSelected={dataSecondary.intervencion_secundaria}
+          stylesNew={{width: responsiveWidth(90), paddingHorizontal: '2%'}}
           onSelected={items => {
             if (items != null) {
+              let data = items.map(e => {
+                return e.id;
+              });
               setDataSecondarym({
                 ...dataSecondary,
-                intervencion_secundaria: items,
+                intervencion_secundaria: data,
               });
             }
           }}
           list={combos}
         />
       </View>
-      {zonaVerde && (
+      {zonaVerde ? (
         <View style={styles.form}>
           <TextInputForm
             label={'Área'}
             placeholder={'Área'}
             value={dataForm.area}
-            keyboardType="default"
+            keyboardType="numeric"
             onChangeTextInput={text => setDataForm({...dataForm, area: text})}
           />
           <TextInputForm
             label={'Costo'}
             placeholder={'Costo'}
             value={dataForm.costo}
-            keyboardType="default"
+            keyboardType="numeric"
             onChangeTextInput={text => setDataForm({...dataForm, costo: text})}
           />
         </View>
+      ) : (
+        <View style={styles.form}>
+          <TextArea
+            label={'Observaciones *'}
+            placeholder={''}
+            returnKeyType="next"
+            autoCapitalize="none"
+            textContentType="name"
+            value={dataForm.observacion}
+            keyboardType="default"
+            onChangeText={text => setDataForm({...dataForm, observacion: text})}
+          />
+        </View>
       )}
-      <View style={styles.form}>
-        <TextArea
-          label={'Observaciones *'}
-          placeholder={''}
-          returnKeyType="next"
-          autoCapitalize="none"
-          textContentType="name"
-          value={dataForm.observacion}
-          keyboardType="default"
-          onChangeText={text => setDataForm({...dataForm, observacion: text})}
-        />
-      </View>
       <View style={[styles.form, {marginTop: 10}]}>
         <FormImagenes dataImage={dataImage} setDataImage={setDataImage} />
       </View>

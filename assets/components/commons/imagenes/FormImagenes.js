@@ -1,5 +1,5 @@
 import React from 'react';
-import {Image, PermissionsAndroid, Platform, View} from 'react-native';
+import { Image, PermissionsAndroid, Platform, Text, View } from "react-native";
 import {theme} from '../../../core/theme';
 import {responsiveFontSize} from 'react-native-responsive-dimensions';
 import {ScrollView} from 'react-native-gesture-handler';
@@ -12,10 +12,10 @@ import * as RNFS from 'react-native-fs';
 
 const options = {
   storageOptions: {
-    skipBackup: true,
+    skipBackup: false,
     path: 'MapgisSirab',
     quality: 0,
-    privateDirectory: true,
+    privateDirectory: false,
   },
   compressImageMaxHeight: 1024,
   compressImageMaxWidth: 768,
@@ -26,13 +26,32 @@ const options = {
   multiple: false,
 };
 
-let images = [];
 
-export default function ({dataImage = [], setDataImage}) {
-  images = dataImage;
+export default function ({dataImage = [], setDataImage,label = 'Registro Fotografico'}) {
   return (
     <View style={styles.body}>
-      <ScrollView style={styles.slide} horizontal persistentScrollbar={true}>
+      <Text style={theme.textos.Label}>{label}</Text>
+      <ScrollView style={styles.slide} horizontal>
+        <View style={[styles.container, styles.containerAdd]}>
+          <Button
+            color={theme.colors.primary}
+            compact={true}
+            labelStyle={{fontSize: responsiveFontSize(5)}}
+            icon="camera-plus-outline"
+            onPress={() => {
+              camaraPress().then();
+            }}
+          />
+          <Button
+            labelStyle={{fontSize: responsiveFontSize(5)}}
+            color={theme.colors.primary}
+            compact={true}
+            icon="camera-image"
+            onPress={() => {
+              galleryPress().then();
+            }}
+          />
+        </View>
         {dataImage.map((item, index) => (
           <View style={styles.container} key={index}>
             <Button
@@ -56,95 +75,73 @@ export default function ({dataImage = [], setDataImage}) {
             </View>
           </View>
         ))}
-        <View style={[styles.container, styles.containerAdd]}>
-          <Button
-            color={theme.colors.primary}
-            compact={true}
-            labelStyle={{fontSize: responsiveFontSize(5)}}
-            icon="camera-plus-outline"
-            onPress={() => {
-              camaraPress(setDataImage).then();
-            }}
-          />
-          <Button
-            labelStyle={{fontSize: responsiveFontSize(5)}}
-            color={theme.colors.primary}
-            compact={true}
-            icon="camera-image"
-            onPress={() => {
-              galleryPress(setDataImage).then();
-            }}
-          />
-        </View>
       </ScrollView>
     </View>
   );
-}
 
-async function galleryPress(setDataImage) {
-  await requestCameraPermission();
-  await ImagePicker.openPicker(options)
-    .then(image => {
-      renderFile(image, setDataImage).then();
-    })
-    .catch();
-}
-
-async function camaraPress(setDataImage) {
-  await requestCameraPermission();
-  ImagePicker.openCamera(options)
-    .then(image => {
-      renderFile(image, setDataImage).then();
-    })
-    .catch();
-}
-
-async function renderFile(response, setDataImage) {
-  if (response !== undefined) {
-    let pathImg = response.path == undefined ? response.uri : response.path;
-    const resizedImageUrl = await ImageResizer.createResizedImage(
-      pathImg,
-      1024,
-      768,
-      'JPEG',
-      40,
-      0,
-      RNFS.DocumentDirectoryPath,
-    );
-    const base64 = await RNFS.readFile(resizedImageUrl.uri, 'base64');
-    images.push({urlFoto: pathImg, base64: base64});
-    setTimeout(() => {
-      setDataImage(images);
-    }, 1000);
+  async function galleryPress() {
+    await requestCameraPermission();
+    await ImagePicker.openPicker(options)
+      .then(image => {
+        renderFile(image).then();
+      })
+      .catch();
   }
-}
 
-async function requestCameraPermission() {
-  if (Platform.OS !== 'ios') {
-    try {
-      await PermissionsAndroid.requestMultiple([
-        PermissionsAndroid.PERMISSIONS.CAMERA,
-        PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
-      ]);
+  async function camaraPress() {
+    await requestCameraPermission();
+    ImagePicker.openCamera(options)
+      .then(image => {
+        renderFile(image).then();
+      })
+      .catch();
+  }
 
-      const permissionCamera = await PermissionsAndroid.check(
-        'android.permission.CAMERA',
+  async function renderFile(response) {
+    if (response !== undefined) {
+      console.log(response)
+      let pathImg = response.path == undefined ? response.uri : response.path;
+      const resizedImageUrl = await ImageResizer.createResizedImage(
+        pathImg,
+        1024,
+        768,
+        'JPEG',
+        40,
+        0,
+        RNFS.DocumentDirectoryPath,
       );
-      const permissionWriteStorage = await PermissionsAndroid.check(
-        'android.permission.WRITE_EXTERNAL_STORAGE',
-      );
-      if (permissionCamera && permissionWriteStorage) {
-        await requestCameraPermission;
-      }
-      if (!permissionCamera || !permissionWriteStorage) {
+      const base64 = await RNFS.readFile(resizedImageUrl.uri, 'base64');
+      setDataImage([{urlFoto: pathImg, base64: base64}, ...dataImage]);
+    }
+  }
+
+  async function requestCameraPermission() {
+    if (Platform.OS !== 'ios') {
+      try {
+        await PermissionsAndroid.requestMultiple([
+          PermissionsAndroid.PERMISSIONS.CAMERA,
+          PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
+        ]);
+
+        const permissionCamera = await PermissionsAndroid.check(
+          'android.permission.CAMERA',
+        );
+        const permissionWriteStorage = await PermissionsAndroid.check(
+          'android.permission.WRITE_EXTERNAL_STORAGE',
+        );
+        if (permissionCamera && permissionWriteStorage) {
+          await requestCameraPermission;
+        }
+        if (!permissionCamera || !permissionWriteStorage) {
+          return {
+            error: 'Failed to get the required permissions.',
+          };
+        }
+      } catch (error) {
         return {
           error: 'Failed to get the required permissions.',
         };
       }
-    } catch (error) {
-      return {
-        error: 'Failed to get the required permissions.',
-      };
     }
   }
 }

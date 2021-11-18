@@ -94,11 +94,11 @@ function success(position) {
   }
   let ubucacui = JSON.stringify({lat: currentLatitude, lng: currentLongitude});
   AsyncStorage.setItem('ubicacion', ubucacui);
-  MapRef.current.injectJavaScript(
-    `setTimeout(function(){
-        acctionMap([${currentLatitude}, ${currentLongitude}])
-    },100)`,
-  );
+  const injected = `
+    acctionMap([${currentLatitude}, ${currentLongitude}])
+    true;
+  `;
+  MapRef.current.injectJavaScript(injected);
 }
 
 function error(err) {
@@ -119,11 +119,11 @@ function verEnMapa(lat, lng) {
   if (!MapRef.current) {
     return;
   }
-  MapRef.current.injectJavaScript(
-    `setTimeout(function(){
-        acctionMapVer([${lat},${lng}])
-    },100)`,
-  );
+  const injected = `
+    acctionMapVer([${lat},${lng}]);
+    true;
+  `;
+  MapRef.current.injectJavaScript(injected);
 }
 
 function verEnMapaAllPoint(response) {
@@ -139,9 +139,12 @@ function verEnMapaAllPoint(response) {
     ]);
   }
   coords = JSON.stringify(coords);
-  MapRef.current.injectJavaScript(
-    `acctionMapVerTodo(${JSON.stringify(coords)})`,
-  );
+  const injected = `
+    acctionMapVerTodo(${JSON.stringify(coords)});
+    true;
+  `;
+  MapRef.current.injectJavaScript(injected);
+
 }
 
 function verEnMapaP(coords) {
@@ -177,6 +180,7 @@ async function setCoords() {
   `;
   MapRef.current.injectJavaScript(injected);
 }
+
 
 function getPoint() {
   if (!MapRef.current) {

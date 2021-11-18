@@ -25,6 +25,7 @@
   ],
   "use": "dev",
   "dev": {
+    "search": "https://www.medellin.gov.co/servicios/vamosmed/validarDireccion.hyg?dir=",
     "loginValidator": {
       "url": "http://132.145.214.185:8002/mapgis/validacion.do"
     },
@@ -42,7 +43,11 @@
     },
     "searchIntervencion": {
       "url": "http://201.184.171.13:8888/api-sirab/intervencion",
-      "combos": "http://201.184.171.13:8888/api-sirab/combosIntervencion"
+      "combos": "http://201.184.171.13:8888/api-sirab/combosIntervencion",
+    },
+    "intervencionZonaVerde":{
+      "url": "http://201.184.171.13:8888/api-sirab/intervencionZonaVerde",
+      "combos": "http://201.184.171.13:8888/api-sirab/combosIntervencionZonaVerde"
     }
   },
   "prod": {
