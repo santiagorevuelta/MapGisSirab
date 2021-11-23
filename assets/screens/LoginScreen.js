@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {StyleSheet, View} from 'react-native';
-import {ActivityIndicator, Text} from 'react-native-paper';
+import {Text} from 'react-native-paper';
 import Background from '../components/Background';
 import Logo from '../components/icons/Logo';
 import FooterLogo from '../components/icons/FooterLogo';
@@ -64,7 +64,7 @@ export default function LoginScreen({navigation}) {
         mode="contained"
         icon="login"
         onPress={() => {
-          onLoginPressed().then(() => {});
+          onLoginPressed().then();
         }}>
         Ingresar
       </Button>
@@ -92,17 +92,18 @@ const styles = StyleSheet.create({
   },
   logo: {
     alignItems: 'center',
+    margin: 0,
+    padding: 0,
   },
   logoFooter: {
     alignItems: 'center',
     bottom: responsiveHeight(0),
-    padding: 0,
-    margin: 0,
   },
   footer: {
     justifyContent: 'center',
     marginTop: responsiveHeight(10),
     alignItems: 'center',
     textAlign: 'center',
+    bottom: 0,
   },
 });

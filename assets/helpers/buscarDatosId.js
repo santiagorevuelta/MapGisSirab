@@ -9,6 +9,7 @@ export default async function (id, type) {
     return;
   }
   let url = `${tsconfig[tsconfig.use][type].url}/${id}`;
+  console.log(url);
   const config = {
     url: url,
     method: 'get',

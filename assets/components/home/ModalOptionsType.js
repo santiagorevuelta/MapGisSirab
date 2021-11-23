@@ -44,11 +44,9 @@ export default props => {
 const IconRender = i => {
   if (i === 'arbol') {
     return <Arbol />;
-  }
-  if (i === 'intervencion') {
+  } else if (i === 'intervencion') {
     return <Intervencion />;
-  }
-  if (i === 'zonas') {
+  } else if (i === 'zonas') {
     return <Zona />;
   }
 };

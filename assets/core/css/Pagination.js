@@ -2,13 +2,14 @@ const {theme} = require('../../../assets/core/theme');
 const {
   responsiveWidth,
   responsiveHeight,
+  responsiveScreenFontSize,
 } = require('react-native-responsive-dimensions');
 const {StyleSheet} = require('react-native');
 
 const styles = StyleSheet.create({
   divpagination: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'space-around',
     top: 5,
   },
   btnpagination: {
@@ -28,6 +29,16 @@ const styles = StyleSheet.create({
     fontSize: 10,
     marginLeft: 3,
     marginRight: 3,
+  },
+  style: {
+    width: 30,
+    height: 30,
+    borderRadius: 50,
+    alignItems: 'center',
+  },
+  contentStyle: {},
+  labelStyle: {
+    fontSize: responsiveScreenFontSize(3),
   },
 });
 

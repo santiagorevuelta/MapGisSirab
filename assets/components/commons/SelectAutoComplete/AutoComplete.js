@@ -13,7 +13,6 @@ import {styles} from '../../Intervenciones/Ver/modalStyle';
 import {
   responsiveFontSize,
   responsiveHeight,
-  responsiveScreenWidth,
   responsiveWidth,
 } from 'react-native-responsive-dimensions';
 import {Chip} from 'react-native-paper';
@@ -30,6 +29,7 @@ export default ({
   placeholder = 'Todos...',
   label,
   id,
+  multiple = true,
   list,
   onSelected = [],
 }) => {
@@ -61,22 +61,22 @@ export default ({
   return (
     <View style={[styleSelect.container, stylesNew]}>
       <Text style={theme.textos.LabelIn}>{label}</Text>
-      <View style={styleSelect.campoSelect}>
+      <TouchableOpacity
+        style={styleSelect.campoSelect}
+        onPress={() => {
+          showDialog();
+        }}>
         <ScrollView style={styleSelect.content} persistentScrollbar={true}>
           <GetChip />
         </ScrollView>
-        <TouchableOpacity
-          style={styleSelect.btn}
-          onPress={() => {
-            showDialog();
-          }}>
+        <View style={styleSelect.btn}>
           <IconAntDesign
             name={visible ? 'up' : 'down'}
             color={theme.colors.primary}
             size={responsiveFontSize(2)}
           />
-        </TouchableOpacity>
-      </View>
+        </View>
+      </TouchableOpacity>
       <Modal
         animationType="slide"
         transparent={true}
@@ -122,13 +122,19 @@ export default ({
                     selected={ex(item.id)}
                     onPress={() => {
                       let dato = item;
-                      if (ex(dato.id)) {
-                        let data = fl(dato.id);
-                        setSelectedItems(data);
-                        onSelected(data);
+                      if (multiple) {
+                        if (ex(dato.id)) {
+                          let data = fl(dato.id);
+                          setSelectedItems(data);
+                          onSelected(data);
+                        } else {
+                          setSelectedItems([...selectedItems, dato]);
+                          onSelected([...selectedItems, dato]);
+                          hideDialog();
+                        }
                       } else {
-                        setSelectedItems([...selectedItems, dato]);
-                        onSelected([...selectedItems, dato]);
+                        setSelectedItems([dato]);
+                        onSelected(dato.id);
                         hideDialog();
                       }
                     }}>
@@ -142,6 +148,7 @@ export default ({
       </Modal>
     </View>
   );
+
   function ex(index) {
     return (
       selectedItems.filter(function (i) {
@@ -173,8 +180,13 @@ export default ({
           closeIcon
           onClose={() => {
             let item = fl(index.id);
-            onSelected(item);
-            setSelectedItems(item);
+            if (multiple) {
+              onSelected(item);
+              setSelectedItems(item);
+            } else {
+              setSelectedItems(item);
+              onSelected('');
+            }
           }}>
           {index.dato}
         </Chip>,
@@ -210,6 +222,7 @@ const styleSelect = StyleSheet.create({
   content: {
     borderRadius: theme.radius,
     paddingRight: 10,
+    paddingLeft: 2,
     alignContent: 'space-between',
     alignSelf: 'auto',
     flexWrap: 'wrap',

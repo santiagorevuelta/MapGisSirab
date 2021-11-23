@@ -6,28 +6,33 @@
  * @flow strict-local
  */
 
-import React from 'react';
 import type {Node} from 'react';
+import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {theme} from './assets/core/theme';
 import {enableScreens} from 'react-native-screens';
+import {Dashboard, LoginScreen, ViewTree, ViewZone} from './assets/screens';
+import {Text} from 'react-native';
+
 enableScreens(true);
 
-import {LoginScreen, Dashboard, ViewTree} from './assets/screens';
 const Stack = createStackNavigator();
 
 const App: () => Node = () => {
   return (
-    <NavigationContainer independent={true} theme={theme}>
+    <NavigationContainer
+      independent={true}
+      theme={theme}
+      fallback={<Text>Loading...</Text>}>
       <Stack.Navigator
-        initialRouteName={'Dashboard'}
         screenOptions={{
           headerShown: false,
         }}>
-        <Stack.Screen name="LoginScreen" component={LoginScreen} />
         <Stack.Screen name="Dashboard" component={Dashboard} />
+        <Stack.Screen name="LoginScreen" component={LoginScreen} />
         <Stack.Screen name="ViewTree" component={ViewTree} />
+        <Stack.Screen name="ViewZone" component={ViewZone} />
       </Stack.Navigator>
     </NavigationContainer>
   );

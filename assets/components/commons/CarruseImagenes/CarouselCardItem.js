@@ -4,8 +4,8 @@ import {
   responsiveHeight,
   responsiveWidth,
 } from 'react-native-responsive-dimensions';
-import {theme} from '../../../../core/theme';
-import RenderImagenCard from '../../../commons/RenderImagen';
+import {theme} from '../../../core/theme';
+import RenderImagenCard from '../RenderImagen';
 
 export const SLIDER_WIDTH = responsiveWidth(100);
 export const ITEM_WIDTH = Math.round(SLIDER_WIDTH);

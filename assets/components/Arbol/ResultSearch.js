@@ -11,6 +11,7 @@ import {verEnMapa} from '../map/BackgroundMap';
 import Pagination from '../../core/Pagination';
 import styleCard from '../css/cardsCss';
 import RenderImage from '../commons/RenderImagenCard';
+import config from '../../tsconfig.json';
 
 export default function (props) {
   return (
@@ -40,15 +41,19 @@ const styles = StyleSheet.create({
 function Mycard(props) {
   return props.data.map((item, index) => (
     <Card key={'card' + index} style={styleCard.container}>
-      <Title style={[theme.textos.Label, styleCard.title]}>
-        Código {item.codigo_arbol}
-      </Title>
-      <Card.Content>
-        <Pressable
-          onPress={() => {
-            AsyncStorage.setItem('items', JSON.stringify(item));
-            props.tabArbol('ViewTree');
-          }}>
+      <Pressable
+        style={({pressed}) => [
+          {backgroundColor: pressed ? theme.pressed : theme.offPressed},
+          {borderRadius: theme.radius},
+        ]}
+        onPress={() => {
+          AsyncStorage.setItem('items', JSON.stringify(item));
+          props.tabArbol(config.home[0].items.ver);
+        }}>
+        <Title style={[theme.textos.Label, styleCard.title]}>
+          Código {item.codigo_arbol}
+        </Title>
+        <Card.Content>
           <Pressable
             onPress={() => {
               notifyMessage(item.especie);
@@ -60,35 +65,35 @@ function Mycard(props) {
             </Paragraph>
           </Pressable>
           <RenderImage style={styleCard.image} url={item.ruta_foto_web} />
-        </Pressable>
-      </Card.Content>
-      <Card.Actions style={styleCard.contentFooter}>
-        <Card.Content>
-          <Paragraph style={[theme.textos.Textos, styleCard.date]}>
-            {item.fecha}
-          </Paragraph>
         </Card.Content>
-        <Button
-          labelStyle={styleCard.labelStyle}
-          style={styleCard.buttons}
-          icon="file-download-outline"
-          color={theme.colors.primary}
-          onPress={() => {
-            notifyMessage('file');
-          }}
-        />
-        <Button
-          labelStyle={styleCard.labelStyle}
-          style={styleCard.buttons}
-          icon="map-marker-outline"
-          compact={true}
-          color={theme.colors.primary}
-          onPress={() => {
-            verEnMapa(item.latitud, item.longitud);
-            notifyMessage('Ver en mapa');
-          }}
-        />
-      </Card.Actions>
+        <Card.Actions style={styleCard.contentFooter}>
+          <Card.Content>
+            <Paragraph style={[theme.textos.Textos, styleCard.date]}>
+              {item.fecha}
+            </Paragraph>
+          </Card.Content>
+          <Button
+            labelStyle={styleCard.labelStyle}
+            style={styleCard.buttons}
+            icon="file-download-outline"
+            color={theme.colors.primary}
+            onPress={() => {
+              notifyMessage('file');
+            }}
+          />
+          <Button
+            labelStyle={styleCard.labelStyle}
+            style={styleCard.buttons}
+            icon="map-marker-outline"
+            compact={true}
+            color={theme.colors.primary}
+            onPress={() => {
+              verEnMapa(item.latitud, item.longitud);
+              notifyMessage('Ver en mapa');
+            }}
+          />
+        </Card.Actions>
+      </Pressable>
     </Card>
   ));
 }

@@ -1,14 +1,14 @@
 import {ScrollView, StyleSheet, Text, View} from 'react-native';
-import {theme} from '../../../../core/theme';
+import {theme} from '../../../core/theme';
 import React from 'react';
 import {
   responsiveHeight,
   responsiveScreenFontSize,
 } from 'react-native-responsive-dimensions';
-import ModalIntervention from '../../../Intervenciones/Ver/modalIntervention';
-import Rows from '../../../commons/RenderCardIntervencion';
+import ModalIntervention from '../../Intervenciones/Ver/modalIntervention';
+import Rows from '../RenderCardIntervencion';
 
-export default function ({data = []}) {
+export default function ({data = [], origen}) {
   const [dataItem, setDataItem] = React.useState({});
   const [visible, setVisible] = React.useState(false);
 
@@ -21,7 +21,7 @@ export default function ({data = []}) {
       />
       {data.length === 0 ? null : (
         <Text style={[theme.textos.Label, styles.h1]}>
-          {'Intervenciones del árbol'}
+          {'Intervenciones ' + origen}
         </Text>
       )}
       <ScrollView horizontal style={styles.scroll}>
@@ -44,12 +44,6 @@ const styles = StyleSheet.create({
     marginTop: responsiveHeight(30),
     padding: 10,
   },
-  content: {
-    justifyContent: 'flex-end',
-    alignContent: 'flex-end',
-    textAlign: 'right',
-    width: '95%',
-  },
   h1: {
     left: 15,
     top: 0,
@@ -59,18 +53,5 @@ const styles = StyleSheet.create({
   scroll: {
     paddingTop: 10,
     paddingBottom: 10,
-  },
-  hvArbol: {
-    borderRadius: 25,
-    borderWidth: 2,
-    padding: 10,
-    marginHorizontal: 20,
-    paddingHorizontal: 20,
-    alignItems: 'flex-end',
-    borderColor: theme.colors.primary,
-  },
-  txtArbol: {
-    color: theme.colors.primary,
-    fontWeight: 'bold',
   },
 });

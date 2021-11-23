@@ -21,8 +21,8 @@ export default async function (filtros, page = 1, type) {
   const config = {
     headers: {
       'access-token': token,
-      page: page,
       limit: '4',
+      page: page,
     },
   };
 

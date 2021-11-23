@@ -15,7 +15,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 let MapRef = React.createRef();
 const {width, height} = Dimensions.get('window');
 
-function MapComponent({children}) {
+function MapComponent({navigation, children}) {
   const [location, setLocation] = useState(0);
   useEffect(() => {
     permissionsLocation().then(() => {});

@@ -20,6 +20,7 @@ import BottomSheet from '@gorhom/bottom-sheet';
 import {consultToken} from '../core/general';
 import config from '../tsconfig.json';
 import {LogBox, Platform} from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 LogBox.ignoreLogs(['new NativeEventEmitter']); // Ignore log notification by message
 LogBox.ignoreAllLogs(); //Ignore all log notifications
@@ -31,13 +32,15 @@ export default function Dashboard({navigation}) {
   const [snp, setSnp] = useState(1);
   const bottomSheetRef = React.useRef(null);
   const snapPoints = useMemo(() => ['3%', '25%'], []);
-  const snapPointsVer = useMemo(
-    () => ['3%', '44%', '80%', Platform.OS === 'ios' ? '95%' : '100%'],
+  let snapPointsVer = useMemo(
+    () => ['3%', '33%', '70%', Platform.OS === 'ios' ? '95%' : '100%'],
     [],
   ); //, '100%'
 
   useEffect(() => {
+    console.log(navigation.params);
     setCoords().then();
+    AsyncStorage.setItem('variables', '');
     consultToken().then(res => {
       if (res) {
         return;
@@ -58,6 +61,14 @@ export default function Dashboard({navigation}) {
       limpiarMapaPolygon();
       limpiarMapaPoints();
     }
+    if (optionOld === 'Consulta' && index === config.home[0].label) {
+      snapPointsVer = [
+        '3%',
+        '33%',
+        '70%',
+        Platform.OS === 'ios' ? '95%' : '100%',
+      ];
+    }
     setTimeout(() => {
       setOption(index);
     }, 100);
@@ -71,7 +82,7 @@ export default function Dashboard({navigation}) {
   };
 
   return (
-    <MapComponent>
+    <MapComponent navigation={navigation}>
       {!headerHide && <Header setOption={setView} />}
       <BottomSheet
         ref={bottomSheetRef}

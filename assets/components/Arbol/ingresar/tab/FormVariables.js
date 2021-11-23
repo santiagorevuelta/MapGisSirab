@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect,useState} from 'react';
 import {View} from 'react-native';
 import {theme} from '../../../../core/theme';
 import TextInputForm from '../../../commons/TextInputForm';
@@ -7,10 +7,10 @@ import styles from '../../../css/ingresarcss';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default ({}) => {
-  const [vataVariables, setVataVariables] = React.useState({});
+  const [vataVariables, setVataVariables] = useState({});
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  React.useEffect(async () => {
+  useEffect(async () => {
     let data = await AsyncStorage.getItem('variables');
     data = data === null ? {} : JSON.parse(data);
     setVataVariables(data);

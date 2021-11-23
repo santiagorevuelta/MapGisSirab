@@ -3,7 +3,10 @@ import consultarBarrios from '../../../helpers/consultaBarrios';
 import {Text, View} from 'react-native';
 import {theme} from '../../../core/theme';
 import {Button as ButtonIcon} from 'react-native-paper';
-import {responsiveFontSize} from 'react-native-responsive-dimensions';
+import {
+  responsiveFontSize,
+  responsiveWidth,
+} from 'react-native-responsive-dimensions';
 import TextInputForm from '../../commons/TextInputForm';
 import SelectSimple from '../../commons/selectSimple/SelectSimple';
 import DatePicker from '../../commons/DatePicker/DatePicker';
@@ -15,6 +18,7 @@ import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {ScrollView} from 'react-native-gesture-handler';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {getPoint} from '../../map/BackgroundMap';
+import AutoComplete from '../../commons/SelectAutoComplete/AutoComplete';
 
 const selectPlace = 'Seleccione...';
 
@@ -66,6 +70,7 @@ export default ({combos = [], fnGuardar}) => {
   function validarObligatorio(datos, dataVar) {
     return !(
       !datos.especie ||
+      datos.especie !== '' ||
       !datos.codigo_arbol ||
       !datos.fecha ||
       !datos.id_tipo_arbol ||
@@ -86,23 +91,13 @@ export default ({combos = [], fnGuardar}) => {
     <ScrollView>
       <KeyboardAwareScrollView style={styles.body}>
         <View style={[styles.form, {zIndex: 10, elevation: 10}]}>
-          {/*<AutoComplete*/}
-          {/*  label={'Especie'}*/}
-          {/*  id="especie"*/}
-          {/*  placeholder={selectPlace}*/}
-          {/*  selectedItem={dataForm.especie}*/}
-          {/*  onSelected={items => {*/}
-          {/*    if (items != null) {*/}
-          {/*      setDataForm({...dataForm, especie: items.id});*/}
-          {/*    }*/}
-          {/*  }}*/}
-          {/*  list={combos}*/}
-          {/*/>*/}
-          <SelectSimple
+          <AutoComplete
             label={'Especie *'}
             id="especie"
+            stylesNew={{width: responsiveWidth(90), paddingHorizontal: '2%'}}
             placeholder={selectPlace}
             valueSelected={dataForm.especie}
+            multiple={false}
             onSelected={items => {
               if (items != null) {
                 setDataForm({...dataForm, especie: items});

@@ -5,8 +5,8 @@ import {theme} from '../../core/theme';
 module.exports = StyleSheet.create({
   container: {
     width: '100%',
-    height: '6%',
-    marginVertical: 12,
+    height: '5%',
+    marginVertical: 10,
   },
   pressable: {
     zIndex: 2,

@@ -33,17 +33,17 @@
 				<key>NSExceptionAllowsInsecureHTTPLoads</key>
 				<true/>
 			</dict>
-            <key>201.184.171.13</key>
-            <dict>
-                <key>NSTemporaryExceptionMinimumTLSVersion</key>
-                <true/>
-                <key>NSTemporaryExceptionRequiresForwardSecrecy</key>
-                <false/>
-                <key>NSTemporaryExceptionAllowsInsecureHTTPLoads</key>
-                <true/>
-                <key>NSIncludesSubdomains</key>
-                <true/>
-            </dict>
+			<key>201.184.171.13</key>
+			<dict>
+				<key>NSTemporaryExceptionMinimumTLSVersion</key>
+				<true/>
+				<key>NSTemporaryExceptionRequiresForwardSecrecy</key>
+				<false/>
+				<key>NSTemporaryExceptionAllowsInsecureHTTPLoads</key>
+				<true/>
+				<key>NSIncludesSubdomains</key>
+				<true/>
+			</dict>
 		</dict>
 	</dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
