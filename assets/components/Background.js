@@ -4,6 +4,7 @@ import {
   responsiveScreenHeight,
   responsiveWidth,
 } from 'react-native-responsive-dimensions';
+import {theme} from '../core/theme';
 
 export default function Background({children}) {
   return (
@@ -24,7 +25,8 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     justifyContent: 'center',
     paddingHorizontal: responsiveWidth(10),
-    height: responsiveScreenHeight(100),
+    height: responsiveScreenHeight(95),
+    color: theme.colors.text,
   },
   scroll: {
     height: responsiveScreenHeight(90),

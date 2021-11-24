@@ -16,7 +16,7 @@ export default class ViewZone extends React.Component {
     this.state = {
       index: 0,
       codigo: '',
-      fotos: [],
+      fotos: [{}, {}, {}],
       intervenciones: [],
       verZona: {},
     };
@@ -28,11 +28,15 @@ export default class ViewZone extends React.Component {
     let datos = await buscarDatosId(item.id_zona, 'searchZone');
     // eslint-disable-next-line react/no-did-mount-set-state
     this.setState({
-      fotos: datos.fotos,
+      fotos: [{}, {}, {}], // datos.fotos,
       intervenciones: datos.intervenciones,
       verZona: datos.verZona,
       codigo: item.codigo,
     });
+
+    if (this.state.fotos.length === 0) {
+      this.state({fotos: [{}, {}, {}]});
+    }
   }
 
   setCant = index => {

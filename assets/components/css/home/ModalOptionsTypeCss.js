@@ -24,7 +24,6 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 25,
     borderColor: theme.colors.primary,
-    //backgroundColor: theme.colors.blanco,
     alignItems: 'center',
     flexDirection: 'column',
     shadowColor: '#000',

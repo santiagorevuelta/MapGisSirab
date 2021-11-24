@@ -29,16 +29,17 @@ export default function Dashboard({navigation}) {
   const [headerHide, setHeaderHide] = useState(false);
   const [option, setOption] = useState('inicio');
   const [optionOld, setOptionOld] = useState(null);
-  const [snp, setSnp] = useState(1);
   const bottomSheetRef = React.useRef(null);
-  const snapPoints = useMemo(() => ['3%', '25%'], []);
-  let snapPointsVer = useMemo(
-    () => ['3%', '33%', '70%', Platform.OS === 'ios' ? '95%' : '100%'],
-    [],
-  ); //, '100%'
+  const [snapPoints] = useState(useMemo(() => ['4%', '26%'], []));
+  const [snapPointsVer] = useState(
+    useMemo(
+      () => ['4%', '33%', '70%', Platform.OS === 'ios' ? '95%' : '100%'],
+      [],
+    ),
+  );
+  const [snp, setSnp] = useState(snapPoints);
 
   useEffect(() => {
-    console.log(navigation.params);
     setCoords().then();
     AsyncStorage.setItem('variables', '');
     consultToken().then(res => {
@@ -53,25 +54,15 @@ export default function Dashboard({navigation}) {
   }, [navigation]);
 
   const setView = index => {
-    if (!index) {
-      setSnp(1);
-    }
     setOptionOld(option);
-    if ('Consulta,Ingresar'.indexOf(index) !== -1 && optionOld !== 'inicio') {
+    if ('Consulta,Ingresar,inicio'.indexOf(index) !== -1) {
       limpiarMapaPolygon();
       limpiarMapaPoints();
+      setSnp(snapPoints);
+    } else {
+      setSnp(snapPointsVer);
     }
-    if (optionOld === 'Consulta' && index === config.home[0].label) {
-      snapPointsVer = [
-        '3%',
-        '33%',
-        '70%',
-        Platform.OS === 'ios' ? '95%' : '100%',
-      ];
-    }
-    setTimeout(() => {
-      setOption(index);
-    }, 100);
+    setOption(index);
   };
 
   const tabArbol = name => {
@@ -90,73 +81,46 @@ export default function Dashboard({navigation}) {
         onChange={index => {
           setHeaderHide(index === snapPointsVer.length - 1);
         }}
-        index={snp}
-        initialSnapIndex={snp}
-        snapPoints={
-          'Consulta,Ingresar,inicio'.indexOf(option) !== -1
-            ? snapPoints
-            : snapPointsVer
-        }>
-        {option === 'inicio' ? (
-          <ModalOptions setOption={setView} />
-        ) : 'Consulta,Ingresar'.indexOf(option) !== -1 ? (
-          <ModalOptionsType
-            setOption={setView}
-            type={option}
-            tabArbol={tabArbol}
-          />
-        ) : optionOld === 'Consulta' ? (
-          option === config.home[0].label ? (
-            <ModalOptionsArbol
-              setOption={setView}
-              type={option}
-              back={optionOld}
-              label={optionOld + ' ' + option.toLowerCase()}
-              tabArbol={tabArbol}
-            />
-          ) : option === config.home[1].label ? (
-            <ModalIntervenciones
-              setOption={setView}
-              type={option}
-              back={optionOld}
-              label={optionOld + ' ' + option.toLowerCase()}
-              tabArbol={tabArbol}
-            />
-          ) : option === config.home[2].label ? (
-            <ModalZonasVerdes
-              setOption={setView}
-              type={option}
-              back={optionOld}
-              label={optionOld + ' ' + option.toLowerCase()}
-              tabArbol={tabArbol}
-            />
-          ) : null
-        ) : option === config.home[0].label ? (
-          <ModalIngresarArbol
-            setOption={setView}
-            type={option}
-            back={optionOld}
-            label={optionOld + ' ' + option.toLowerCase()}
-            tabArbol={tabArbol}
-          />
-        ) : option === config.home[1].label ? (
-          <ModalIngresarIntervencion
-            setOption={setView}
-            type={option}
-            back={optionOld}
-            label={optionOld + ' ' + option.toLowerCase()}
-            tabArbol={tabArbol}
-          />
-        ) : option === config.home[2].label ? (
-          <ModalIngresarZonaVerde
-            setOption={setView}
-            type={option}
-            back={optionOld}
-            label={optionOld + ' ' + option.toLowerCase()}
-            tabArbol={tabArbol}
-          />
-        ) : null}
+        index={1}
+        initialSnapIndex={1}
+        keyboardBehavior={'fullScreen'}
+        snapPoints={snp}>
+        <ViewRender
+          setOption={setView}
+          type={option}
+          back={optionOld}
+          label={optionOld + ' ' + option.toLowerCase()}
+          tabArbol={tabArbol}
+        />
       </BottomSheet>
     </MapComponent>
   );
+}
+
+function ViewRender(props) {
+  if (props.type === 'inicio') {
+    return <ModalOptions {...props} />;
+  } else if ('Consulta,Ingresar'.indexOf(props.type) !== -1) {
+    return <ModalOptionsType {...props} />;
+  } else {
+    if (props.back === 'Consulta') {
+      switch (props.type) {
+        case config.home[0].label:
+          return <ModalOptionsArbol {...props} />;
+        case config.home[1].label:
+          return <ModalIntervenciones {...props} />;
+        case config.home[2].label:
+          return <ModalZonasVerdes {...props} />;
+      }
+    } else {
+      switch (props.type) {
+        case config.home[0].label:
+          return <ModalIngresarArbol {...props} />;
+        case config.home[1].label:
+          return <ModalIngresarIntervencion {...props} />;
+        case config.home[2].label:
+          return <ModalIngresarZonaVerde {...props} />;
+      }
+    }
+  }
 }

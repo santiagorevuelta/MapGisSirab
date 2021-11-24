@@ -1,8 +1,7 @@
 import React from 'react';
-import {Pressable, Text} from 'react-native';
+import {Pressable, Text, View} from 'react-native';
 import styles from '../css/home/ModalOptionsTypeCss';
 import {theme} from '../../core/theme';
-import Animated from 'react-native-reanimated';
 import config from '../../tsconfig.json';
 import Header from '../home/HeaderModal';
 import Arbol from '../icons/Arbol';
@@ -17,7 +16,7 @@ export default props => {
         type={props.type}
         setOption={props.setOption}
       />
-      <Animated.View style={styles.container}>
+      <View style={styles.container}>
         {config.home.map((item, i) => (
           <Pressable
             key={i}
@@ -36,7 +35,7 @@ export default props => {
             </Text>
           </Pressable>
         ))}
-      </Animated.View>
+      </View>
     </>
   );
 };

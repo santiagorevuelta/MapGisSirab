@@ -10,22 +10,20 @@ import React from 'react';
 
 const RenderHeader = props => (
   <View style={stylesHead.head}>
-    <View>
-      <Pressable
-        style={stylesHead.regress}
-        onPress={() => {
-          props.nav('Dashboard');
-        }}>
-        <IconAntDesign
-          name={'back'}
-          color={theme.colors.headers}
-          size={responsiveFontSize(2)}
-        />
-        <Text style={[theme.textos.Label, stylesHead.regressTxt]}>
-          {'Regresar'}
-        </Text>
-      </Pressable>
-    </View>
+    <Pressable
+      style={stylesHead.regress}
+      onPress={() => {
+        props.nav('Dashboard');
+      }}>
+      <IconAntDesign
+        name={'back'}
+        color={theme.colors.headers}
+        size={responsiveFontSize(2)}
+      />
+      <Text style={[theme.textos.Label, stylesHead.regressTxt]}>
+        {'Regresar'}
+      </Text>
+    </Pressable>
     <View style={stylesHead.headCodigo}>
       <Text style={theme.textos.Label}>{'Código ' + props.codigo}</Text>
     </View>
@@ -63,6 +61,7 @@ const stylesHead = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#565656',
     borderRadius: 25,
+    paddingHorizontal: 4,
   },
   regressTxt: {
     color: theme.colors.blanco,
@@ -86,6 +85,7 @@ const stylesHead = StyleSheet.create({
   textCant: {
     textAlign: 'center',
     padding: 3,
+    color: theme.colors.blanco,
     fontSize: responsiveFontSize(1.5),
   },
 });

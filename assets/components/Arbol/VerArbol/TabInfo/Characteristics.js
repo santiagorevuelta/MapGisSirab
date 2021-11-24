@@ -1,4 +1,4 @@
-import {Pressable, ScrollView, StyleSheet, Text, View} from 'react-native';
+import {Pressable, StyleSheet, Text, View} from 'react-native';
 import {theme} from '../../../../core/theme';
 import React, {useState} from 'react';
 import {notifyMessage} from '../../../../core/general';
@@ -8,30 +8,28 @@ export default function ({data}) {
   const [items] = useState(data);
   return (
     <View style={styles.container}>
-      <ScrollView>
-        <View style={styles.row}>
-          {div('Especie', items.especie ? items.especie : null)}
-          {div('Fecha de ingreso', items.fecha ? items.fecha : null)}
-        </View>
-        <View style={styles.row}>
-          {div('Estado', items.estado ? items.estado : null)}
-          {div('Latitud', items.latitud ? items.latitud : null)}
-        </View>
-        <View style={styles.row}>
-          {div('Tipo de árbol', items.tipo_arbol ? items.tipo_arbol : null)}
-          {div('Longitud', items.longitud ? items.longitud : null)}
-        </View>
-        <View style={styles.row}>
-          {div('Comuna', items.primer_nivel ? items.primer_nivel : null)}
-          {div('Barrio', items.segundo_nivel ? items.segundo_nivel : null)}
-        </View>
-        <View style={styles.row}>
-          {div(
-            'Tipo de ingreso',
-            items.tipo_origen_arbol ? items.tipo_origen_arbol : null,
-          )}
-        </View>
-      </ScrollView>
+      <View style={styles.row}>
+        {div('Especie', items.especie ? items.especie : null)}
+        {div('Fecha de ingreso', items.fecha ? items.fecha : null)}
+      </View>
+      <View style={styles.row}>
+        {div('Estado', items.estado ? items.estado : null)}
+        {div('Latitud', items.latitud ? items.latitud : null)}
+      </View>
+      <View style={styles.row}>
+        {div('Tipo de árbol', items.tipo_arbol ? items.tipo_arbol : null)}
+        {div('Longitud', items.longitud ? items.longitud : null)}
+      </View>
+      <View style={styles.row}>
+        {div('Comuna', items.primer_nivel ? items.primer_nivel : null)}
+        {div('Barrio', items.segundo_nivel ? items.segundo_nivel : null)}
+      </View>
+      <View style={styles.row}>
+        {div(
+          'Tipo de ingreso',
+          items.tipo_origen_arbol ? items.tipo_origen_arbol : null,
+        )}
+      </View>
     </View>
   );
 }

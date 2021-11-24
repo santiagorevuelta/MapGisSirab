@@ -1,5 +1,4 @@
 import {StyleSheet} from 'react-native';
-import {responsiveWidth} from 'react-native-responsive-dimensions';
 import {theme} from '../../core/theme';
 
 module.exports = StyleSheet.create({
@@ -12,9 +11,11 @@ module.exports = StyleSheet.create({
     zIndex: 2,
     position: 'absolute',
     alignSelf: 'flex-end',
+    alignItems: 'center',
     flexDirection: 'column',
+    alignContent: 'center',
     justifyContent: 'center',
-    padding: responsiveWidth(4),
+    padding: '4%',
   },
   imageVer: {
     zIndex: 2,
@@ -38,6 +39,7 @@ module.exports = StyleSheet.create({
     borderColor: '#C4C4C4',
     marginVertical: 2,
     overflow: 'hidden',
+    color: theme.colors.text,
     shadowColor: 'black',
     shadowRadius: 1,
     shadowOpacity: 0,

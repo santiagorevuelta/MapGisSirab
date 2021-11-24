@@ -2,7 +2,6 @@ import React from 'react';
 import {Pressable, Text, View} from 'react-native';
 import styles from '../css/home/ModalOptionsCss';
 import {theme} from '../../core/theme';
-import Animated from 'react-native-reanimated';
 
 import ConsultarArbol from '../icons/ConsultarArbol';
 import IngresarArbol from '../icons/IngresarArbol';
@@ -15,7 +14,7 @@ export default props => {
           {'Escoja una opción'}
         </Text>
       </View>
-      <Animated.View style={styles.container}>
+      <View style={styles.container}>
         <Pressable
           style={({pressed}) => [
             {
@@ -42,7 +41,7 @@ export default props => {
           <IngresarArbol />
           <Text style={[theme.textos.Label, styles.labels]}>{'Ingresar'}</Text>
         </Pressable>
-      </Animated.View>
+      </View>
     </>
   );
 };

@@ -3,6 +3,7 @@ import {StyleSheet, View} from 'react-native';
 import Carousel, {Pagination} from 'react-native-snap-carousel';
 import CarouselCardItem, {ITEM_WIDTH, SLIDER_WIDTH} from './CarouselCardItem';
 import {responsiveWidth} from 'react-native-responsive-dimensions';
+import {theme} from '../../../core/theme';
 
 const CarouselCards = ({data, setCant}) => {
   const [index, setIndex] = React.useState(0);
@@ -11,7 +12,7 @@ const CarouselCards = ({data, setCant}) => {
   return (
     <View style={{width: responsiveWidth(100), backgroundColor: '#fff'}}>
       <Carousel
-        layout="tinder"
+        layout="stack"
         layoutCardOffset={9}
         ref={isCarousel}
         data={data.length === 0 ? [{}] : data}
@@ -36,12 +37,12 @@ const CarouselCards = ({data, setCant}) => {
             height: 12,
             borderRadius: 10,
             marginHorizontal: 0,
-            backgroundColor: '#fff',
+            backgroundColor: theme.colors.primary,
           }}
           inactiveDotStyle={{
             borderWidth: 1,
-            borderColor: '#000',
-            backgroundColor: 'transparent',
+            borderColor: theme.colors.primary,
+            backgroundColor: theme.colors.secondary,
           }}
           inactiveDotOpacity={0.3}
           inactiveDotScale={0.9}

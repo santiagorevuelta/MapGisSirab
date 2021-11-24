@@ -1,11 +1,17 @@
-import {StyleSheet, Text, View} from 'react-native';
-import {Button as ButtonIcon, Switch} from 'react-native-paper';
+import {Pressable, StyleSheet, Text, View} from 'react-native';
+import {Switch} from 'react-native-paper';
 import {theme} from '../../core/theme';
-import {responsiveFontSize} from 'react-native-responsive-dimensions';
 import Button from '../Button';
 import React from 'react';
+import Limpiar from '../icons/Limpiar';
 
-const Buscar = ({filtros, fnLimpiar, isSwitchOn, onToggleSwitch, fnBuscar}) => {
+const RenderSearch = ({
+  filtros,
+  fnLimpiar,
+  isSwitchOn,
+  onToggleSwitch,
+  fnBuscar,
+}) => {
   return (
     <View style={styles.search}>
       <View style={styles.content}>
@@ -20,15 +26,17 @@ const Buscar = ({filtros, fnLimpiar, isSwitchOn, onToggleSwitch, fnBuscar}) => {
         </Text>
       </View>
       <View style={styles.content}>
-        <ButtonIcon
-          compact={true}
-          labelStyle={{fontSize: responsiveFontSize(3.5)}}
-          icon="broom"
-          color={theme.colors.primary}
+        <Pressable
+          style={({pressed}) => [
+            {
+              backgroundColor: pressed ? theme.pressed : theme.offPressed,
+            },
+          ]}
           onPress={() => {
             fnLimpiar(false);
-          }}
-        />
+          }}>
+          <Limpiar />
+        </Pressable>
         <Button
           style={styles.boton}
           mode="contained"
@@ -65,4 +73,4 @@ const styles = StyleSheet.create({
   swich: {},
 });
 
-export default Buscar;
+export default RenderSearch;

@@ -7,18 +7,16 @@ const {StyleSheet} = require('react-native');
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: theme.colors.blanco,
     color: theme.colors.secondary,
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    paddingTop: '10%',
     width: responsiveWidth(100),
   },
   modal: {
-    width: responsiveWidth(35),
-    height: responsiveWidth(30),
+    width: responsiveWidth(33),
+    height: responsiveWidth(28),
     padding: 15,
     marginTop: 0,
     margin: 15,

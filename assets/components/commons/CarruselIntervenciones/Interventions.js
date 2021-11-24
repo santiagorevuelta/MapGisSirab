@@ -40,8 +40,8 @@ export default function ({data = [], origen}) {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: theme.colors.blanco,
-    alignItems: 'flex-end',
-    marginTop: responsiveHeight(30),
+    alignItems: 'flex-start',
+    marginTop: responsiveHeight(32),
     padding: 10,
   },
   h1: {
@@ -53,5 +53,6 @@ const styles = StyleSheet.create({
   scroll: {
     paddingTop: 10,
     paddingBottom: 10,
+    alignContent: 'flex-start',
   },
 });

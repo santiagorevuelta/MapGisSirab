@@ -1,17 +1,7 @@
 import React from 'react';
-import {
-  View,
-  StyleSheet,
-  Text,
-  Pressable,
-  Image,
-  TextInput as Input,
-} from 'react-native';
+import {StyleSheet, TextInput as Input, View} from 'react-native';
 import {theme} from '../../core/theme';
-import {
-  responsiveHeight,
-  responsiveWidth,
-} from 'react-native-responsive-dimensions';
+import {responsiveWidth} from 'react-native-responsive-dimensions';
 
 export default function TextInput({...props}) {
   return (
@@ -42,5 +32,6 @@ const styles = StyleSheet.create({
     paddingLeft: 20,
     borderColor: '#C4C4C4',
     height: '100%',
+    color: theme.colors.text,
   },
 });

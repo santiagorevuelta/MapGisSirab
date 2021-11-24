@@ -56,9 +56,9 @@ module.exports = `<!DOCTYPE html>
 
 
   function acctionMap(latlng) {
+    radius.addTo(mymap);
+    radius.setLatLng(latlng);
     mymap.setView(latlng, 20);
-    markerPerson.addTo(mymap);
-    markerPerson.setLatLng(latlng);
   }
 
   function acctionMapVer(latlng) {
@@ -171,7 +171,7 @@ var editableLayers = new L.FeatureGroup();
 mymap.addLayer(editableLayers);
 
 var drawPluginOptions = {
-  position: 'bottomright',
+    position: 'topright',
   draw: {
     polygon: {
       allowIntersection: false, // Restricts shapes to simple polygons
@@ -213,7 +213,8 @@ mymap.on('draw:created', function(e) {
   if (type === 'marker') {
     layer.bindPopup('A popup!');
   }
-   window.ReactNativeWebView.postMessage(JSON.stringify(layer.getLatLngs()));
+    var seeArea = L.GeometryUtil.geodesicArea(layer.getLatLngs());
+   window.ReactNativeWebView.postMessage(JSON.stringify([layer.getLatLngs(),seeArea]));
    editableLayers.addLayer(layer);
    polygon = layer;
 });

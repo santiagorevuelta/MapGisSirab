@@ -28,7 +28,11 @@ function MapComponent({navigation, children}) {
   }, [location]);
 
   return (
-    <SafeAreaView style={{flex: 1, backgroundColor: 'transparent'}}>
+    <SafeAreaView
+      style={{
+        flex: 1,
+        backgroundColor: 'transparent',
+      }}>
       <StatusBar barStyle="light-content" />
       <WebView
         ref={MapRef}

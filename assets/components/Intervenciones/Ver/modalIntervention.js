@@ -15,7 +15,7 @@ const ModalIntervention = ({
 }) => {
   return (
     <Modal
-      animationType="slide"
+      animationType="none"
       transparent={true}
       visible={modalVisible}
       onRequestClose={() => {

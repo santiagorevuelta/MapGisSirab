@@ -1,4 +1,4 @@
-import {Pressable, ScrollView, StyleSheet, Text, View} from 'react-native';
+import {Pressable, StyleSheet, Text, View} from 'react-native';
 import {theme} from '../../../core/theme';
 import React from 'react';
 import {notifyMessage} from '../../../core/general';
@@ -8,25 +8,23 @@ export default function ({data}) {
   console.log(data);
   return (
     <View style={styles.container}>
-      <ScrollView>
-        <View style={styles.row}>
-          {div('Codigo', data.codigo)}
-          {div('Fecha ingreso', data?.fecha)}
-        </View>
-        <View style={styles.row}>
-          {div('Codigo proyecto', data?.codigo_proyecto)}
-          {div('Nombre proyecto', data?.nombre_proyecto)}
-        </View>
-        <View style={styles.row}>
-          {div('Nombre', data?.nombre)}
-          {div('Tipo zona', data?.tipo_zona)}
-        </View>
-        <View style={styles.row}>
-          {div('Comuna', data?.nombre_primer_nivel)}
-          {div('Barrio', data?.nombre_segundo_nivel)}
-        </View>
-        <View style={styles.row}>{div('Descripción', data?.descripcion)}</View>
-      </ScrollView>
+      <View style={styles.row}>
+        {div('Codigo', data.codigo)}
+        {div('Fecha ingreso', data?.fecha)}
+      </View>
+      <View style={styles.row}>
+        {div('Codigo proyecto', data?.codigo_proyecto)}
+        {div('Nombre proyecto', data?.nombre_proyecto)}
+      </View>
+      <View style={styles.row}>
+        {div('Nombre', data?.nombre)}
+        {div('Tipo zona', data?.tipo_zona)}
+      </View>
+      <View style={styles.row}>
+        {div('Comuna', data?.nombre_primer_nivel)}
+        {div('Barrio', data?.nombre_segundo_nivel)}
+      </View>
+      <View style={styles.row}>{div('Descripción', data?.descripcion)}</View>
     </View>
   );
 }
@@ -50,7 +48,6 @@ function div(label, text) {
 const styles = StyleSheet.create({
   container: {
     justifyContent: 'center',
-    backgroundColor: theme.colors.blanco,
     height: '100%',
   },
   row: {

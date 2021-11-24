@@ -66,6 +66,7 @@ const styles = StyleSheet.create({
   },
   regressHead: {
     textAlign: 'center',
+    color: theme.colors.headers,
     fontSize: responsiveFontSize(2),
   },
 });

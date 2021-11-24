@@ -6,7 +6,6 @@ import base64 from 'react-native-base64';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default async function (direccion) {
-  console.log(valor);
   if (direccion === '') {
     return;
   }

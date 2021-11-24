@@ -5,7 +5,7 @@ import {
 } from 'react-native-responsive-dimensions';
 
 export const theme = {
-  ...DefaultTheme,
+  dark: false,
   pressed: '#d9d9d9',
   offPressed: '#fff',
   radius: 15,
@@ -13,6 +13,16 @@ export const theme = {
   altoCampos: 5,
   colors: {
     ...DefaultTheme.colors,
+    dark: {
+      backgroundColor: 'black',
+      backgroundCard: '#25282c',
+      color: 'white',
+    },
+    light: {
+      backgroundColor: 'white',
+      backgroundCard: '#fff',
+      color: 'black',
+    },
     text: '#000000',
     primary: '#258B20',
     secondary: '#414757',
@@ -59,7 +69,7 @@ export const theme = {
   },
   ver: {
     Label: {
-      fontSize: responsiveFontSize(1.8),
+      fontSize: responsiveFontSize(1.7),
       color: '#258B20',
     },
     Textos: {
