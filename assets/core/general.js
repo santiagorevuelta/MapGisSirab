@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import tsconfig from '../tsconfig.json';
+import {navigate} from '../components/map/BackgroundMap';
 
 const {Platform, ToastAndroid, Alert} = require('react-native');
 
@@ -24,6 +25,7 @@ async function consultToken() {
       }
     })
     .catch(error => {
+      navigate('LoginScreen');
       catchError(error.message);
     });
   return token;

@@ -28,7 +28,7 @@ const Header = props => {
         </Pressable>
       </View>
       <View>
-        <Text style={[theme.textos.Label, styles.regressHead]}>
+        <Text style={[theme.textos.Label, styles.headerText]}>
           {props.type}
         </Text>
       </View>
@@ -65,6 +65,11 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   regressHead: {
+    textAlign: 'center',
+    color: theme.colors.headers,
+    fontSize: responsiveFontSize(2),
+  },
+  headerText: {
     textAlign: 'center',
     color: theme.colors.headers,
     fontSize: responsiveFontSize(2),

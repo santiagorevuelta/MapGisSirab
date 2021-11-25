@@ -2,6 +2,7 @@ const {theme} = require('../../../core/theme');
 const {
   responsiveWidth,
   responsiveHeight,
+  responsiveFontSize,
 } = require('react-native-responsive-dimensions');
 const {StyleSheet} = require('react-native');
 
@@ -48,6 +49,7 @@ const styles = StyleSheet.create({
   headerText: {
     textAlign: 'center',
     color: theme.colors.headers,
+    fontSize: responsiveFontSize(2),
   },
 });
 

@@ -6,12 +6,11 @@ import Animated from 'react-native-reanimated';
 import {ScrollView} from 'react-native-gesture-handler';
 import Pagination from '../../core/Pagination';
 import ModalIntervention from './Ver/modalIntervention';
-import Mycard from '../commons/RenderCardIntervencion';
+import Mycard from '../commons/CarruselIntervenciones/RenderCardIntervencion';
 
 export default function ({data, meta, paginar}) {
   const [dataItem, setDataItem] = React.useState({});
   const [visible, setVisible] = React.useState(false);
-
   return (
     <Animated.View style={styles.container}>
       <ModalIntervention

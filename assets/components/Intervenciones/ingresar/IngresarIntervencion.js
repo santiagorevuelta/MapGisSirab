@@ -12,6 +12,7 @@ import base64 from 'react-native-base64';
 import guardarDatos from '../../../helpers/guardarDatos';
 import {Button as ButtonIcon} from 'react-native-paper';
 import {theme} from '../../../core/theme';
+import {responsiveScreenFontSize} from 'react-native-responsive-dimensions';
 
 const ModalIngresarArbol = ({label, setOption, back}) => {
   const [arboles, setArboles] = useState(false);
@@ -157,7 +158,8 @@ const ModalIngresarArbol = ({label, setOption, back}) => {
               compact={true}
               mode="contained"
               style={styles.guardar}
-              icon="content-save"
+              icon="text-box-search-outline"
+              labelStyle={{fontSize: responsiveScreenFontSize(1.8)}}
               color={theme.colors.primary}
               onPress={() => fnSearch()}>
               Buscar

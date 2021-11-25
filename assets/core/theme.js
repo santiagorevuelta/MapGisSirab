@@ -1,8 +1,5 @@
 import {DefaultTheme} from 'react-native-paper';
-import {
-  responsiveFontSize,
-  responsiveWidth,
-} from 'react-native-responsive-dimensions';
+import {responsiveFontSize} from 'react-native-responsive-dimensions';
 
 export const theme = {
   dark: false,
@@ -60,7 +57,6 @@ export const theme = {
       fontSize: responsiveFontSize(1.5),
       color: '#258B20',
       fontWeight: 'bold',
-      paddingLeft: responsiveWidth(1),
     },
     Textos: {
       color: '#959595',

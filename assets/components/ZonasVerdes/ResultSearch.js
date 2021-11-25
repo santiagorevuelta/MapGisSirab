@@ -40,51 +40,47 @@ const styles = StyleSheet.create({
 
 function Mycard({data = [], tabArbol}) {
   return data.map((item, index) => (
-    <Card key={'card' + index} style={styleCard.container}>
-      <Pressable
-        style={({pressed}) => [
-          {backgroundColor: pressed ? theme.pressed : theme.offPressed},
-          {borderRadius: theme.radius},
-        ]}
-        onPress={() => {
-          AsyncStorage.setItem('itemsZone', JSON.stringify(item));
-          tabArbol(config.home[2].items.ver);
-        }}>
-        <Title style={[theme.textos.Label, styleCard.title]}>
-          Código {item.codigo}
-        </Title>
+    <Card
+      key={'card' + index}
+      style={styleCard.container}
+      onPress={() => {
+        AsyncStorage.setItem('itemsZone', JSON.stringify(item));
+        tabArbol(config.home[2].items.ver);
+      }}>
+      <Title style={[theme.textos.Label, styleCard.title]}>
+        Código {item.codigo}
+      </Title>
+      <Card.Content>
+        <Pressable
+          onPress={() => {
+            notifyMessage(item.tipo_zona);
+          }}>
+          <Paragraph style={[theme.textos.Textos, styleCard.tipo]}>
+            {item && item.tipo_zona.length > 25
+              ? item.tipo_zona.slice(0, 25) + '...'
+              : item.tipo_zona}
+          </Paragraph>
+        </Pressable>
+        <RenderImage style={styleCard.image} url={item.ruta_foto_web} />
+      </Card.Content>
+      <Card.Actions style={styleCard.contentFooter}>
         <Card.Content>
-          <Pressable
-            onPress={() => {
-              notifyMessage(item.tipo_zona);
-            }}>
-            <Paragraph style={[theme.textos.Textos, styleCard.tipo]}>
-              {item && item.tipo_zona.length > 25
-                ? item.tipo_zona.slice(0, 25) + '...'
-                : item.tipo_zona}
-            </Paragraph>
-          </Pressable>
-          <RenderImage style={styleCard.image} url={item.ruta_foto_web} />
+          <Paragraph style={[theme.textos.Textos, styleCard.date]}>
+            {item.fecha}
+          </Paragraph>
         </Card.Content>
-        <Card.Actions style={styleCard.contentFooter}>
-          <Card.Content>
-            <Paragraph style={[theme.textos.Textos, styleCard.date]}>
-              {item.fecha}
-            </Paragraph>
-          </Card.Content>
-          <Button
-            labelStyle={styleCard.labelStyle}
-            style={styleCard.buttons}
-            icon="map-marker-outline"
-            compact={true}
-            color={theme.colors.primary}
-            onPress={() => {
-              verEnMapaP(item.coordenadas);
-              notifyMessage('Ver en mapa');
-            }}
-          />
-        </Card.Actions>
-      </Pressable>
+        <Button
+          labelStyle={styleCard.labelStyle}
+          style={styleCard.buttons}
+          icon="map-marker-outline"
+          compact={true}
+          color={theme.colors.primary}
+          onPress={() => {
+            verEnMapaP(item.coordenadas);
+            notifyMessage('Ver en mapa');
+          }}
+        />
+      </Card.Actions>
     </Card>
   ));
 }

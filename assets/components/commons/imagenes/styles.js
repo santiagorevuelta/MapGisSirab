@@ -45,9 +45,13 @@ export const styles = StyleSheet.create({
   containerAdd: {
     alignContent: 'center',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'space-evenly',
     textAlign: 'center',
-    flexDirection: 'row',
-    backgroundColor: theme.colors.border,
+    flexDirection: 'column',
+    borderWidth: 0,
+    backgroundColor: 'transparent', //theme.colors.border,
+  },
+  option: {
+    borderRadius: theme.radius + 50,
   },
 });

@@ -29,7 +29,7 @@ const options = {
 export default function ({
   dataImage = [],
   setDataImage,
-  label = 'Registro Fotografico',
+  label = 'Registro fotográfico',
 }) {
   return (
     <View style={styles.body}>
@@ -38,22 +38,28 @@ export default function ({
         <View style={[styles.container, styles.containerAdd]}>
           <Button
             color={theme.colors.primary}
+            style={styles.option}
             compact={true}
-            labelStyle={{fontSize: responsiveFontSize(5)}}
+            labelStyle={{fontSize: responsiveFontSize(1.5)}}
             icon="camera-plus-outline"
+            mode="contained"
             onPress={() => {
               camaraPress().then();
-            }}
-          />
+            }}>
+            Camara
+          </Button>
           <Button
-            labelStyle={{fontSize: responsiveFontSize(5)}}
+            labelStyle={{fontSize: responsiveFontSize(1.5)}}
             color={theme.colors.primary}
+            style={styles.option}
             compact={true}
             icon="camera-image"
+            mode="outlined"
             onPress={() => {
               galleryPress().then();
-            }}
-          />
+            }}>
+            Galeria
+          </Button>
         </View>
         {dataImage.map((item, index) => (
           <View style={styles.container} key={index}>

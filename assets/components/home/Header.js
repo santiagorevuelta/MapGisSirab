@@ -1,10 +1,10 @@
 import React, {useState} from 'react';
 import {
-  StyleSheet,
-  View,
-  Pressable,
   Platform,
+  Pressable,
+  StyleSheet,
   TouchableOpacity,
+  View,
 } from 'react-native';
 import {theme} from '../../core/theme';
 import {
@@ -27,6 +27,9 @@ const Header = props => {
       <Pressable
         onPress={() => {
           props.setOption('inicio');
+          setTimeout(() => {
+            props.setIndexSnap(0);
+          }, 100);
         }}
         style={({pressed}) => [
           {
@@ -42,6 +45,12 @@ const Header = props => {
           value={valor}
           onChangeText={text => setValor(text.trimStart())}
           autoCapitalize="none"
+          placeholder={'V1.5'}
+          onFocus={() => {
+            setTimeout(() => {
+              props.setIndexSnap(0);
+            }, 100);
+          }}
           onEndEditing={() => consultDireccion(valor)}
           onSubmitEditing={() => consultDireccion(valor)}
           keyboardType="default"
@@ -77,7 +86,8 @@ export default Header;
 const styles = StyleSheet.create({
   header: {
     fontSize: 10,
-    zIndex: 1,
+    zIndex: 0,
+    elevation: 1,
     top: Platform.OS === 'android' ? 0 : 40,
     color: theme.colors.secondary,
     paddingVertical: 12,

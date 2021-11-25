@@ -25,7 +25,9 @@ const RenderHeader = props => (
       </Text>
     </Pressable>
     <View style={stylesHead.headCodigo}>
-      <Text style={theme.textos.Label}>{'Código ' + props.codigo}</Text>
+      <Text style={[theme.textos.Label, stylesHead.textCod]}>
+        {'Código ' + props.codigo}
+      </Text>
     </View>
     <View style={stylesHead.headCant}>
       <Text style={[theme.textos.Label, stylesHead.textCant]}>
@@ -71,6 +73,9 @@ const stylesHead = StyleSheet.create({
     fontWeight: 'normal',
     fontStyle: 'italic',
     zIndex: 3,
+  },
+  textCod: {
+    fontSize: responsiveFontSize(1.5),
   },
   headCodigo: {
     backgroundColor: 'rgba(255,255,255,0.75)',

@@ -31,11 +31,12 @@ const ModalConsult = ({...props}) => {
         return;
       }
       let response = await buscarDatos(filtros, page, 'searchIntervencion');
-      if (response.length === 0) {
+      if (response.data.length === 0) {
         notifyMessage('La consulta no obtuvo resultados');
         return;
       }
       setDataResult(response);
+      props.setIndexSnap(2);
     }
     setBuscar(obj);
   };

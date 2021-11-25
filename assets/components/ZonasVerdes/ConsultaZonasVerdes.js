@@ -9,7 +9,7 @@ import {limpiarMapa} from '../map/BackgroundMap';
 import tsconfig from '../../tsconfig.json';
 import combosArbol from '../../helpers/combosArbol';
 
-const ModalConsult = ({label, setOption, back, tabArbol}) => {
+const ModalConsult = ({label, setOption, back, tabArbol, setIndexSnap}) => {
   const [buscar, setBuscar] = useState(false);
   const [dataResult, setDataResult] = useState({});
   const [combos, setCombos] = useState([]);
@@ -32,12 +32,13 @@ const ModalConsult = ({label, setOption, back, tabArbol}) => {
         return;
       }
       let response = await buscarDatos(filtros, page, 'searchZone');
-      if (response.length === 0) {
+      if (response.data.length === 0) {
         notifyMessage('La consulta no obtuvo resultados');
         limpiarMapa();
         return;
       }
       setDataResult(response);
+      setIndexSnap(2);
     }
     setBuscar(obj);
   };

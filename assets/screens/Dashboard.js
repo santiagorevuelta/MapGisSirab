@@ -3,6 +3,7 @@ import {
   limpiarMapaPoints,
   limpiarMapaPolygon,
   MapComponent,
+  navigate,
   setCoords,
 } from '../components/map/BackgroundMap';
 import {
@@ -30,6 +31,7 @@ export default function Dashboard({navigation}) {
   const [option, setOption] = useState('inicio');
   const [optionOld, setOptionOld] = useState(null);
   const bottomSheetRef = React.useRef(null);
+  const [indexSnap, setIndexSnap] = useState(1);
   const [snapPoints] = useState(useMemo(() => ['4%', '26%'], []));
   const [snapPointsVer] = useState(
     useMemo(
@@ -46,15 +48,11 @@ export default function Dashboard({navigation}) {
       if (res) {
         return;
       }
-      navigation.reset({
-        index: 0,
-        routes: [{name: 'LoginScreen'}],
-      });
+      navigate('LoginScreen');
     });
   }, [navigation]);
 
   const setView = index => {
-    setOptionOld(option);
     if ('Consulta,Ingresar,inicio'.indexOf(index) !== -1) {
       limpiarMapaPolygon();
       limpiarMapaPoints();
@@ -62,7 +60,9 @@ export default function Dashboard({navigation}) {
     } else {
       setSnp(snapPointsVer);
     }
+    setOptionOld(option);
     setOption(index);
+    setIndexSnap(1);
   };
 
   const tabArbol = name => {
@@ -74,14 +74,16 @@ export default function Dashboard({navigation}) {
 
   return (
     <MapComponent navigation={navigation}>
-      {!headerHide && <Header setOption={setView} />}
+      {!headerHide && (
+        <Header setOption={setView} setIndexSnap={setIndexSnap} />
+      )}
       <BottomSheet
         ref={bottomSheetRef}
         key={'busqueda'}
         onChange={index => {
           setHeaderHide(index === snapPointsVer.length - 1);
         }}
-        index={1}
+        index={indexSnap}
         initialSnapIndex={1}
         keyboardBehavior={'fullScreen'}
         snapPoints={snp}>
@@ -91,6 +93,7 @@ export default function Dashboard({navigation}) {
           back={optionOld}
           label={optionOld + ' ' + option.toLowerCase()}
           tabArbol={tabArbol}
+          setIndexSnap={setIndexSnap}
         />
       </BottomSheet>
     </MapComponent>
@@ -113,6 +116,7 @@ function ViewRender(props) {
           return <ModalZonasVerdes {...props} />;
       }
     } else {
+      props.setIndexSnap(3);
       switch (props.type) {
         case config.home[0].label:
           return <ModalIngresarArbol {...props} />;

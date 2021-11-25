@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {StyleSheet, View} from 'react-native';
 import {Picker} from '@react-native-picker/picker';
 import {theme} from '../../../core/theme';
@@ -10,12 +10,6 @@ export default ({
   onSelected,
   value = '',
 }) => {
-  useEffect(() => {
-    if (list === undefined) {
-      list = [];
-    }
-  }, [list]);
-
   return (
     <View style={styles.container}>
       <Picker
@@ -25,7 +19,7 @@ export default ({
           onSelected(itemValue);
         }}>
         <Picker.Item key={'0'} label={placeholder} value={''} />
-        {list.map(item => (
+        {list?.map(item => (
           <Picker.Item key={item.id} label={item.dato} value={item.id} />
         ))}
       </Picker>
@@ -44,7 +38,7 @@ const styles = StyleSheet.create({
   },
   selectCss: {
     width: '100%',
-    top: -8,
-    alignItems: 'center',
+    flex: 1,
+    top: '-20%',
   },
 });

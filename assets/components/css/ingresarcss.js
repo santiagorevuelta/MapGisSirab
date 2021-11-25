@@ -2,6 +2,7 @@ const {theme} = require('../../core/theme');
 const {
   responsiveWidth,
   responsiveHeight,
+  responsiveScreenFontSize,
 } = require('react-native-responsive-dimensions');
 const {StyleSheet} = require('react-native');
 

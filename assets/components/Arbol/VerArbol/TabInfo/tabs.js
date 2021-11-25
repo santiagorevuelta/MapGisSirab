@@ -27,26 +27,42 @@ export default function getHome({dataArbol, dataVariables}) {
   return (
     <View style={styles.floatModal}>
       <Tab.Navigator
+        tabBarOptions={{
+          labelStyle: {textTransform: 'none'},
+        }}
         screenOptions={{
-          tabBarLabelStyle: {fontSize: responsiveFontSize(1.2)},
-          tabBarItemStyle: {height: 40},
-          tabBarInactiveTintColor: theme.colors.secondary,
+          tabBarLabelStyle: {
+            fontSize: responsiveFontSize(1.6),
+            textTransform: 'none',
+          },
+          tabBarItemStyle: {height: 40, width: 'auto'},
+          tabBarInactiveTintColor: theme.colors.headers,
+          tabBarPressColor: theme.colors.border,
           tabBarActiveTintColor: theme.colors.primary,
+          labelStyle: {textTransform: 'none'},
         }}>
         <Tab.Screen
           name="Caracteristicas"
           component={Characteristics}
           options={{
-            tabBarStyle: {upperCaseLabel: false},
             title: 'Caracteristicas árbol',
-            inactiveTintColor: 'red',
+            tabBarStyle: {upperCaseLabel: false},
+            labelStyle: {textTransform: 'none'},
+          }}
+          tabBarOptions={{
+            labelStyle: {textTransform: 'none'},
           }}
         />
         <Tab.Screen
           name="Variables"
           component={Variables}
           options={{
+            tabBarStyle: {upperCaseLabel: false},
             title: 'Variables dasométricas',
+            labelStyle: {textTransform: 'none'},
+          }}
+          tabBarOptions={{
+            labelStyle: {textTransform: 'none'},
           }}
         />
       </Tab.Navigator>
@@ -73,7 +89,7 @@ const styles = StyleSheet.create({
     alignContent: 'center',
     justifyContent: 'center',
     borderRadius: 30,
-    top: responsiveHeight(Platform.OS === 'ios' ? 35 : 30),
+    top: responsiveHeight(Platform.OS === 'ios' ? 36 : 32),
     paddingLeft: '5%',
     paddingRight: '5%',
     paddingBottom: '5%',

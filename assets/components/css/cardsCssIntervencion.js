@@ -27,15 +27,24 @@ module.exports = StyleSheet.create({
   },
   textos: {
     fontSize: responsiveScreenFontSize(1.2),
+    textAlign: 'center',
   },
   image: {
     borderRadius: theme.radius,
     height: responsiveWidth(25),
   },
-  footer: {},
+  footer: {
+    textAlign: 'center',
+    alignItems: 'center',
+    justifyContent: 'center',
+    alignContent: 'center',
+    width: '100%',
+  },
   operador: {
     fontWeight: 'bold',
     fontStyle: 'italic',
+    textAlign: 'center',
+    alignItems: 'center',
     color: 'gray',
     fontSize: responsiveScreenFontSize(1.5),
   },

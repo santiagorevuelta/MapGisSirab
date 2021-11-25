@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, View} from 'react-native';
+import {StyleSheet, Text, View} from 'react-native';
 
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import {
@@ -16,24 +16,36 @@ function getHome({dataImage, setDataImage}) {
   function imagenes() {
     return <FormImagenes dataImage={dataImage} setDataImage={setDataImage} />;
   }
+  function Bla() {
+    return (
+      <View>
+        <Text>hola</Text>
+      </View>
+    );
+  }
 
   return (
     <View style={styles.floatModal}>
       <Tab.Navigator
         theme={theme}
         screenOptions={{
-          tabBarOptions: {upperCaseLabel: false},
+          tabBarLabelStyle: {
+            fontSize: responsiveFontSize(1.6),
+            textTransform: 'none',
+          },
+          tabBarItemStyle: {height: 40}, //, width: 'auto'
+          tabBarInactiveTintColor: theme.colors.headers,
+          tabBarPressColor: theme.colors.border,
           tabBarActiveTintColor: theme.colors.primary,
-          tabBarInactiveTintColor: 'red',
-          tabBarLabelStyle: [theme.ver.Label, styles.header],
+          //tabBarLabelStyle: [theme.ver.Label, styles.header],
         }}>
         <Tab.Screen
           name="variables"
           component={FormVariables}
           options={{
             title: 'Variables dasométricas',
-            headerShown: false,
-            upperCaseLabel: false,
+            tabBarStyle: {upperCaseLabel: false},
+            labelStyle: {textTransform: 'none'},
           }}
         />
         <Tab.Screen
@@ -41,7 +53,17 @@ function getHome({dataImage, setDataImage}) {
           component={imagenes}
           options={{
             title: 'Fotos',
-            headerShown: false,
+            tabBarStyle: {upperCaseLabel: false},
+            labelStyle: {textTransform: 'none'},
+          }}
+        />
+        <Tab.Screen
+          name="otros"
+          component={Bla}
+          options={{
+            title: 'Otros',
+            tabBarStyle: {upperCaseLabel: false},
+            labelStyle: {textTransform: 'none'},
           }}
         />
       </Tab.Navigator>

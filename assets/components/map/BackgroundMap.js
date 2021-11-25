@@ -14,8 +14,10 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 let MapRef = React.createRef();
 const {width, height} = Dimensions.get('window');
+let nav = null;
 
 function MapComponent({navigation, children}) {
+  nav = navigation;
   const [location, setLocation] = useState(0);
   useEffect(() => {
     permissionsLocation().then(() => {});
@@ -117,6 +119,13 @@ function error(err) {
   } else {
     notifyMessage(err);
   }
+}
+
+function navigate(name) {
+  nav.reset({
+    index: 0,
+    routes: [{name}],
+  });
 }
 
 function verEnMapa(lat, lng) {
@@ -247,4 +256,5 @@ module.exports = {
   drawPolin,
   limpiarMapaPolygon,
   limpiarMapaPoints,
+  navigate,
 };

@@ -6,7 +6,7 @@ import {
   responsiveScreenFontSize,
 } from 'react-native-responsive-dimensions';
 import ModalIntervention from '../../Intervenciones/Ver/modalIntervention';
-import Rows from '../RenderCardIntervencion';
+import Rows from './RenderCardIntervencion';
 
 export default function ({data = [], origen}) {
   const [dataItem, setDataItem] = React.useState({});
@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: theme.colors.blanco,
     alignItems: 'flex-start',
-    marginTop: responsiveHeight(32),
+    marginTop: responsiveHeight(33),
     padding: 10,
   },
   h1: {

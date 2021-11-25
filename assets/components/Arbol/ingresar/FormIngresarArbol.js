@@ -5,6 +5,7 @@ import {theme} from '../../../core/theme';
 import {Button as ButtonIcon} from 'react-native-paper';
 import {
   responsiveFontSize,
+  responsiveScreenFontSize,
   responsiveWidth,
 } from 'react-native-responsive-dimensions';
 import TextInputForm from '../../commons/TextInputForm';
@@ -49,7 +50,7 @@ export default ({combos = [], fnGuardar}) => {
     } else {
       setTimeout(() => {
         ubicarEnMapa().then();
-      }, 2000);
+      }, 500);
     }
   };
 
@@ -213,6 +214,7 @@ export default ({combos = [], fnGuardar}) => {
             mode="contained"
             style={styles.guardar}
             icon="content-save"
+            labelStyle={{fontSize: responsiveScreenFontSize(1.8)}}
             color={theme.colors.primary}
             onPress={() => {
               guardar();

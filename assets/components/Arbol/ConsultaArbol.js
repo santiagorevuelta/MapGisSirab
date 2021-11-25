@@ -32,12 +32,13 @@ const ModalOptionsArbol = ({...props}) => {
         return;
       }
       let response = await buscarDatos(filtros, page, 'searchTree');
-      if (response.length === 0) {
+      if (response.data.length === 0) {
         notifyMessage('La consulta no obtuvo resultados');
         limpiarMapa();
         setBuscar(false);
         return;
       }
+      props.setIndexSnap(2);
       setDataResult(response);
       verEnMapaAllPoint(response.data);
     }

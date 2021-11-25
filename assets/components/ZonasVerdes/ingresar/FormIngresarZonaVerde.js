@@ -9,7 +9,10 @@ import TextArea from '../../commons/TextArea';
 import FormImagenes from '../../../components/commons/imagenes/FormImagenes';
 import TextInputForm from '../../commons/TextInputForm';
 import consultarBarrios from '../../../helpers/consultaBarrios';
-import {responsiveFontSize} from 'react-native-responsive-dimensions';
+import {
+  responsiveFontSize,
+  responsiveScreenFontSize,
+} from 'react-native-responsive-dimensions';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {ScrollView} from 'react-native-gesture-handler';
 import {drawPolin, limpiarMapaPolygon} from '../../map/BackgroundMap';
@@ -209,6 +212,7 @@ export default ({combos = [], fnGuardar}) => {
             compact={true}
             mode="contained"
             style={styles.guardar}
+            labelStyle={{fontSize: responsiveScreenFontSize(1.8)}}
             icon="content-save"
             color={theme.colors.primary}
             onPress={() => {

@@ -58,7 +58,7 @@ module.exports = `<!DOCTYPE html>
   function acctionMap(latlng) {
     radius.addTo(mymap);
     radius.setLatLng(latlng);
-    mymap.setView(latlng, 20);
+    mymap.setView(latlng, 19);
   }
 
   function acctionMapVer(latlng) {
@@ -94,11 +94,22 @@ module.exports = `<!DOCTYPE html>
   });
   
 
-  const radius = L.circle(mymap.getCenter(), {
-      color: "#58D2FF",
-      fillColor: "#58D2FF",
-      radius: 20
+  const radius = L.circle(mymap.getCenter(), 20,{
+      color: "#258B20",
+      fillColor: "rgb(125,211,122)",
+      radius: 20,
+      weight: 2
   })
+  
+  mymap.on('zoomend', function(e) {
+    if(mymap.getZoom() < 19){
+      var newRadius = Math.pow((20 - mymap.getZoom()), 3.5);
+      radius.setRadius(newRadius); 
+    }else{
+      var newRadius = Math.pow((mymap.getZoom()), 1);
+      radius.setRadius(newRadius); 
+    }
+  });
 
   function onMapClick(e) {
     marker.addTo(mymap);

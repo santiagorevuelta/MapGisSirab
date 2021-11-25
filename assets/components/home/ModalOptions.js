@@ -14,7 +14,7 @@ export default props => {
           {'Escoja una opción'}
         </Text>
       </View>
-      <View style={styles.container}>
+      <View style={[styles.container, {flex: 0, marginTop: '5%'}]}>
         <Pressable
           style={({pressed}) => [
             {

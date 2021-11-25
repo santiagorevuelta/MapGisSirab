@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     justifyContent: 'center',
     width: responsiveWidth(100),
-    bottom: '10%',
+    bottom: '5%',
   },
 });
 
