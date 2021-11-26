@@ -43,7 +43,7 @@ module.exports = `<!DOCTYPE html>
   
   //https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw
  
- let capa = "https://tile.openstreetmap.org/{z}/{x}/{y}.png"
+ let capa = "https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw"
  
   var osmBase = L.tileLayer(capa, {
     maxZoom: 20,
@@ -65,7 +65,8 @@ module.exports = `<!DOCTYPE html>
     mymap.removeLayer(layerOld);
     // for (const point of layerPoints) {
     //   mymap.removeLayer(point);
-    // }    
+    // } 
+    //popup.setLatLng(latlng).setContent('Estado '+id).openOn(mymap);   
     marker.addTo(mymap);
     mymap.setView(latlng, 17);
     marker.setLatLng(latlng);    
@@ -92,9 +93,8 @@ module.exports = `<!DOCTYPE html>
   const markerPerson = L.marker(mymap.getCenter(), {
     icon: myPerson
   });
-  
 
-  const radius = L.circle(mymap.getCenter(), 20,{
+  const radius = L.circle(mymap.getCenter(), 0,{
       color: "#258B20",
       fillColor: "rgb(125,211,122)",
       radius: 20,
@@ -102,7 +102,7 @@ module.exports = `<!DOCTYPE html>
   })
   
   mymap.on('zoomend', function(e) {
-    if(mymap.getZoom() < 19){
+    if(mymap.getZoom() < 18){
       var newRadius = Math.pow((20 - mymap.getZoom()), 3.5);
       radius.setRadius(newRadius); 
     }else{
@@ -111,21 +111,44 @@ module.exports = `<!DOCTYPE html>
     }
   });
 
-  function onMapClick(e) {
-    marker.addTo(mymap);
-    //popup.setLatLng(e.latlng).setContent("You clicked the map at " + e.latlng.toString()).openOn(mymap);
-    marker.setLatLng(e.latlng);
-    window.ReactNativeWebView.postMessage(JSON.stringify({lat:e.latlng.lat,lng:e.latlng.lng}));
-  }
   
+   const pointLocation = L.circle(mymap.getCenter(), 0,{
+      color: "red",
+      fillColor: "blue",
+      radius: 20,
+      weight: 2
+  })
+  
+  let typeCoord = null;
+  
+  function onMapClickLocation() {
+    mymap.on("click", onMapClick);
+    typeCoord = 'b';
+  }
   
   function acctionMapGetPoint(){
      mymap.on("click", onMapClick);
-     marker.addTo(mymap);
+  }
+  
+    function onMapClick(e) {
+      if(typeCoord === 'i'){
+        marker.addTo(mymap);
+        //popup.setLatLng(e.latlng).setContent("You clicked the map at " + e.latlng.toString()).openOn(mymap);
+        marker.setLatLng(e.latlng); 
+        window.ReactNativeWebView.postMessage(JSON.stringify({lat:e.latlng.lat,lng:e.latlng.lng}));
+      }else if (typeCoord === 'b'){
+         typeCoord = null;
+         pointLocation.addTo(mymap);
+         pointLocation.setLatLng(e.latlng);
+         pointLocation.setRadius(20);
+         window.ReactNativeWebView.postMessage(JSON.stringify({lat:e.latlng.lat,lng:e.latlng.lng}));
+      }
   }
   
     function limpiarMapaPoints(){
+        typeCoord = false;
        mymap.removeLayer(layerOld);
+       mymap.removeLayer(pointLocation);
        for (const point of layerPoints ) {
         mymap.removeLayer(point);
       } 

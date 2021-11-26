@@ -1,4 +1,4 @@
-import React, {useEffect,useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {View} from 'react-native';
 import {theme} from '../../../../core/theme';
 import TextInputForm from '../../../commons/TextInputForm';
@@ -17,8 +17,9 @@ export default ({}) => {
   }, []);
 
   const setData = (name, text) => {
-    setVataVariables({...vataVariables, [name]: text});
-    AsyncStorage.setItem('variables', JSON.stringify(vataVariables));
+    let data = {...vataVariables, [name]: text};
+    setVataVariables(data);
+    AsyncStorage.setItem('variables', JSON.stringify(data));
   };
 
   return (

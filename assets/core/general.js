@@ -2,8 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import tsconfig from '../tsconfig.json';
 import {navigate} from '../components/map/BackgroundMap';
-
-const {Platform, ToastAndroid, Alert} = require('react-native');
+import {Alert, Platform, ToastAndroid} from 'react-native';
 
 function notifyMessage(msg) {
   if (Platform.OS === 'android') {

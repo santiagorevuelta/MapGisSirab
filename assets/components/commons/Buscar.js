@@ -4,6 +4,7 @@ import {theme} from '../../core/theme';
 import Button from '../Button';
 import React from 'react';
 import Limpiar from '../icons/Limpiar';
+import {responsiveScreenFontSize} from 'react-native-responsive-dimensions';
 
 const RenderSearch = ({
   filtros,
@@ -40,6 +41,8 @@ const RenderSearch = ({
         <Button
           style={styles.boton}
           mode="contained"
+          icon="text-box-search-outline"
+          labelStyle={{fontSize: responsiveScreenFontSize(1.8)}}
           onPress={() => {
             fnBuscar(true, filtros);
           }}>

@@ -46,9 +46,14 @@ module.exports = StyleSheet.create({
     height: responsiveHeight(6),
     marginVertical: responsiveWidth(3),
     paddingHorizontal: '2%',
+    flexDirection: 'row',
   },
   geoButons: {
     flexDirection: 'row',
-    justifyContent: 'space-around',
+    justifyContent: 'flex-end',
+  },
+  geoButon: {
+    width: 30,
+    height: 25,
   },
 });

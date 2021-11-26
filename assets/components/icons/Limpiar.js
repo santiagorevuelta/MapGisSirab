@@ -6,8 +6,8 @@ import Limpiar from '../../assets/icons/Limpiar.svg';
 
 export default ({
   style = {},
-  width = responsiveWidth(7),
-  height = responsiveWidth(10),
+  width = responsiveWidth(8),
+  height = responsiveWidth(8),
   colorIcon,
 }) => {
   return (

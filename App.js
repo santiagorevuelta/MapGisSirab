@@ -14,10 +14,51 @@ import {theme} from './assets/core/theme';
 import {enableScreens} from 'react-native-screens';
 import {Dashboard, LoginScreen, ViewTree, ViewZone} from './assets/screens';
 import {Text} from 'react-native';
+import {configureFonts} from 'react-native-paper';
 
 enableScreens(true);
 
 const Stack = createStackNavigator();
+const fontConfig = {
+  ios: {
+    regular: {
+      fontFamily: 'sans-serif',
+      fontWeight: 'normal',
+    },
+    medium: {
+      fontFamily: 'sans-serif-medium',
+      fontWeight: 'normal',
+    },
+    light: {
+      fontFamily: 'sans-serif-light',
+      fontWeight: 'normal',
+    },
+    thin: {
+      fontFamily: 'sans-serif-thin',
+      fontWeight: 'normal',
+    },
+  },
+  android: {
+    regular: {
+      fontFamily: 'sans-serif',
+      fontWeight: 'normal',
+    },
+    medium: {
+      fontFamily: 'sans-serif-medium',
+      fontWeight: 'normal',
+    },
+    light: {
+      fontFamily: 'sans-serif-light',
+      fontWeight: 'normal',
+    },
+    thin: {
+      fontFamily: 'sans-serif-thin',
+      fontWeight: 'normal',
+    },
+  },
+};
+
+theme.fonts = configureFonts(fontConfig);
 
 const App: () => Node = () => {
   return (

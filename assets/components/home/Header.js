@@ -27,9 +27,6 @@ const Header = props => {
       <Pressable
         onPress={() => {
           props.setOption('inicio');
-          setTimeout(() => {
-            props.setIndexSnap(0);
-          }, 100);
         }}
         style={({pressed}) => [
           {
@@ -45,7 +42,7 @@ const Header = props => {
           value={valor}
           onChangeText={text => setValor(text.trimStart())}
           autoCapitalize="none"
-          placeholder={'V1.5'}
+          placeholder={'V1.6'}
           onFocus={() => {
             setTimeout(() => {
               props.setIndexSnap(0);

@@ -108,7 +108,6 @@ export default function ({
 
   async function renderFile(response) {
     if (response !== undefined) {
-      console.log(response);
       let pathImg = response.path == undefined ? response.uri : response.path;
       const resizedImageUrl = await ImageResizer.createResizedImage(
         pathImg,

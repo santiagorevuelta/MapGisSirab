@@ -92,5 +92,7 @@ const stylesHead = StyleSheet.create({
     padding: 3,
     color: theme.colors.blanco,
     fontSize: responsiveFontSize(1.5),
+    fontWeight: 'normal',
+    fontStyle: 'italic',
   },
 });

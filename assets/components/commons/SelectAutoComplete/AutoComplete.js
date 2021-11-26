@@ -30,8 +30,10 @@ export default ({
   label,
   id,
   multiple = true,
+  valueSelected,
   list,
-  onSelected = [],
+  Limpiar = false,
+  onSelected,
 }) => {
   const [listItems, setListItems] = useState([]);
   const [selectedItems, setSelectedItems] = useState([]);
@@ -41,12 +43,13 @@ export default ({
   const hideDialog = () => setVisible(false);
 
   useEffect(() => {
+    Limpiar && setSelectedItems(valueSelected);
     let data = list.filter(item => {
       return item.campo.indexOf(id) !== -1;
     });
     setListItems(data);
     setItemsFilter(data.length === 0 ? [] : data.splice(0, 20));
-  }, [id, list]);
+  }, [Limpiar, id, list, valueSelected]);
 
   const filterSelect = async text => {
     if (text !== '') {

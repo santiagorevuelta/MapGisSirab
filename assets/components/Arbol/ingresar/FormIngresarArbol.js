@@ -27,7 +27,6 @@ export default ({combos = [], fnGuardar}) => {
   const [dataForm, setDataForm] = React.useState({});
   const [dataImage, setDataImage] = React.useState([]);
   const [combosBarrios, setCombosBarrios] = React.useState([]);
-
   const llenarBarrio = async id => {
     if (id !== '') {
       let res = await consultarBarrios(id);
@@ -57,21 +56,20 @@ export default ({combos = [], fnGuardar}) => {
   const guardar = async () => {
     let data = await AsyncStorage.getItem('variables');
     data = data == null ? {} : JSON.parse(data);
-
     let valid = validarObligatorio(dataForm, data);
     if (!valid) {
       notifyMessage('Los campos marcados con (*) son obligatorios');
       return;
     }
     dataForm.fecha = dataForm.fecha.split('/').reverse().join('-');
-
+    data.fecha_ingreso = data.fecha_ingreso.split('/').reverse().join('-');
     fnGuardar(dataForm, data, dataImage);
   };
 
   function validarObligatorio(datos, dataVar) {
     return !(
       !datos.especie ||
-      datos.especie !== '' ||
+      datos.especie === '' ||
       !datos.codigo_arbol ||
       !datos.fecha ||
       !datos.id_tipo_arbol ||
@@ -97,7 +95,7 @@ export default ({combos = [], fnGuardar}) => {
             id="especie"
             stylesNew={{width: responsiveWidth(90), paddingHorizontal: '2%'}}
             placeholder={selectPlace}
-            valueSelected={dataForm.especie}
+            valueSelected={dataForm?.especie}
             multiple={false}
             onSelected={items => {
               if (items != null) {

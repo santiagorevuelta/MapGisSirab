@@ -9,22 +9,19 @@ export default async function (id, type) {
     return;
   }
   let url = `${tsconfig[tsconfig.use][type].url}/${id}`;
-  console.log(url);
   const config = {
-    url: url,
-    method: 'get',
     headers: {
       'access-token': token,
     },
   };
-  return new Promise(resolve => {
-    axios(config)
-      .then(function (response) {
-        resolve(response.data);
-      })
-      .catch(function (error) {
-        resolve([]);
-        catchError(error.message);
-      });
-  });
+  let data = [];
+  await axios
+    .get(url, config)
+    .then(function (response) {
+      data = response.data;
+    })
+    .catch(function (error) {
+      catchError(error.message);
+    });
+  return data;
 }

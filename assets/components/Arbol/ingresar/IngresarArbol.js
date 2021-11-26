@@ -6,7 +6,7 @@ import guardarDatos from '../../../helpers/guardarDatos';
 import combosArbol from '../../../helpers/combosArbol';
 import tsconfig from '../../../tsconfig.json';
 import {notifyMessage} from '../../../core/general';
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const ModalIngresarArbol = ({label, setOption, back}) => {
   const [combos, setCombos] = React.useState([]);
@@ -27,9 +27,10 @@ const ModalIngresarArbol = ({label, setOption, back}) => {
     );
     let res = await guardarDatos(formData, 'searchTree');
     if (res.message) {
-      notifyMessage(res.message);
-      setOption(back);
       AsyncStorage.setItem('variables', '');
+      setDataForm({});
+      setDataImage({});
+      notifyMessage(res.message);
     } else {
       notifyMessage('Error al guardar');
     }

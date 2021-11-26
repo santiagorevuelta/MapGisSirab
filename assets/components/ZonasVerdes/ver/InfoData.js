@@ -5,7 +5,6 @@ import {notifyMessage} from '../../../core/general';
 import {Paragraph} from 'react-native-paper';
 
 export default function ({data}) {
-  console.log(data);
   return (
     <View style={styles.container}>
       <View style={styles.row}>

@@ -10,37 +10,43 @@ import Buscar from '../commons/Buscar';
 import styles from '../css/ingresarcss';
 import FiltroFecha from '../commons/FechaBusqueda/FiltroFecha';
 import AutoComplete from '../commons/SelectAutoComplete/AutoComplete';
+import {onMapClickLocation} from '../map/BackgroundMap';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default ({combos, fnBuscar, fnLimpiar}) => {
   const [isSwitchOn, setIsSwitchOn] = React.useState(false);
-  const [filters, setFilters] = React.useState({}); //UPB-000005
-  const [valorAutoComplete, setValorAutoComplete] = React.useState(null); //UPB-000005
+  const [filters, setFilters] = React.useState({});
+  const [valorAutoComplete, setValorAutoComplete] = React.useState([]);
   const onToggleSwitch = () => setIsSwitchOn(!isSwitchOn);
 
   const limpiar = data => {
     fnLimpiar(data);
     setFilters({});
-    setValorAutoComplete(null);
+    setValorAutoComplete([]);
     setIsSwitchOn(false);
+  };
+
+  console.log(filters);
+  const ubicarEnMapa = async () => {
+    onMapClickLocation();
+    let result = await AsyncStorage.getItem('coords');
+    if (result != null) {
+      result = JSON.parse(result);
+      setFilters({
+        ...filters,
+        latitud: result.lat,
+        longitud: result.lng,
+      });
+    } else {
+      setTimeout(() => {
+        ubicarEnMapa().then();
+      }, 500);
+    }
   };
 
   return (
     <View style={styles.body}>
       <View style={[styles.form]}>
-        <View style={styles.geoConsult}>
-          <Text style={theme.textos.LabelIn}>{'Consulta geográfica'}</Text>
-          <View style={styles.geoButons}>
-            <ButtonIcon
-              compact={true}
-              labelStyle={{fontSize: responsiveFontSize(3)}}
-              icon="vector-point"
-              color={theme.colors.primary}
-              onPress={() => {
-                notifyMessage('Seleccionar punto en mapa');
-              }}
-            />
-          </View>
-        </View>
         <TextInputForm
           label={'Código árbol'}
           placeholder={'Código árbol'}
@@ -54,15 +60,34 @@ export default ({combos, fnBuscar, fnLimpiar}) => {
             setFilters({...filters, codigo_arbol: text})
           }
         />
+        <View style={styles.geoConsult}>
+          <Text style={theme.textos.LabelIn}>{'Consulta geográfica'}</Text>
+          <View style={styles.geoButons}>
+            <ButtonIcon
+              compact={true}
+              style={styles.geoButon}
+              labelStyle={{fontSize: responsiveFontSize(3)}}
+              icon="vector-point"
+              color={theme.colors.primary}
+              onPress={() => {
+                AsyncStorage.setItem('coords', '');
+                notifyMessage('Seleccionar punto en mapa');
+                ubicarEnMapa().then();
+              }}
+            />
+          </View>
+        </View>
       </View>
 
       <View style={[styles.form, {zIndex: 9}]}>
         <AutoComplete
           label={'Especie'}
           id="especie"
+          valueSelected={valorAutoComplete}
+          Limpiar={true}
           onSelected={items => {
-            console.log(items);
             if (items != null) {
+              setValorAutoComplete(items);
               let data = items.map(e => {
                 return parseInt(e.id, 10);
               });

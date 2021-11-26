@@ -32,10 +32,10 @@ export default function Dashboard({navigation}) {
   const [optionOld, setOptionOld] = useState(null);
   const bottomSheetRef = React.useRef(null);
   const [indexSnap, setIndexSnap] = useState(1);
-  const [snapPoints] = useState(useMemo(() => ['4%', '26%'], []));
+  const [snapPoints] = useState(useMemo(() => ['2%', '26%'], []));
   const [snapPointsVer] = useState(
     useMemo(
-      () => ['4%', '33%', '70%', Platform.OS === 'ios' ? '95%' : '100%'],
+      () => ['2%', '33%', '70%', Platform.OS === 'ios' ? '95%' : '100%'],
       [],
     ),
   );

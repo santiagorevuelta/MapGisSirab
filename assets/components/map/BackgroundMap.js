@@ -175,9 +175,12 @@ function limpiarMapa() {
   if (!MapRef.current) {
     return;
   }
-  if (Platform.OS === 'android') {
+  limpiarMapaPolygon();
+  limpiarMapaPoints();
+
+  /*if (Platform.OS === 'android') {
     MapRef.current.reload();
-  }
+  }*/
 }
 
 async function setCoords() {
@@ -244,6 +247,18 @@ function limpiarMapaPoints() {
   MapRef.current.injectJavaScript(injected);
 }
 
+function onMapClickLocation() {
+  if (!MapRef.current) {
+    return [];
+  }
+  const injected = `
+    onMapClickLocation();
+    true;
+  `;
+
+  MapRef.current.injectJavaScript(injected);
+}
+
 module.exports = {
   getLocalize,
   MapComponent,
@@ -257,4 +272,5 @@ module.exports = {
   limpiarMapaPolygon,
   limpiarMapaPoints,
   navigate,
+  onMapClickLocation,
 };
