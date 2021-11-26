@@ -94,7 +94,9 @@ export default function ({
       .then(image => {
         renderFile(image).then();
       })
-      .catch();
+      .catch(e => {
+        console.log(e);
+      });
   }
 
   async function camaraPress() {
@@ -103,7 +105,9 @@ export default function ({
       .then(image => {
         renderFile(image).then();
       })
-      .catch();
+      .catch(e => {
+        console.log(e);
+      });
   }
 
   async function renderFile(response) {

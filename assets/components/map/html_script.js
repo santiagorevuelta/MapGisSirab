@@ -128,6 +128,7 @@ module.exports = `<!DOCTYPE html>
   
   function acctionMapGetPoint(){
      mymap.on("click", onMapClick);
+     typeCoord = 'i';
   }
   
     function onMapClick(e) {

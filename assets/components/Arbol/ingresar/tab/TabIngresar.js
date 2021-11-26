@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import {
@@ -16,14 +16,6 @@ function getHome({dataImage, setDataImage}) {
   function imagenes() {
     return <FormImagenes dataImage={dataImage} setDataImage={setDataImage} />;
   }
-  function Bla() {
-    return (
-      <View>
-        <Text>hola</Text>
-      </View>
-    );
-  }
-
   return (
     <View style={styles.floatModal}>
       <Tab.Navigator
@@ -53,15 +45,6 @@ function getHome({dataImage, setDataImage}) {
           component={imagenes}
           options={{
             title: 'Fotos',
-            tabBarStyle: {upperCaseLabel: false},
-            labelStyle: {textTransform: 'none'},
-          }}
-        />
-        <Tab.Screen
-          name="otros"
-          component={Bla}
-          options={{
-            title: 'Otros',
             tabBarStyle: {upperCaseLabel: false},
             labelStyle: {textTransform: 'none'},
           }}
