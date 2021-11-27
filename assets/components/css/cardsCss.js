@@ -1,7 +1,6 @@
 const {theme} = require('../../core/theme');
 const {
   responsiveWidth,
-  responsiveHeight,
   responsiveScreenWidth,
   responsiveFontSize,
 } = require('react-native-responsive-dimensions');
@@ -28,6 +27,7 @@ module.exports = StyleSheet.create({
   },
   image: {
     borderRadius: theme.radius,
+    width: '100%',
     height: responsiveWidth(20),
   },
   date: {

@@ -28,6 +28,7 @@ export const styles = StyleSheet.create({
     resizeMode: 'contain',
     borderRadius: 5,
     width: '100%',
+    height: '100%',
   },
   closeModal: {
     alignItems: 'flex-end',

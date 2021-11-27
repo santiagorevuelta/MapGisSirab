@@ -31,6 +31,7 @@ module.exports = StyleSheet.create({
   },
   image: {
     borderRadius: theme.radius,
+    width: '100%',
     height: responsiveWidth(25),
   },
   footer: {

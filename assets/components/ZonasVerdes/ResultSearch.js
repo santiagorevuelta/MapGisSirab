@@ -1,5 +1,5 @@
 import React from 'react';
-import {Pressable, StyleSheet, Text} from 'react-native';
+import {Clipboard, Pressable, StyleSheet, Text} from 'react-native';
 import {theme} from '../../core/theme';
 import {Button, Card, Paragraph, Title} from 'react-native-paper';
 import {responsiveFontSize} from 'react-native-responsive-dimensions';
@@ -47,9 +47,15 @@ function Mycard({data = [], tabArbol}) {
         AsyncStorage.setItem('itemsZone', JSON.stringify(item));
         tabArbol(config.home[2].items.ver);
       }}>
-      <Title style={[theme.textos.Label, styleCard.title]}>
-        Código {item.codigo}
-      </Title>
+      <Pressable
+        onPress={() => {
+          Clipboard.setString(item.codigo);
+          notifyMessage(item.codigo + ' copiado!');
+        }}>
+        <Title style={[theme.textos.Label, styleCard.title]}>
+          Código {item.codigo}
+        </Title>
+      </Pressable>
       <Card.Content>
         <Pressable
           onPress={() => {

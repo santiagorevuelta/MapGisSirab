@@ -63,11 +63,6 @@ function RenderImageIntervention({data}) {
       <RenderImagen url={data.ruta_foto_web} style={styles.fotoModal} />
       {/*      </View>
         ))}*/}
-      {/*  {data.map(item => (
-          <View>*/}
-      <RenderImagen url={data.ruta_foto_web} style={styles.fotoModal} />
-      {/*      </View>
-        ))}*/}
     </Swiper>
   );
 }

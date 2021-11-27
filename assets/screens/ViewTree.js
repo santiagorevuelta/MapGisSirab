@@ -28,7 +28,7 @@ export default class ViewTree extends React.Component {
     let datosArbol = await buscarDatosId(item.id_arbol, 'searchTree');
     // eslint-disable-next-line react/no-did-mount-set-state
     this.setState({
-      fotos: [{}, {}, {}], //datosArbol.fotos,
+      fotos: datosArbol.fotos,
       intervenciones: datosArbol.intervenciones,
       verArbol: datosArbol.verArbol,
       variables: datosArbol.variables,

@@ -76,10 +76,16 @@ const stylesHead = StyleSheet.create({
   },
   textCod: {
     fontSize: responsiveFontSize(1.5),
+    alignContent: 'center',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   headCodigo: {
     backgroundColor: 'rgba(255,255,255,0.75)',
     paddingHorizontal: 4,
+    alignContent: 'center',
+    alignItems: 'center',
+    justifyContent: 'center',
     borderRadius: 25,
   },
   headCant: {

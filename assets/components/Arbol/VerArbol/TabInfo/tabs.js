@@ -49,9 +49,6 @@ export default function getHome({dataArbol, dataVariables}) {
             tabBarStyle: {upperCaseLabel: false},
             labelStyle: {textTransform: 'none'},
           }}
-          tabBarOptions={{
-            labelStyle: {textTransform: 'none'},
-          }}
         />
         <Tab.Screen
           name="Variables"
@@ -59,9 +56,6 @@ export default function getHome({dataArbol, dataVariables}) {
           options={{
             tabBarStyle: {upperCaseLabel: false},
             title: 'Variables dasométricas',
-            labelStyle: {textTransform: 'none'},
-          }}
-          tabBarOptions={{
             labelStyle: {textTransform: 'none'},
           }}
         />
