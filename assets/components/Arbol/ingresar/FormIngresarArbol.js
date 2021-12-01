@@ -2,10 +2,8 @@ import React from 'react';
 import consultarBarrios from '../../../helpers/consultaBarrios';
 import {Text, View} from 'react-native';
 import {theme} from '../../../core/theme';
-import {Button as ButtonIcon} from 'react-native-paper';
 import {
   responsiveFontSize,
-  responsiveScreenFontSize,
   responsiveWidth,
 } from 'react-native-responsive-dimensions';
 import TextInputForm from '../../commons/TextInputForm';
@@ -20,6 +18,8 @@ import {ScrollView} from 'react-native-gesture-handler';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {getPoint} from '../../map/BackgroundMap';
 import AutoComplete from '../../commons/SelectAutoComplete/AutoComplete';
+import {Button as ButtonIcon} from 'react-native-paper';
+import ButtonInsert from '../../ButtonInsert';
 
 const selectPlace = 'Seleccione...';
 
@@ -207,18 +207,17 @@ export default ({combos = [], fnGuardar}) => {
         </View>
         <TabIngresar dataImage={dataImage} setDataImage={setDataImage} />
         <View style={[styles.form, {justifyContent: 'flex-end'}]}>
-          <ButtonIcon
+          <ButtonInsert
             compact={true}
             mode="contained"
             style={styles.guardar}
             icon="content-save"
-            labelStyle={{fontSize: responsiveScreenFontSize(1.8)}}
             color={theme.colors.primary}
             onPress={() => {
               guardar();
             }}>
-            Guardar
-          </ButtonIcon>
+            guardar
+          </ButtonInsert>
         </View>
       </KeyboardAwareScrollView>
     </ScrollView>

@@ -22,10 +22,12 @@ export default function Background({children}) {
 const styles = StyleSheet.create({
   container: {
     width: '100%',
-    alignSelf: 'center',
-    justifyContent: 'center',
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    flexDirection: 'column',
+    alignContent: 'center',
     paddingHorizontal: responsiveWidth(10),
-    height: responsiveScreenHeight(95),
+    height: responsiveScreenHeight(90),
     color: theme.colors.text,
   },
   scroll: {

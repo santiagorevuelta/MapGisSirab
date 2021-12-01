@@ -39,12 +39,18 @@ function MapComponent({navigation, children}) {
       <WebView
         ref={MapRef}
         onMessage={event => {
-          let data = event.nativeEvent.data;
-          let count = JSON.parse(data);
-          if (count.length > 1) {
-            AsyncStorage.setItem('polygon', data);
-          } else {
-            AsyncStorage.setItem('coords', data);
+          try {
+            let data = event.nativeEvent.data;
+            console.log(data);
+            let count = JSON.parse(data);
+            if (count.length > 1) {
+              AsyncStorage.setItem('polygon', data);
+            } else {
+              AsyncStorage.setItem('coords', data);
+            }
+          } catch (e) {
+            AsyncStorage.setItem('polygon', '');
+            AsyncStorage.setItem('coords', '');
           }
         }}
         source={{
@@ -121,10 +127,11 @@ function error(err) {
   }
 }
 
-function navigate(name) {
+function navigate(name, params = {}, index = 0) {
   nav.reset({
-    index: 0,
+    index: index,
     routes: [{name}],
+    params: params,
   });
 }
 

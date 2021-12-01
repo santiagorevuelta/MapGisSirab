@@ -41,12 +41,11 @@ const RenderSearch = ({
         <Button
           style={styles.boton}
           mode="contained"
-          icon="text-box-search-outline"
           labelStyle={{fontSize: responsiveScreenFontSize(1.8)}}
           onPress={() => {
             fnBuscar(true, filtros);
           }}>
-          Buscar
+          buscar
         </Button>
       </View>
     </View>

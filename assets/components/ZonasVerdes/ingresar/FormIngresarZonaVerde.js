@@ -9,15 +9,13 @@ import TextArea from '../../commons/TextArea';
 import FormImagenes from '../../../components/commons/imagenes/FormImagenes';
 import TextInputForm from '../../commons/TextInputForm';
 import consultarBarrios from '../../../helpers/consultaBarrios';
-import {
-  responsiveFontSize,
-  responsiveScreenFontSize,
-} from 'react-native-responsive-dimensions';
+import {responsiveFontSize} from 'react-native-responsive-dimensions';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {ScrollView} from 'react-native-gesture-handler';
 import {drawPolin, limpiarMapaPolygon} from '../../map/BackgroundMap';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {notifyMessage} from '../../../core/general';
+import ButtonInsert from '../../ButtonInsert';
 
 const selectPlace = 'Seleccione...';
 
@@ -208,18 +206,17 @@ export default ({combos = [], fnGuardar}) => {
           <FormImagenes dataImage={dataImage} setDataImage={setDataImage} />
         </View>
         <View style={[styles.form, {justifyContent: 'flex-end'}]}>
-          <ButtonIcon
+          <ButtonInsert
             compact={true}
             mode="contained"
             style={styles.guardar}
-            labelStyle={{fontSize: responsiveScreenFontSize(1.8)}}
             icon="content-save"
             color={theme.colors.primary}
             onPress={() => {
               fnGuardar(dataForm, dataImage);
             }}>
-            Guardar
-          </ButtonIcon>
+            guardar
+          </ButtonInsert>
         </View>
       </KeyboardAwareScrollView>
     </ScrollView>

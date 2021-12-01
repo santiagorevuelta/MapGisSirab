@@ -19,13 +19,9 @@ export default function Button({mode, style, ...props}) {
 const styles = StyleSheet.create({
   button: {
     borderRadius: 25,
-    color: theme.colors.primary,
-    backgroundColor: theme.colors.primary,
     marginVertical: 5,
   },
   text: {
-    fontWeight: 'bold',
     fontSize: responsiveScreenFontSize(theme.fontbtn),
-    lineHeight: 26,
   },
 });

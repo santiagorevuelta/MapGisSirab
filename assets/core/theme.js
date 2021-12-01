@@ -8,6 +8,8 @@ export const theme = {
   radius: 15,
   roboto: 'roboto',
   altoCampos: 5,
+  font: 1.5,
+  fontbtn: 1.7,
   colors: {
     ...DefaultTheme.colors,
     dark: {
@@ -49,7 +51,7 @@ export const theme = {
   },
   textos: {
     Label: {
-      fontSize: responsiveFontSize(1.6),
+      fontSize: responsiveFontSize(1.5),
       color: '#258B20',
       fontWeight: 'bold',
     },
@@ -61,6 +63,7 @@ export const theme = {
     Textos: {
       color: '#959595',
       textAlign: 'center',
+      fontSize: responsiveFontSize(1),
     },
   },
   ver: {

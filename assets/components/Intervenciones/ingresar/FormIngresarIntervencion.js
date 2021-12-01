@@ -1,7 +1,6 @@
 import React from 'react';
 import {View} from 'react-native';
 import {theme} from '../../../core/theme';
-import {Button as ButtonIcon} from 'react-native-paper';
 import SelectSimple from '../../commons/selectSimple/SelectSimple';
 import DatePicker from '../../commons/DatePicker/DatePicker';
 import styles from '../../css/ingresarcss';
@@ -11,6 +10,7 @@ import TextInputForm from '../../commons/TextInputForm';
 import AutoComplete from '../../commons/SelectAutoComplete/AutoComplete';
 import {responsiveWidth} from 'react-native-responsive-dimensions';
 import TextSimple from '../../commons/TextSimple';
+import Button from '../../Button';
 
 const selectPlace = 'Seleccione...';
 
@@ -114,15 +114,15 @@ export default ({fnGuardar, combos = [], zonaVerde, dataArbol}) => {
         <FormImagenes dataImage={dataImage} setDataImage={setDataImage} />
       </View>
       <View style={[styles.form, {justifyContent: 'flex-end'}]}>
-        <ButtonIcon
+        <Button
           compact={true}
           mode="contained"
           style={styles.guardar}
           icon="content-save"
           color={theme.colors.primary}
           onPress={() => fnGuardar(dataForm, dataSecondary, dataImage)}>
-          Guardar
-        </ButtonIcon>
+          guardar
+        </Button>
       </View>
     </View>
   );

@@ -3,6 +3,7 @@ import {StyleSheet, Text, TextInput as Input, View} from 'react-native';
 import {theme} from '../../core/theme';
 import {
   responsiveHeight,
+  responsiveScreenFontSize,
   responsiveWidth,
 } from 'react-native-responsive-dimensions';
 
@@ -20,10 +21,10 @@ export default function TextInput({...props}) {
         ]}
         {...props}
         onChangeText={async text => {
-          let valid = await validType(text, props.keyboardType);
-          if (valid) {
-            props.onChangeTextInput(text.trimStart());
-          }
+          //let valid = await validType(text, props.keyboardType);
+          //if (valid) {
+          props.onChangeTextInput(text.trimStart());
+          // }
         }}
       />
     </View>
@@ -32,9 +33,9 @@ export default function TextInput({...props}) {
 
 async function validType(event, type = 'default') {
   let objtrue = true;
-  let numreg = /^[0-9]+$/;
+  let numreg = /^[0-9.]+$/;
   let textreg =
-    /^[A-Za-z0-9\u00C1\u00E1\u00C9\u00E9\u00CD\u00ED\u00D3\u00F3\u00DA\u00FA\u00DC\u00FC\u00D1\u00F1\u00A0\-,\ ]+$/;
+    /^[A-Za-z0-9\u00C1\u00E1\u00C9\u00E9\u00CD\u00ED\u00D3\u00F3\u00DA\u00FA\u00DC\u00FC\u00D1\u00F1\u00A0\-,. ]+$/;
   if (type === 'numeric' && !numreg.test(event) && event !== '') {
     objtrue = false;
   } else if (type === 'default' && !textreg.test(event) && event !== '') {
@@ -60,5 +61,6 @@ const styles = StyleSheet.create({
     marginTop: 1,
     paddingLeft: 10,
     borderColor: theme.colors.border,
+    fontSize: responsiveScreenFontSize(theme.font),
   },
 });

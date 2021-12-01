@@ -3,12 +3,12 @@ import {Image, PermissionsAndroid, Platform, Text, View} from 'react-native';
 import {theme} from '../../../core/theme';
 import {responsiveFontSize} from 'react-native-responsive-dimensions';
 import {ScrollView} from 'react-native-gesture-handler';
-import {Button} from 'react-native-paper';
 import {styles} from './styles';
 
 import ImagePicker from 'react-native-image-crop-picker';
 import ImageResizer from 'react-native-image-resizer';
 import * as RNFS from 'react-native-fs';
+import Button from '../../Button';
 
 const options = {
   storageOptions: {
@@ -45,9 +45,8 @@ export default function ({
             mode="contained"
             onPress={() => {
               camaraPress().then();
-            }}>
-            Camara
-          </Button>
+            }}
+          />
           <Button
             labelStyle={{fontSize: responsiveFontSize(1.5)}}
             color={theme.colors.primary}

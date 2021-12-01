@@ -97,11 +97,11 @@ const styles = StyleSheet.create({
   },
   logoFooter: {
     alignItems: 'center',
-    bottom: responsiveHeight(0),
+    bottom: responsiveHeight(-5),
   },
   footer: {
-    justifyContent: 'center',
-    marginTop: responsiveHeight(10),
+    justifyContent: 'flex-end',
+    flexDirection: 'column',
     alignItems: 'center',
     textAlign: 'center',
     bottom: 0,

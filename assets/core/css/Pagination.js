@@ -10,7 +10,7 @@ const styles = StyleSheet.create({
     alignContent: 'center',
     alignItems: 'center',
     justifyContent: 'center',
-    top: 5,
+    top: '5%',
   },
   btnpagination: {
     flex: 1,

@@ -22,6 +22,7 @@ import {consultToken} from '../core/general';
 import config from '../tsconfig.json';
 import {LogBox, Platform} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {responsiveScreenHeight} from 'react-native-responsive-dimensions';
 
 LogBox.ignoreLogs(['new NativeEventEmitter']); // Ignore log notification by message
 LogBox.ignoreAllLogs(); //Ignore all log notifications
@@ -32,24 +33,26 @@ export default function Dashboard({navigation}) {
   const [optionOld, setOptionOld] = useState(null);
   const bottomSheetRef = React.useRef(null);
   const [indexSnap, setIndexSnap] = useState(1);
-  const [snapPoints] = useState(useMemo(() => ['2%', '26%'], []));
+  const [snapPoints] = useState(useMemo(() => ['3%', '26%'], []));
   const [snapPointsVer] = useState(
     useMemo(
-      () => ['2%', '33%', '70%', Platform.OS === 'ios' ? '95%' : '100%'],
+      () => ['3%', '33%', '70%', Platform.OS === 'ios' ? '95%' : '100%'],
       [],
     ),
   );
   const [snp, setSnp] = useState(snapPoints);
 
   useEffect(() => {
-    setCoords().then();
-    AsyncStorage.setItem('variables', '');
+    let paramsMap = navigation.getState();
+    console.log(paramsMap.params);
     consultToken().then(res => {
       if (res) {
         return;
       }
       navigate('LoginScreen');
     });
+    setCoords().then();
+    AsyncStorage.setItem('variables', '');
   }, [navigation]);
 
   const setView = index => {
@@ -65,11 +68,8 @@ export default function Dashboard({navigation}) {
     setIndexSnap(1);
   };
 
-  const tabArbol = name => {
-    navigation.reset({
-      index: 0,
-      routes: [{name}],
-    });
+  const tabArbol = (name, params = {}) => {
+    navigate(name, {option: option, optionOld: optionOld, ...params}, 1);
   };
 
   return (
@@ -86,6 +86,7 @@ export default function Dashboard({navigation}) {
         index={indexSnap}
         initialSnapIndex={1}
         keyboardBehavior={'fullScreen'}
+        style={{marginBottom: responsiveScreenHeight(5)}}
         snapPoints={snp}>
         <ViewRender
           setOption={setView}

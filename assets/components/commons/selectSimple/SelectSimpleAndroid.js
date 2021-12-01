@@ -2,7 +2,10 @@ import React from 'react';
 import {StyleSheet, View} from 'react-native';
 import {Picker} from '@react-native-picker/picker';
 import {theme} from '../../../core/theme';
-import {responsiveHeight} from 'react-native-responsive-dimensions';
+import {
+  responsiveHeight,
+  responsiveScreenFontSize,
+} from 'react-native-responsive-dimensions';
 
 export default ({
   list = [],
@@ -18,9 +21,19 @@ export default ({
         onValueChange={(itemValue, itemIndex) => {
           onSelected(itemValue);
         }}>
-        <Picker.Item key={'0'} label={placeholder} value={''} />
+        <Picker.Item
+          style={styles.pickers}
+          key={'0'}
+          label={placeholder}
+          value={''}
+        />
         {list?.map(item => (
-          <Picker.Item key={item.id} label={item.dato} value={item.id} />
+          <Picker.Item
+            style={styles.pickers}
+            key={item.id}
+            label={item.dato}
+            value={item.id}
+          />
         ))}
       </Picker>
     </View>
@@ -40,5 +53,9 @@ const styles = StyleSheet.create({
     width: '100%',
     flex: 1,
     top: '-20%',
+    fontSize: responsiveScreenFontSize(theme.font),
+  },
+  pickers: {
+    fontSize: responsiveScreenFontSize(theme.font),
   },
 });

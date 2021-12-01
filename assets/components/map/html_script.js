@@ -4,16 +4,12 @@ module.exports = `<!DOCTYPE html>
   <title></title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv=“Content-Security-Policy” content=“default-src ‘self’ gap://ready file://* *; style-src ‘self’ ‘unsafe-inline’; script-src ‘self’ ‘unsafe-inline’ ‘unsafe-eval’”/>
   <link rel="shortcut icon" type="image/x-icon" href="docs/images/favicon.ico">
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
-        integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
-        crossorigin="">
-  <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
-          integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
-          crossorigin=""></script>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="crossorigin="">
+  <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
   <script src="https://d19vzq90twjlae.cloudfront.net/leaflet-0.7/leaflet.js"></script>
-  <script src="http://cdn.leafletjs.com/leaflet-0.7/leaflet.js"></script>
-  
+  <script src="http://cdn.leafletjs.com/leaflet-0.7/leaflet.js"></script>  
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.css"/>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js"></script>
   
@@ -28,7 +24,6 @@ module.exports = `<!DOCTYPE html>
     attributionControl: false,
   });
 
-
   const myIcon = L.icon({
     iconUrl: "https://www.medellin.gov.co/siro_portal/siro_portal/imagenes/icons/puntomapa.png",
     iconAnchor: [10, 20], // point of the icon which will correspond to marker's location
@@ -40,7 +35,39 @@ module.exports = `<!DOCTYPE html>
     iconAnchor: [25, 80], // point of the icon which will correspond to marker's location
     iconSize: [100, 100],
   });
+
+  const popup = L.popup();
   
+  const marker = L.marker(mymap.getCenter(), {
+    icon: myIcon
+  });
+  
+  const markerPerson = L.marker(mymap.getCenter(), {
+    icon: myPerson
+  });
+
+  const radius = L.circle(mymap.getCenter(), 0,{
+      color: "#258B20",
+      fillColor: "rgb(125,211,122)",
+      radius: 20,
+      weight: 2
+  })      
+
+  mymap.locate({
+      watch: true,
+      setView: true,
+      maxZoom: 19
+  }).on('locationfound', (e) => {
+      if (!mymap.hasLayer(radius)) {
+          radius.addTo(mymap);
+       }
+      radius.setLatLng([e.latitude, e.longitude]);
+  }) 
+
+  mymap.on('locationerror', (e) => {
+     window.ReactNativeWebView.postMessage(e.message);
+  }) 
+
   //https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw
  
  let capa = "https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw"
@@ -83,23 +110,6 @@ module.exports = `<!DOCTYPE html>
       layerPoints.push(new L.marker([planes[i][1],planes[i][2]],{icon: myIcon}).bindPopup(planes[i][0]).addTo(mymap));
     }
   }
-
-  const popup = L.popup();
-  
-  const marker = L.marker(mymap.getCenter(), {
-    icon: myIcon
-  });
-  
-  const markerPerson = L.marker(mymap.getCenter(), {
-    icon: myPerson
-  });
-
-  const radius = L.circle(mymap.getCenter(), 0,{
-      color: "#258B20",
-      fillColor: "rgb(125,211,122)",
-      radius: 20,
-      weight: 2
-  })
   
   mymap.on('zoomend', function(e) {
     if(mymap.getZoom() < 18){

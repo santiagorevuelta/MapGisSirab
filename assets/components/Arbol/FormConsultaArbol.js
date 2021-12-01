@@ -26,7 +26,6 @@ export default ({combos, fnBuscar, fnLimpiar}) => {
     setIsSwitchOn(false);
   };
 
-  console.log(filters);
   const ubicarEnMapa = async () => {
     onMapClickLocation();
     let result = await AsyncStorage.getItem('coords');

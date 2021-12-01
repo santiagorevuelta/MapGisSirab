@@ -10,9 +10,9 @@ import tsconfig from '../../../tsconfig.json';
 import combosArbol from '../../../helpers/combosArbol';
 import base64 from 'react-native-base64';
 import guardarDatos from '../../../helpers/guardarDatos';
-import {Button as ButtonIcon} from 'react-native-paper';
 import {theme} from '../../../core/theme';
 import {responsiveScreenFontSize} from 'react-native-responsive-dimensions';
+import ButtonInsert from '../../ButtonInsert';
 
 const ModalIngresarArbol = ({label, setOption, back}) => {
   const [arboles, setArboles] = useState(false);
@@ -154,16 +154,15 @@ const ModalIngresarArbol = ({label, setOption, back}) => {
             />
           </View>
           <View style={[styles.form, {justifyContent: 'flex-end'}]}>
-            <ButtonIcon
+            <ButtonInsert
               compact={true}
               mode="contained"
               style={styles.guardar}
-              icon="text-box-search-outline"
-              labelStyle={{fontSize: responsiveScreenFontSize(1.8)}}
+              labelStyle={{fontSize: responsiveScreenFontSize(theme.fontbtn)}}
               color={theme.colors.primary}
               onPress={() => fnSearch()}>
               Buscar
-            </ButtonIcon>
+            </ButtonInsert>
           </View>
         </View>
       )}

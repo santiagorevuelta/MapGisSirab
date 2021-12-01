@@ -12,6 +12,7 @@ import {theme} from '../../../core/theme';
 import {
   responsiveFontSize,
   responsiveHeight,
+  responsiveScreenFontSize,
   responsiveWidth,
 } from 'react-native-responsive-dimensions';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -83,6 +84,7 @@ const styles = StyleSheet.create({
     marginTop: 1,
     paddingLeft: 10,
     borderColor: theme.colors.border,
+    fontSize: responsiveScreenFontSize(theme.font),
   },
   content: {
     flexDirection: 'row',
