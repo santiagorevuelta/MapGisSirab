@@ -28,6 +28,7 @@ const styles = StyleSheet.create({
     alignContent: 'center',
     paddingHorizontal: responsiveWidth(10),
     height: responsiveScreenHeight(90),
+    paddingBottom: responsiveScreenHeight(5),
     color: theme.colors.text,
   },
   scroll: {

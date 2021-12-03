@@ -91,6 +91,7 @@ function Mycard(props) {
           compact={true}
           color={theme.colors.primary}
           onPress={() => {
+            props.setIndexSnap(1);
             verEnMapa(item.latitud, item.longitud);
             notifyMessage('Ver en mapa');
           }}

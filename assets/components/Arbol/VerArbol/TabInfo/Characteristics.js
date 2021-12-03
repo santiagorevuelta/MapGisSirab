@@ -3,11 +3,12 @@ import {theme} from '../../../../core/theme';
 import React, {useState} from 'react';
 import {notifyMessage} from '../../../../core/general';
 import {Paragraph} from 'react-native-paper';
+import {ScrollView} from 'react-native-gesture-handler';
 
 export default function ({data}) {
   const [items] = useState(data);
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       <View style={styles.row}>
         {div('Especie', items.especie ? items.especie : null)}
         {div('Fecha de ingreso', items.fecha ? items.fecha : null)}
@@ -30,7 +31,7 @@ export default function ({data}) {
           items.tipo_origen_arbol ? items.tipo_origen_arbol : null,
         )}
       </View>
-    </View>
+    </ScrollView>
   );
 }
 

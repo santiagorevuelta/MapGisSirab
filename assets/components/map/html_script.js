@@ -74,7 +74,6 @@ module.exports = `<!DOCTYPE html>
  
   var osmBase = L.tileLayer(capa, {
     maxZoom: 20,
-    minZoom: 12,
     attribution: "",
     id: "mapbox/streets-v11",
     tileSize: 512,

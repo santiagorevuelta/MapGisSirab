@@ -48,14 +48,15 @@ export default ({
       return item.campo.indexOf(id) !== -1;
     });
     setListItems(data);
-    setItemsFilter(data.length === 0 ? [] : data.splice(0, 20));
+    setItemsFilter(data.length === 0 ? [] : data.splice(0, data.length / 5));
   }, [Limpiar, id, list, valueSelected]);
 
   const filterSelect = async text => {
     if (text !== '') {
-      let datos = listItems.filter(function (element) {
-        return element.dato.toLowerCase().includes(text.toLowerCase());
+      let datos = listItems.find(function (element) {
+        return element.dato.toLowerCase().indexOf(text) !== -1;
       });
+      console.log(datos);
       setItemsFilter(datos);
     } else {
       setItemsFilter(listItems.splice(0, 20));
@@ -89,7 +90,7 @@ export default ({
         }}>
         <View style={styles.centeredView}>
           <View style={[styles.modalView, styleSelect.modal]}>
-            <View style={[styles.closeModal, {height: 30}]}>
+            <View style={[styles.closeModal, {height: '10%'}]}>
               <TouchableOpacity
                 style={styleSelect.btnClose}
                 onPress={() => {

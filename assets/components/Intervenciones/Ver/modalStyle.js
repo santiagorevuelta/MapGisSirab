@@ -44,8 +44,8 @@ export const styles = StyleSheet.create({
     borderRadius: 50,
     height: 40,
     width: 40,
-    right: -20,
-    top: '5%',
+    right: '-2%',
+    top: '0%',
   },
   row: {
     flexDirection: 'row',

@@ -43,7 +43,7 @@ export default function LoginScreen({navigation}) {
   return (
     <Background>
       <Logo style={styles.logo} />
-      <Header>Sistema de informacion y Registro de Arboles</Header>
+      <Header>Sistema de información y Registro de Árboles</Header>
       <TxtUser
         label="Usuario"
         returnKeyType="next"

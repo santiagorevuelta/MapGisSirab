@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import {Modal, TouchableOpacity, View} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {Modal, Pressable, TouchableOpacity, View} from 'react-native';
 import {Calendar} from 'react-native-calendars';
 import {responsiveFontSize} from 'react-native-responsive-dimensions';
 import IconAntDesign from 'react-native-vector-icons/AntDesign';
@@ -15,14 +15,22 @@ const CalendarComponent = ({
   maxDate = null,
 }) => {
   const [date, setDate] = useState(dateValue);
+  const [actual, setActual] = useState(null);
 
+  useEffect(() => {
+    const fecha = new Date();
+    const ano = fecha.getFullYear();
+    const day = fecha.getDate();
+    let mes = fecha.getMonth();
+    setActual(`${ano}-${mes}-${day}`);
+  }, []);
   return (
     <Modal
       animationType="slide"
       transparent={true}
       visible={calendarVisible}
       onRequestClose={() => onCalendarClose()}>
-      <TouchableOpacity onPress={() => onCalendarClose()} style={styles.modal}>
+      <Pressable onPress={() => onCalendarClose()} style={styles.modal}>
         <View style={styles.container}>
           <TouchableOpacity
             style={styles.buttonClose}
@@ -36,20 +44,17 @@ const CalendarComponent = ({
           <Calendar
             style={styles.calendar}
             theme={{
-              //textDayFontFamily: "Mulish-Regular",
-              //textMonthFontFamily: "Mulish-Regular",
-              //textDayHeaderFontFamily: "Mulish-Regular",
               textDayFontSize: responsiveFontSize(1.7),
               textMonthFontSize: responsiveFontSize(1.7),
               textDayHeaderFontSize: responsiveFontSize(1.7),
               backgroundColor: '#ffffff',
               arrowColor: theme.colors.primary,
             }}
-            //  minDate = {Date()}
-            maxDate={Date()}
-            onDayPress={date => {
-              setDate(date?.dateString);
-              onDatePress(date);
+            maxDate={new Date() + 1}
+            firstDay={1}
+            onDayPress={newDate => {
+              setDate(newDate?.dateString);
+              onDatePress(newDate);
             }}
             markedDates={{
               [date]: {
@@ -60,7 +65,7 @@ const CalendarComponent = ({
             }}
           />
         </View>
-      </TouchableOpacity>
+      </Pressable>
     </Modal>
   );
 };

@@ -1,8 +1,11 @@
+const {responsiveHeight} = require('react-native-responsive-dimensions');
+const {theme} = require('../../../core/theme');
 module.exports = {
   container: {},
   input: {},
   containerStyle: {
     width: '100%',
+    height: responsiveHeight(theme.altoCampos),
     borderWidth: 0,
     borderColor: '#B7B7B7',
   },

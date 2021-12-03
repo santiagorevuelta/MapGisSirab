@@ -34,7 +34,7 @@ export default ({combos, fnLimpiar, fnBuscar}) => {
       </View>
       <View style={[styles.form, {zIndex: 9}]}>
         <SelectSimple
-          label={'Proyecto *'}
+          label={'Proyecto'}
           id="proyecto"
           valueSelected={filters.proyecto}
           onSelected={items => {

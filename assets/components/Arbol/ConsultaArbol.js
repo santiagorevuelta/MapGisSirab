@@ -80,6 +80,7 @@ const ModalOptionsArbol = ({...props}) => {
       {buscar && (
         <ResultSearch
           tabArbol={props.tabArbol}
+          setIndexSnap={props.setIndexSnap}
           data={dataResult.data}
           meta={dataResult.meta}
           paginar={paginar}

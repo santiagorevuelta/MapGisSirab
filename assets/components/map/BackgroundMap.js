@@ -41,7 +41,6 @@ function MapComponent({navigation, children}) {
         onMessage={event => {
           try {
             let data = event.nativeEvent.data;
-            console.log(data);
             let count = JSON.parse(data);
             if (count.length > 1) {
               AsyncStorage.setItem('polygon', data);
@@ -94,7 +93,8 @@ const options = {
 
 // {enableHighAccuracy: true, timeout: 25000, maximumAge: 360000},
 
-const getLocalize = (autoPos = false) => {
+const getLocalize = () => {
+  notifyMessage('Buscando ubicación');
   Geolocation.getCurrentPosition(success, error, options);
 };
 
