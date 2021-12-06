@@ -1,4 +1,4 @@
-import React from 'react';
+'use strict';
 import axios from 'axios';
 import tsconfig from '../tsconfig.json';
 import {navigate} from '../components/map/BackgroundMap';

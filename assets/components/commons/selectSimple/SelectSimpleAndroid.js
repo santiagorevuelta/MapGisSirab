@@ -17,6 +17,7 @@ export default ({
     <View style={styles.container}>
       <Picker
         selectedValue={value}
+        tvParallaxMagnification={2}
         style={styles.selectCss}
         onValueChange={(itemValue, itemIndex) => {
           onSelected(itemValue);

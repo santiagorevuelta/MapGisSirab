@@ -10,9 +10,7 @@ export default props => {
   return (
     <>
       <View style={styles.header}>
-        <Text style={[theme.textos.Label, styles.headerText]}>
-          {'Escoja una opción'}
-        </Text>
+        <Text style={[theme.textos.Label, styles.headerText]}>{'Menu'}</Text>
       </View>
       <View style={[styles.container, {flex: 0, marginTop: '5%'}]}>
         <Pressable

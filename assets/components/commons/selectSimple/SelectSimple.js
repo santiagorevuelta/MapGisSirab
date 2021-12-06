@@ -22,7 +22,7 @@ const SelectSimple = ({
   id,
   label,
   key,
-  disabledView = false,
+  disabledView = true,
   dependencia = false,
 }) => {
   const [showSelector, setShowSelector] = useState(false);
@@ -53,6 +53,7 @@ const SelectSimple = ({
           placeholder={placeholder}
           onSelected={onSelected}
           value={valueSelected}
+          disabledView={disabledView}
         />
       ) : (
         <>

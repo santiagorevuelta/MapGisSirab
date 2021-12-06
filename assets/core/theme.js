@@ -1,5 +1,8 @@
 import {DefaultTheme} from 'react-native-paper';
-import {responsiveFontSize} from 'react-native-responsive-dimensions';
+import {
+  responsiveFontSize,
+  responsiveScreenFontSize,
+} from 'react-native-responsive-dimensions';
 
 export const theme = {
   dark: false,
@@ -64,6 +67,10 @@ export const theme = {
       color: '#959595',
       textAlign: 'center',
       fontSize: responsiveFontSize(1),
+    },
+    img: {
+      fontSize: responsiveScreenFontSize(1.6),
+      color: '#fff',
     },
   },
   ver: {

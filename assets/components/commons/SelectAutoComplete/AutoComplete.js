@@ -4,11 +4,11 @@ import {
   Platform,
   StyleSheet,
   Text,
+  TextInput,
   TouchableOpacity,
   View,
 } from 'react-native';
 import {theme} from '../../../core/theme';
-import Autocomplete from 'react-native-autocomplete-input';
 import {styles} from '../../Intervenciones/Ver/modalStyle';
 import {
   responsiveFontSize,
@@ -38,6 +38,7 @@ export default ({
   const [listItems, setListItems] = useState([]);
   const [selectedItems, setSelectedItems] = useState([]);
   const [itemsFilter, setItemsFilter] = useState([]);
+  const [textValue, setItemsTextValue] = useState('');
   const [visible, setVisible] = React.useState(false);
   const showDialog = () => setVisible(true);
   const hideDialog = () => setVisible(false);
@@ -48,18 +49,20 @@ export default ({
       return item.campo.indexOf(id) !== -1;
     });
     setListItems(data);
-    setItemsFilter(data.length === 0 ? [] : data.splice(0, data.length / 5));
+    setItemsFilter(data.length < 20 ? data : data.splice(0, 20));
   }, [Limpiar, id, list, valueSelected]);
 
   const filterSelect = async text => {
+    setItemsTextValue(text);
     if (text !== '') {
-      let datos = listItems.find(function (element) {
+      let datos = listItems.filter(function (element) {
         return element.dato.toLowerCase().indexOf(text) !== -1;
       });
-      console.log(datos);
       setItemsFilter(datos);
     } else {
-      setItemsFilter(listItems.splice(0, 20));
+      setItemsFilter(
+        listItems.length < 20 ? listItems : listItems.splice(0, 20),
+      );
     }
   };
   return (
@@ -90,7 +93,7 @@ export default ({
         }}>
         <View style={styles.centeredView}>
           <View style={[styles.modalView, styleSelect.modal]}>
-            <View style={[styles.closeModal, {height: '10%'}]}>
+            <View style={[styles.closeModal, {height: '5%'}]}>
               <TouchableOpacity
                 style={styleSelect.btnClose}
                 onPress={() => {
@@ -103,20 +106,26 @@ export default ({
                 />
               </TouchableOpacity>
             </View>
-            <Autocomplete
+            <TextInput
               autoCapitalize="none"
-              data={itemsFilter}
-              containerStyle={style.containerStyle}
+              value={textValue}
+              style={style.containerStyle}
               placeholder={placeholder}
-              inputContainerStyle={style.inputContainerStyle}
-              listStyle={style.listStyle}
-              keyExtractor={(item, i) => i.toString()}
+              onEndEditing={() => {
+                filterSelect(textValue).then();
+              }}
+              onSubmitEditing={() => {
+                filterSelect(textValue).then();
+              }}
               onChangeText={text => {
                 filterSelect(text.toLowerCase()).then();
               }}
-              flatListProps={{
-                keyExtractor: (_, idx) => idx,
-                renderItem: ({item}) => (
+            />
+            <ScrollView style={style.listStyle}>
+              {itemsFilter.length === 0 ? (
+                <Chip style={style.SearchBoxTouch}>Sin resultados</Chip>
+              ) : (
+                itemsFilter?.map(item => (
                   <Chip
                     icon={ex(item.id) ? 'tree' : 'tree-outline'}
                     mode={ex(item.id) ? 'flat' : 'outlined'}
@@ -144,9 +153,9 @@ export default ({
                     }}>
                     {item.dato}
                   </Chip>
-                ),
-              }}
-            />
+                ))
+              )}
+            </ScrollView>
           </View>
         </View>
       </Modal>
@@ -235,7 +244,8 @@ const styleSelect = StyleSheet.create({
     marginTop: 1,
   },
   btnClose: {
-    marginBottom: 10,
+    position: 'absolute',
+    marginBottom: 0,
   },
   placeholder: {
     marginLeft: 10,

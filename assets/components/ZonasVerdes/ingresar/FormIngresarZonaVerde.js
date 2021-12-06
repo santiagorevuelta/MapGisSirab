@@ -102,7 +102,7 @@ export default ({combos = [], fnGuardar}) => {
             valueSelected={dataForm.primer_nivel}
             onSelected={items => {
               if (items != null) {
-                llenarBarrio(items);
+                llenarBarrio(items).then();
                 setDataForm({...dataForm, primer_nivel: items});
               }
             }}
@@ -210,12 +210,11 @@ export default ({combos = [], fnGuardar}) => {
             compact={true}
             mode="contained"
             style={styles.guardar}
-            icon="content-save"
             color={theme.colors.primary}
             onPress={() => {
               fnGuardar(dataForm, dataImage);
             }}>
-            guardar
+            Guardar
           </ButtonInsert>
         </View>
       </KeyboardAwareScrollView>

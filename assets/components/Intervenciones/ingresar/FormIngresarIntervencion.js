@@ -118,10 +118,9 @@ export default ({fnGuardar, combos = [], zonaVerde, dataArbol}) => {
           compact={true}
           mode="contained"
           style={styles.guardar}
-          icon="content-save"
           color={theme.colors.primary}
           onPress={() => fnGuardar(dataForm, dataSecondary, dataImage)}>
-          guardar
+          Guardar
         </Button>
       </View>
     </View>

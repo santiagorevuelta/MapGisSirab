@@ -1,5 +1,12 @@
 import React from 'react';
-import {Image, PermissionsAndroid, Platform, Text, View} from 'react-native';
+import {
+  Image,
+  PermissionsAndroid,
+  Platform,
+  Pressable,
+  Text,
+  View,
+} from 'react-native';
 import {theme} from '../../../core/theme';
 import {responsiveFontSize} from 'react-native-responsive-dimensions';
 import {ScrollView} from 'react-native-gesture-handler';
@@ -8,11 +15,12 @@ import {styles} from './styles';
 import ImagePicker from 'react-native-image-crop-picker';
 import ImageResizer from 'react-native-image-resizer';
 import * as RNFS from 'react-native-fs';
-import Button from '../../Button';
+import Button from '../../ButtonInsert';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const options = {
   storageOptions: {
-    skipBackup: false,
+    skipBackup: true,
     path: 'MapgisSirab',
     quality: 0,
     privateDirectory: false,
@@ -36,29 +44,30 @@ export default function ({
       <Text style={theme.textos.Label}>{label}</Text>
       <ScrollView style={styles.slide} horizontal>
         <View style={[styles.container, styles.containerAdd]}>
-          <Button
-            color={theme.colors.primary}
+          <Pressable
             style={styles.option}
-            compact={true}
-            labelStyle={{fontSize: responsiveFontSize(1.5)}}
-            icon="camera-plus-outline"
-            mode="contained"
             onPress={() => {
               camaraPress().then();
-            }}
-          />
-          <Button
-            labelStyle={{fontSize: responsiveFontSize(1.5)}}
-            color={theme.colors.primary}
+            }}>
+            <MaterialCommunityIcons
+              name="camera-plus-outline"
+              size={responsiveFontSize(3)}
+              color={theme.colors.blanco}
+            />
+            <Text style={theme.textos.img}>Camara</Text>
+          </Pressable>
+          <Pressable
             style={styles.option}
-            compact={true}
-            icon="camera-image"
-            mode="outlined"
             onPress={() => {
               galleryPress().then();
             }}>
-            Galeria
-          </Button>
+            <MaterialCommunityIcons
+              name="camera-image"
+              size={responsiveFontSize(3)}
+              color={theme.colors.blanco}
+            />
+            <Text style={theme.textos.img}>Galeria</Text>
+          </Pressable>
         </View>
         {dataImage.map((item, index) => (
           <View style={styles.container} key={index}>

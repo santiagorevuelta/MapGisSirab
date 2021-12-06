@@ -5,8 +5,8 @@ import Consultar from '../../assets/icons/consultarArbol.svg';
 
 export default ({
   style = {},
-  width = responsiveWidth(20),
-  height = responsiveWidth(15),
+  width = responsiveWidth(15),
+  height = responsiveWidth(10),
 }) => {
   return (
     <View style={style}>

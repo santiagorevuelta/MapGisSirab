@@ -93,7 +93,7 @@ export default ({combos = [], fnGuardar}) => {
           <AutoComplete
             label={'Especie *'}
             id="especie"
-            stylesNew={{width: responsiveWidth(90), paddingHorizontal: '2%'}}
+            stylesNew={{width: responsiveWidth(92), paddingHorizontal: '2%'}}
             placeholder={selectPlace}
             valueSelected={dataForm?.especie}
             multiple={false}
@@ -211,12 +211,11 @@ export default ({combos = [], fnGuardar}) => {
             compact={true}
             mode="contained"
             style={styles.guardar}
-            icon="content-save"
             color={theme.colors.primary}
             onPress={() => {
               guardar();
             }}>
-            guardar
+            Guardar
           </ButtonInsert>
         </View>
       </KeyboardAwareScrollView>

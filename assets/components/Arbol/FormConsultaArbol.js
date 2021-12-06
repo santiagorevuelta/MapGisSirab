@@ -3,7 +3,10 @@ import {Text, View} from 'react-native';
 import {theme} from '../../core/theme';
 import TextInputForm from '../commons/TextInputForm';
 import {Button as ButtonIcon} from 'react-native-paper';
-import {responsiveFontSize} from 'react-native-responsive-dimensions';
+import {
+  responsiveFontSize,
+  responsiveWidth,
+} from 'react-native-responsive-dimensions';
 import SelectSimple from '../commons/selectSimple/SelectSimple';
 import {notifyMessage} from '../../core/general';
 import Buscar from '../commons/Buscar';
@@ -83,6 +86,7 @@ export default ({combos, fnBuscar, fnLimpiar}) => {
           label={'Especie'}
           id="especie"
           valueSelected={valorAutoComplete}
+          stylesNew={{width: responsiveWidth(90), paddingHorizontal: '2%'}}
           Limpiar={true}
           onSelected={items => {
             if (items != null) {
