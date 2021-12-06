@@ -52,7 +52,7 @@ export default function LoginScreen({navigation}) {
         autoCapitalize="none"
         autoCompleteType="username"
         textContentType="name"
-        keyboardType="default"
+        keyboardType="email-address"
       />
       <TxtPass
         label="Contraseña"

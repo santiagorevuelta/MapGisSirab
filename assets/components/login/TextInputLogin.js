@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {View, StyleSheet, Pressable, TextInput as Input} from 'react-native';
+import {Pressable, TextInput as Input, View} from 'react-native';
 import {theme} from '../../core/theme';
 import Usuario from '../icons/Usuario';
 import Ver from '../icons/Ver';
@@ -14,6 +14,7 @@ function TextInput({...props}) {
         style={[styles.input, isFocus || props.value ? styles.focusOn : {}]}
         placeholder={props.label}
         isFocus={isFocus}
+        multiline={false}
         onBlur={() => setIsFocus(props.value)}
         onFocus={() => setIsFocus(true)}
         {...props}

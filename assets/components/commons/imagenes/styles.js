@@ -26,7 +26,7 @@ export const styles = StyleSheet.create({
     borderRadius: 100,
     height: responsiveScreenWidth(8),
     width: responsiveScreenWidth(8),
-    backgroundColor: theme.colors.border,
+    backgroundColor: theme.colors.blanco,
   },
   slide: {
     flexDirection: 'row',
@@ -47,7 +47,8 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-evenly',
     textAlign: 'center',
-    flexDirection: 'row',
+    width: responsiveScreenWidth(20),
+    flexDirection: 'column',
     borderWidth: 0,
     backgroundColor: 'transparent', //theme.colors.border,
   },
@@ -58,6 +59,6 @@ export const styles = StyleSheet.create({
     height: responsiveScreenWidth(15),
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: theme.colors.primary,
+    // backgroundColor: theme.colors.primary,
   },
 });

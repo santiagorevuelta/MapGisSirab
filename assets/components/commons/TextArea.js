@@ -38,6 +38,8 @@ const styles = StyleSheet.create({
     height: '100%',
     marginTop: 1,
     paddingLeft: 10,
+    margin: 0,
+    padding: 0,
     borderColor: theme.colors.border,
   },
 });

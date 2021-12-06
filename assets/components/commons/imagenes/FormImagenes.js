@@ -52,7 +52,7 @@ export default function ({
             <MaterialCommunityIcons
               name="camera-plus-outline"
               size={responsiveFontSize(3)}
-              color={theme.colors.blanco}
+              color={theme.colors.primary}
             />
             <Text style={theme.textos.img}>Camara</Text>
           </Pressable>
@@ -64,7 +64,7 @@ export default function ({
             <MaterialCommunityIcons
               name="camera-image"
               size={responsiveFontSize(3)}
-              color={theme.colors.blanco}
+              color={theme.colors.primary}
             />
             <Text style={theme.textos.img}>Galeria</Text>
           </Pressable>

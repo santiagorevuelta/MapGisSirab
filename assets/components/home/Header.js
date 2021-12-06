@@ -42,7 +42,7 @@ const Header = props => {
           value={valor}
           onChangeText={text => setValor(text.trimStart())}
           autoCapitalize="none"
-          placeholder={'V1.9'}
+          placeholder={'V1.10'}
           onFocus={() => {
             setTimeout(() => {
               props.setIndexSnap(0);

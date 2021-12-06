@@ -70,7 +70,7 @@ export const theme = {
     },
     img: {
       fontSize: responsiveScreenFontSize(1.6),
-      color: '#fff',
+      color: '#414757',
     },
   },
   ver: {
