@@ -45,7 +45,7 @@ const RenderSearch = ({
           onPress={() => {
             fnBuscar(true, filtros);
           }}>
-          buscar
+          Buscar
         </Button>
       </View>
     </View>

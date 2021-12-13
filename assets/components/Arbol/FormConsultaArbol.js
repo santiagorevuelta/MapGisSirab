@@ -1,10 +1,11 @@
 import React from 'react';
-import {Text, View} from 'react-native';
+import {View} from 'react-native';
 import {theme} from '../../core/theme';
 import TextInputForm from '../commons/TextInputForm';
 import {Button as ButtonIcon} from 'react-native-paper';
+//import Button from '../Button'
 import {
-  responsiveFontSize,
+  responsiveScreenFontSize,
   responsiveWidth,
 } from 'react-native-responsive-dimensions';
 import SelectSimple from '../commons/selectSimple/SelectSimple';
@@ -49,6 +50,21 @@ export default ({combos, fnBuscar, fnLimpiar}) => {
   return (
     <View style={styles.body}>
       <View style={[styles.form]}>
+        <View style={styles.geoConsult}>
+          <ButtonIcon
+            compact={true}
+            mode="Outlined"
+            style={styles.geoButon}
+            color={theme.colors.primary}
+            labelStyle={{fontSize: responsiveScreenFontSize(1)}}
+            onPress={() => {
+              AsyncStorage.setItem('coords', '');
+              notifyMessage('Seleccionar punto en mapa');
+              ubicarEnMapa().then();
+            }}>
+            Consulta geográfica
+          </ButtonIcon>
+        </View>
         <TextInputForm
           label={'Código árbol'}
           placeholder={'Código árbol'}
@@ -62,23 +78,6 @@ export default ({combos, fnBuscar, fnLimpiar}) => {
             setFilters({...filters, codigo_arbol: text})
           }
         />
-        <View style={styles.geoConsult}>
-          <Text style={theme.textos.LabelIn}>{'Consulta geográfica'}</Text>
-          <View style={styles.geoButons}>
-            <ButtonIcon
-              compact={true}
-              style={styles.geoButon}
-              labelStyle={{fontSize: responsiveFontSize(3)}}
-              icon="vector-point"
-              color={theme.colors.primary}
-              onPress={() => {
-                AsyncStorage.setItem('coords', '');
-                notifyMessage('Seleccionar punto en mapa');
-                ubicarEnMapa().then();
-              }}
-            />
-          </View>
-        </View>
       </View>
 
       <View style={[styles.form, {zIndex: 9}]}>

@@ -43,17 +43,18 @@ module.exports = StyleSheet.create({
   },
   geoConsult: {
     width: responsiveWidth(45),
-    height: responsiveHeight(6),
+    height: responsiveHeight(theme.altoCampos),
+    backgroundColor: 'red',
+    justifyContent: 'flex-end',
     marginVertical: responsiveWidth(3),
-    paddingHorizontal: '2%',
-    flexDirection: 'row',
   },
   geoButons: {
     flexDirection: 'row',
-    justifyContent: 'flex-end',
+    justifyContent: 'flex-start',
   },
   geoButon: {
-    width: 30,
-    height: 25,
+    borderWidth: 1,
+    borderRadius: theme.radius,
+    borderColor: theme.colors.primary,
   },
 });

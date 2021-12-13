@@ -23,7 +23,6 @@ function MapComponent({navigation, children}) {
     permissionsLocation().then(() => {});
     setTimeout(function () {
       if (MapRef.current && location === 0) {
-        notifyMessage('Buscando ubicación');
         getLocalize(true);
         setLocation(1);
       }
