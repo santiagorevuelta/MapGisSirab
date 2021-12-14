@@ -2,13 +2,12 @@ const {theme} = require('../../core/theme');
 const {
   responsiveWidth,
   responsiveHeight,
-  responsiveScreenHeight,
 } = require('react-native-responsive-dimensions');
 const {StyleSheet} = require('react-native');
 
 module.exports = StyleSheet.create({
   body: {
-    paddingHorizontal: '5%',
+    paddingHorizontal: '3%',
   },
   container: {
     backgroundColor: theme.colors.blanco,
@@ -28,6 +27,11 @@ module.exports = StyleSheet.create({
   content: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+  },
+  geoArbol: {
+    width: responsiveWidth(50),
+    marginTop: '7%',
+    paddingHorizontal: '2%',
   },
   geo: {
     height: responsiveHeight(4),
@@ -52,6 +56,5 @@ module.exports = StyleSheet.create({
   geoButon: {
     borderWidth: 1,
     borderRadius: theme.radius,
-    borderColor: theme.colors.primary,
   },
 });

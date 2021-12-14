@@ -9,14 +9,12 @@ import {
 } from 'react-native';
 import {theme} from '../../../core/theme';
 import {responsiveFontSize} from 'react-native-responsive-dimensions';
-import {ScrollView} from 'react-native-gesture-handler';
 import {styles} from './styles';
-
-import ImagePicker from 'react-native-image-crop-picker';
-import ImageResizer from 'react-native-image-resizer';
-import * as RNFS from 'react-native-fs';
 import Button from '../../ButtonInsert';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import * as ImagePicker from 'react-native-image-crop-picker';
+import ImageResizer from 'react-native-image-resizer';
+import * as RNFS from 'react-native-fs';
 
 const options = {
   storageOptions: {
@@ -42,59 +40,81 @@ export default function ({
   return (
     <View style={styles.body}>
       <Text style={theme.textos.Label}>{label}</Text>
-      <ScrollView style={styles.slide} horizontal>
-        <View style={[styles.container, styles.containerAdd]}>
-          <Pressable
-            style={styles.option}
-            onPress={() => {
-              camaraPress().then();
-            }}>
-            <MaterialCommunityIcons
-              name="camera-plus-outline"
-              size={responsiveFontSize(3)}
-              color={theme.colors.primary}
-            />
-            <Text style={theme.textos.img}>Camara</Text>
-          </Pressable>
-          <Pressable
-            style={styles.option}
-            onPress={() => {
-              galleryPress().then();
-            }}>
-            <MaterialCommunityIcons
-              name="camera-image"
-              size={responsiveFontSize(3)}
-              color={theme.colors.primary}
-            />
-            <Text style={theme.textos.img}>Galeria</Text>
-          </Pressable>
-        </View>
-        {dataImage.map((item, index) => (
-          <View style={styles.container} key={index}>
-            <Button
-              style={styles.icon}
-              color={theme.colors.primary}
-              compact={true}
-              labelStyle={{fontSize: responsiveFontSize(3)}}
-              icon="delete-circle-outline"
-              onPress={() => {
-                let newJson = [];
-                for (const img of dataImage) {
-                  if (img.urlFoto !== item.urlFoto) {
-                    newJson.push(img);
-                  }
-                }
-                setDataImage(newJson);
-              }}
-            />
-            <View style={styles.content}>
-              <Image source={{uri: item.urlFoto}} style={styles.fotos} />
-            </View>
-          </View>
-        ))}
-      </ScrollView>
+      <View style={[styles.container, styles.containerAdd]}>
+        <Pressable
+          style={styles.option}
+          onPress={() => {
+            camaraPress().then();
+          }}>
+          <MaterialCommunityIcons
+            name="camera-plus-outline"
+            size={responsiveFontSize(3)}
+            color={theme.colors.primary}
+          />
+          <Text style={theme.textos.img}>Camara</Text>
+        </Pressable>
+        <Pressable
+          style={styles.option}
+          onPress={() => {
+            galleryPress().then();
+          }}>
+          <MaterialCommunityIcons
+            name="camera-image"
+            size={responsiveFontSize(3)}
+            color={theme.colors.primary}
+          />
+          <Text style={theme.textos.img}>Galeria</Text>
+        </Pressable>
+      </View>
+      <View style={styles.slide}>
+        <CrearImage />
+      </View>
     </View>
   );
+
+  function CrearImage() {
+    let dataGen = [];
+    let dataInfo = [];
+    let count = 0;
+    for (let i = 0; i < dataImage.length; i++) {
+      let item = dataImage[i];
+      count++;
+      if (dataImage.length > 3) {
+        if (count === 3) {
+          dataGen.push(dataInfo);
+          dataInfo = [];
+          count = 0;
+        }
+      }
+      dataInfo.push(
+        <View style={styles.container} key={i}>
+          <Button
+            style={styles.icon}
+            color={theme.colors.primary}
+            compact={true}
+            labelStyle={{fontSize: responsiveFontSize(2.5)}}
+            icon="delete-circle-outline"
+            onPress={() => {
+              let newJson = [];
+              for (const img of dataImage) {
+                if (img.urlFoto !== item.urlFoto) {
+                  newJson.push(img);
+                }
+              }
+              setDataImage(newJson);
+            }}
+          />
+          <View style={styles.content}>
+            <Image source={{uri: item.urlFoto}} style={styles.fotos} />
+          </View>
+        </View>,
+      );
+    }
+    if (dataImage.length <= 3 || count !== 0) {
+      dataGen.push(dataInfo);
+    }
+    return dataGen;
+  }
 
   async function galleryPress() {
     await requestCameraPermission();

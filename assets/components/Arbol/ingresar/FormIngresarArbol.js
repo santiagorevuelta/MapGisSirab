@@ -1,9 +1,9 @@
 import React from 'react';
 import consultarBarrios from '../../../helpers/consultaBarrios';
-import {Text, View} from 'react-native';
+import {View} from 'react-native';
 import {theme} from '../../../core/theme';
 import {
-  responsiveFontSize,
+  responsiveScreenFontSize,
   responsiveWidth,
 } from 'react-native-responsive-dimensions';
 import TextInputForm from '../../commons/TextInputForm';
@@ -23,10 +23,12 @@ import ButtonInsert from '../../ButtonInsert';
 
 const selectPlace = 'Seleccione...';
 
-export default ({combos = [], fnGuardar}) => {
+export default ({combos = [], fnGuardar, setIndexSnap}) => {
   const [dataForm, setDataForm] = React.useState({});
   const [dataImage, setDataImage] = React.useState([]);
   const [combosBarrios, setCombosBarrios] = React.useState([]);
+  const [modeBtn, setModeBtn] = React.useState('outlined');
+
   const llenarBarrio = async id => {
     if (id !== '') {
       let res = await consultarBarrios(id);
@@ -46,6 +48,7 @@ export default ({combos = [], fnGuardar}) => {
         latitud: result.lat,
         longitud: result.lng,
       });
+      setModeBtn('outlined');
     } else {
       setTimeout(() => {
         ubicarEnMapa().then();
@@ -183,28 +186,31 @@ export default ({combos = [], fnGuardar}) => {
             list={combosBarrios}
           />
         </View>
-        <View style={[styles.form, styles.geo]}>
-          <Text style={theme.textos.LabelIn}>
-            {'Coordenadas geográficas *'}
-          </Text>
-          <View style={styles.geoButons}>
-            <ButtonIcon
-              compact={true}
-              labelStyle={{fontSize: responsiveFontSize(3)}}
-              icon="map-marker-radius-outline"
-              color={theme.colors.primary}
-              onPress={() => {
-                notifyMessage('Seleccionar punto en mapa');
-                AsyncStorage.setItem('coords', '');
-                ubicarEnMapa();
-              }}
-            />
+        <View style={[styles.form, styles.geoArbol]}>
+          <ButtonIcon
+            compact={true}
+            mode={modeBtn}
+            uppercase={false}
+            style={[styles.geoButon, theme.textos.Label]}
+            color={theme.colors.primary}
+            labelStyle={{fontSize: responsiveScreenFontSize(1.6)}}
+            onPress={() => {
+              setModeBtn('contained');
+              AsyncStorage.setItem('coords', '');
+              notifyMessage('Seleccionar punto en mapa');
+              ubicarEnMapa().then();
+              setIndexSnap(1);
+            }}>
+            Seleccionar punto
+          </ButtonIcon>
+        </View>
+        {dataForm.latitud && (
+          <View style={styles.form}>
+            <TextSimple label={'latitud'} value={dataForm.latitud} />
+            <TextSimple label={'longitud'} value={dataForm.longitud} />
           </View>
-        </View>
-        <View style={styles.form}>
-          <TextSimple label={'latitud'} value={dataForm.latitud} />
-          <TextSimple label={'longitud'} value={dataForm.longitud} />
-        </View>
+        )}
+
         <TabIngresar dataImage={dataImage} setDataImage={setDataImage} />
         <View style={[styles.form, {justifyContent: 'flex-end'}]}>
           <ButtonInsert

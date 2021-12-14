@@ -8,7 +8,7 @@ import tsconfig from '../../../tsconfig.json';
 import {notifyMessage} from '../../../core/general';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const ModalIngresarArbol = ({label, setOption, back}) => {
+const ModalIngresarArbol = ({label, setOption, back, setIndexSnap}) => {
   const [combos, setCombos] = React.useState([]);
   const [dataForm, setDataForm] = React.useState({});
   const [dataVar, setDataVar] = React.useState({});
@@ -55,6 +55,7 @@ const ModalIngresarArbol = ({label, setOption, back}) => {
         setDataImage={setDataImage}
         setDataForm={setDataForm}
         dataForm={dataForm}
+        setIndexSnap={setIndexSnap}
       />
     </>
   );

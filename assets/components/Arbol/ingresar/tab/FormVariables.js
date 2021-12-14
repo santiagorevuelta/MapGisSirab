@@ -23,7 +23,13 @@ export default ({}) => {
   };
 
   return (
-    <View style={{height: '100%', backgroundColor: theme.colors.blanco}}>
+    <View
+      style={{
+        height: '100%',
+        backgroundColor: theme.colors.blanco,
+        padding: 0,
+        margin: 0,
+      }}>
       <View style={styles.form}>
         <TextInputForm
           label={'Altura de árbol (m) *'}

@@ -1,16 +1,25 @@
 import React, {useEffect, useState} from 'react';
 import {
+  Alert,
   Dimensions,
   PermissionsAndroid,
   Platform,
   SafeAreaView,
   StatusBar,
+  ToastAndroid,
 } from 'react-native';
 import {WebView} from 'react-native-webview';
 import Geolocation from '@react-native-community/geolocation';
-import {notifyMessage} from '../../core/general';
 import html_script from './html_script';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+
+function notifyMessage(msg) {
+  if (Platform.OS === 'android') {
+    ToastAndroid.showWithGravity(msg, ToastAndroid.SHORT, ToastAndroid.CENTER);
+  } else {
+    Alert.alert(msg);
+  }
+}
 
 let MapRef = React.createRef();
 const {width, height} = Dimensions.get('window');

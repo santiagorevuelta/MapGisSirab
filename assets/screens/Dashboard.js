@@ -43,8 +43,8 @@ export default function Dashboard({navigation}) {
   const [snp, setSnp] = useState(snapPoints);
 
   useEffect(() => {
-    let paramsMap = navigation.getState();
-    console.log(paramsMap.params);
+    //let paramsMap = navigation.getState();
+    // console.log(paramsMap.params);
     consultToken().then(res => {
       if (res) {
         return;

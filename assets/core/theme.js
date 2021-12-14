@@ -11,6 +11,7 @@ export const theme = {
   radius: 15,
   roboto: 'roboto',
   altoCampos: 5,
+  altoSelect: 5,
   font: 1.5,
   fontbtn: 1.7,
   colors: {
@@ -57,16 +58,19 @@ export const theme = {
       fontSize: responsiveFontSize(1.5),
       color: '#258B20',
       fontWeight: 'bold',
+      fontFamily: 'roboto',
     },
     LabelIn: {
       fontSize: responsiveFontSize(1.5),
       color: '#258B20',
       fontWeight: 'bold',
+      fontFamily: 'roboto',
     },
     Textos: {
       color: '#959595',
       textAlign: 'center',
       fontSize: responsiveFontSize(1),
+      fontFamily: 'roboto',
     },
     img: {
       fontSize: responsiveScreenFontSize(1.6),

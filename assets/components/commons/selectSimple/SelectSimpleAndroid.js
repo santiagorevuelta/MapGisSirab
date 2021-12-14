@@ -2,10 +2,7 @@ import React from 'react';
 import {StyleSheet, View} from 'react-native';
 import {Picker} from '@react-native-picker/picker';
 import {theme} from '../../../core/theme';
-import {
-  responsiveHeight,
-  responsiveScreenFontSize,
-} from 'react-native-responsive-dimensions';
+import {responsiveScreenFontSize} from 'react-native-responsive-dimensions';
 
 export default ({
   list = [],
@@ -17,8 +14,9 @@ export default ({
     <View style={styles.container}>
       <Picker
         selectedValue={value}
-        tvParallaxMagnification={2}
-        style={styles.selectCss}
+        tvParallaxMagnification={1}
+        pointerEvents={'box-only'}
+        itemStyle={styles.pickers}
         onValueChange={(itemValue, itemIndex) => {
           onSelected(itemValue);
         }}>
@@ -44,19 +42,21 @@ export default ({
 const styles = StyleSheet.create({
   container: {
     width: 'auto',
-    alignItems: 'center',
     borderWidth: 1,
     borderColor: '#B7B7B7',
     borderRadius: 25,
-    height: responsiveHeight(theme.altoCampos),
   },
   selectCss: {
     width: '100%',
-    flex: 1,
-    top: '-20%',
+    alignContent: 'center',
+    top: '0%',
+    justifyContent: 'center',
     fontSize: responsiveScreenFontSize(theme.font),
   },
   pickers: {
+    width: '100%',
+    position: 'relative',
+    height: '100%',
     fontSize: responsiveScreenFontSize(theme.font),
   },
 });

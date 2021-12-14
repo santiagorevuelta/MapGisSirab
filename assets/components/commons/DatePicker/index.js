@@ -26,7 +26,7 @@ const CalendarComponent = ({
   }, []);
   return (
     <Modal
-      animationType="slide"
+      animationType="fade"
       transparent={true}
       visible={calendarVisible}
       onRequestClose={() => onCalendarClose()}>
@@ -50,7 +50,7 @@ const CalendarComponent = ({
               backgroundColor: '#ffffff',
               arrowColor: theme.colors.primary,
             }}
-            maxDate={new Date() + 1}
+            maxDate={new Date()}
             firstDay={1}
             onDayPress={newDate => {
               setDate(newDate?.dateString);

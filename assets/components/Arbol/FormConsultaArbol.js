@@ -20,6 +20,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 export default ({combos, fnBuscar, fnLimpiar}) => {
   const [isSwitchOn, setIsSwitchOn] = React.useState(false);
   const [filters, setFilters] = React.useState({});
+  const [modeBtn, setModeBtn] = React.useState('outlined');
   const [valorAutoComplete, setValorAutoComplete] = React.useState([]);
   const onToggleSwitch = () => setIsSwitchOn(!isSwitchOn);
 
@@ -40,6 +41,7 @@ export default ({combos, fnBuscar, fnLimpiar}) => {
         latitud: result.lat,
         longitud: result.lng,
       });
+      setModeBtn('outlined');
     } else {
       setTimeout(() => {
         ubicarEnMapa().then();
@@ -53,11 +55,13 @@ export default ({combos, fnBuscar, fnLimpiar}) => {
         <View style={styles.geoConsult}>
           <ButtonIcon
             compact={true}
-            mode="Outlined"
-            style={styles.geoButon}
+            mode={modeBtn}
+            uppercase={false}
+            style={[styles.geoButon, theme.textos.Label]}
             color={theme.colors.primary}
-            labelStyle={{fontSize: responsiveScreenFontSize(1)}}
+            labelStyle={{fontSize: responsiveScreenFontSize(1.6)}}
             onPress={() => {
+              setModeBtn('contained');
               AsyncStorage.setItem('coords', '');
               notifyMessage('Seleccionar punto en mapa');
               ubicarEnMapa().then();

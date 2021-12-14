@@ -59,8 +59,8 @@ const styles = StyleSheet.create({
     fontSize: responsiveFontSize(1.2),
   },
   floatModal: {
-    backgroundColor: theme.colors.blanco,
     height: responsiveScreenHeight(30),
+    paddingHorizontal: '2%',
     alignContent: 'center',
   },
 });

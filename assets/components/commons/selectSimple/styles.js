@@ -8,7 +8,7 @@ import {theme} from '../../../core/theme';
 export const styles = StyleSheet.create({
   container: {
     width: responsiveWidth(45),
-    height: responsiveHeight(theme.altoCampos),
+    height: responsiveHeight(theme.altoSelect),
     marginVertical: responsiveWidth(3),
     paddingHorizontal: '2%',
     borderRadius: theme.radius,

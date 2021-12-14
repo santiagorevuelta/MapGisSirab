@@ -1,5 +1,8 @@
 import {StyleSheet} from 'react-native';
-import {responsiveScreenWidth} from 'react-native-responsive-dimensions';
+import {
+  responsiveScreenHeight,
+  responsiveScreenWidth,
+} from 'react-native-responsive-dimensions';
 import {theme} from '../../../core/theme';
 
 export const styles = StyleSheet.create({
@@ -13,10 +16,11 @@ export const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: theme.colors.primary,
     borderStyle: 'dashed',
-    height: responsiveScreenWidth(40),
-    width: responsiveScreenWidth(43),
+    width: responsiveScreenWidth(29),
+    height: responsiveScreenHeight(10),
     borderRadius: theme.radius,
-    marginRight: 10,
+    marginRight: 5,
+    marginBottom: '3%',
   },
   icon: {
     position: 'absolute',
@@ -24,13 +28,16 @@ export const styles = StyleSheet.create({
     right: 0,
     zIndex: 2,
     borderRadius: 100,
-    height: responsiveScreenWidth(8),
-    width: responsiveScreenWidth(8),
+    height: responsiveScreenWidth(7),
+    width: responsiveScreenWidth(7),
     backgroundColor: theme.colors.blanco,
   },
   slide: {
     flexDirection: 'row',
-    paddingTop: 3,
+    alignSelf: 'stretch',
+    flexWrap: 'wrap',
+    justifyContent: 'flex-start',
+    height: 'auto',
   },
   fotos: {
     height: '100%',
@@ -47,10 +54,10 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-evenly',
     textAlign: 'center',
-    width: responsiveScreenWidth(20),
-    flexDirection: 'column',
-    borderWidth: 0,
-    backgroundColor: 'transparent', //theme.colors.border,
+    width: responsiveScreenWidth(30),
+    height: responsiveScreenHeight(10),
+    flexDirection: 'row',
+    borderWidth: 0, //theme.colors.border,
   },
   option: {
     borderRadius: theme.radius,
