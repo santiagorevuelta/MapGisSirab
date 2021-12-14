@@ -53,7 +53,6 @@ function div(label, text) {
 
 const styles = StyleSheet.create({
   container: {
-    justifyContent: 'center',
     backgroundColor: theme.colors.blanco,
     height: '100%',
   },

@@ -34,8 +34,12 @@ export default function getHome({dataArbol, dataVariables}) {
           tabBarLabelStyle: {
             fontSize: responsiveFontSize(1.6),
             textTransform: 'none',
+            width: '100%',
+            textAlign: 'left',
           },
-          tabBarItemStyle: {height: 40, width: 'auto'},
+          tabBarItemStyle: {
+            height: 40
+          },
           tabBarInactiveTintColor: theme.colors.headers,
           tabBarPressColor: theme.colors.border,
           tabBarActiveTintColor: theme.colors.primary,

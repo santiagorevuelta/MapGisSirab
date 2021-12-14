@@ -39,13 +39,12 @@ export const styles = StyleSheet.create({
   },
   closeButton: {
     backgroundColor: theme.colors.blanco,
-    elevation: 10,
     borderWidth: 0,
     borderRadius: 50,
     height: 40,
     width: 40,
-    right: '-2%',
-    top: '0%',
+    right: -20,
+    top: '5%',
   },
   row: {
     flexDirection: 'row',
