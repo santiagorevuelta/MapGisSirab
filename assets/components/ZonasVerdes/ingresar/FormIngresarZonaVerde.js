@@ -19,7 +19,7 @@ import ButtonInsert from '../../ButtonInsert';
 
 const selectPlace = 'Seleccione...';
 
-export default ({combos = [], fnGuardar}) => {
+export default ({combos = [], fnGuardar,setIndexSnap}) => {
   const [dataForm, setDataForm] = React.useState({});
   const [dataImage, setDataImage] = React.useState([]);
   const [combosBarrios, setCombosBarrios] = React.useState([]);
@@ -66,7 +66,7 @@ export default ({combos = [], fnGuardar}) => {
             onChangeTextInput={text => setDataForm({...dataForm, codigo: text})}
           />
           <DatePicker
-            label={'Fecha de ingreso'}
+            label={'Fecha de ingreso *'}
             placeholder={'dd/mm/aaaa'}
             value={dataForm.fecha}
             keyboardType="default"
@@ -131,7 +131,7 @@ export default ({combos = [], fnGuardar}) => {
               {width: '50%', flexDirection: 'column'},
             ]}>
             <Text style={theme.textos.LabelIn}>
-              {'Coordenadas geográficas *'}
+              {'Dibujar poligono *'}
             </Text>
             <View style={styles.geoButons}>
               <ButtonIcon
@@ -140,7 +140,7 @@ export default ({combos = [], fnGuardar}) => {
                 icon="vector-polyline-plus"
                 color={theme.colors.primary}
                 onPress={() => {
-                  notifyMessage('Click para dibujar');
+                  notifyMessage('Toca en el mapa para iniciar a dibujar');
                   drawPolin();
                   getPolygon().then();
                 }}

@@ -9,7 +9,7 @@ import {notifyMessage} from '../../../core/general';
 
 import {limpiarMapaPolygon} from '../../map/BackgroundMap';
 
-const ModalIngresar = ({label, setOption, back}) => {
+const ModalIngresar = ({label, setOption, back, setIndexSnap}) => {
   const [combos, setCombos] = React.useState([]);
 
   const fnGuardar = async (datos, datosImagenes) => {
@@ -62,7 +62,7 @@ const ModalIngresar = ({label, setOption, back}) => {
   return (
     <>
       <HeaderModal type={label} setOption={setOption} backIndex={back} />
-      <FormIngresar fnGuardar={fnGuardar} combos={combos} />
+      <FormIngresar fnGuardar={fnGuardar} combos={combos} setIndexSnap={setIndexSnap}/>
     </>
   );
 };
