@@ -17,7 +17,7 @@ export const styles = StyleSheet.create({
     borderColor: theme.colors.primary,
     borderStyle: 'dashed',
     width: responsiveScreenWidth(29),
-    height: responsiveScreenHeight(10),
+    height: responsiveScreenWidth(29),
     borderRadius: theme.radius,
     marginRight: 5,
     marginBottom: '3%',

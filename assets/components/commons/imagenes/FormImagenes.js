@@ -1,5 +1,6 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
+  Clipboard,
   Image,
   PermissionsAndroid,
   Platform,
@@ -8,13 +9,22 @@ import {
   View,
 } from 'react-native';
 import {theme} from '../../../core/theme';
-import {responsiveFontSize} from 'react-native-responsive-dimensions';
+import {
+  responsiveFontSize,
+  responsiveScreenWidth,
+} from 'react-native-responsive-dimensions';
 import {styles} from './styles';
 import Button from '../../ButtonInsert';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import * as ImagePicker from 'react-native-image-crop-picker';
 import ImageResizer from 'react-native-image-resizer';
 import * as RNFS from 'react-native-fs';
+import Animated from 'react-native-reanimated';
+import {
+  PanGestureHandler,
+  PinchGestureHandler,
+  State,
+} from 'react-native-gesture-handler';
 
 const options = {
   storageOptions: {
@@ -37,6 +47,11 @@ export default function ({
   setDataImage,
   label = 'Registro fotográfico',
 }) {
+  const [alto, setAlto] = useState(responsiveScreenWidth(29));
+  const [ancho, setAncho] = useState(responsiveScreenWidth(29));
+  const [cantidad, setCantidad] = useState(3);
+  const [scales, setScale] = useState(1);
+
   return (
     <View style={styles.body}>
       <Text style={theme.textos.Label}>{label}</Text>
@@ -66,9 +81,9 @@ export default function ({
           <Text style={theme.textos.img}>Galeria</Text>
         </Pressable>
       </View>
-      <View style={styles.slide}>
+      <Animated.View style={[styles.slide]}>
         <CrearImage />
-      </View>
+      </Animated.View>
     </View>
   );
 
@@ -78,16 +93,8 @@ export default function ({
     let count = 0;
     for (let i = 0; i < dataImage.length; i++) {
       let item = dataImage[i];
-      count++;
-      if (dataImage.length > 3) {
-        if (count === 3) {
-          dataGen.push(dataInfo);
-          dataInfo = [];
-          count = 0;
-        }
-      }
       dataInfo.push(
-        <View style={styles.container} key={i}>
+        <View style={[styles.container, {width: ancho, height: alto}]} key={i}>
           <Button
             style={styles.icon}
             color={theme.colors.primary}
@@ -109,8 +116,16 @@ export default function ({
           </View>
         </View>,
       );
+      count++;
+      if (dataImage.length > cantidad) {
+        if (count === cantidad) {
+          dataGen.push(dataInfo);
+          dataInfo = [];
+          count = 0;
+        }
+      }
     }
-    if (dataImage.length <= 3 || count !== 0) {
+    if (dataImage.length <= cantidad || count !== 0) {
       dataGen.push(dataInfo);
     }
     return dataGen;
