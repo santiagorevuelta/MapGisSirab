@@ -58,19 +58,19 @@ export const theme = {
       fontSize: responsiveFontSize(1.5),
       color: '#258B20',
       fontWeight: 'bold',
-      fontFamily: 'roboto',
+      fontFamily: 'robotoBold',
     },
     LabelIn: {
       fontSize: responsiveFontSize(1.5),
       color: '#258B20',
       fontWeight: 'bold',
-      fontFamily: 'roboto',
+      fontFamily: 'robotoBold',
     },
     Textos: {
       color: '#959595',
       textAlign: 'center',
       fontSize: responsiveFontSize(1),
-      fontFamily: 'roboto',
+      fontFamily: 'robotoBold',
     },
     img: {
       fontSize: responsiveScreenFontSize(1.6),
@@ -86,6 +86,7 @@ export const theme = {
       fontSize: responsiveFontSize(1.5),
       color: '#959595',
       textAlign: 'left',
+      fontFamily: 'robotoBold',
     },
   },
   input: {

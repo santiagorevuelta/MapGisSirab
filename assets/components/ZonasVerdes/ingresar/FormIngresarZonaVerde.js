@@ -19,7 +19,7 @@ import ButtonInsert from '../../ButtonInsert';
 
 const selectPlace = 'Seleccione...';
 
-export default ({combos = [], fnGuardar,setIndexSnap}) => {
+export default ({combos = [], fnGuardar, setIndexSnap}) => {
   const [dataForm, setDataForm] = React.useState({});
   const [dataImage, setDataImage] = React.useState([]);
   const [combosBarrios, setCombosBarrios] = React.useState([]);
@@ -130,9 +130,7 @@ export default ({combos = [], fnGuardar,setIndexSnap}) => {
               styles.geo,
               {width: '50%', flexDirection: 'column'},
             ]}>
-            <Text style={theme.textos.LabelIn}>
-              {'Dibujar poligono *'}
-            </Text>
+            <Text style={theme.textos.LabelIn}>{'Dibujar poligono *'}</Text>
             <View style={styles.geoButons}>
               <ButtonIcon
                 compact={true}
@@ -140,6 +138,7 @@ export default ({combos = [], fnGuardar,setIndexSnap}) => {
                 icon="vector-polyline-plus"
                 color={theme.colors.primary}
                 onPress={() => {
+                  setIndexSnap(1);
                   notifyMessage('Toca en el mapa para iniciar a dibujar');
                   drawPolin();
                   getPolygon().then();

@@ -22,37 +22,37 @@ const Stack = createStackNavigator();
 const fontConfig = {
   ios: {
     regular: {
-      fontFamily: 'sans-serif',
+      fontFamily: 'roboto',
       fontWeight: 'normal',
     },
     medium: {
-      fontFamily: 'sans-serif-medium',
+      fontFamily: 'roboto',
       fontWeight: 'normal',
     },
     light: {
-      fontFamily: 'sans-serif-light',
+      fontFamily: 'roboto',
       fontWeight: 'normal',
     },
     thin: {
-      fontFamily: 'sans-serif-thin',
+      fontFamily: 'roboto',
       fontWeight: 'normal',
     },
   },
   android: {
     regular: {
-      fontFamily: 'sans-serif',
+      fontFamily: 'roboto',
       fontWeight: 'normal',
     },
     medium: {
-      fontFamily: 'sans-serif-medium',
+      fontFamily: 'roboto',
       fontWeight: 'normal',
     },
     light: {
-      fontFamily: 'sans-serif-light',
+      fontFamily: 'roboto',
       fontWeight: 'normal',
     },
     thin: {
-      fontFamily: 'sans-serif-thin',
+      fontFamily: 'roboto',
       fontWeight: 'normal',
     },
   },

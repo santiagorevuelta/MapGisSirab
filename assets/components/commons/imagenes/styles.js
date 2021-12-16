@@ -8,7 +8,6 @@ import {theme} from '../../../core/theme';
 export const styles = StyleSheet.create({
   body: {
     height: '100%',
-    backgroundColor: theme.colors.blanco,
     paddingTop: '2%',
     marginBottom: '5%',
   },
