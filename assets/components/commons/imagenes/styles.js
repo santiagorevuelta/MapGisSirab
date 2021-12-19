@@ -2,6 +2,7 @@ import {StyleSheet} from 'react-native';
 import {
   responsiveScreenHeight,
   responsiveScreenWidth,
+  responsiveWidth,
 } from 'react-native-responsive-dimensions';
 import {theme} from '../../../core/theme';
 
@@ -10,6 +11,7 @@ export const styles = StyleSheet.create({
     height: '100%',
     paddingTop: '2%',
     marginBottom: '5%',
+    backgroundColor: theme.colors.blanco,
   },
   container: {
     borderWidth: 1,
@@ -23,13 +25,13 @@ export const styles = StyleSheet.create({
   },
   icon: {
     position: 'absolute',
-    top: 0,
-    right: 0,
-    zIndex: 2,
-    borderRadius: 100,
-    height: responsiveScreenWidth(7),
-    width: responsiveScreenWidth(7),
-    backgroundColor: theme.colors.blanco,
+    justifyContent: 'flex-end',
+    alignItems: 'flex-end',
+    borderRadius: theme.radius,
+    backgroundColor: theme.colors.fondo,
+    zIndex: 1,
+    height: responsiveScreenWidth(29),
+    width: responsiveScreenWidth(29),
   },
   slide: {
     flexDirection: 'row',
@@ -37,6 +39,18 @@ export const styles = StyleSheet.create({
     flexWrap: 'wrap',
     justifyContent: 'flex-start',
     height: 'auto',
+  },
+  cam: {
+    alignContent: 'flex-start',
+    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+  },
+  del: {
+    alignContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'center',
   },
   fotos: {
     height: '100%',
@@ -49,14 +63,12 @@ export const styles = StyleSheet.create({
     fontStyle: 'italic',
   },
   containerAdd: {
-    alignContent: 'center',
-    alignItems: 'center',
-    justifyContent: 'space-evenly',
-    textAlign: 'center',
-    width: responsiveScreenWidth(30),
-    height: responsiveScreenHeight(10),
+    justifyContent: 'space-between',
+    paddingTop: 5,
+    width: responsiveWidth(90),
+    height: responsiveScreenHeight(5),
     flexDirection: 'row',
-    borderWidth: 0, //theme.colors.border,
+    borderWidth: 0,
   },
   option: {
     borderRadius: theme.radius,

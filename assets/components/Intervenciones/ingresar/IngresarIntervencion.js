@@ -14,7 +14,7 @@ import {theme} from '../../../core/theme';
 import {responsiveScreenFontSize} from 'react-native-responsive-dimensions';
 import ButtonInsert from '../../ButtonInsert';
 
-const ModalIngresarArbol = ({label, setOption, back}) => {
+const ModalIngresarArbol = ({label, setOption, back, setIndexSnap}) => {
   const [arboles, setArboles] = useState(false);
   const [idArbol, setIdArbol] = useState(null);
   const [dataArbol, setDataArbol] = useState({});
@@ -23,10 +23,11 @@ const ModalIngresarArbol = ({label, setOption, back}) => {
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(async () => {
+    setIndexSnap(3);
     let url = tsconfig[tsconfig.use].searchIntervencion.combos;
     let data = await combosArbol(url);
     setCombos(data);
-  }, [setCombos]);
+  }, [setCombos, setIndexSnap]);
 
   const fnGuardar = async (data, secondData, images = []) => {
     if (idArbol !== null) {

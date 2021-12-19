@@ -23,7 +23,7 @@ import ButtonInsert from '../../ButtonInsert';
 
 const selectPlace = 'Seleccione...';
 
-export default ({combos = [], fnGuardar, setIndexSnap}) => {
+export default ({combos = [], fnGuardar, setIndexSnap, snp}) => {
   const [dataForm, setDataForm] = React.useState({});
   const [dataImage, setDataImage] = React.useState([]);
   const [combosBarrios, setCombosBarrios] = React.useState([]);
@@ -211,7 +211,11 @@ export default ({combos = [], fnGuardar, setIndexSnap}) => {
           </View>
         )}
 
-        <TabIngresar dataImage={dataImage} setDataImage={setDataImage} />
+        <TabIngresar
+          dataImage={dataImage}
+          setDataImage={setDataImage}
+          label={' '}
+        />
         <View style={[styles.form, {justifyContent: 'flex-end'}]}>
           <ButtonInsert
             compact={true}

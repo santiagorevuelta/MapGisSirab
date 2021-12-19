@@ -37,7 +37,7 @@ module.exports = StyleSheet.create({
     height: responsiveHeight(4),
     marginVertical: responsiveWidth(3),
     paddingHorizontal: '2%',
-    width: '100%',
+    width: '95%',
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginBottom: 0,

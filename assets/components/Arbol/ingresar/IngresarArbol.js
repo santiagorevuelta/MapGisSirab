@@ -8,7 +8,7 @@ import tsconfig from '../../../tsconfig.json';
 import {notifyMessage} from '../../../core/general';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const ModalIngresarArbol = ({label, setOption, back, setIndexSnap}) => {
+const ModalIngresarArbol = ({label, setOption, back, setIndexSnap, snp}) => {
   const [combos, setCombos] = React.useState([]);
   const [dataForm, setDataForm] = React.useState({});
   const [dataVar, setDataVar] = React.useState({});
@@ -38,10 +38,11 @@ const ModalIngresarArbol = ({label, setOption, back, setIndexSnap}) => {
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(async () => {
+    setIndexSnap(snp.length - 1);
     let url = tsconfig[tsconfig.use].searchTree.combos;
     let res = await combosArbol(url);
     setCombos(res);
-  }, [setCombos]);
+  }, [setCombos, setIndexSnap, snp]);
 
   return (
     <>

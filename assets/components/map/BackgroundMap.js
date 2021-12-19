@@ -12,6 +12,7 @@ import {WebView} from 'react-native-webview';
 import Geolocation from '@react-native-community/geolocation';
 import html_script from './html_script';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import config from '../../tsconfig.json';
 
 function notifyMessage(msg) {
   if (Platform.OS === 'android') {
@@ -136,11 +137,7 @@ function error(err) {
 }
 
 function navigate(name, params = {}, index = 0) {
-  nav.reset({
-    index: index,
-    routes: [{name}],
-    params: params,
-  });
+  nav.navigate(name, params);
 }
 
 function verEnMapa(lat, lng) {
@@ -237,6 +234,19 @@ function drawPolin() {
   MapRef.current.injectJavaScript(injected);
 }
 
+function stopPolin() {
+  if (!MapRef.current) {
+    return [];
+  }
+  AsyncStorage.setItem('polygon', '');
+  const injected = `
+    stopPolin();
+    true;
+  `;
+
+  MapRef.current.injectJavaScript(injected);
+}
+
 function limpiarMapaPolygon() {
   if (!MapRef.current) {
     return [];
@@ -288,4 +298,5 @@ module.exports = {
   limpiarMapaPoints,
   navigate,
   onMapClickLocation,
+  stopPolin,
 };

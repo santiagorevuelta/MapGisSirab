@@ -8,6 +8,8 @@ import {SafeAreaView} from 'react-native';
 import {theme} from '../core/theme';
 import {responsiveHeight} from 'react-native-responsive-dimensions';
 import buscarDatosId from '../helpers/buscarDatosId';
+import config from '../tsconfig.json';
+import {navigate} from '../components/map/BackgroundMap';
 
 export default class ViewTree extends React.Component {
   constructor() {
@@ -23,7 +25,12 @@ export default class ViewTree extends React.Component {
   }
 
   async componentDidMount() {
+    console.log(this.props.route.params);
     let item = await AsyncStorage.getItem('items');
+    AsyncStorage.setItem(
+      'Buscar',
+      JSON.stringify({option: 'Consulta', optionOld: 'Consultar'}),
+    );
     item = item == null ? null : JSON.parse(item);
     let datosArbol = await buscarDatosId(item.id_arbol, 'searchTree');
     // eslint-disable-next-line react/no-did-mount-set-state
@@ -40,11 +47,8 @@ export default class ViewTree extends React.Component {
     this.setState({index});
   };
 
-  navigate = name => {
-    this.props.navigation.reset({
-      index: 2,
-      routes: [{name}],
-    });
+  navig = name => {
+    this.props.navigation.navigate(name, this.props.route.params);
   };
 
   render() {
@@ -55,7 +59,7 @@ export default class ViewTree extends React.Component {
           height: responsiveHeight(100),
         }}>
         <RenderHeader
-          nav={this.navigate}
+          nav={this.navig}
           cantidad={this.state.fotos.length}
           codigo={this.state.codigo_arbol}
           index={this.state.index}

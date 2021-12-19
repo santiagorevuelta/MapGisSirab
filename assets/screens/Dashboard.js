@@ -5,6 +5,7 @@ import {
   MapComponent,
   navigate,
   setCoords,
+  stopPolin,
 } from '../components/map/BackgroundMap';
 import {
   Header,
@@ -20,14 +21,18 @@ import {
 import BottomSheet from '@gorhom/bottom-sheet';
 import {consultToken} from '../core/general';
 import config from '../tsconfig.json';
-import {LogBox, Platform} from 'react-native';
+import {Alert, LogBox, Platform} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+//import VersionCheck from 'react-native-version-check';
+import {useAppState} from '@react-native-community/hooks';
+
 import {responsiveScreenHeight} from 'react-native-responsive-dimensions';
 
 LogBox.ignoreLogs(['new NativeEventEmitter']); // Ignore log notification by message
 LogBox.ignoreAllLogs(); //Ignore all log notifications
 
-export default function Dashboard({navigation}) {
+export default function Dashboard({navigation, route}) {
+  const appState = useAppState();
   const [headerHide, setHeaderHide] = useState(false);
   const [option, setOption] = useState('inicio');
   const [optionOld, setOptionOld] = useState(null);
@@ -43,8 +48,15 @@ export default function Dashboard({navigation}) {
   const [snp, setSnp] = useState(snapPoints);
 
   useEffect(() => {
-    //let paramsMap = navigation.getState();
-    // console.log(paramsMap.params);
+    console.log(route);
+    if (appState !== 'active') {
+      AsyncStorage.setItem('option', '');
+      AsyncStorage.setItem('optionOld', '');
+      AsyncStorage.setItem('filtros', '');
+      return;
+    }
+    initial();
+    stopPolin();
     consultToken().then(res => {
       if (res) {
         return;
@@ -53,7 +65,21 @@ export default function Dashboard({navigation}) {
     });
     setCoords().then();
     AsyncStorage.setItem('variables', '');
-  }, [navigation]);
+  }, [appState, navigation, route]);
+
+  function initial() {
+    /*if (Platform.OS !== 'ios') {
+      try {
+        VersionCheck.needUpdate().then(res => {
+          if (res.isNeeded) {
+            Alert.alert('Información', 'Nueva actualización disponible');
+          }
+        });
+      } catch (e) {
+        console.log('');
+      }
+    }*/
+  }
 
   const setView = index => {
     if ('Consulta,Ingresar,inicio'.indexOf(index) !== -1) {
@@ -92,6 +118,7 @@ export default function Dashboard({navigation}) {
           setOption={setView}
           type={option}
           back={optionOld}
+          snp={snp}
           label={optionOld + ' ' + option.toLowerCase()}
           tabArbol={tabArbol}
           setIndexSnap={setIndexSnap}
@@ -117,7 +144,6 @@ function ViewRender(props) {
           return <ModalZonasVerdes {...props} />;
       }
     } else {
-      props.setIndexSnap(3);
       switch (props.type) {
         case config.home[0].label:
           return <ModalIngresarArbol {...props} />;

@@ -2,13 +2,14 @@ const {theme} = require('../../core/theme');
 const {
   responsiveWidth,
   responsiveScreenFontSize,
+  responsiveScreenWidth,
 } = require('react-native-responsive-dimensions');
 const {StyleSheet} = require('react-native');
 
 module.exports = StyleSheet.create({
   container: {
-    width: responsiveWidth(45),
-    height: responsiveWidth(47),
+    width: responsiveScreenWidth(45),
+    height: responsiveScreenWidth(47),
     borderWidth: 1,
     borderRadius: 10,
     borderColor: theme.colors.border,

@@ -270,6 +270,9 @@ mymap.on('draw:created', function(e) {
     //polyEdit.addVertex(e.latlng);
   }
   
+  function stopPolin(){
+    polyEdit.disabled();
+  }
   
   function limpiarDrawPolygon(){
     editableLayers.removeLayer(polygon);

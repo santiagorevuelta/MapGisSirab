@@ -1,6 +1,5 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
-  Clipboard,
   Image,
   PermissionsAndroid,
   Platform,
@@ -9,22 +8,14 @@ import {
   View,
 } from 'react-native';
 import {theme} from '../../../core/theme';
-import {
-  responsiveFontSize,
-  responsiveScreenWidth,
-} from 'react-native-responsive-dimensions';
+import {responsiveFontSize} from 'react-native-responsive-dimensions';
 import {styles} from './styles';
-import Button from '../../ButtonInsert';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import * as ImagePicker from 'react-native-image-crop-picker';
 import ImageResizer from 'react-native-image-resizer';
 import * as RNFS from 'react-native-fs';
-import Animated from 'react-native-reanimated';
-import {
-  PanGestureHandler,
-  PinchGestureHandler,
-  State,
-} from 'react-native-gesture-handler';
+import {RadioButton} from 'react-native-paper';
+import {ScrollView} from 'react-native-gesture-handler';
 
 const options = {
   storageOptions: {
@@ -46,90 +37,85 @@ export default function ({
   dataImage = [],
   setDataImage,
   label = 'Registro fotográfico',
+  newStyles = {},
 }) {
-  const [alto, setAlto] = useState(responsiveScreenWidth(29));
-  const [ancho, setAncho] = useState(responsiveScreenWidth(29));
-  const [cantidad, setCantidad] = useState(3);
-  const [scales, setScale] = useState(1);
+  const [borrado, setBorrado] = useState(false);
 
   return (
-    <View style={styles.body}>
+    <ScrollView style={styles.body}>
       <Text style={theme.textos.Label}>{label}</Text>
       <View style={[styles.container, styles.containerAdd]}>
-        <Pressable
-          style={styles.option}
-          onPress={() => {
-            camaraPress().then();
-          }}>
-          <MaterialCommunityIcons
-            name="camera-plus-outline"
-            size={responsiveFontSize(3)}
-            color={theme.colors.primary}
-          />
-          <Text style={theme.textos.img}>Camara</Text>
-        </Pressable>
-        <Pressable
-          style={styles.option}
-          onPress={() => {
-            galleryPress().then();
-          }}>
-          <MaterialCommunityIcons
-            name="camera-image"
-            size={responsiveFontSize(3)}
-            color={theme.colors.primary}
-          />
-          <Text style={theme.textos.img}>Galeria</Text>
-        </Pressable>
-      </View>
-      <Animated.View style={[styles.slide]}>
-        <CrearImage />
-      </Animated.View>
-    </View>
-  );
-
-  function CrearImage() {
-    let dataGen = [];
-    let dataInfo = [];
-    let count = 0;
-    for (let i = 0; i < dataImage.length; i++) {
-      let item = dataImage[i];
-      dataInfo.push(
-        <View style={[styles.container, {width: ancho, height: alto}]} key={i}>
-          <Button
-            style={styles.icon}
-            color={theme.colors.primary}
-            compact={true}
-            labelStyle={{fontSize: responsiveFontSize(2.5)}}
-            icon="delete-circle-outline"
+        <View style={styles.cam}>
+          <Pressable
+            style={styles.option}
             onPress={() => {
-              let newJson = [];
-              for (const img of dataImage) {
-                if (img.urlFoto !== item.urlFoto) {
-                  newJson.push(img);
-                }
-              }
-              setDataImage(newJson);
-            }}
-          />
-          <View style={styles.content}>
-            <Image source={{uri: item.urlFoto}} style={styles.fotos} />
-          </View>
-        </View>,
-      );
-      count++;
-      if (dataImage.length > cantidad) {
-        if (count === cantidad) {
-          dataGen.push(dataInfo);
-          dataInfo = [];
-          count = 0;
-        }
-      }
-    }
-    if (dataImage.length <= cantidad || count !== 0) {
-      dataGen.push(dataInfo);
-    }
-    return dataGen;
-  }
+              camaraPress().then();
+            }}>
+            <MaterialCommunityIcons
+              name="camera-plus-outline"
+              size={responsiveFontSize(3)}
+              color={theme.colors.primary}
+            />
+            <Text style={theme.textos.img}>Camara</Text>
+          </Pressable>
+          <Pressable
+            style={styles.option}
+            onPress={() => {
+              galleryPress().then();
+            }}>
+            <MaterialCommunityIcons
+              name="camera-image"
+              size={responsiveFontSize(3)}
+              color={theme.colors.primary}
+            />
+            <Text style={theme.textos.img}>Galeria</Text>
+          </Pressable>
+        </View>
+        <View style={styles.del}>
+          {borrado && (
+            <Pressable
+              style={styles.option}
+              onPress={() => {
+                deleteImage().then();
+              }}>
+              <MaterialCommunityIcons
+                name="delete"
+                size={responsiveFontSize(3)}
+                color={theme.colors.primary}
+              />
+              <Text style={theme.textos.img}>Eliminar</Text>
+            </Pressable>
+          )}
+        </View>
+      </View>
+      <Pressable
+        onLongPress={() => {
+          setBorrado(!borrado);
+        }}>
+        <View style={[styles.slide]}>
+          {dataImage.map((item, i) => (
+            <View style={[styles.container, newStyles]} key={i}>
+              {borrado && (
+                <View style={[styles.icon, newStyles]}>
+                  <RadioButton
+                    value={item.checked}
+                    uncheckedColor={theme.colors.primary}
+                    color={theme.colors.primary}
+                    status={item.checked === '1' ? 'checked' : 'unchecked'}
+                    onPress={() => {
+                      dataImage[i].checked = item.checked === '0' ? '1' : '0';
+                      setDataImage([...dataImage]);
+                    }}
+                  />
+                </View>
+              )}
+              <Image source={{uri: item.urlFoto}} style={styles.fotos} />
+            </View>
+          ))}
+        </View>
+      </Pressable>
+    </ScrollView>
+  );
 
   async function galleryPress() {
     await requestCameraPermission();
@@ -140,6 +126,19 @@ export default function ({
       .catch(e => {
         console.log(e);
       });
+  }
+
+  async function deleteImage() {
+    let newJson = [];
+    for (const img of dataImage) {
+      if (img.checked === '0') {
+        newJson.push(img);
+      }
+    }
+    setDataImage([...newJson]);
+    if (newJson.length === 0) {
+      setBorrado(false);
+    }
   }
 
   async function camaraPress() {
@@ -166,11 +165,15 @@ export default function ({
         RNFS.DocumentDirectoryPath,
       );
       const base64 = await RNFS.readFile(resizedImageUrl.uri, 'base64');
-      setDataImage([{urlFoto: pathImg, base64: base64}, ...dataImage]);
+      setDataImage([
+        ...dataImage,
+        {urlFoto: pathImg, base64: base64, checked: '0'},
+      ]);
     }
   }
 
   async function requestCameraPermission() {
+    setBorrado(false);
     if (Platform.OS !== 'ios') {
       try {
         await PermissionsAndroid.requestMultiple([
