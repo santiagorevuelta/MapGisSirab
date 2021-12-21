@@ -21,15 +21,11 @@ import {
 import BottomSheet from '@gorhom/bottom-sheet';
 import {consultToken} from '../core/general';
 import config from '../tsconfig.json';
-import {Alert, LogBox, Platform} from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import {Platform} from 'react-native';
 //import VersionCheck from 'react-native-version-check';
 import {useAppState} from '@react-native-community/hooks';
 
 import {responsiveScreenHeight} from 'react-native-responsive-dimensions';
-
-LogBox.ignoreLogs(['new NativeEventEmitter']); // Ignore log notification by message
-LogBox.ignoreAllLogs(); //Ignore all log notifications
 
 export default function Dashboard({navigation, route}) {
   const appState = useAppState();
@@ -48,23 +44,17 @@ export default function Dashboard({navigation, route}) {
   const [snp, setSnp] = useState(snapPoints);
 
   useEffect(() => {
-    console.log(route);
-    if (appState !== 'active') {
-      AsyncStorage.setItem('option', '');
-      AsyncStorage.setItem('optionOld', '');
-      AsyncStorage.setItem('filtros', '');
-      return;
-    }
-    initial();
-    stopPolin();
-    consultToken().then(res => {
-      if (res) {
-        return;
-      }
-      navigate('LoginScreen');
-    });
-    setCoords().then();
-    AsyncStorage.setItem('variables', '');
+    return () => {
+      stopPolin();
+      setCoords().then();
+      initial();
+      consultToken().then(res => {
+        if (res) {
+          return;
+        }
+        navigate('LoginScreen');
+      });
+    };
   }, [appState, navigation, route]);
 
   function initial() {

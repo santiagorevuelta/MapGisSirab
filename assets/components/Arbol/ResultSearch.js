@@ -20,7 +20,7 @@ export default function (props) {
         Resultado de la búsqueda
       </Text>
       <ScrollView persistentScrollbar={true} horizontal>
-        {Mycard(props)}
+        <Mycards {...props} />
       </ScrollView>
       <Pagination meta={props.meta} paginar={props.paginar} />
     </Animated.View>
@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
   },
 });
 
-function Mycard(props) {
+function Mycards(props) {
   return props.data.map((item, index) => (
     <Card
       key={'card' + index}
@@ -91,7 +91,6 @@ function Mycard(props) {
           compact={true}
           color={theme.colors.primary}
           onPress={() => {
-            props.setIndexSnap(1);
             verEnMapa(item.latitud, item.longitud);
             notifyMessage('Ver en mapa');
           }}

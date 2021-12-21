@@ -27,10 +27,12 @@ const ModalIngresarArbol = ({label, setOption, back, setIndexSnap, snp}) => {
     );
     let res = await guardarDatos(formData, 'searchTree');
     if (res.message) {
+      setOption(back);
       AsyncStorage.setItem('variables', '');
       setDataForm({});
       setDataImage({});
       notifyMessage(res.message);
+      setIndexSnap(1);
     } else {
       notifyMessage('Error al guardar');
     }

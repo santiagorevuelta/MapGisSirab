@@ -25,6 +25,7 @@ const selectPlace = 'Seleccione...';
 
 export default ({combos = [], fnGuardar, setIndexSnap, snp}) => {
   const [dataForm, setDataForm] = React.useState({});
+  const [dataVar, setDataVar] = React.useState({});
   const [dataImage, setDataImage] = React.useState([]);
   const [combosBarrios, setCombosBarrios] = React.useState([]);
   const [modeBtn, setModeBtn] = React.useState('outlined');
@@ -57,16 +58,19 @@ export default ({combos = [], fnGuardar, setIndexSnap, snp}) => {
   };
 
   const guardar = async () => {
-    let data = await AsyncStorage.getItem('variables');
-    data = data == null ? {} : JSON.parse(data);
-    let valid = validarObligatorio(dataForm, data);
+    let valid = validarObligatorio(dataForm, dataVar);
     if (!valid) {
       notifyMessage('Los campos marcados con (*) son obligatorios');
       return;
     }
-    dataForm.fecha = dataForm.fecha.split('/').reverse().join('-');
-    data.fecha_ingreso = data.fecha_ingreso.split('/').reverse().join('-');
-    fnGuardar(dataForm, data, dataImage);
+    try {
+      dataForm.fecha = dataForm.fecha.split('/').reverse().join('-');
+      dataVar.fecha_ingreso = dataVar.fecha_ingreso
+        .split('/')
+        .reverse()
+        .join('-');
+    } catch (e) {}
+    fnGuardar(dataForm, dataVar, dataImage);
   };
 
   function validarObligatorio(datos, dataVar) {
@@ -214,6 +218,8 @@ export default ({combos = [], fnGuardar, setIndexSnap, snp}) => {
         <TabIngresar
           dataImage={dataImage}
           setDataImage={setDataImage}
+          setDataVar={setDataVar}
+          dataVar={dataVar}
           label={' '}
         />
         <View style={[styles.form, {justifyContent: 'flex-end'}]}>

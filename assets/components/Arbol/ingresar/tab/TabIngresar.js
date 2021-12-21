@@ -13,7 +13,7 @@ import FormVariables from './FormVariables';
 
 const Tab = createMaterialTopTabNavigator();
 
-function TabIngresar({dataImage, setDataImage, label}) {
+function TabIngresar({dataImage, setDataImage, label, dataVar, setDataVar}) {
   const setImage = data => {
     setDataImage(data);
   };
@@ -28,6 +28,11 @@ function TabIngresar({dataImage, setDataImage, label}) {
       />
     );
   }
+
+  function variables() {
+    return <FormVariables dataVar={dataVar} setDataVar={setDataVar} />;
+  }
+
   return (
     <View style={styles.floatModal}>
       <Tab.Navigator
@@ -45,7 +50,7 @@ function TabIngresar({dataImage, setDataImage, label}) {
         }}>
         <Tab.Screen
           name="variables"
-          component={FormVariables}
+          component={variables}
           options={{
             title: 'Variables dasométricas',
             tabBarStyle: {upperCaseLabel: false},
