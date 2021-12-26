@@ -52,14 +52,17 @@ const ModalIngresar = ({label, setOption, back, setIndexSnap, snp}) => {
     );
   }
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  useEffect(async () => {
+  useEffect(() => {
     setIndexSnap(snp.length - 1);
-    limpiarMapaPolygon();
-    let url = tsconfig[tsconfig.use].searchZone.combos;
-    let res = await combosArbol(url);
-    setCombos(res);
-  }, [setCombos, setIndexSnap, snp]);
+    return async () => {
+      limpiarMapaPolygon();
+      if (combos.length === 0) {
+        let url = tsconfig[tsconfig.use].searchZone.combos;
+        let res = await combosArbol(url);
+        setCombos(res);
+      }
+    };
+  }, [combos.length, setCombos, setIndexSnap, snp]);
 
   return (
     <>

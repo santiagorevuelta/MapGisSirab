@@ -23,12 +23,10 @@ import {consultToken} from '../core/general';
 import config from '../tsconfig.json';
 import {Platform} from 'react-native';
 //import VersionCheck from 'react-native-version-check';
-import {useAppState} from '@react-native-community/hooks';
 
 import {responsiveScreenHeight} from 'react-native-responsive-dimensions';
 
 export default function Dashboard({navigation, route}) {
-  const appState = useAppState();
   const [headerHide, setHeaderHide] = useState(false);
   const [option, setOption] = useState('inicio');
   const [optionOld, setOptionOld] = useState(null);
@@ -45,17 +43,16 @@ export default function Dashboard({navigation, route}) {
 
   useEffect(() => {
     return () => {
+      consultToken().then(res => {
+        if (!res) {
+          navigate('LoginScreen');
+        }
+      });
       stopPolin();
       setCoords().then();
       initial();
-      consultToken().then(res => {
-        if (res) {
-          return;
-        }
-        navigate('LoginScreen');
-      });
     };
-  }, [appState, navigation, route]);
+  }, [navigation, route]);
 
   function initial() {
     /*if (Platform.OS !== 'ios') {

@@ -14,20 +14,22 @@ import {theme} from '../../../core/theme';
 import {responsiveScreenFontSize} from 'react-native-responsive-dimensions';
 import ButtonInsert from '../../ButtonInsert';
 
-const ModalIngresarArbol = ({label, setOption, back, setIndexSnap}) => {
+const ModalIngresarArbol = ({label, setOption, back, setIndexSnap, snp}) => {
   const [arboles, setArboles] = useState(false);
   const [idArbol, setIdArbol] = useState(null);
   const [dataArbol, setDataArbol] = useState({});
   const [combos, setCombos] = React.useState([]);
   const [zonaVerde, setZonaVerde] = useState(false);
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  useEffect(async () => {
-    setIndexSnap(3);
-    let url = tsconfig[tsconfig.use].searchIntervencion.combos;
-    let data = await combosArbol(url);
-    setCombos(data);
-  }, [setCombos, setIndexSnap]);
+  useEffect(() => {
+    return async () => {
+      if (combos.length === 0) {
+        let url = tsconfig[tsconfig.use].searchIntervencion.combos;
+        let data = await combosArbol(url);
+        setCombos(data);
+      }
+    };
+  }, [combos.length, setCombos, setIndexSnap, snp.length]);
 
   const fnGuardar = async (data, secondData, images = []) => {
     if (idArbol !== null) {
@@ -103,6 +105,7 @@ const ModalIngresarArbol = ({label, setOption, back, setIndexSnap}) => {
       if (result.error) {
         notifyMessage(result.message);
       } else {
+        setIndexSnap(snp.length - 1);
         notifyMessage('Encontrado correctamente');
         setIdArbol(
           result.data[0].id_arbol

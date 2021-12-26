@@ -38,13 +38,16 @@ const ModalIngresarArbol = ({label, setOption, back, setIndexSnap, snp}) => {
     }
   };
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  useEffect(async () => {
+  useEffect(() => {
     setIndexSnap(snp.length - 1);
-    let url = tsconfig[tsconfig.use].searchTree.combos;
-    let res = await combosArbol(url);
-    setCombos(res);
-  }, [setCombos, setIndexSnap, snp]);
+    return async () => {
+      if (combos.length === 0) {
+        let url = tsconfig[tsconfig.use].searchTree.combos;
+        let res = await combosArbol(url);
+        setCombos(res);
+      }
+    };
+  }, [combos.length, setCombos, setIndexSnap, snp]);
 
   return (
     <>

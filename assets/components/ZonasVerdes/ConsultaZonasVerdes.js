@@ -15,10 +15,12 @@ const ModalConsult = ({label, setOption, back, tabArbol, setIndexSnap}) => {
   const [combos, setCombos] = useState([]);
 
   useEffect(() => {
-    let url = tsconfig[tsconfig.use].searchZone.combos;
-    combosArbol(url).then(res => {
-      setCombos(res);
-    });
+    return () => {
+      let url = tsconfig[tsconfig.use].searchZone.combos;
+      combosArbol(url).then(res => {
+        setCombos(res);
+      });
+    };
   }, [setCombos]);
 
   const fnBuscar = async (obj, filtros = {}, page = 1) => {
