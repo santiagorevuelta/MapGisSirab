@@ -8,16 +8,25 @@ import guardarDatos from '../../../helpers/guardarDatos';
 import {notifyMessage} from '../../../core/general';
 
 import {limpiarMapaPolygon} from '../../map/BackgroundMap';
+import {getData} from '../../../combos';
 
-const ModalIngresar = ({label, setOption, back, setIndexSnap, snp}) => {
+const ModalIngresar = ({
+  label,
+  setOption,
+  back,
+  setIndexSnap,
+  snp,
+  setLoadApp,
+}) => {
   const [combos, setCombos] = React.useState([]);
 
   const fnGuardar = async (datos, datosImagenes) => {
+    setLoadApp(true);
     let valid = validarObligatorio(datos);
-
     if (!valid) {
       notifyMessage('Los campos marcados con (*) son obligatorios');
-      return;
+      setLoadApp(false);
+      return false;
     }
 
     datos.fecha = datos.fecha.split('/').reverse().join('-');
@@ -31,9 +40,12 @@ const ModalIngresar = ({label, setOption, back, setIndexSnap, snp}) => {
     if (res.message) {
       notifyMessage(res.message);
       limpiarMapaPolygon();
-      setOption(back);
+      setLoadApp(false);
+      return true;
     } else {
       notifyMessage('Error al guardar');
+      setLoadApp(false);
+      return false;
     }
   };
 
@@ -52,14 +64,16 @@ const ModalIngresar = ({label, setOption, back, setIndexSnap, snp}) => {
     );
   }
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  useEffect(async () => {
-    setIndexSnap(snp.length - 1);
-    limpiarMapaPolygon();
-    let url = tsconfig[tsconfig.use].searchZone.combos;
-    let res = await combosArbol(url);
-    setCombos(res);
-  }, [setCombos, setIndexSnap, snp]);
+  useEffect(() => {
+    async function initial() {
+      setLoadApp(true);
+      let res = await getData('zona');
+      setCombos(res);
+      setIndexSnap(snp.length - 1);
+      setLoadApp(false);
+    }
+    initial().then();
+  }, [combos.length, setCombos, setIndexSnap, setLoadApp, snp.length]);
 
   return (
     <>

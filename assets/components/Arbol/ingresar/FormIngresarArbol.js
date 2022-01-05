@@ -1,6 +1,6 @@
 import React from 'react';
 import consultarBarrios from '../../../helpers/consultaBarrios';
-import {View} from 'react-native';
+import {Alert, View} from 'react-native';
 import {theme} from '../../../core/theme';
 import {
   responsiveScreenFontSize,
@@ -23,7 +23,7 @@ import ButtonInsert from '../../ButtonInsert';
 
 const selectPlace = 'Seleccione...';
 
-export default ({combos = [], fnGuardar, setIndexSnap, snp}) => {
+export default ({combos = [], fnGuardar, setIndexSnap, setLoadApp}) => {
   const [dataForm, setDataForm] = React.useState({});
   const [dataVar, setDataVar] = React.useState({});
   const [dataImage, setDataImage] = React.useState([]);
@@ -31,12 +31,14 @@ export default ({combos = [], fnGuardar, setIndexSnap, snp}) => {
   const [modeBtn, setModeBtn] = React.useState('outlined');
 
   const llenarBarrio = async id => {
+    setLoadApp(true);
     if (id !== '') {
       let res = await consultarBarrios(id);
       setCombosBarrios(res);
     } else {
       setCombosBarrios([]);
     }
+    setLoadApp(false);
   };
 
   const ubicarEnMapa = async () => {
@@ -58,9 +60,20 @@ export default ({combos = [], fnGuardar, setIndexSnap, snp}) => {
   };
 
   const guardar = async () => {
-    let valid = validarObligatorio(dataForm, dataVar);
-    if (!valid) {
+    setLoadApp(true);
+    validarObligatorio();
+    let data = await AsyncStorage.getItem('variables');
+    if (data === null) {
       notifyMessage('Los campos marcados con (*) son obligatorios');
+      setLoadApp(false);
+      return;
+    }
+    data = JSON.parse(data);
+    setDataVar(data);
+    let valid = validarObligatorio();
+    if (!valid) {
+      notifyMessage('Los campos marcados con  (*) son obligatorios');
+      setLoadApp(false);
       return;
     }
     try {
@@ -70,26 +83,38 @@ export default ({combos = [], fnGuardar, setIndexSnap, snp}) => {
         .reverse()
         .join('-');
     } catch (e) {}
-    fnGuardar(dataForm, dataVar, dataImage);
+    let obj = await fnGuardar(dataForm, dataVar, dataImage);
+    if (obj) {
+      AsyncStorage.setItem('variables', '');
+      setDataForm({});
+      setDataVar({});
+      setDataImage([]);
+    }
+    setLoadApp(false);
   };
 
-  function validarObligatorio(datos, dataVar) {
+  function validarObligatorio() {
     return !(
-      !datos.especie ||
-      datos.especie === '' ||
-      !datos.codigo_arbol ||
-      !datos.fecha ||
-      !datos.id_tipo_arbol ||
-      !datos.id_tipo_origen_arbol ||
-      !datos.primer_nivel ||
-      !datos.segundo_nivel ||
-      !datos.latitud ||
-      !datos.longitud ||
+      !dataForm.especie ||
+      dataForm.especie === '' ||
+      !dataForm.codigo_arbol ||
+      !dataForm.fecha ||
+      !dataForm.id_tipo_arbol ||
+      !dataForm.id_tipo_origen_arbol ||
+      !dataForm.primer_nivel ||
+      !dataForm.segundo_nivel ||
+      !dataForm.latitud ||
+      !dataForm.longitud ||
       !dataVar.altura ||
       !dataVar.altura_copa ||
       !dataVar.dap1 ||
       !dataVar.dap2 ||
-      !dataVar.fecha_ingreso
+      !dataVar.fecha_ingreso ||
+      dataVar.altura === '' ||
+      dataVar.altura_copa === '' ||
+      dataVar.dap1 === '' ||
+      dataVar.dap2 === '' ||
+      dataVar.fecha_ingreso === ''
     );
   }
 
@@ -169,7 +194,7 @@ export default ({combos = [], fnGuardar, setIndexSnap, snp}) => {
             valueSelected={dataForm.primer_nivel}
             onSelected={items => {
               if (items != null) {
-                llenarBarrio(items);
+                llenarBarrio(items).then();
                 setDataForm({...dataForm, primer_nivel: items});
               }
             }}
@@ -214,12 +239,9 @@ export default ({combos = [], fnGuardar, setIndexSnap, snp}) => {
             <TextSimple label={'longitud'} value={dataForm.longitud} />
           </View>
         )}
-
         <TabIngresar
           dataImage={dataImage}
           setDataImage={setDataImage}
-          setDataVar={setDataVar}
-          dataVar={dataVar}
           label={' '}
         />
         <View style={[styles.form, {justifyContent: 'flex-end'}]}>

@@ -7,12 +7,17 @@ import combosArbol from '../../../helpers/combosArbol';
 import tsconfig from '../../../tsconfig.json';
 import {notifyMessage} from '../../../core/general';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {getData} from '../../../combos';
 
-const ModalIngresarArbol = ({label, setOption, back, setIndexSnap, snp}) => {
+const ModalIngresarArbol = ({
+  label,
+  setOption,
+  back,
+  setIndexSnap,
+  snp,
+  setLoadApp,
+}) => {
   const [combos, setCombos] = React.useState([]);
-  const [dataForm, setDataForm] = React.useState({});
-  const [dataVar, setDataVar] = React.useState({});
-  const [dataImage, setDataImage] = React.useState([]);
 
   const fnGuardar = async (datosArbol, datosVariables, datosImagenes) => {
     let formData = new FormData();
@@ -27,24 +32,27 @@ const ModalIngresarArbol = ({label, setOption, back, setIndexSnap, snp}) => {
     );
     let res = await guardarDatos(formData, 'searchTree');
     if (res.message) {
-      setOption(back);
       AsyncStorage.setItem('variables', '');
-      setDataForm({});
-      setDataImage({});
       notifyMessage(res.message);
       setIndexSnap(1);
+      return true;
     } else {
       notifyMessage('Error al guardar');
+      return false;
     }
   };
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  useEffect(async () => {
-    setIndexSnap(snp.length - 1);
-    let url = tsconfig[tsconfig.use].searchTree.combos;
-    let res = await combosArbol(url);
-    setCombos(res);
-  }, [setCombos, setIndexSnap, snp]);
+  useEffect(() => {
+    async function initial() {
+      setLoadApp(true);
+      AsyncStorage.setItem('variables', '');
+      let res = await getData('arbol');
+      setCombos(res);
+      setIndexSnap(snp.length - 1);
+      setLoadApp(false);
+    }
+    initial().then();
+  }, [combos.length, setCombos, setIndexSnap, setLoadApp, snp]);
 
   return (
     <>
@@ -52,13 +60,8 @@ const ModalIngresarArbol = ({label, setOption, back, setIndexSnap, snp}) => {
       <FormIngresarArbol
         fnGuardar={fnGuardar}
         combos={combos}
-        dataVar={dataVar}
-        setDataVar={setDataVar}
-        dataImage={dataImage}
-        setDataImage={setDataImage}
-        setDataForm={setDataForm}
-        dataForm={dataForm}
         setIndexSnap={setIndexSnap}
+        setLoadApp={setLoadApp}
       />
     </>
   );

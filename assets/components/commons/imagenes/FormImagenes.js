@@ -16,6 +16,7 @@ import ImageResizer from 'react-native-image-resizer';
 import * as RNFS from 'react-native-fs';
 import {RadioButton} from 'react-native-paper';
 import {ScrollView} from 'react-native-gesture-handler';
+import ModalImage from './modalImage';
 
 const options = {
   storageOptions: {
@@ -30,7 +31,7 @@ const options = {
   height: 768,
   mediaType: 'photo',
   cropping: false,
-  multiple: false,
+  multiple: true,
 };
 
 export default function ({
@@ -40,10 +41,16 @@ export default function ({
   newStyles = {},
 }) {
   const [borrado, setBorrado] = useState(false);
-
+  const [visible, setVisible] = React.useState(false);
+  const [urlImage, setUrlImage] = useState(null);
   return (
     <ScrollView style={styles.body}>
-      <Text style={theme.textos.Label}>{label}</Text>
+      <ModalImage
+        modalVisible={visible}
+        onModalVisible={setVisible}
+        url={urlImage}
+      />
+      {label && <Text style={theme.textos.Label}>{label}</Text>}
       <View style={[styles.container, styles.containerAdd]}>
         <View style={styles.cam}>
           <Pressable
@@ -88,40 +95,57 @@ export default function ({
           )}
         </View>
       </View>
-      <Pressable
-        onLongPress={() => {
-          setBorrado(!borrado);
-        }}>
-        <View style={[styles.slide]}>
-          {dataImage.map((item, i) => (
-            <View style={[styles.container, newStyles]} key={i}>
-              {borrado && (
-                <View style={[styles.icon, newStyles]}>
-                  <RadioButton
-                    value={item.checked}
-                    uncheckedColor={theme.colors.primary}
-                    color={theme.colors.primary}
-                    status={item.checked === '1' ? 'checked' : 'unchecked'}
-                    onPress={() => {
-                      dataImage[i].checked = item.checked === '0' ? '1' : '0';
-                      setDataImage([...dataImage]);
-                    }}
-                  />
-                </View>
-              )}
-              <Image source={{uri: item.urlFoto}} style={styles.fotos} />
-            </View>
-          ))}
-        </View>
-      </Pressable>
+      <View style={[styles.slide]}>
+        {dataImage?.map((item, i) => (
+          <Pressable
+            style={[styles.container, newStyles]}
+            key={i}
+            onPress={() => {
+              setUrlImage(item.urlFoto);
+              setVisible(!visible);
+            }}
+            onLongPress={() => {
+              setBorrado(!borrado);
+              if (!borrado) {
+                dataImage[i].checked = '1';
+                setDataImage([...dataImage]);
+              }
+            }}>
+            {borrado && (
+              <View style={[styles.icon, newStyles]}>
+                <RadioButton
+                  value={item.checked}
+                  uncheckedColor={theme.colors.blanco}
+                  color={theme.colors.blanco}
+                  status={item.checked === '1' ? 'checked' : 'unchecked'}
+                  onPress={() => {
+                    dataImage[i].checked = item.checked === '0' ? '1' : '0';
+                    setDataImage([...dataImage]);
+                  }}
+                />
+              </View>
+            )}
+            <Image source={{uri: item.urlFoto}} style={styles.fotos} />
+          </Pressable>
+        ))}
+      </View>
     </ScrollView>
   );
 
   async function galleryPress() {
     await requestCameraPermission();
     await ImagePicker.openPicker(options)
-      .then(image => {
-        renderFile(image).then();
+      .then(async image => {
+        let newImg = [];
+        for (const img of image) {
+          let res = await renderFile(img);
+          if (res !== null) {
+            newImg.push(res);
+          }
+        }
+        if (newImg.length > 0) {
+          setDataImage([...dataImage, ...newImg]);
+        }
       })
       .catch(e => {
         console.log(e);
@@ -144,8 +168,11 @@ export default function ({
   async function camaraPress() {
     await requestCameraPermission();
     ImagePicker.openCamera(options)
-      .then(image => {
-        renderFile(image).then();
+      .then(async image => {
+        let res = await renderFile(image);
+        if (res !== null) {
+          setDataImage([...dataImage, res]);
+        }
       })
       .catch(e => {
         console.log(e);
@@ -165,11 +192,9 @@ export default function ({
         RNFS.DocumentDirectoryPath,
       );
       const base64 = await RNFS.readFile(resizedImageUrl.uri, 'base64');
-      setDataImage([
-        ...dataImage,
-        {urlFoto: pathImg, base64: base64, checked: '0'},
-      ]);
+      return {urlFoto: pathImg, base64: base64, checked: '0'};
     }
+    return null;
   }
 
   async function requestCameraPermission() {

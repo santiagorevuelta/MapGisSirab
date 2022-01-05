@@ -6,7 +6,22 @@ import DatePicker from '../../../commons/DatePicker/DatePicker';
 import styles from '../../../css/ingresarcss';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export default ({dataVar, setDataVar}) => {
+export default () => {
+  const [dataVar, setDataVa] = useState({});
+
+  function setDataVar(params) {
+    setDataVa({...params});
+    AsyncStorage.setItem('variables', JSON.stringify(params));
+  }
+
+  useEffect(() => {
+    async function fetchData() {
+      let data = await AsyncStorage.getItem('variables');
+      setDataVa(data == null ? {} : JSON.parse(data));
+    }
+    fetchData().then();
+  }, []);
+
   return (
     <View
       style={{

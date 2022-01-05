@@ -13,8 +13,17 @@ import guardarDatos from '../../../helpers/guardarDatos';
 import {theme} from '../../../core/theme';
 import {responsiveScreenFontSize} from 'react-native-responsive-dimensions';
 import ButtonInsert from '../../ButtonInsert';
+import {getData} from '../../../combos';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const ModalIngresarArbol = ({label, setOption, back, setIndexSnap}) => {
+const ModalIngresarArbol = ({
+  label,
+  setOption,
+  back,
+  setIndexSnap,
+  snp,
+  setLoadApp,
+}) => {
   const [arboles, setArboles] = useState(false);
   const [idArbol, setIdArbol] = useState(null);
   const [dataArbol, setDataArbol] = useState({});
@@ -23,11 +32,15 @@ const ModalIngresarArbol = ({label, setOption, back, setIndexSnap}) => {
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(async () => {
-    setIndexSnap(3);
-    let url = tsconfig[tsconfig.use].searchIntervencion.combos;
-    let data = await combosArbol(url);
-    setCombos(data);
-  }, [setCombos, setIndexSnap]);
+    async function initial() {
+      setLoadApp(true);
+      let res = await getData('intervencionArbol');
+      setCombos(res);
+      setIndexSnap(snp.length - 2);
+      setLoadApp(false);
+    }
+    initial().then();
+  }, [combos.length, setCombos, setIndexSnap, setLoadApp, snp.length]);
 
   const fnGuardar = async (data, secondData, images = []) => {
     if (idArbol !== null) {
@@ -96,13 +109,16 @@ const ModalIngresarArbol = ({label, setOption, back, setIndexSnap}) => {
       let data = await combosArbol(combo);
       setCombos(data);
     }
+    setLoadApp(true);
     let result = await buscarDatos(dataArbol, 1, url);
+    setLoadApp(false);
     if (result.data?.length === 0) {
       notifyMessage('No encontrado');
     } else {
       if (result.error) {
         notifyMessage(result.message);
       } else {
+        setIndexSnap(snp.length - 1);
         notifyMessage('Encontrado correctamente');
         setIdArbol(
           result.data[0].id_arbol

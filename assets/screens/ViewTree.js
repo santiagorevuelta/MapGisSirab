@@ -10,6 +10,7 @@ import {responsiveHeight} from 'react-native-responsive-dimensions';
 import buscarDatosId from '../helpers/buscarDatosId';
 import config from '../tsconfig.json';
 import {navigate} from '../components/map/BackgroundMap';
+import Renderload from '../components/Load';
 
 export default class ViewTree extends React.Component {
   constructor() {
@@ -21,16 +22,12 @@ export default class ViewTree extends React.Component {
       intervenciones: [],
       verArbol: {},
       variables: {},
+      loadApp: false,
     };
   }
 
   async componentDidMount() {
-    console.log(this.props.route.params);
     let item = await AsyncStorage.getItem('items');
-    AsyncStorage.setItem(
-      'Buscar',
-      JSON.stringify({option: 'Consulta', optionOld: 'Consultar'}),
-    );
     item = item == null ? null : JSON.parse(item);
     let datosArbol = await buscarDatosId(item.id_arbol, 'searchTree');
     // eslint-disable-next-line react/no-did-mount-set-state
@@ -47,6 +44,10 @@ export default class ViewTree extends React.Component {
     this.setState({index});
   };
 
+  setLoadApp = obj => {
+    this.setState({loadApp: obj});
+  };
+
   navig = name => {
     this.props.navigation.navigate(name, this.props.route.params);
   };
@@ -58,6 +59,7 @@ export default class ViewTree extends React.Component {
           backgroundColor: theme.colors.blanco,
           height: responsiveHeight(100),
         }}>
+        <Renderload setLoadVisible={this.setLoadApp} load={this.loadApp} />
         <RenderHeader
           nav={this.navig}
           cantidad={this.state.fotos.length}

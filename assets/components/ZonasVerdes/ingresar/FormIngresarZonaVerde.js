@@ -24,10 +24,6 @@ export default ({combos = [], fnGuardar, setIndexSnap}) => {
   const [dataImage, setDataImage] = React.useState([]);
   const [combosBarrios, setCombosBarrios] = React.useState([]);
 
-  useEffect(() => {
-    //limpiarMapaPolygon();
-  }, []);
-
   const llenarBarrio = async id => {
     if (id !== '') {
       let res = await consultarBarrios(id);
@@ -211,7 +207,12 @@ export default ({combos = [], fnGuardar, setIndexSnap}) => {
             style={styles.guardar}
             color={theme.colors.primary}
             onPress={() => {
-              fnGuardar(dataForm, dataImage);
+              let res = fnGuardar(dataForm, dataImage);
+              if (res) {
+                limpiarMapaPolygon();
+                setDataForm({});
+                setDataImage([]);
+              }
             }}>
             Guardar
           </ButtonInsert>

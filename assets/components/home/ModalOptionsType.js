@@ -16,7 +16,7 @@ export default props => {
         type={props.type}
         setOption={props.setOption}
       />
-      <View style={[styles.container, {flex: 0, marginTop: '5%'}]}>
+      <View style={[styles.container, {flex: 1, marginTop: '5%'}]}>
         {config.home.map((item, i) => (
           <Pressable
             key={i}

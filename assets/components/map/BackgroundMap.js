@@ -14,7 +14,7 @@ import html_script from './html_script';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import config from '../../tsconfig.json';
 
-function notifyMessage(msg) {
+export function notifyMessage(msg) {
   if (Platform.OS === 'android') {
     ToastAndroid.showWithGravity(msg, ToastAndroid.SHORT, ToastAndroid.CENTER);
   } else {
@@ -26,17 +26,19 @@ let MapRef = React.createRef();
 const {width, height} = Dimensions.get('window');
 let nav = null;
 
-function MapComponent({navigation, children}) {
+export function MapComponent({navigation, children}) {
   nav = navigation;
   const [location, setLocation] = useState(0);
   useEffect(() => {
-    permissionsLocation().then(() => {});
-    setTimeout(function () {
-      if (MapRef.current && location === 0) {
-        getLocalize(true);
-        setLocation(1);
-      }
-    }, 100);
+    return () => {
+      permissionsLocation().then(() => {});
+      setTimeout(function () {
+        if (MapRef.current && location === 0) {
+          getLocalize(true);
+          setLocation(1);
+        }
+      }, 100);
+    };
   }, [location]);
 
   return (
@@ -65,9 +67,6 @@ function MapComponent({navigation, children}) {
         source={{
           html: html_script,
         }}
-        javaScriptEnabledAndroid={true}
-        javaScriptEnabled={true}
-        injectedJavaScript={null}
         style={{
           height: height,
           width: width,
@@ -103,11 +102,11 @@ const options = {
 
 // {enableHighAccuracy: true, timeout: 25000, maximumAge: 360000},
 
-const getLocalize = () => {
+export const getLocalize = () => {
   Geolocation.getCurrentPosition(success, error, options);
 };
 
-function success(position) {
+export function success(position) {
   let currentLongitude = JSON.stringify(position.coords.longitude);
   let currentLatitude = JSON.stringify(position.coords.latitude);
   if (!MapRef.current) {
@@ -122,7 +121,7 @@ function success(position) {
   MapRef.current.injectJavaScript(injected);
 }
 
-function error(err) {
+export function error(err) {
   if (err.code === 2) {
     notifyMessage(
       'Es necesario activar el GPS para poder ubicar adecuadamente tu ubicación',
@@ -136,11 +135,11 @@ function error(err) {
   }
 }
 
-function navigate(name, params = {}, index = 0) {
+export function navigate(name, params = {}, index = 0) {
   nav.navigate(name, params);
 }
 
-function verEnMapa(lat, lng) {
+export function verEnMapa(lat, lng) {
   if (!MapRef.current) {
     return;
   }
@@ -151,7 +150,7 @@ function verEnMapa(lat, lng) {
   MapRef.current.injectJavaScript(injected);
 }
 
-function verEnMapaAllPoint(response) {
+export function verEnMapaAllPoint(response) {
   if (!MapRef.current) {
     return;
   }
@@ -171,7 +170,7 @@ function verEnMapaAllPoint(response) {
   MapRef.current.injectJavaScript(injected);
 }
 
-function verEnMapaP(coords) {
+export function verEnMapaP(coords) {
   if (!MapRef.current) {
     return;
   }
@@ -183,21 +182,20 @@ function verEnMapaP(coords) {
   MapRef.current.injectJavaScript(injected);
 }
 
-function limpiarMapa() {
+export function limpiarMapa() {
   if (!MapRef.current) {
     return;
   }
   limpiarMapaPolygon();
   limpiarMapaPoints();
-
   /*if (Platform.OS === 'android') {
     MapRef.current.reload();
   }*/
 }
 
-async function setCoords() {
+export async function setCoords() {
   if (!MapRef.current) {
-    return [];
+    return;
   }
   let data = await AsyncStorage.getItem('ubicacion');
   data = data == null ? {} : JSON.parse(data);
@@ -208,7 +206,7 @@ async function setCoords() {
   MapRef.current.injectJavaScript(injected);
 }
 
-function getPoint() {
+export function getPoint() {
   if (!MapRef.current) {
     return [];
   }
@@ -221,7 +219,7 @@ function getPoint() {
   MapRef.current.injectJavaScript(injected);
 }
 
-function drawPolin() {
+export function drawPolin() {
   if (!MapRef.current) {
     return [];
   }
@@ -234,9 +232,9 @@ function drawPolin() {
   MapRef.current.injectJavaScript(injected);
 }
 
-function stopPolin() {
+export function stopPolin() {
   if (!MapRef.current) {
-    return [];
+    return;
   }
   AsyncStorage.setItem('polygon', '');
   const injected = `
@@ -247,7 +245,7 @@ function stopPolin() {
   MapRef.current.injectJavaScript(injected);
 }
 
-function limpiarMapaPolygon() {
+export function limpiarMapaPolygon() {
   if (!MapRef.current) {
     return [];
   }
@@ -260,7 +258,7 @@ function limpiarMapaPolygon() {
   MapRef.current.injectJavaScript(injected);
 }
 
-function limpiarMapaPoints() {
+export function limpiarMapaPoints() {
   if (!MapRef.current) {
     return [];
   }
@@ -272,7 +270,7 @@ function limpiarMapaPoints() {
   MapRef.current.injectJavaScript(injected);
 }
 
-function onMapClickLocation() {
+export function onMapClickLocation() {
   if (!MapRef.current) {
     return [];
   }
@@ -283,20 +281,3 @@ function onMapClickLocation() {
 
   MapRef.current.injectJavaScript(injected);
 }
-
-module.exports = {
-  getLocalize,
-  MapComponent,
-  verEnMapa,
-  verEnMapaP,
-  verEnMapaAllPoint,
-  limpiarMapa,
-  setCoords,
-  getPoint,
-  drawPolin,
-  limpiarMapaPolygon,
-  limpiarMapaPoints,
-  navigate,
-  onMapClickLocation,
-  stopPolin,
-};

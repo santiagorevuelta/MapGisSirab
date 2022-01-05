@@ -1,9 +1,5 @@
 import React from 'react';
-import {Platform, StyleSheet, View, Dimensions} from 'react-native';
-const windowWidth = Dimensions.get('window').width;
-const windowHeight = parseInt(Dimensions.get('window').height);
-
-console.log(windowHeight);
+import {Platform, StyleSheet, View} from 'react-native';
 import {
   responsiveHeight,
   responsiveScreenHeight,

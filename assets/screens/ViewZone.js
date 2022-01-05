@@ -8,7 +8,7 @@ import CarouselCards from '../components/commons/CarruseImagenes/Carrusel';
 import Interventions from '../components/commons/CarruselIntervenciones/Interventions';
 import RenderHeader from '../components/Arbol/VerArbol/Header';
 import InfoZone from '../components/ZonasVerdes/ver/InformacionGeneral';
-import config from '../tsconfig.json';
+import Renderload from '../components/Load';
 
 export default class ViewZone extends React.Component {
   constructor() {
@@ -19,8 +19,12 @@ export default class ViewZone extends React.Component {
       fotos: [{}, {}, {}],
       intervenciones: [],
       verZona: {},
+      loadApp: false,
     };
   }
+  setLoadApp = obj => {
+    this.setState({loadApp: obj});
+  };
 
   async componentDidMount() {
     let item = await AsyncStorage.getItem('itemsZone');
@@ -54,6 +58,7 @@ export default class ViewZone extends React.Component {
           backgroundColor: theme.colors.blanco,
           height: responsiveHeight(100),
         }}>
+        <Renderload setLoadVisible={this.setLoadApp} load={this.loadApp} />
         <RenderHeader
           nav={this.navig}
           cantidad={this.state.fotos.length}

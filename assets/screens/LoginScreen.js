@@ -19,29 +19,36 @@ import {
   responsiveHeight,
 } from 'react-native-responsive-dimensions';
 import {notifyMessage} from '../core/general';
+import Renderload from '../components/Load';
 
 export default function LoginScreen({navigation}) {
   const [user, setUser] = useState('abaez');
+  const [loadApp, setLoadApp] = useState(false);
   const [password, setPassword] = useState('A1090496829');
 
   const onLoginPressed = async () => {
     try {
+      setLoadApp(true);
       let emailError = usuarioValidator(user);
       let passwordError = passwordValidator(password);
       if (emailError) {
         notifyMessage(emailError);
+        setLoadApp(false);
       } else if (passwordError) {
         notifyMessage(passwordError);
+        setLoadApp(false);
       } else {
-        await loginValidator(user, password, {navigation});
+        await loginValidator(user, password, {navigation}, setLoadApp);
       }
     } catch (e) {
+      setLoadApp(false);
       console.error('onLoginPressed ' + e);
     }
   };
 
   return (
     <Background>
+      <Renderload setLoadVisible={setLoadApp} load={loadApp} />
       <Logo style={styles.logo} />
       <Header>Sistema de información y Registro de Árboles</Header>
       <TxtUser
