@@ -16,16 +16,12 @@ export default function TextInput({...props}) {
           styles.input,
           props.isFocus ? {color: theme.colors.primary} : {},
           !props.editable && props.editable !== undefined
-            ? {backgroundColor: 'rgba(149,149,149,0.66)'}
+            ? {backgroundColor: 'rgba(149,149,149,0.35)'}
             : {},
         ]}
         {...props}
         onChangeText={text => {
-          //let valid = await validType(text, props.keyboardType);
-          //if (valid) {
-          //e.nativeEvent.text.trimStart()
           props.onChangeTextInput(text.trimStart());
-          // }
         }}
       />
     </View>

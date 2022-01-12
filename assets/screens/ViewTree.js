@@ -8,8 +8,6 @@ import {SafeAreaView} from 'react-native';
 import {theme} from '../core/theme';
 import {responsiveHeight} from 'react-native-responsive-dimensions';
 import buscarDatosId from '../helpers/buscarDatosId';
-import config from '../tsconfig.json';
-import {navigate} from '../components/map/BackgroundMap';
 import Renderload from '../components/Load';
 
 export default class ViewTree extends React.Component {

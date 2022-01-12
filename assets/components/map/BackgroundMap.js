@@ -54,8 +54,10 @@ export function MapComponent({navigation, children}) {
           try {
             let data = event.nativeEvent.data;
             let count = JSON.parse(data);
+            console.log(count);
             if (count.length > 1) {
-              AsyncStorage.setItem('polygon', data);
+              AsyncStorage.setItem('polygon', JSON.stringify(count[0]));
+              AsyncStorage.setItem('area', count[1] + '');
             } else {
               AsyncStorage.setItem('coords', data);
             }
@@ -188,9 +190,12 @@ export function limpiarMapa() {
   }
   limpiarMapaPolygon();
   limpiarMapaPoints();
-  /*if (Platform.OS === 'android') {
+  if (Platform.OS === 'android') {
     MapRef.current.reload();
-  }*/
+  }
+  setTimeout(() => {
+    setCoords().then();
+  }, 1000);
 }
 
 export async function setCoords() {
@@ -224,6 +229,7 @@ export function drawPolin() {
     return [];
   }
   AsyncStorage.setItem('polygon', '');
+  AsyncStorage.setItem('area', '');
   const injected = `
     drawPolin();
     true;

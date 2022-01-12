@@ -8,19 +8,23 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import tsconfig from '../../tsconfig.json';
 import combosArbol from '../../helpers/combosArbol';
 import {getData} from '../../combos';
+import {limpiarMapa} from '../map/BackgroundMap';
 
 const ModalConsult = props => {
   const [buscar, setBuscar] = useState(false);
   const [dataResult, setDataResult] = useState({});
   const [combos, setCombos] = useState([]);
+  const [tipoCategoria, setTipoCategoria] = React.useState(1);
 
   useEffect(() => {
     async function initial() {
-      let res = await getData('intervencionArbol');
+      let res = await getData(
+        tipoCategoria === 1 ? 'intervencionArbol' : 'intervencionZonaVerde',
+      );
       setCombos(res);
     }
     initial().then();
-  }, [combos.length, setCombos]);
+  }, [combos.length, props, setCombos, tipoCategoria]);
 
   const fnBuscar = async (obj, filtros = {}, page = 1) => {
     props.setLoadApp(true);
@@ -31,10 +35,15 @@ const ModalConsult = props => {
       let res = filter(filtros);
       if (!res) {
         notifyMessage('La fecha final es obligatoria');
+        props.setLoadApp(false);
         return;
       }
       props.setLoadApp(true);
-      let response = await buscarDatos(filtros, page, 'searchIntervencion');
+      let response = await buscarDatos(
+        filtros,
+        page,
+        tipoCategoria === 1 ? 'searchIntervencion' : 'intervencionZonaVerde',
+      );
       if (response.data.length === 0) {
         notifyMessage('La consulta no obtuvo resultados');
         props.setLoadApp(false);
@@ -65,7 +74,10 @@ const ModalConsult = props => {
   };
 
   const fnLimpiar = obj => {
+    props.setIndexSnap(1);
     setBuscar(false);
+    setTipoCategoria(1);
+    limpiarMapa();
   };
 
   return (
@@ -75,13 +87,20 @@ const ModalConsult = props => {
         setOption={props.setOption}
         backIndex={props.back}
       />
-      <FormConsulta fnBuscar={fnBuscar} fnLimpiar={fnLimpiar} combos={combos} />
+      <FormConsulta
+        fnBuscar={fnBuscar}
+        fnLimpiar={fnLimpiar}
+        combos={combos}
+        tipoCategoria={tipoCategoria}
+        setTipoCategoria={setTipoCategoria}
+      />
       {buscar ? (
         <ResultSearch
-          tabArbol={props.tabArbol}
+          tipoCategoria={tipoCategoria}
           data={dataResult.data}
           meta={dataResult.meta}
           paginar={paginar}
+          setLoadApp={props.setLoadApp}
         />
       ) : null}
     </>

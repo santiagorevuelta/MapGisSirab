@@ -43,10 +43,12 @@ const ModalIngresarArbol = ({
   }, [combos.length, setCombos, setIndexSnap, setLoadApp, snp.length]);
 
   const fnGuardar = async (data, secondData, images = []) => {
+    setLoadApp(true);
     if (idArbol !== null) {
       let valid = validatorObligatory(data, secondData);
       if (!valid) {
         notifyMessage('Los campos marcados con (*) son obligatorios');
+        setLoadApp(false);
         return;
       }
       let formData = new FormData();
@@ -69,9 +71,11 @@ const ModalIngresarArbol = ({
         setArboles(false);
       } else {
         notifyMessage('Error al guardar');
+        setLoadApp(false);
       }
     } else {
       notifyMessage('Sin arbol para asociar');
+      setLoadApp(false);
     }
   };
 

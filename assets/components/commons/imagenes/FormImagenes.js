@@ -15,8 +15,9 @@ import * as ImagePicker from 'react-native-image-crop-picker';
 import ImageResizer from 'react-native-image-resizer';
 import * as RNFS from 'react-native-fs';
 import {RadioButton} from 'react-native-paper';
-import {ScrollView} from 'react-native-gesture-handler';
+import {ScrollView, TouchableOpacity} from 'react-native-gesture-handler';
 import ModalImage from './modalImage';
+import {borrado as dataBorrado, setBorrado} from '../../../helpers/dataSave';
 
 const options = {
   storageOptions: {
@@ -40,8 +41,8 @@ export default function ({
   label = 'Registro fotográfico',
   newStyles = {},
 }) {
-  const [borrado, setBorrado] = useState(false);
-  const [visible, setVisible] = React.useState(false);
+  const [borrado] = useState(dataBorrado());
+  const [visible, setVisible] = useState(false);
   const [urlImage, setUrlImage] = useState(null);
   return (
     <ScrollView style={styles.body}>
@@ -53,7 +54,7 @@ export default function ({
       {label && <Text style={theme.textos.Label}>{label}</Text>}
       <View style={[styles.container, styles.containerAdd]}>
         <View style={styles.cam}>
-          <Pressable
+          <TouchableOpacity
             style={styles.option}
             onPress={() => {
               camaraPress().then();
@@ -64,8 +65,8 @@ export default function ({
               color={theme.colors.primary}
             />
             <Text style={theme.textos.img}>Camara</Text>
-          </Pressable>
-          <Pressable
+          </TouchableOpacity>
+          <TouchableOpacity
             style={styles.option}
             onPress={() => {
               galleryPress().then();
@@ -76,11 +77,11 @@ export default function ({
               color={theme.colors.primary}
             />
             <Text style={theme.textos.img}>Galeria</Text>
-          </Pressable>
+          </TouchableOpacity>
         </View>
         <View style={styles.del}>
           {borrado && (
-            <Pressable
+            <TouchableOpacity
               style={styles.option}
               onPress={() => {
                 deleteImage().then();
@@ -91,13 +92,13 @@ export default function ({
                 color={theme.colors.primary}
               />
               <Text style={theme.textos.img}>Eliminar</Text>
-            </Pressable>
+            </TouchableOpacity>
           )}
         </View>
       </View>
       <View style={[styles.slide]}>
         {dataImage?.map((item, i) => (
-          <Pressable
+          <TouchableOpacity
             style={[styles.container, newStyles]}
             key={i}
             onPress={() => {
@@ -108,8 +109,8 @@ export default function ({
               setBorrado(!borrado);
               if (!borrado) {
                 dataImage[i].checked = '1';
-                setDataImage([...dataImage]);
               }
+              setDataImage([...dataImage]);
             }}>
             {borrado && (
               <View style={[styles.icon, newStyles]}>
@@ -126,7 +127,7 @@ export default function ({
               </View>
             )}
             <Image source={{uri: item.urlFoto}} style={styles.fotos} />
-          </Pressable>
+          </TouchableOpacity>
         ))}
       </View>
     </ScrollView>

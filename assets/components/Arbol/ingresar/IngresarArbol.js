@@ -3,11 +3,10 @@ import HeaderModal from '../../home/HeaderModal';
 import FormIngresarArbol from './FormIngresarArbol';
 import base64 from 'react-native-base64';
 import guardarDatos from '../../../helpers/guardarDatos';
-import combosArbol from '../../../helpers/combosArbol';
-import tsconfig from '../../../tsconfig.json';
 import {notifyMessage} from '../../../core/general';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {getData} from '../../../combos';
+import {reset} from '../../../helpers/dataSave';
 
 const ModalIngresarArbol = ({
   label,
@@ -32,10 +31,9 @@ const ModalIngresarArbol = ({
     );
     let res = await guardarDatos(formData, 'searchTree');
     if (res.message) {
-      AsyncStorage.setItem('variables', '');
       notifyMessage(res.message);
       setIndexSnap(1);
-      return true;
+      return 'Ok';
     } else {
       notifyMessage('Error al guardar');
       return false;
@@ -46,6 +44,7 @@ const ModalIngresarArbol = ({
     async function initial() {
       setLoadApp(true);
       AsyncStorage.setItem('variables', '');
+      reset();
       let res = await getData('arbol');
       setCombos(res);
       setIndexSnap(snp.length - 1);

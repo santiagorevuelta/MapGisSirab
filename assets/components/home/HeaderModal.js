@@ -8,6 +8,7 @@ import {
 } from 'react-native-responsive-dimensions';
 import IconAntDesign from 'react-native-vector-icons/AntDesign';
 import ModalAlert from '../Alerta';
+import {limpiarMapa} from '../map/BackgroundMap';
 
 const Header = ({type, setOption, backIndex}) => {
   const [visible, setVisible] = useState(false);
@@ -23,6 +24,7 @@ const Header = ({type, setOption, backIndex}) => {
     {
       text: 'Aceptar',
       onPress: () => {
+        limpiarMapa();
         setOption(backIndex);
         setVisible(false);
       },

@@ -24,20 +24,25 @@ export const storeData = async (name, value) => {
 };
 
 export const loadCombos = async () => {
-  let url = tsconfig[tsconfig.use].searchTree.combos;
+  let url = tsconfig.prefix + tsconfig[tsconfig.use].searchTree.combos;
   await combosArbol(url).then(res => {
     storeData('arbol', res).then();
   });
-  url = tsconfig[tsconfig.use].searchZone.combos;
+  url = tsconfig.prefix + tsconfig[tsconfig.use].searchZone.combos;
   await combosArbol(url).then(res => {
     storeData('zona', res).then();
   });
-  url = tsconfig[tsconfig.use].searchIntervencion.combos;
+  url = tsconfig.prefix + tsconfig[tsconfig.use].searchIntervencion.combos;
   await combosArbol(url).then(res => {
     storeData('intervencionArbol', res).then();
   });
-  url = tsconfig[tsconfig.use].intervencionZonaVerde.combos;
+  url = tsconfig.prefix + tsconfig[tsconfig.use].intervencionZonaVerde.combos;
   await combosArbol(url).then(res => {
     storeData('intervencionZona', res).then();
+  });
+  url =
+    tsconfig.prefix + tsconfig[tsconfig.use].intervencionZonaVerde.gestionar;
+  await combosArbol(url).then(res => {
+    storeData('intervencionZonaVerde', res).then();
   });
 };

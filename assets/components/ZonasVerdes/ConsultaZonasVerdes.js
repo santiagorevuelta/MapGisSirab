@@ -39,6 +39,7 @@ const ModalConsult = ({
       let res = filter(filtros);
       if (!res) {
         notifyMessage('La fecha final es obligatoria');
+        setLoadApp(false);
         return;
       }
       setLoadApp(true);
@@ -75,7 +76,9 @@ const ModalConsult = ({
   };
 
   const fnLimpiar = obj => {
+    setIndexSnap(1);
     setBuscar(obj);
+    limpiarMapa();
   };
 
   return (

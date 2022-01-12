@@ -14,15 +14,11 @@ import FormVariables from './FormVariables';
 const Tab = createMaterialTopTabNavigator();
 
 function TabIngresar({dataImage, setDataImage, label}) {
-  const setImage = data => {
-    setDataImage(data);
-  };
-
   function imagenes() {
     return (
       <FormImagenes
         dataImage={dataImage}
-        setDataImage={setImage}
+        setDataImage={setDataImage}
         label={label}
         newStyles={styles.image}
       />
@@ -48,6 +44,7 @@ function TabIngresar({dataImage, setDataImage, label}) {
           name="variables"
           component={FormVariables}
           options={{
+            swipeEnabled: true,
             title: 'Variables dasométricas',
             tabBarStyle: {upperCaseLabel: false},
             labelStyle: {textTransform: 'none'},

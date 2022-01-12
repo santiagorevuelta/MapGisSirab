@@ -1,5 +1,5 @@
 import React from 'react';
-import {Modal, View, StyleSheet, Image, Text} from 'react-native';
+import {Modal, View, StyleSheet, Image} from 'react-native';
 import {
   responsiveScreenHeight,
   responsiveScreenWidth,

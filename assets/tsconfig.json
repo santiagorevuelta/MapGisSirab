@@ -1,5 +1,6 @@
 {
-  "Search": "V0.15",
+  "prefix": "http://201.184.171.13:8888",//http://192.168.100.101:8888
+  "Search": "V0.20",
   "urlfoto": "http://201.184.171.13:8888",
   "home": [
     {
@@ -34,22 +35,24 @@
     "tokenValidator": {
       "url": "http://132.145.214.185:8002/mapgis/validacionToken.do"
     },
-    "searchTree": {//http://201.184.171.13:8888/api-sirab/arboles
-      "url": "http://201.184.171.13:8888/api-sirab/arboles",
-      "combos": "http://201.184.171.13:8888/api-sirab/combosArbol",
-      "comboBarrio": "http://201.184.171.13:8888/api-sirab/comboSegundoNivel",
+    "searchTree": {///api-sirab/arboles
+      "url": "/api-sirab/arboles",
+      "combos": "/api-sirab/combosArbol",
+      "comboBarrio": "/api-sirab/comboSegundoNivel"
     },
-    "searchZone": {
-      "url": "http://201.184.171.13:8888/api-sirab/zonaVerde",
-      "combos": "http://201.184.171.13:8888/api-sirab/combosZonaVerde"
+    "searchZone": {//http://192.168.0.105:8888
+      "url": "/api-sirab/zonaVerde",
+      "combos": "/api-sirab/combosZonaVerde"
     },
     "searchIntervencion": {
-      "url": "http://201.184.171.13:8888/api-sirab/intervencion",
-      "combos": "http://201.184.171.13:8888/api-sirab/combosIntervencion",
+      "url": "/api-sirab/intervencion",
+      "combos": "/api-sirab/combosIntervencion",
+      "gestionar": "/api-sirab/combosGestionarIntervencion"
     },
     "intervencionZonaVerde":{
-      "url": "http://201.184.171.13:8888/api-sirab/intervencionZonaVerde",
-      "combos": "http://201.184.171.13:8888/api-sirab/combosIntervencionZonaVerde"
+      "url": "/api-sirab/intervencionZonaVerde",
+      "combos": "/api-sirab/combosZonaVerde",
+      "gestionar": "/api-sirab/combosGestionarIntervencionZonaVerde"
     }
   },
   "prod": {
@@ -58,9 +61,6 @@
     },
     "tokenValidator": {
       "url": "https://www.medellin.gov.co/mapgis/validacionToken.do"
-    },
-    "searchTree": {
-      "url": "http://localhost:3333/api-sirab/arboles"
     }
   }
 }

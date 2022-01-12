@@ -16,10 +16,11 @@ import TextSimple from '../../commons/TextSimple';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {ScrollView} from 'react-native-gesture-handler';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {getPoint} from '../../map/BackgroundMap';
+import {getPoint, limpiarMapaPolygon} from '../../map/BackgroundMap';
 import AutoComplete from '../../commons/SelectAutoComplete/AutoComplete';
 import {Button as ButtonIcon} from 'react-native-paper';
 import ButtonInsert from '../../ButtonInsert';
+import {asignar, consultar, reset} from '../../../helpers/dataSave';
 
 const selectPlace = 'Seleccione...';
 
@@ -27,9 +28,11 @@ export default ({combos = [], fnGuardar, setIndexSnap, setLoadApp}) => {
   const [dataForm, setDataForm] = React.useState({});
   const [dataVar, setDataVar] = React.useState({});
   const [dataImage, setDataImage] = React.useState([]);
+  const [limpiarEspecie, setLimpiarEspecie] = React.useState(false);
   const [combosBarrios, setCombosBarrios] = React.useState([]);
   const [modeBtn, setModeBtn] = React.useState('outlined');
 
+  console.log(dataForm);
   const llenarBarrio = async id => {
     setLoadApp(true);
     if (id !== '') {
@@ -61,42 +64,52 @@ export default ({combos = [], fnGuardar, setIndexSnap, setLoadApp}) => {
 
   const guardar = async () => {
     setLoadApp(true);
-    validarObligatorio();
-    let data = await AsyncStorage.getItem('variables');
+    let data = consultar();
     if (data === null) {
-      notifyMessage('Los campos marcados con (*) son obligatorios');
+      notifyMessage('Los campos marcados con (*) son obligatorios.');
       setLoadApp(false);
-      return;
+    } else {
+      setDataVar(data);
+      validateSave();
     }
-    data = JSON.parse(data);
-    setDataVar(data);
-    let valid = validarObligatorio();
+  };
+
+  function validateSave() {
+    let valid = validateObligatory();
     if (!valid) {
       notifyMessage('Los campos marcados con  (*) son obligatorios');
       setLoadApp(false);
       return;
     }
-    try {
-      dataForm.fecha = dataForm.fecha.split('/').reverse().join('-');
-      dataVar.fecha_ingreso = dataVar.fecha_ingreso
-        .split('/')
-        .reverse()
-        .join('-');
-    } catch (e) {}
-    let obj = await fnGuardar(dataForm, dataVar, dataImage);
-    if (obj) {
-      AsyncStorage.setItem('variables', '');
-      setDataForm({});
-      setDataVar({});
-      setDataImage([]);
-    }
-    setLoadApp(false);
-  };
 
-  function validarObligatorio() {
+    try {
+      dataForm.fecha = rev(dataForm.fecha);
+      dataVar.fecha_ingreso = rev(dataVar.fecha_ingreso);
+    } catch (e) {}
+    fnGuardar(dataForm, dataVar, dataImage)
+      .then(res => {
+        if (res === 'Ok') {
+          AsyncStorage.setItem('coords', '');
+          reset();
+          setDataForm({});
+          setDataVar({});
+          setDataImage([]);
+          setLimpiarEspecie(true);
+        }
+        setLoadApp(false);
+      })
+      .catch(() => {
+        setLoadApp(false);
+      });
+  }
+
+  function rev(data) {
+    return data.split('/').reverse().join('-');
+  }
+
+  function validateObligatory() {
     return !(
       !dataForm.especie ||
-      dataForm.especie === '' ||
       !dataForm.codigo_arbol ||
       !dataForm.fecha ||
       !dataForm.id_tipo_arbol ||
@@ -105,6 +118,15 @@ export default ({combos = [], fnGuardar, setIndexSnap, setLoadApp}) => {
       !dataForm.segundo_nivel ||
       !dataForm.latitud ||
       !dataForm.longitud ||
+      dataForm.especie === '' ||
+      dataForm.codigo_arbol === '' ||
+      dataForm.fecha === '' ||
+      dataForm.id_tipo_arbol === '' ||
+      dataForm.id_tipo_origen_arbol === '' ||
+      dataForm.primer_nivel === '' ||
+      dataForm.segundo_nivel === '' ||
+      dataForm.latitud === '' ||
+      dataForm.longitud === '' ||
       !dataVar.altura ||
       !dataVar.altura_copa ||
       !dataVar.dap1 ||
@@ -127,8 +149,9 @@ export default ({combos = [], fnGuardar, setIndexSnap, setLoadApp}) => {
             id="especie"
             stylesNew={{width: responsiveWidth(92), paddingHorizontal: '2%'}}
             placeholder={selectPlace}
-            valueSelected={dataForm?.especie}
+            valueSelected={dataForm.especie}
             multiple={false}
+            limpiar={limpiarEspecie}
             onSelected={items => {
               if (items != null) {
                 setDataForm({...dataForm, especie: items});
@@ -203,7 +226,6 @@ export default ({combos = [], fnGuardar, setIndexSnap, setLoadApp}) => {
           <SelectSimple
             label={'Barrio *'}
             id="segundo_nivel"
-            disabledView={combosBarrios.length === 0}
             placeholder={selectPlace}
             dependencia={true}
             valueSelected={dataForm.segundo_nivel}
@@ -224,11 +246,11 @@ export default ({combos = [], fnGuardar, setIndexSnap, setLoadApp}) => {
             color={theme.colors.primary}
             labelStyle={{fontSize: responsiveScreenFontSize(1.6)}}
             onPress={() => {
+              setIndexSnap(1);
               setModeBtn('contained');
               AsyncStorage.setItem('coords', '');
               notifyMessage('Seleccionar punto en mapa');
               ubicarEnMapa().then();
-              setIndexSnap(1);
             }}>
             Seleccionar punto
           </ButtonIcon>
@@ -251,6 +273,7 @@ export default ({combos = [], fnGuardar, setIndexSnap, setLoadApp}) => {
             style={styles.guardar}
             color={theme.colors.primary}
             onPress={() => {
+              validateObligatory();
               guardar();
             }}>
             Guardar

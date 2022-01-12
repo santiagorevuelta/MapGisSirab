@@ -1,4 +1,4 @@
-import axios from 'axios';
+const axios = require('axios');
 import tsconfig from '../tsconfig.json';
 import {catchError, consultToken, notifyMessage} from '../core/general';
 
@@ -8,7 +8,9 @@ export default async function (id) {
     notifyMessage('Sin token');
     return;
   }
-  let url = `${tsconfig[tsconfig.use].searchTree.comboBarrio}/${id}`;
+  let url = `${tsconfig.prefix}${
+    tsconfig[tsconfig.use].searchTree.comboBarrio
+  }/${id}`;
   const config = {
     headers: {
       'access-token': token,

@@ -87,7 +87,11 @@ export default function Dashboard({navigation, route}) {
   return (
     <MapComponent navigation={navigation}>
       <Renderload setLoadVisible={setLoadApp} load={loadApp} />
-      <Header setOption={setView} setIndexSnap={setIndexSnap} />
+      <Header
+        setOption={setView}
+        setIndexSnap={setIndexSnap}
+        option={optionOld}
+      />
       <BottomSheet
         ref={bottomSheetRef}
         index={indexSnap}

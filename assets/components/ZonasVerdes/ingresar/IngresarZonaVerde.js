@@ -1,8 +1,6 @@
 import React, {useEffect} from 'react';
 import HeaderModal from '../../home/HeaderModal';
 import FormIngresar from './FormIngresarZonaVerde';
-import combosArbol from '../../../helpers/combosArbol';
-import tsconfig from '../../../tsconfig.json';
 import base64 from 'react-native-base64';
 import guardarDatos from '../../../helpers/guardarDatos';
 import {notifyMessage} from '../../../core/general';
@@ -41,7 +39,7 @@ const ModalIngresar = ({
       notifyMessage(res.message);
       limpiarMapaPolygon();
       setLoadApp(false);
-      return true;
+      return 'Ok';
     } else {
       notifyMessage('Error al guardar');
       setLoadApp(false);
@@ -60,7 +58,17 @@ const ModalIngresar = ({
       !datos.segundo_nivel ||
       !datos.id_tipo_zona_verde ||
       !datos.area_m2_calculado ||
-      !datos.area_m2
+      !datos.area_m2 ||
+      datos.nombre === '' ||
+      datos.codigo === '' ||
+      datos.id_proyecto === '' ||
+      datos.id_tipo_zona_verde === '' ||
+      datos.geom === '' ||
+      datos.primer_nivel === '' ||
+      datos.segundo_nivel === '' ||
+      datos.id_tipo_zona_verde === '' ||
+      datos.area_m2_calculado === '' ||
+      datos.area_m2 === ''
     );
   }
 
@@ -82,6 +90,7 @@ const ModalIngresar = ({
         fnGuardar={fnGuardar}
         combos={combos}
         setIndexSnap={setIndexSnap}
+        setLoadApp={setLoadApp}
       />
     </>
   );

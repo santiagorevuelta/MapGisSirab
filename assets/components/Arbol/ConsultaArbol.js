@@ -32,6 +32,7 @@ const ModalOptionsArbol = props => {
       let res = filter(filtros);
       if (!res) {
         notifyMessage('La fecha final es obligatoria');
+        props.setLoadApp(false);
         return;
       }
       props.setLoadApp(true);
@@ -39,7 +40,7 @@ const ModalOptionsArbol = props => {
       if (response.data.length === 0) {
         notifyMessage('La consulta no obtuvo resultados');
         limpiarMapa();
-        props.setLoadApp(true);
+        props.setLoadApp(false);
         setBuscar(false);
         return;
       }
@@ -61,6 +62,7 @@ const ModalOptionsArbol = props => {
   };
 
   const fnLimpiar = obj => {
+    props.setIndexSnap(1);
     setBuscar(false);
     limpiarMapa();
   };

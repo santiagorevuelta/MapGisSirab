@@ -6,7 +6,13 @@ import styles from '../css/ingresarcss';
 import SelectSimple from '../commons/selectSimple/SelectSimple';
 import FiltroFecha from '../commons/FechaBusqueda/FiltroFecha';
 
-export default ({combos, fnLimpiar, fnBuscar}) => {
+export default ({
+  combos,
+  fnLimpiar,
+  fnBuscar,
+  tipoCategoria,
+  setTipoCategoria,
+}) => {
   const [isSwitchOn, setIsSwitchOn] = React.useState(false);
   const onToggleSwitch = () => setIsSwitchOn(!isSwitchOn);
   const [filters, setFilters] = React.useState({});
@@ -20,6 +26,22 @@ export default ({combos, fnLimpiar, fnBuscar}) => {
   return (
     <View style={style.body}>
       <View style={[styles.form, {zIndex: 10}]}>
+        <SelectSimple
+          label={'Categoria'}
+          placeholder={null}
+          id="tipo_categoria"
+          dependencia={true}
+          valueSelected={tipoCategoria}
+          onSelected={items => {
+            if (items != null) {
+              setTipoCategoria(items);
+            }
+          }}
+          list={[
+            {id: 1, dato: 'Arbol'},
+            {id: 2, dato: 'Zona verde'},
+          ]}
+        />
         <SelectSimple
           label={'Tipo intervención'}
           id="tipo_intervencion"
