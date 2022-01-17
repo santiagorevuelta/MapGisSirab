@@ -26,6 +26,7 @@ const ModalConsult = props => {
     initial().then();
   }, [combos.length, props, setCombos, tipoCategoria]);
 
+
   const fnBuscar = async (obj, filtros = {}, page = 1) => {
     props.setLoadApp(true);
     if (obj) {

@@ -36,42 +36,40 @@ export default () => {
         <TextInputForm
           label={'Altura de árbol (m) *'}
           placeholder={'Altura'}
-          value={dataVar.altura}
+          value={dataVariables.altura}
           keyboardType="numeric"
-          onChangeTextInput={text => setDataVar({...dataVar, altura: text})}
+          onChangeTextInput={text => setData('altura', text)}
         />
         <TextInputForm
           label={'Altura copa (m) *'}
           placeholder={'Altura copa'}
-          value={dataVar.altura_copa}
+          value={dataVariables.altura_copa}
           keyboardType="numeric"
-          onChangeTextInput={text =>
-            setDataVar({...dataVar, altura_copa: text})
-          }
+          onChangeTextInput={text => setData('altura_copa', text)}
         />
       </View>
       <View style={styles.form}>
         <TextInputForm
           label={'DAP1 (cm) *'}
           placeholder={'DAP1'}
-          value={dataVar.dap1}
+          value={dataVariables.dap1}
           keyboardType="numeric"
-          onChangeTextInput={text => setDataVar({...dataVar, dap1: text})}
+          onChangeTextInput={text => setData('dap1', text)}
         />
         <TextInputForm
           label={'DAP2 (cm) *'}
           placeholder={'DAP2'}
-          value={dataVar.dap2}
+          value={dataVariables.dap2}
           keyboardType="numeric"
-          onChangeTextInput={text => setDataVar({...dataVar, dap2: text})}
+          onChangeTextInput={text => setData('dap2', text)}
         />
       </View>
       <View style={styles.form}>
         <DatePicker
           label={'Fecha ingreso *'}
           placeholder={'dd/mm/aaaa'}
-          value={dataVar.fecha_ingreso}
-          onSelectDate={text => setDataVar({...dataVar, fecha_ingreso: text})}
+          value={dataVariables.fecha_ingreso}
+          onSelectDate={text => setData('fecha_ingreso', text)}
         />
       </View>
     </View>

@@ -1,14 +1,19 @@
 import React, {useState} from 'react';
-import {DataTable} from 'react-native-paper';
-import {theme} from '../../../../core/theme';
-import {ScrollView, StyleSheet, Text, View} from 'react-native';
-import {responsiveScreenFontSize} from 'react-native-responsive-dimensions';
+import {Button, DataTable} from 'react-native-paper';
+import {ScrollView, StyleSheet, View} from 'react-native';
+import {
+  responsiveFontSize,
+  responsiveScreenFontSize,
+} from 'react-native-responsive-dimensions';
 import {notifyMessage} from '../../../../core/general';
+import ModalVariables from '../../../Variables/ModalVariables';
+import {theme} from '../../../../core/theme';
 
 const optionsPerPage = [2, 3, 4];
 
 export default function ({data}) {
   const [items, setItems] = useState(data);
+  const [visible, setVisible] = useState(false);
 
   const [page, setPage] = React.useState(0);
   const [itemsPerPage, setItemsPerPage] = React.useState(items);
@@ -18,6 +23,7 @@ export default function ({data}) {
 
   return (
     <View style={styles.container}>
+      <ModalVariables modalVisible={visible} onModalVisible={setVisible} />
       <DataTable>
         <DataTable.Header>
           <DataTable.Title
@@ -75,6 +81,18 @@ export default function ({data}) {
             ))}
         </ScrollView>
       </DataTable>
+      <View style={styles.containBtn}>
+        <Button
+          style={styles.btn}
+          icon={'plus-box'}
+          color={theme.colors.primary}
+          labelStyle={{fontSize: responsiveFontSize(4)}}
+          compact={true}
+          onPress={() => {
+            setVisible(true);
+          }}
+        />
+      </View>
     </View>
   );
 }
@@ -101,5 +119,15 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  header: {},
+  containBtn: {
+    position: 'absolute',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    alignSelf: 'flex-end',
+    bottom: 0,
+  },
+  btn: {
+    height: 40,
+    width: 40,
+  },
 });

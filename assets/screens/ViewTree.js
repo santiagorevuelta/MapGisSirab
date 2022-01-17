@@ -28,14 +28,16 @@ export default class ViewTree extends React.Component {
     let item = await AsyncStorage.getItem('items');
     item = item == null ? null : JSON.parse(item);
     let datosArbol = await buscarDatosId(item.id_arbol, 'searchTree');
-    // eslint-disable-next-line react/no-did-mount-set-state
-    this.setState({
-      fotos: datosArbol.fotos,
-      intervenciones: datosArbol.intervenciones,
-      verArbol: datosArbol.verArbol,
-      variables: datosArbol.variables,
-      codigo_arbol: item.codigo_arbol,
-    });
+    if (datosArbol.length !== 0) {
+      // eslint-disable-next-line react/no-did-mount-set-state
+      this.setState({
+        fotos: datosArbol.fotos,
+        intervenciones: datosArbol.intervenciones,
+        verArbol: datosArbol.verArbol,
+        variables: datosArbol.variables,
+        codigo_arbol: item.codigo_arbol,
+      });
+    }
   }
 
   setCant = index => {
@@ -46,9 +48,7 @@ export default class ViewTree extends React.Component {
     this.setState({loadApp: obj});
   };
 
-  navig = name => {
-    this.props.navigation.navigate(name, this.props.route.params);
-  };
+
 
   render() {
     return (
@@ -59,8 +59,8 @@ export default class ViewTree extends React.Component {
         }}>
         <Renderload setLoadVisible={this.setLoadApp} load={this.loadApp} />
         <RenderHeader
-          nav={this.navig}
-          cantidad={this.state.fotos.length}
+          nav={navigate}
+          cantidad={this.state.fotos?.length}
           codigo={this.state.codigo_arbol}
           index={this.state.index}
         />

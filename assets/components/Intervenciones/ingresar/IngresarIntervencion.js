@@ -30,8 +30,7 @@ const ModalIngresarArbol = ({
   const [combos, setCombos] = React.useState([]);
   const [zonaVerde, setZonaVerde] = useState(false);
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  useEffect(async () => {
+  useEffect( () => {
     async function initial() {
       setLoadApp(true);
       let res = await getData('intervencionArbol');

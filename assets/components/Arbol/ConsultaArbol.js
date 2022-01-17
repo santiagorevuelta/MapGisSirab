@@ -22,6 +22,7 @@ const ModalOptionsArbol = props => {
     initial().then();
   }, [combos.length, setCombos]);
 
+
   const fnBuscar = async (obj, filtros = {}, page = 1) => {
     props.setLoadApp(true);
     if (obj) {
