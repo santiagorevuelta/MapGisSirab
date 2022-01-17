@@ -8,7 +8,6 @@ import {theme} from '../../../core/theme';
 
 export const styles = StyleSheet.create({
   body: {
-    height: '100%',
     paddingTop: '2%',
     marginBottom: '5%',
     backgroundColor: theme.colors.blanco,
@@ -25,7 +24,7 @@ export const styles = StyleSheet.create({
   },
   icon: {
     position: 'absolute',
-    justifyContent: 'flex-end',
+    justifyContent: 'flex-start',
     alignItems: 'flex-end',
     borderRadius: theme.radius,
     backgroundColor: theme.colors.fondo,

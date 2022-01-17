@@ -15,7 +15,9 @@ import * as ImagePicker from 'react-native-image-crop-picker';
 import ImageResizer from 'react-native-image-resizer';
 import * as RNFS from 'react-native-fs';
 import {RadioButton} from 'react-native-paper';
-import {ScrollView} from 'react-native-gesture-handler';
+import {ScrollView, TouchableOpacity} from 'react-native-gesture-handler';
+import ModalImage from './modalImage';
+import {borrado as dataBorrado, setBorrado} from '../../../helpers/dataSave';
 
 const options = {
   storageOptions: {
@@ -30,7 +32,7 @@ const options = {
   height: 768,
   mediaType: 'photo',
   cropping: false,
-  multiple: false,
+  multiple: true,
 };
 
 export default function ({
@@ -39,14 +41,20 @@ export default function ({
   label = 'Registro fotográfico',
   newStyles = {},
 }) {
-  const [borrado, setBorrado] = useState(false);
-
+  const [borrado] = useState(dataBorrado());
+  const [visible, setVisible] = useState(false);
+  const [urlImage, setUrlImage] = useState(null);
   return (
     <ScrollView style={styles.body}>
-      <Text style={theme.textos.Label}>{label}</Text>
+      <ModalImage
+        modalVisible={visible}
+        onModalVisible={setVisible}
+        url={urlImage}
+      />
+      {label && <Text style={theme.textos.Label}>{label}</Text>}
       <View style={[styles.container, styles.containerAdd]}>
         <View style={styles.cam}>
-          <Pressable
+          <TouchableOpacity
             style={styles.option}
             onPress={() => {
               camaraPress().then();
@@ -57,8 +65,8 @@ export default function ({
               color={theme.colors.primary}
             />
             <Text style={theme.textos.img}>Camara</Text>
-          </Pressable>
-          <Pressable
+          </TouchableOpacity>
+          <TouchableOpacity
             style={styles.option}
             onPress={() => {
               galleryPress().then();
@@ -69,11 +77,11 @@ export default function ({
               color={theme.colors.primary}
             />
             <Text style={theme.textos.img}>Galeria</Text>
-          </Pressable>
+          </TouchableOpacity>
         </View>
         <View style={styles.del}>
           {borrado && (
-            <Pressable
+            <TouchableOpacity
               style={styles.option}
               onPress={() => {
                 deleteImage().then();
@@ -84,44 +92,61 @@ export default function ({
                 color={theme.colors.primary}
               />
               <Text style={theme.textos.img}>Eliminar</Text>
-            </Pressable>
+            </TouchableOpacity>
           )}
         </View>
       </View>
-      <Pressable
-        onLongPress={() => {
-          setBorrado(!borrado);
-        }}>
-        <View style={[styles.slide]}>
-          {dataImage.map((item, i) => (
-            <View style={[styles.container, newStyles]} key={i}>
-              {borrado && (
-                <View style={[styles.icon, newStyles]}>
-                  <RadioButton
-                    value={item.checked}
-                    uncheckedColor={theme.colors.primary}
-                    color={theme.colors.primary}
-                    status={item.checked === '1' ? 'checked' : 'unchecked'}
-                    onPress={() => {
-                      dataImage[i].checked = item.checked === '0' ? '1' : '0';
-                      setDataImage([...dataImage]);
-                    }}
-                  />
-                </View>
-              )}
-              <Image source={{uri: item.urlFoto}} style={styles.fotos} />
-            </View>
-          ))}
-        </View>
-      </Pressable>
+      <View style={[styles.slide]}>
+        {dataImage?.map((item, i) => (
+          <TouchableOpacity
+            style={[styles.container, newStyles]}
+            key={i}
+            onPress={() => {
+              setUrlImage(item.urlFoto);
+              setVisible(!visible);
+            }}
+            onLongPress={() => {
+              setBorrado(!borrado);
+              if (!borrado) {
+                dataImage[i].checked = '1';
+              }
+              setDataImage([...dataImage]);
+            }}>
+            {borrado && (
+              <View style={[styles.icon, newStyles]}>
+                <RadioButton
+                  value={item.checked}
+                  uncheckedColor={theme.colors.blanco}
+                  color={theme.colors.blanco}
+                  status={item.checked === '1' ? 'checked' : 'unchecked'}
+                  onPress={() => {
+                    dataImage[i].checked = item.checked === '0' ? '1' : '0';
+                    setDataImage([...dataImage]);
+                  }}
+                />
+              </View>
+            )}
+            <Image source={{uri: item.urlFoto}} style={styles.fotos} />
+          </TouchableOpacity>
+        ))}
+      </View>
     </ScrollView>
   );
 
   async function galleryPress() {
     await requestCameraPermission();
     await ImagePicker.openPicker(options)
-      .then(image => {
-        renderFile(image).then();
+      .then(async image => {
+        let newImg = [];
+        for (const img of image) {
+          let res = await renderFile(img);
+          if (res !== null) {
+            newImg.push(res);
+          }
+        }
+        if (newImg.length > 0) {
+          setDataImage([...dataImage, ...newImg]);
+        }
       })
       .catch(e => {
         console.log(e);
@@ -144,8 +169,11 @@ export default function ({
   async function camaraPress() {
     await requestCameraPermission();
     ImagePicker.openCamera(options)
-      .then(image => {
-        renderFile(image).then();
+      .then(async image => {
+        let res = await renderFile(image);
+        if (res !== null) {
+          setDataImage([...dataImage, res]);
+        }
       })
       .catch(e => {
         console.log(e);
@@ -165,11 +193,9 @@ export default function ({
         RNFS.DocumentDirectoryPath,
       );
       const base64 = await RNFS.readFile(resizedImageUrl.uri, 'base64');
-      setDataImage([
-        ...dataImage,
-        {urlFoto: pathImg, base64: base64, checked: '0'},
-      ]);
+      return {urlFoto: pathImg, base64: base64, checked: '0'};
     }
+    return null;
   }
 
   async function requestCameraPermission() {

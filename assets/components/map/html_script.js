@@ -53,27 +53,12 @@ module.exports = `<!DOCTYPE html>
       weight: 2
   })      
 
-  mymap.locate({
-      watch: true,
-      setView: true,
-      maxZoom: 19
-  }).on('locationfound', (e) => {
-      if (!mymap.hasLayer(radius)) {
-          radius.addTo(mymap);
-       }
-      radius.setLatLng([e.latitude, e.longitude]);
-  }) 
-
-  mymap.on('locationerror', (e) => {
-     window.ReactNativeWebView.postMessage(e.message);
-  }) 
-
-  //https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw
- 
+ //https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw
+ //http://{s}.tile.osm.org/{z}/{x}/{y}.png
  let capa = "https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw"
  
   var osmBase = L.tileLayer(capa, {
-    maxZoom: 20,
+    maxZoom: 22,
     attribution: "",
     id: "mapbox/streets-v11",
     tileSize: 512,
@@ -94,7 +79,7 @@ module.exports = `<!DOCTYPE html>
     // } 
     //popup.setLatLng(latlng).setContent('Estado '+id).openOn(mymap);   
     marker.addTo(mymap);
-    mymap.setView([latlng[0]- 0.0025,latlng[1]], 17);
+        mymap.setView([latlng[0]- 0.0003,latlng[1]], 20);
     marker.setLatLng(latlng);    
   }
 
@@ -103,10 +88,11 @@ module.exports = `<!DOCTYPE html>
   function acctionMapVerTodo(planes) {
     for (const point of layerPoints ) {
       mymap.removeLayer(point);
-    }    
+    }
+    layerPoints = [];
     planes = JSON.parse(planes);
     for (let i = 0; i < planes.length; i++) {
-      layerPoints.push(new L.marker([planes[i][1],planes[i][2]],{icon: myIcon}).bindPopup(planes[i][0]).addTo(mymap));
+      layerPoints.push(new L.marker([planes[i][1],planes[i][2]],{icon: myIcon}).addTo(mymap));
     }
   }
   
@@ -140,14 +126,21 @@ module.exports = `<!DOCTYPE html>
      typeCoord = 'i';
   }
   
+  function stops(e) {
+    
+  }
+  
+  
     function onMapClick(e) {
       if(typeCoord === 'i'){
+         mymap.on("click", stops);
         marker.addTo(mymap);
         //popup.setLatLng(e.latlng).setContent("You clicked the map at " + e.latlng.toString()).openOn(mymap);
         marker.setLatLng(e.latlng); 
         window.ReactNativeWebView.postMessage(JSON.stringify({lat:e.latlng.lat,lng:e.latlng.lng}));
       }else if (typeCoord === 'b'){
          typeCoord = null;
+         mymap.on("click", stops);
          pointLocation.addTo(mymap);
          pointLocation.setLatLng(e.latlng);
          pointLocation.setRadius(20);
@@ -156,7 +149,7 @@ module.exports = `<!DOCTYPE html>
   }
   
     function limpiarMapaPoints(){
-        typeCoord = false;
+       typeCoord = false;
        mymap.removeLayer(layerOld);
        mymap.removeLayer(pointLocation);
        for (const point of layerPoints ) {
@@ -206,11 +199,7 @@ module.exports = `<!DOCTYPE html>
     mymap.fitBounds(layerOld.getBounds());
   }
 
-
-</script>
-<script>
-
-
+  
 var editableLayers = new L.FeatureGroup();
 mymap.addLayer(editableLayers);
 

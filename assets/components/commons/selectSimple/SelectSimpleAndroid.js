@@ -25,12 +25,14 @@ export default ({
         onValueChange={(itemValue, itemIndex) => {
           onSelected(itemValue);
         }}>
-        <Picker.Item
-          style={styles.pickers}
-          key={'0'}
-          label={placeholder}
-          value={''}
-        />
+        {placeholder != null ? (
+          <Picker.Item
+            style={styles.pickers}
+            key={'0'}
+            label={placeholder}
+            value={''}
+          />
+        ) : null}
         {list?.map(item => (
           <Picker.Item
             style={styles.pickers}

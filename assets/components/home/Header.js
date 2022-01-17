@@ -19,14 +19,50 @@ import Location from '../icons/Ubicacion';
 import IconAntDesign from 'react-native-vector-icons/AntDesign';
 import {getLocalize} from '../map/BackgroundMap';
 import consultDireccion from '../../helpers/consultaDireccion';
+import config from '../../tsconfig.json';
+import ModalAlert from '../Alerta';
 
 const Header = props => {
   const [valor, setValor] = useState('');
+  const [visible, setVisible] = useState(false);
+  const [title] = useState('Anuncio!');
+  const [msg] = useState('¿Esta seguro de cancelar el ingreso?');
+  const [buttons] = useState([
+    {
+      text: 'Cancelar',
+      onPress: () => {
+        setVisible(false);
+      },
+    },
+    {
+      text: 'Aceptar',
+      onPress: () => {
+        props.setOption('inicio');
+        setVisible(false);
+      },
+    },
+  ]);
+
+  const validBack = () => {
+    if (props.option === 'Ingresar') {
+      setVisible(true);
+    } else {
+      props.setOption('inicio');
+    }
+  };
+
   return (
     <View style={styles.header}>
+      <ModalAlert
+        modalVisible={visible}
+        onModalVisible={setVisible}
+        title={title}
+        msg={msg}
+        buttons={buttons}
+      />
       <Pressable
         onPress={() => {
-          props.setOption('inicio');
+          validBack();
         }}
         style={({pressed}) => [
           {
@@ -42,7 +78,7 @@ const Header = props => {
           value={valor}
           onChangeText={text => setValor(text.trimStart())}
           autoCapitalize="none"
-          placeholder={'V0.13'}
+          placeholder={config.Search}
           onFocus={() => {
             setTimeout(() => {
               props.setIndexSnap(0);
@@ -84,7 +120,7 @@ const styles = StyleSheet.create({
   header: {
     fontSize: 10,
     zIndex: 0,
-    elevation: 1,
+    elevation: 0,
     top: Platform.OS === 'android' ? 0 : 40,
     color: theme.colors.secondary,
     paddingVertical: 12,

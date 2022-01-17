@@ -1,5 +1,5 @@
-import React from 'react';
-import {Pressable, StyleSheet, Text, View} from 'react-native';
+import React, {useState} from 'react';
+import {Alert, Pressable, StyleSheet, Text, View} from 'react-native';
 import {theme} from '../../core/theme';
 import {
   responsiveFontSize,
@@ -7,15 +7,52 @@ import {
   responsiveWidth,
 } from 'react-native-responsive-dimensions';
 import IconAntDesign from 'react-native-vector-icons/AntDesign';
+import ModalAlert from '../Alerta';
+import {limpiarMapa} from '../map/BackgroundMap';
 
-const Header = props => {
+const Header = ({type, setOption, backIndex}) => {
+  const [visible, setVisible] = useState(false);
+  const [title] = useState('Anuncio!');
+  const [msg] = useState('¿Esta seguro de cancelar el ingreso?');
+  const [buttons] = useState([
+    {
+      text: 'Cancelar',
+      onPress: () => {
+        setVisible(false);
+      },
+    },
+    {
+      text: 'Aceptar',
+      onPress: () => {
+        limpiarMapa();
+        setOption(backIndex);
+        setVisible(false);
+      },
+    },
+  ]);
+
+  const validBack = () => {
+    if (backIndex === 'Ingresar') {
+      setVisible(true);
+    } else {
+      setOption(backIndex);
+    }
+  };
+
   return (
     <View style={styles.contend}>
+      <ModalAlert
+        modalVisible={visible}
+        onModalVisible={setVisible}
+        title={title}
+        msg={msg}
+        buttons={buttons}
+      />
       <View>
         <Pressable
           style={styles.regress}
           onPress={() => {
-            props.setOption(props.backIndex);
+            validBack();
           }}>
           <IconAntDesign
             name={'back'}
@@ -28,9 +65,7 @@ const Header = props => {
         </Pressable>
       </View>
       <View>
-        <Text style={[theme.textos.Label, styles.headerText]}>
-          {props.type}
-        </Text>
+        <Text style={[theme.textos.Label, styles.headerText]}>{type}</Text>
       </View>
       <View>
         <Text style={[theme.textos.Label, styles.regressHead]}>

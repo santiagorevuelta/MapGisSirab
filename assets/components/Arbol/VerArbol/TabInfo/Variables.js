@@ -26,19 +26,26 @@ export default function ({data}) {
       <ModalVariables modalVisible={visible} onModalVisible={setVisible} />
       <DataTable>
         <DataTable.Header>
-          <DataTable.Title label={'fecha'}>Fecha</DataTable.Title>
           <DataTable.Title
-            onPress={() => notifyMessage('Altura árbol')}
-            numeric>
-            Altura árbol
-          </DataTable.Title>
+            style={styles.text}
+            children={<Text style={styles.texth}>Fecha</Text>}
+          />
           <DataTable.Title
-            onPress={() => notifyMessage('Altura copa(m)')}
-            numeric>
-            Altura copa(m)
-          </DataTable.Title>
-          <DataTable.Title numeric>DAP 1</DataTable.Title>
-          <DataTable.Title numeric>DAP 2</DataTable.Title>
+            style={styles.text}
+            children={<Text style={styles.texth}>Altura copa</Text>}
+          />
+          <DataTable.Title
+            style={styles.text}
+            children={<Text style={styles.texth}>Altura árbol</Text>}
+          />
+          <DataTable.Title
+            style={styles.text}
+            children={<Text style={styles.texth}>DAP 1</Text>}
+          />
+          <DataTable.Title
+            style={styles.text}
+            children={<Text style={styles.texth}>DAP 2</Text>}
+          />
         </DataTable.Header>
         <ScrollView>
           {items &&
@@ -47,35 +54,32 @@ export default function ({data}) {
               <DataTable.Row key={i} style={styles.body}>
                 <DataTable.Cell
                   style={styles.text}
-                  onPress={() => notifyMessage(index.fecha_ingreso)}>
-                  {index.fecha_ingreso}
-                </DataTable.Cell>
-                <DataTable.Cell style={styles.text} numeric>
-                  {index.altura}
-                </DataTable.Cell>
-                <DataTable.Cell style={styles.text} numeric>
-                  {index.altura_copa}
-                </DataTable.Cell>
-                <DataTable.Cell style={styles.text} numeric>
-                  {index.dap1}
-                </DataTable.Cell>
-                <DataTable.Cell style={styles.text} numeric>
-                  {index.dap2}
-                </DataTable.Cell>
+                  children={
+                    <Text style={styles.text}>{index.fecha_ingreso}</Text>
+                  }
+                />
+                <DataTable.Cell
+                  style={styles.text}
+                  numeric
+                  children={
+                    <Text style={styles.text}>{index.altura_copa}</Text>
+                  }
+                />
+                <DataTable.Cell
+                  style={styles.text}
+                  children={<Text style={styles.text}>{index.altura}</Text>}
+                />
+                <DataTable.Cell
+                  style={styles.text}
+                  children={<Text style={styles.text}>{index.dap1}</Text>}
+                />
+                <DataTable.Cell
+                  style={styles.text}
+                  children={<Text style={styles.text}>{index.dap2}</Text>}
+                />
               </DataTable.Row>
             ))}
         </ScrollView>
-        {/*<DataTable.Pagination*/}
-        {/*  page={page}*/}
-        {/*  numberOfPages={items.length/3}*/}
-        {/*  onPageChange={(page) => setPage(page)}*/}
-        {/*  //label="1-2 of 6"*/}
-        {/*  optionsPerPage={optionsPerPage}*/}
-        {/*  itemsPerPage={itemsPerPage}*/}
-        {/*  setItemsPerPage={setItemsPerPage}*/}
-        {/*  showFastPagination*/}
-        {/*  optionsLabel={'Rows per page'}*/}
-        {/*/>*/}
       </DataTable>
       <View style={styles.containBtn}>
         <Button
@@ -95,16 +99,25 @@ export default function ({data}) {
 
 const styles = StyleSheet.create({
   container: {
-    paddingHorizontal: 0,
+    padding: 0,
+    margin: 0,
     backgroundColor: theme.colors.blanco,
     height: '100%',
   },
   body: {
     flex: 1,
   },
+  texth: {
+    fontSize: responsiveScreenFontSize(1.3),
+    textAlign: 'center',
+    alignItems: 'center',
+    color: theme.colors.primary,
+  },
   text: {
-    fontSize: responsiveScreenFontSize(0.5),
-    flex: 1,
+    fontSize: responsiveScreenFontSize(1.2),
+    textAlign: 'center',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   containBtn: {
     position: 'absolute',

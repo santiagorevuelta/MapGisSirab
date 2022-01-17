@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {StyleSheet, View} from 'react-native';
 
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
@@ -13,24 +13,16 @@ import FormVariables from './FormVariables';
 
 const Tab = createMaterialTopTabNavigator();
 
-function TabIngresar({dataImage, setDataImage, label, dataVar, setDataVar}) {
-  const setImage = data => {
-    setDataImage(data);
-  };
-
+function TabIngresar({dataImage, setDataImage, label}) {
   function imagenes() {
     return (
       <FormImagenes
         dataImage={dataImage}
-        setDataImage={setImage}
+        setDataImage={setDataImage}
         label={label}
         newStyles={styles.image}
       />
     );
-  }
-
-  function variables() {
-    return <FormVariables dataVar={dataVar} setDataVar={setDataVar} />;
   }
 
   return (
@@ -50,8 +42,9 @@ function TabIngresar({dataImage, setDataImage, label, dataVar, setDataVar}) {
         }}>
         <Tab.Screen
           name="variables"
-          component={variables}
+          component={FormVariables}
           options={{
+            swipeEnabled: true,
             title: 'Variables dasométricas',
             tabBarStyle: {upperCaseLabel: false},
             labelStyle: {textTransform: 'none'},

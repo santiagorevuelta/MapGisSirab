@@ -7,22 +7,28 @@ import ResultSearch from './ResultSearch';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import tsconfig from '../../tsconfig.json';
 import combosArbol from '../../helpers/combosArbol';
+import {getData} from '../../combos';
+import {limpiarMapa} from '../map/BackgroundMap';
 
-const ModalConsult = ({...props}) => {
+const ModalConsult = props => {
   const [buscar, setBuscar] = useState(false);
   const [dataResult, setDataResult] = useState({});
   const [combos, setCombos] = useState([]);
+  const [tipoCategoria, setTipoCategoria] = React.useState(1);
 
   useEffect(() => {
-    return () => {
-      let url = tsconfig[tsconfig.use].searchIntervencion.combos;
-      combosArbol(url).then(res => {
-        setCombos(res);
-      });
-    };
-  }, [setCombos]);
+    async function initial() {
+      let res = await getData(
+        tipoCategoria === 1 ? 'intervencionArbol' : 'intervencionZonaVerde',
+      );
+      setCombos(res);
+    }
+    initial().then();
+  }, [combos.length, props, setCombos, tipoCategoria]);
+
 
   const fnBuscar = async (obj, filtros = {}, page = 1) => {
+    props.setLoadApp(true);
     if (obj) {
       if (filtros.fecha && filtros.fecha === '-') {
         delete filtros.fecha;
@@ -30,17 +36,25 @@ const ModalConsult = ({...props}) => {
       let res = filter(filtros);
       if (!res) {
         notifyMessage('La fecha final es obligatoria');
+        props.setLoadApp(false);
         return;
       }
-      let response = await buscarDatos(filtros, page, 'searchIntervencion');
+      props.setLoadApp(true);
+      let response = await buscarDatos(
+        filtros,
+        page,
+        tipoCategoria === 1 ? 'searchIntervencion' : 'intervencionZonaVerde',
+      );
       if (response.data.length === 0) {
         notifyMessage('La consulta no obtuvo resultados');
+        props.setLoadApp(false);
         return;
       }
       setDataResult(response);
       props.setIndexSnap(2);
     }
     setBuscar(obj);
+    props.setLoadApp(false);
   };
 
   const filter = filtros => {
@@ -53,13 +67,18 @@ const ModalConsult = ({...props}) => {
   };
 
   const paginar = async page => {
+    props.setLoadApp(true);
     let res = await AsyncStorage.getItem('filtros');
     let filtros = res ? {} : JSON.parse(res);
     await fnBuscar(true, filtros, page);
+    props.setLoadApp(false);
   };
 
   const fnLimpiar = obj => {
+    props.setIndexSnap(1);
     setBuscar(false);
+    setTipoCategoria(1);
+    limpiarMapa();
   };
 
   return (
@@ -69,13 +88,20 @@ const ModalConsult = ({...props}) => {
         setOption={props.setOption}
         backIndex={props.back}
       />
-      <FormConsulta fnBuscar={fnBuscar} fnLimpiar={fnLimpiar} combos={combos} />
+      <FormConsulta
+        fnBuscar={fnBuscar}
+        fnLimpiar={fnLimpiar}
+        combos={combos}
+        tipoCategoria={tipoCategoria}
+        setTipoCategoria={setTipoCategoria}
+      />
       {buscar ? (
         <ResultSearch
-          tabArbol={props.tabArbol}
+          tipoCategoria={tipoCategoria}
           data={dataResult.data}
           meta={dataResult.meta}
           paginar={paginar}
+          setLoadApp={props.setLoadApp}
         />
       ) : null}
     </>

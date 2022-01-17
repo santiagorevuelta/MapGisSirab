@@ -1,4 +1,4 @@
-import axios from 'axios';
+const axios = require('axios');
 import tsconfig from '../tsconfig.json';
 import {catchError, consultToken, notifyMessage} from '../core/general';
 
@@ -9,7 +9,7 @@ export default async function (formData, type) {
     return;
   }
 
-  let url = tsconfig[tsconfig.use][type].url;
+  let url = tsconfig.prefix + tsconfig[tsconfig.use][type].url;
   const config = {
     headers: {
       'access-token': token,

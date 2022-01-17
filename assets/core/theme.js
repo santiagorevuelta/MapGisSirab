@@ -17,9 +17,9 @@ export const theme = {
   colors: {
     ...DefaultTheme.colors,
     dark: {
-      backgroundColor: 'black',
+      backgroundColor: 'white',
       backgroundCard: '#25282c',
-      color: 'white',
+      color: 'black',
     },
     light: {
       backgroundColor: 'white',

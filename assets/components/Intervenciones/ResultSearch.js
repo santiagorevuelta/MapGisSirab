@@ -8,7 +8,7 @@ import Pagination from '../../core/Pagination';
 import ModalIntervention from './Ver/modalIntervention';
 import Mycard from '../commons/CarruselIntervenciones/RenderCardIntervencion';
 
-export default function ({data, meta, paginar}) {
+export default function ({data, meta, paginar, setLoadApp}) {
   const [dataItem, setDataItem] = React.useState({});
   const [visible, setVisible] = React.useState(false);
   return (
@@ -28,6 +28,7 @@ export default function ({data, meta, paginar}) {
           visible={visible}
           setVisible={setVisible}
           setDataItem={setDataItem}
+          setLoadApp={setLoadApp}
         />
       </ScrollView>
       <Pagination meta={meta} paginar={paginar} />

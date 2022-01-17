@@ -1,23 +1,30 @@
 import React, {useEffect} from 'react';
 import HeaderModal from '../../home/HeaderModal';
 import FormIngresar from './FormIngresarZonaVerde';
-import combosArbol from '../../../helpers/combosArbol';
-import tsconfig from '../../../tsconfig.json';
 import base64 from 'react-native-base64';
 import guardarDatos from '../../../helpers/guardarDatos';
 import {notifyMessage} from '../../../core/general';
 
 import {limpiarMapaPolygon} from '../../map/BackgroundMap';
+import {getData} from '../../../combos';
 
-const ModalIngresar = ({label, setOption, back, setIndexSnap, snp}) => {
+const ModalIngresar = ({
+  label,
+  setOption,
+  back,
+  setIndexSnap,
+  snp,
+  setLoadApp,
+}) => {
   const [combos, setCombos] = React.useState([]);
 
   const fnGuardar = async (datos, datosImagenes) => {
+    setLoadApp(true);
     let valid = validarObligatorio(datos);
-
     if (!valid) {
       notifyMessage('Los campos marcados con (*) son obligatorios');
-      return;
+      setLoadApp(false);
+      return false;
     }
 
     datos.fecha = datos.fecha.split('/').reverse().join('-');
@@ -31,9 +38,12 @@ const ModalIngresar = ({label, setOption, back, setIndexSnap, snp}) => {
     if (res.message) {
       notifyMessage(res.message);
       limpiarMapaPolygon();
-      setOption(back);
+      setLoadApp(false);
+      return 'Ok';
     } else {
       notifyMessage('Error al guardar');
+      setLoadApp(false);
+      return false;
     }
   };
 
@@ -48,21 +58,30 @@ const ModalIngresar = ({label, setOption, back, setIndexSnap, snp}) => {
       !datos.segundo_nivel ||
       !datos.id_tipo_zona_verde ||
       !datos.area_m2_calculado ||
-      !datos.area_m2
+      !datos.area_m2 ||
+      datos.nombre === '' ||
+      datos.codigo === '' ||
+      datos.id_proyecto === '' ||
+      datos.id_tipo_zona_verde === '' ||
+      datos.geom === '' ||
+      datos.primer_nivel === '' ||
+      datos.segundo_nivel === '' ||
+      datos.id_tipo_zona_verde === '' ||
+      datos.area_m2_calculado === '' ||
+      datos.area_m2 === ''
     );
   }
 
   useEffect(() => {
-    setIndexSnap(snp.length - 1);
-    return async () => {
-      limpiarMapaPolygon();
-      if (combos.length === 0) {
-        let url = tsconfig[tsconfig.use].searchZone.combos;
-        let res = await combosArbol(url);
-        setCombos(res);
-      }
-    };
-  }, [combos.length, setCombos, setIndexSnap, snp]);
+    async function initial() {
+      setLoadApp(true);
+      let res = await getData('zona');
+      setCombos(res);
+      setIndexSnap(snp.length - 1);
+      setLoadApp(false);
+    }
+    initial().then();
+  }, [combos.length, setCombos, setIndexSnap, setLoadApp, snp.length]);
 
   return (
     <>
@@ -71,6 +90,7 @@ const ModalIngresar = ({label, setOption, back, setIndexSnap, snp}) => {
         fnGuardar={fnGuardar}
         combos={combos}
         setIndexSnap={setIndexSnap}
+        setLoadApp={setLoadApp}
       />
     </>
   );

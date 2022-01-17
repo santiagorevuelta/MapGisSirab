@@ -13,29 +13,41 @@ import guardarDatos from '../../../helpers/guardarDatos';
 import {theme} from '../../../core/theme';
 import {responsiveScreenFontSize} from 'react-native-responsive-dimensions';
 import ButtonInsert from '../../ButtonInsert';
+import {getData} from '../../../combos';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const ModalIngresarArbol = ({label, setOption, back, setIndexSnap, snp}) => {
+const ModalIngresarArbol = ({
+  label,
+  setOption,
+  back,
+  setIndexSnap,
+  snp,
+  setLoadApp,
+}) => {
   const [arboles, setArboles] = useState(false);
   const [idArbol, setIdArbol] = useState(null);
   const [dataArbol, setDataArbol] = useState({});
   const [combos, setCombos] = React.useState([]);
   const [zonaVerde, setZonaVerde] = useState(false);
 
-  useEffect(() => {
-    return async () => {
-      if (combos.length === 0) {
-        let url = tsconfig[tsconfig.use].searchIntervencion.combos;
-        let data = await combosArbol(url);
-        setCombos(data);
-      }
-    };
-  }, [combos.length, setCombos, setIndexSnap, snp.length]);
+  useEffect( () => {
+    async function initial() {
+      setLoadApp(true);
+      let res = await getData('intervencionArbol');
+      setCombos(res);
+      setIndexSnap(snp.length - 2);
+      setLoadApp(false);
+    }
+    initial().then();
+  }, [combos.length, setCombos, setIndexSnap, setLoadApp, snp.length]);
 
   const fnGuardar = async (data, secondData, images = []) => {
+    setLoadApp(true);
     if (idArbol !== null) {
       let valid = validatorObligatory(data, secondData);
       if (!valid) {
         notifyMessage('Los campos marcados con (*) son obligatorios');
+        setLoadApp(false);
         return;
       }
       let formData = new FormData();
@@ -58,9 +70,11 @@ const ModalIngresarArbol = ({label, setOption, back, setIndexSnap, snp}) => {
         setArboles(false);
       } else {
         notifyMessage('Error al guardar');
+        setLoadApp(false);
       }
     } else {
       notifyMessage('Sin arbol para asociar');
+      setLoadApp(false);
     }
   };
 
@@ -98,7 +112,9 @@ const ModalIngresarArbol = ({label, setOption, back, setIndexSnap, snp}) => {
       let data = await combosArbol(combo);
       setCombos(data);
     }
+    setLoadApp(true);
     let result = await buscarDatos(dataArbol, 1, url);
+    setLoadApp(false);
     if (result.data?.length === 0) {
       notifyMessage('No encontrado');
     } else {

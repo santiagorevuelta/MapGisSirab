@@ -7,30 +7,23 @@ import {
   setCoords,
   stopPolin,
 } from '../components/map/BackgroundMap';
-import {
-  Header,
-  ModalIngresarArbol,
-  ModalIngresarIntervencion,
-  ModalIngresarZonaVerde,
-  ModalIntervenciones,
-  ModalOptions,
-  ModalOptionsArbol,
-  ModalOptionsType,
-  ModalZonasVerdes,
-} from './indexDashboard';
+import {Header} from './indexDashboard';
 import BottomSheet from '@gorhom/bottom-sheet';
 import {consultToken} from '../core/general';
-import config from '../tsconfig.json';
 import {Platform} from 'react-native';
 //import VersionCheck from 'react-native-version-check';
 
 import {responsiveScreenHeight} from 'react-native-responsive-dimensions';
+import Renderload from '../components/Load';
+import {loadCombos} from '../combos';
+import {ViewRender} from './Views';
 
 export default function Dashboard({navigation, route}) {
-  const [headerHide, setHeaderHide] = useState(false);
+  const bottomSheetRef = React.useRef(null);
+  const [loadApp, setLoadApp] = useState(true);
+  const [cargaInicial, setCargaInicial] = useState(false);
   const [option, setOption] = useState('inicio');
   const [optionOld, setOptionOld] = useState(null);
-  const bottomSheetRef = React.useRef(null);
   const [indexSnap, setIndexSnap] = useState(1);
   const [snapPoints] = useState(useMemo(() => ['7%', '26%'], []));
   const [snapPointsVer] = useState(
@@ -41,18 +34,24 @@ export default function Dashboard({navigation, route}) {
   );
   const [snp, setSnp] = useState(snapPoints);
 
-  useEffect(() => {
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(async () => {
+    if (!cargaInicial) {
+      setCargaInicial(true);
+      let res = await consultToken();
+      if (!res) {
+        navigate('LoginScreen');
+      } else {
+        await loadCombos();
+      }
+      setLoadApp(false);
+    }
     return () => {
-      consultToken().then(res => {
-        if (!res) {
-          navigate('LoginScreen');
-        }
-      });
       stopPolin();
-      setCoords().then();
+      setCoords();
       initial();
     };
-  }, [navigation, route]);
+  }, [cargaInicial, navigation]);
 
   function initial() {
     /*if (Platform.OS !== 'ios') {
@@ -87,58 +86,32 @@ export default function Dashboard({navigation, route}) {
 
   return (
     <MapComponent navigation={navigation}>
-      {!headerHide && (
-        <Header setOption={setView} setIndexSnap={setIndexSnap} />
-      )}
+      <Renderload setLoadVisible={setLoadApp} load={loadApp} />
+      <Header
+        setOption={setView}
+        setIndexSnap={setIndexSnap}
+        option={optionOld}
+      />
       <BottomSheet
         ref={bottomSheetRef}
-        key={'busqueda'}
-        onChange={index => {
-          setHeaderHide(index === snapPointsVer.length - 1);
-        }}
         index={indexSnap}
         initialSnapIndex={1}
         keyboardBehavior={'fullScreen'}
-        style={{marginBottom: responsiveScreenHeight(5)}}
-        snapPoints={snp}>
-        <ViewRender
-          setOption={setView}
-          type={option}
-          back={optionOld}
-          snp={snp}
-          label={optionOld + ' ' + option.toLowerCase()}
-          tabArbol={tabArbol}
-          setIndexSnap={setIndexSnap}
-        />
-      </BottomSheet>
+        style={{marginBottom: responsiveScreenHeight(5), elevation: 1}}
+        snapPoints={snp}
+        children={() => (
+          <ViewRender
+            setOption={setView}
+            type={option}
+            back={optionOld}
+            snp={snp}
+            label={optionOld + ' ' + option.toLowerCase()}
+            tabArbol={tabArbol}
+            setIndexSnap={setIndexSnap}
+            setLoadApp={setLoadApp}
+          />
+        )}
+      />
     </MapComponent>
   );
-}
-
-function ViewRender(props) {
-  if (props.type === 'inicio') {
-    return <ModalOptions {...props} />;
-  } else if ('Consulta,Ingresar'.indexOf(props.type) !== -1) {
-    return <ModalOptionsType {...props} />;
-  } else {
-    if (props.back === 'Consulta') {
-      switch (props.type) {
-        case config.home[0].label:
-          return <ModalOptionsArbol {...props} />;
-        case config.home[1].label:
-          return <ModalIntervenciones {...props} />;
-        case config.home[2].label:
-          return <ModalZonasVerdes {...props} />;
-      }
-    } else {
-      switch (props.type) {
-        case config.home[0].label:
-          return <ModalIngresarArbol {...props} />;
-        case config.home[1].label:
-          return <ModalIngresarIntervencion {...props} />;
-        case config.home[2].label:
-          return <ModalIngresarZonaVerde {...props} />;
-      }
-    }
-  }
 }

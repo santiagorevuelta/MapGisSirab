@@ -39,17 +39,22 @@ export default ({
   const [selectedItems, setSelectedItems] = useState([]);
   const [itemsFilter, setItemsFilter] = useState([]);
   const [textValue, setItemsTextValue] = useState('');
-  const [visible, setVisible] = React.useState(false);
+  const [visible, setVisible] = useState(false);
   const showDialog = () => setVisible(true);
   const hideDialog = () => setVisible(false);
 
   useEffect(() => {
-    Limpiar && setSelectedItems(valueSelected);
-    let data = list.filter(item => {
-      return item.campo.indexOf(id) !== -1;
-    });
-    setListItems(data);
-    setItemsFilter(data.length < 20 ? data : data.splice(0, 20));
+    async function initial() {
+      if (Limpiar) {
+        setSelectedItems(valueSelected);
+      }
+      let data = await list.filter(item => {
+        return item.campo.indexOf(id) !== -1;
+      });
+      setListItems(data);
+      setItemsFilter(data.length < 20 ? data : data.splice(0, 20));
+    }
+    initial().then();
   }, [Limpiar, id, list, valueSelected]);
 
   const filterSelect = async text => {

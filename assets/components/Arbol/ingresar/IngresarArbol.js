@@ -3,16 +3,20 @@ import HeaderModal from '../../home/HeaderModal';
 import FormIngresarArbol from './FormIngresarArbol';
 import base64 from 'react-native-base64';
 import guardarDatos from '../../../helpers/guardarDatos';
-import combosArbol from '../../../helpers/combosArbol';
-import tsconfig from '../../../tsconfig.json';
 import {notifyMessage} from '../../../core/general';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {getData} from '../../../combos';
+import {reset} from '../../../helpers/dataSave';
 
-const ModalIngresarArbol = ({label, setOption, back, setIndexSnap, snp}) => {
+const ModalIngresarArbol = ({
+  label,
+  setOption,
+  back,
+  setIndexSnap,
+  snp,
+  setLoadApp,
+}) => {
   const [combos, setCombos] = React.useState([]);
-  const [dataForm, setDataForm] = React.useState({});
-  const [dataVar, setDataVar] = React.useState({});
-  const [dataImage, setDataImage] = React.useState([]);
 
   const fnGuardar = async (datosArbol, datosVariables, datosImagenes) => {
     let formData = new FormData();
@@ -27,27 +31,27 @@ const ModalIngresarArbol = ({label, setOption, back, setIndexSnap, snp}) => {
     );
     let res = await guardarDatos(formData, 'searchTree');
     if (res.message) {
-      setOption(back);
-      AsyncStorage.setItem('variables', '');
-      setDataForm({});
-      setDataImage({});
       notifyMessage(res.message);
       setIndexSnap(1);
+      return 'Ok';
     } else {
       notifyMessage('Error al guardar');
+      return false;
     }
   };
 
   useEffect(() => {
-    setIndexSnap(snp.length - 1);
-    return async () => {
-      if (combos.length === 0) {
-        let url = tsconfig[tsconfig.use].searchTree.combos;
-        let res = await combosArbol(url);
-        setCombos(res);
-      }
-    };
-  }, [combos.length, setCombos, setIndexSnap, snp]);
+    async function initial() {
+      setLoadApp(true);
+      AsyncStorage.setItem('variables', '');
+      reset();
+      let res = await getData('arbol');
+      setCombos(res);
+      setIndexSnap(snp.length - 1);
+      setLoadApp(false);
+    }
+    initial().then();
+  }, [combos.length, setCombos, setIndexSnap, setLoadApp, snp]);
 
   return (
     <>
@@ -55,13 +59,8 @@ const ModalIngresarArbol = ({label, setOption, back, setIndexSnap, snp}) => {
       <FormIngresarArbol
         fnGuardar={fnGuardar}
         combos={combos}
-        dataVar={dataVar}
-        setDataVar={setDataVar}
-        dataImage={dataImage}
-        setDataImage={setDataImage}
-        setDataForm={setDataForm}
-        dataForm={dataForm}
         setIndexSnap={setIndexSnap}
+        setLoadApp={setLoadApp}
       />
     </>
   );

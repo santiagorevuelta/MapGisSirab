@@ -39,10 +39,13 @@ const ModalIntervention = ({
           <View style={styles.slider}>
             <RenderImageIntervention data={data} />
             <Text style={theme.textos.LabelIn}>
-              {'Intervención # ' + data.id_intervencion}
+              {'Intervención #' +
+                (data.verIntervencion?.id_intervencion !== undefined
+                  ? data.verIntervencion?.id_intervencion
+                  : data.verIntervencion?.id_intervencion_zona_verde)}
             </Text>
           </View>
-          <RenderInfo data={data} />
+          <RenderInfo data={data.verIntervencion} />
         </View>
       </View>
     </Modal>
@@ -58,11 +61,15 @@ function RenderImageIntervention({data}) {
       effect="Fade"
       preloadImages={false}
       loop={true}>
-      {/*  {data.map(item => (
-          <View>*/}
-      <RenderImagen url={data.ruta_foto_web} style={styles.fotoModal} />
-      {/*      </View>
-        ))}*/}
+      {data.fotos?.map((item, i) => (
+        <View>
+          <RenderImagen
+            url={item.ruta_foto_web}
+            style={styles.fotoModal}
+            key={i}
+          />
+        </View>
+      ))}
     </Swiper>
   );
 }

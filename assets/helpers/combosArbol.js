@@ -1,11 +1,10 @@
-import axios from 'axios';
-import {catchError, consultToken, notifyMessage} from '../core/general';
+const axios = require('axios');
+import {catchError, consultToken} from '../core/general';
 
 export default async function (urlCombo) {
   let token = await consultToken();
   if (token === null) {
-    notifyMessage('Sin token');
-    return;
+    return [];
   }
   const config = {
     headers: {

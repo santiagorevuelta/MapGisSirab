@@ -8,6 +8,7 @@ import {SafeAreaView} from 'react-native';
 import {theme} from '../core/theme';
 import {responsiveHeight} from 'react-native-responsive-dimensions';
 import buscarDatosId from '../helpers/buscarDatosId';
+import Renderload from '../components/Load';
 
 export default class ViewTree extends React.Component {
   constructor() {
@@ -19,6 +20,7 @@ export default class ViewTree extends React.Component {
       intervenciones: [],
       verArbol: {},
       variables: {},
+      loadApp: false,
     };
   }
 
@@ -42,12 +44,11 @@ export default class ViewTree extends React.Component {
     this.setState({index});
   };
 
-  navigate = name => {
-    this.props.navigation.reset({
-      index: 2,
-      routes: [{name}],
-    });
+  setLoadApp = obj => {
+    this.setState({loadApp: obj});
   };
+
+
 
   render() {
     return (
@@ -56,6 +57,7 @@ export default class ViewTree extends React.Component {
           backgroundColor: theme.colors.blanco,
           height: responsiveHeight(100),
         }}>
+        <Renderload setLoadVisible={this.setLoadApp} load={this.loadApp} />
         <RenderHeader
           nav={navigate}
           cantidad={this.state.fotos?.length}

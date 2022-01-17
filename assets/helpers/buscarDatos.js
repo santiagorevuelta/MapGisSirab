@@ -1,4 +1,4 @@
-import axios from 'axios';
+const axios = require('axios');
 import tsconfig from '../tsconfig.json';
 import {catchError, consultToken, notifyMessage} from '../core/general';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -17,11 +17,11 @@ export default async function (filtros, page = 1, type) {
     notifyMessage('Sin autenticación');
     return;
   }
-  let url = `${tsconfig[tsconfig.use][type].url}?${params}`;
+  let url = `${tsconfig.prefix}${tsconfig[tsconfig.use][type].url}?${params}`;
   const config = {
     headers: {
       'access-token': token,
-      limit: '4',
+      limit: '6',
       page: page,
     },
   };

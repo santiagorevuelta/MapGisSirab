@@ -1,36 +1,30 @@
 import React, {useEffect, useState} from 'react';
 import FormConsultaArbol from './FormConsultaArbol';
 import ResultSearch from './ResultSearch';
-import {consultToken, notifyMessage} from '../../core/general';
+import {notifyMessage} from '../../core/general';
 import HeaderModal from '../home/HeaderModal';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import buscarDatos from '../../helpers/buscarDatos';
-import {
-  limpiarMapa,
-  navigate,
-  setCoords,
-  stopPolin,
-  verEnMapaAllPoint,
-} from '../map/BackgroundMap';
-import tsconfig from '../../tsconfig.json';
-import combosArbol from '../../helpers/combosArbol';
+import {limpiarMapa, verEnMapaAllPoint} from '../map/BackgroundMap';
+import {getData} from '../../combos';
 
-const ModalOptionsArbol = ({...props}) => {
+const ModalOptionsArbol = props => {
   const [buscar, setBuscar] = useState(false);
   const [dataResult, setDataResult] = useState({});
   const [combos, setCombos] = useState([]);
   const [where, setWhere] = useState({});
 
   useEffect(() => {
-    return () => {
-      let url = tsconfig[tsconfig.use].searchTree.combos;
-      combosArbol(url).then(res => {
-        setCombos(res);
-      });
-    };
-  }, [setCombos]);
+    async function initial() {
+      let res = await getData('arbol');
+      setCombos(res);
+    }
+    initial().then();
+  }, [combos.length, setCombos]);
+
 
   const fnBuscar = async (obj, filtros = {}, page = 1) => {
+    props.setLoadApp(true);
     if (obj) {
       setWhere(filtros);
       if (filtros.fecha && filtros.fecha === '-') {
@@ -39,18 +33,22 @@ const ModalOptionsArbol = ({...props}) => {
       let res = filter(filtros);
       if (!res) {
         notifyMessage('La fecha final es obligatoria');
+        props.setLoadApp(false);
         return;
       }
+      props.setLoadApp(true);
       let response = await buscarDatos(filtros, page, 'searchTree');
       if (response.data.length === 0) {
         notifyMessage('La consulta no obtuvo resultados');
         limpiarMapa();
+        props.setLoadApp(false);
         setBuscar(false);
         return;
       }
       props.setIndexSnap(2);
       setDataResult(response);
       verEnMapaAllPoint(response.data);
+      props.setLoadApp(false);
     }
     setBuscar(obj);
   };
@@ -65,18 +63,21 @@ const ModalOptionsArbol = ({...props}) => {
   };
 
   const fnLimpiar = obj => {
+    props.setIndexSnap(1);
     setBuscar(false);
     limpiarMapa();
   };
 
   const pasarNav = obj => {
-    props.tabArbol(obj, where);
+    props.tabArbol(obj);
   };
 
   const paginar = async page => {
+    props.setLoadApp(true);
     let res = await AsyncStorage.getItem('filtros');
     let filtros = res ? {} : JSON.parse(res);
     await fnBuscar(true, filtros, page);
+    props.setLoadApp(false);
   };
 
   return (

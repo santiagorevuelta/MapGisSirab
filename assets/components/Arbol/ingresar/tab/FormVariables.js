@@ -5,24 +5,24 @@ import TextInputForm from '../../../commons/TextInputForm';
 import DatePicker from '../../../commons/DatePicker/DatePicker';
 import styles from '../../../css/ingresarcss';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {asignar, consultar} from '../../../../helpers/dataSave';
 
-export default ({}) => {
-  const [dataVariables, setDataVariables] = useState({});
+export default () => {
+  const [dataVar, setDataVa] = useState({});
+
+  function setDataVar(params) {
+    setDataVa({...params});
+    asignar(params);
+    AsyncStorage.setItem('variables', JSON.stringify(params));
+  }
 
   useEffect(() => {
-    const init = async () => {
-      let data = await AsyncStorage.getItem('variables');
-      data = data === null ? {} : JSON.parse(data);
-      setDataVariables(data);
-    };
-    init().then();
+    async function fetchData() {
+      let data = consultar();
+      setDataVa(data);
+    }
+    fetchData().then();
   }, []);
-
-  const setData = (name, text) => {
-    let data = {...dataVariables, [name]: text};
-    setDataVariables(data);
-    AsyncStorage.setItem('variables', JSON.stringify(data));
-  };
 
   return (
     <View

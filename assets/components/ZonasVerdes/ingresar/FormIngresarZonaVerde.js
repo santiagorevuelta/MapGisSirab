@@ -12,33 +12,36 @@ import consultarBarrios from '../../../helpers/consultaBarrios';
 import {responsiveFontSize} from 'react-native-responsive-dimensions';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {ScrollView} from 'react-native-gesture-handler';
-import {drawPolin, limpiarMapaPolygon} from '../../map/BackgroundMap';
+import {
+  drawPolin,
+  limpiarMapa,
+  limpiarMapaPolygon,
+} from '../../map/BackgroundMap';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {notifyMessage} from '../../../core/general';
 import ButtonInsert from '../../ButtonInsert';
 
 const selectPlace = 'Seleccione...';
 
-export default ({combos = [], fnGuardar, setIndexSnap}) => {
+export default ({combos = [], fnGuardar, setIndexSnap, setLoadApp}) => {
   const [dataForm, setDataForm] = React.useState({});
   const [dataImage, setDataImage] = React.useState([]);
   const [combosBarrios, setCombosBarrios] = React.useState([]);
 
-  useEffect(() => {
-    //limpiarMapaPolygon();
-  }, []);
-
   const llenarBarrio = async id => {
+    setLoadApp(true);
     if (id !== '') {
       let res = await consultarBarrios(id);
       setCombosBarrios(res);
     } else {
       setCombosBarrios([]);
     }
+    setLoadApp(false);
   };
 
   const getPolygon = async () => {
     let result = await AsyncStorage.getItem('polygon');
+    let area = await AsyncStorage.getItem('area');
     if (result != null) {
       result = JSON.parse(result);
       let finalJ = '';
@@ -46,7 +49,12 @@ export default ({combos = [], fnGuardar, setIndexSnap}) => {
         finalJ += `${data.lng} ${data.lat},`;
       }
       finalJ += `${result[0].lng} ${result[0].lat}`;
-      setDataForm({...dataForm, geom: `POLYGON((${finalJ}))`});
+      console.log(parseInt(area, 10));
+      setDataForm({
+        ...dataForm,
+        geom: `POLYGON((${finalJ}))`,
+        area_m2_calculado: parseInt(area, 10) + '',
+      });
     } else {
       setTimeout(() => {
         getPolygon().then();
@@ -111,7 +119,6 @@ export default ({combos = [], fnGuardar, setIndexSnap}) => {
           <SelectSimple
             label={'Barrio *'}
             id="segundo_nivel"
-            disabledView={combosBarrios.length === 0}
             placeholder={selectPlace}
             dependencia={true}
             valueSelected={dataForm.segundo_nivel}
@@ -150,7 +157,7 @@ export default ({combos = [], fnGuardar, setIndexSnap}) => {
                 icon="cached"
                 color={theme.colors.primary}
                 onPress={() => {
-                  limpiarMapaPolygon();
+                  limpiarMapa();
                 }}
               />
             </View>
@@ -173,7 +180,7 @@ export default ({combos = [], fnGuardar, setIndexSnap}) => {
             label={'Área m² *'}
             placeholder={'Área'}
             value={dataForm.area_m2}
-            keyboardType="default"
+            keyboardType="numeric"
             onChangeTextInput={text =>
               setDataForm({...dataForm, area_m2: text})
             }
@@ -181,8 +188,9 @@ export default ({combos = [], fnGuardar, setIndexSnap}) => {
           <TextInputForm
             label={'Área calculada m² *'}
             placeholder={'Área calculada'}
+            editable={false}
             value={dataForm.area_m2_calculado}
-            keyboardType="default"
+            keyboardType="numeric"
             onChangeTextInput={text =>
               setDataForm({...dataForm, area_m2_calculado: text})
             }
@@ -211,7 +219,13 @@ export default ({combos = [], fnGuardar, setIndexSnap}) => {
             style={styles.guardar}
             color={theme.colors.primary}
             onPress={() => {
-              fnGuardar(dataForm, dataImage);
+              fnGuardar(dataForm, dataImage).then(res => {
+                if (res === 'Ok') {
+                  limpiarMapaPolygon();
+                  setDataForm({});
+                  setDataImage([]);
+                }
+              });
             }}>
             Guardar
           </ButtonInsert>

@@ -7,13 +7,12 @@
  */
 
 import type {Node} from 'react';
-import React from 'react';
+import React, {createRef} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {theme} from './assets/core/theme';
 import {enableScreens} from 'react-native-screens';
 import {Dashboard, LoginScreen, ViewTree, ViewZone} from './assets/screens';
-import {Text} from 'react-native';
 import {configureFonts} from 'react-native-paper';
 
 enableScreens(true);
@@ -62,10 +61,7 @@ theme.fonts = configureFonts(fontConfig);
 
 const App: () => Node = () => {
   return (
-    <NavigationContainer
-      independent={true}
-      theme={theme}
-      fallback={<Text>Loading...</Text>}>
+    <NavigationContainer independent={true} theme={theme} ref={createRef()}>
       <Stack.Navigator
         screenOptions={{
           headerShown: false,
