@@ -43,12 +43,8 @@ export default class ViewZone extends React.Component {
     this.setState({index});
   };
 
-  navigate = name => {
-    this.props.navigation.reset({
-      index: 2,
-      routes: [{name}],
-      params: {optionOld: 'Consulta', option: config.home[2].label},
-    });
+  navig = name => {
+    this.props.navigation.navigate(name, this.props.route.params);
   };
 
   render() {
@@ -59,7 +55,7 @@ export default class ViewZone extends React.Component {
           height: responsiveHeight(100),
         }}>
         <RenderHeader
-          nav={this.navigate}
+          nav={this.navig}
           cantidad={this.state.fotos.length}
           codigo={this.state.codigo}
           index={this.state.index}

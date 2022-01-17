@@ -1,11 +1,17 @@
 import React, {useEffect, useState} from 'react';
 import FormConsultaArbol from './FormConsultaArbol';
 import ResultSearch from './ResultSearch';
-import {notifyMessage} from '../../core/general';
+import {consultToken, notifyMessage} from '../../core/general';
 import HeaderModal from '../home/HeaderModal';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import buscarDatos from '../../helpers/buscarDatos';
-import {limpiarMapa, verEnMapaAllPoint} from '../map/BackgroundMap';
+import {
+  limpiarMapa,
+  navigate,
+  setCoords,
+  stopPolin,
+  verEnMapaAllPoint,
+} from '../map/BackgroundMap';
 import tsconfig from '../../tsconfig.json';
 import combosArbol from '../../helpers/combosArbol';
 
@@ -13,16 +19,20 @@ const ModalOptionsArbol = ({...props}) => {
   const [buscar, setBuscar] = useState(false);
   const [dataResult, setDataResult] = useState({});
   const [combos, setCombos] = useState([]);
+  const [where, setWhere] = useState({});
 
   useEffect(() => {
-    let url = tsconfig[tsconfig.use].searchTree.combos;
-    combosArbol(url).then(res => {
-      setCombos(res);
-    });
+    return () => {
+      let url = tsconfig[tsconfig.use].searchTree.combos;
+      combosArbol(url).then(res => {
+        setCombos(res);
+      });
+    };
   }, [setCombos]);
 
   const fnBuscar = async (obj, filtros = {}, page = 1) => {
     if (obj) {
+      setWhere(filtros);
       if (filtros.fecha && filtros.fecha === '-') {
         delete filtros.fecha;
       }
@@ -59,6 +69,10 @@ const ModalOptionsArbol = ({...props}) => {
     limpiarMapa();
   };
 
+  const pasarNav = obj => {
+    props.tabArbol(obj, where);
+  };
+
   const paginar = async page => {
     let res = await AsyncStorage.getItem('filtros');
     let filtros = res ? {} : JSON.parse(res);
@@ -79,7 +93,7 @@ const ModalOptionsArbol = ({...props}) => {
       />
       {buscar && (
         <ResultSearch
-          tabArbol={props.tabArbol}
+          tabArbol={pasarNav}
           setIndexSnap={props.setIndexSnap}
           data={dataResult.data}
           meta={dataResult.meta}

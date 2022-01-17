@@ -9,7 +9,7 @@ import {notifyMessage} from '../../../core/general';
 
 import {limpiarMapaPolygon} from '../../map/BackgroundMap';
 
-const ModalIngresar = ({label, setOption, back, setIndexSnap}) => {
+const ModalIngresar = ({label, setOption, back, setIndexSnap, snp}) => {
   const [combos, setCombos] = React.useState([]);
 
   const fnGuardar = async (datos, datosImagenes) => {
@@ -52,17 +52,26 @@ const ModalIngresar = ({label, setOption, back, setIndexSnap}) => {
     );
   }
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  useEffect(async () => {
-    let url = tsconfig[tsconfig.use].searchZone.combos;
-    let res = await combosArbol(url);
-    setCombos(res);
-  }, [setCombos]);
+  useEffect(() => {
+    setIndexSnap(snp.length - 1);
+    return async () => {
+      limpiarMapaPolygon();
+      if (combos.length === 0) {
+        let url = tsconfig[tsconfig.use].searchZone.combos;
+        let res = await combosArbol(url);
+        setCombos(res);
+      }
+    };
+  }, [combos.length, setCombos, setIndexSnap, snp]);
 
   return (
     <>
       <HeaderModal type={label} setOption={setOption} backIndex={back} />
-      <FormIngresar fnGuardar={fnGuardar} combos={combos} setIndexSnap={setIndexSnap}/>
+      <FormIngresar
+        fnGuardar={fnGuardar}
+        combos={combos}
+        setIndexSnap={setIndexSnap}
+      />
     </>
   );
 };

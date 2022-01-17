@@ -33,6 +33,7 @@ export const theme = {
     focus: 'rgba(37,139,32,0.15)',
     headers: '#959595',
     border: 'rgba(149,149,149,0.24)',
+    fondo: 'rgba(149,149,149,0.61)',
     blanco: '#fff',
     negro: '#000',
     hover: 'rgb(125,211,122)',

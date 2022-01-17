@@ -128,7 +128,7 @@ export default ({combos = [], fnGuardar, setIndexSnap}) => {
             style={[
               styles.form,
               styles.geo,
-              {width: '50%', flexDirection: 'column'},
+              {width: '48%', flexDirection: 'column'},
             ]}>
             <Text style={theme.textos.LabelIn}>{'Dibujar poligono *'}</Text>
             <View style={styles.geoButons}>

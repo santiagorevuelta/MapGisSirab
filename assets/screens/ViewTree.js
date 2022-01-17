@@ -8,7 +8,6 @@ import {SafeAreaView} from 'react-native';
 import {theme} from '../core/theme';
 import {responsiveHeight} from 'react-native-responsive-dimensions';
 import buscarDatosId from '../helpers/buscarDatosId';
-import {navigate} from '../components/map/BackgroundMap';
 
 export default class ViewTree extends React.Component {
   constructor() {
@@ -41,6 +40,13 @@ export default class ViewTree extends React.Component {
 
   setCant = index => {
     this.setState({index});
+  };
+
+  navigate = name => {
+    this.props.navigation.reset({
+      index: 2,
+      routes: [{name}],
+    });
   };
 
   render() {

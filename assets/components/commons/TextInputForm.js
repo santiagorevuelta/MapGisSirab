@@ -20,10 +20,10 @@ export default function TextInput({...props}) {
             : {},
         ]}
         {...props}
-        onChangeText={async text => {
+        onEndEditing={e => {
           //let valid = await validType(text, props.keyboardType);
           //if (valid) {
-          props.onChangeTextInput(text.trimStart());
+          props.onChangeTextInput(e.nativeEvent.text.trimStart());
           // }
         }}
       />

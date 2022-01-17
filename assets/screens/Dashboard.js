@@ -5,6 +5,7 @@ import {
   MapComponent,
   navigate,
   setCoords,
+  stopPolin,
 } from '../components/map/BackgroundMap';
 import {
   Header,
@@ -20,14 +21,12 @@ import {
 import BottomSheet from '@gorhom/bottom-sheet';
 import {consultToken} from '../core/general';
 import config from '../tsconfig.json';
-import {LogBox, Platform} from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import {Platform} from 'react-native';
+//import VersionCheck from 'react-native-version-check';
+
 import {responsiveScreenHeight} from 'react-native-responsive-dimensions';
 
-LogBox.ignoreLogs(['new NativeEventEmitter']); // Ignore log notification by message
-LogBox.ignoreAllLogs(); //Ignore all log notifications
-
-export default function Dashboard({navigation}) {
+export default function Dashboard({navigation, route}) {
   const [headerHide, setHeaderHide] = useState(false);
   const [option, setOption] = useState('inicio');
   const [optionOld, setOptionOld] = useState(null);
@@ -43,15 +42,31 @@ export default function Dashboard({navigation}) {
   const [snp, setSnp] = useState(snapPoints);
 
   useEffect(() => {
-    consultToken().then(res => {
-      if (res) {
-        return;
+    return () => {
+      consultToken().then(res => {
+        if (!res) {
+          navigate('LoginScreen');
+        }
+      });
+      stopPolin();
+      setCoords().then();
+      initial();
+    };
+  }, [navigation, route]);
+
+  function initial() {
+    /*if (Platform.OS !== 'ios') {
+      try {
+        VersionCheck.needUpdate().then(res => {
+          if (res.isNeeded) {
+            Alert.alert('Información', 'Nueva actualización disponible');
+          }
+        });
+      } catch (e) {
+        console.log('');
       }
-      navigate('LoginScreen');
-    });
-    setCoords().then();
-    AsyncStorage.setItem('variables', '');
-  }, [navigation]);
+    }*/
+  }
 
   const setView = index => {
     if ('Consulta,Ingresar,inicio'.indexOf(index) !== -1) {
@@ -90,6 +105,7 @@ export default function Dashboard({navigation}) {
           setOption={setView}
           type={option}
           back={optionOld}
+          snp={snp}
           label={optionOld + ' ' + option.toLowerCase()}
           tabArbol={tabArbol}
           setIndexSnap={setIndexSnap}
@@ -115,7 +131,6 @@ function ViewRender(props) {
           return <ModalZonasVerdes {...props} />;
       }
     } else {
-      props.setIndexSnap(3);
       switch (props.type) {
         case config.home[0].label:
           return <ModalIngresarArbol {...props} />;

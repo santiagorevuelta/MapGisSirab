@@ -8,7 +8,7 @@ import tsconfig from '../../../tsconfig.json';
 import {notifyMessage} from '../../../core/general';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const ModalIngresarArbol = ({label, setOption, back, setIndexSnap}) => {
+const ModalIngresarArbol = ({label, setOption, back, setIndexSnap, snp}) => {
   const [combos, setCombos] = React.useState([]);
   const [dataForm, setDataForm] = React.useState({});
   const [dataVar, setDataVar] = React.useState({});
@@ -27,21 +27,27 @@ const ModalIngresarArbol = ({label, setOption, back, setIndexSnap}) => {
     );
     let res = await guardarDatos(formData, 'searchTree');
     if (res.message) {
+      setOption(back);
       AsyncStorage.setItem('variables', '');
       setDataForm({});
       setDataImage({});
       notifyMessage(res.message);
+      setIndexSnap(1);
     } else {
       notifyMessage('Error al guardar');
     }
   };
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  useEffect(async () => {
-    let url = tsconfig[tsconfig.use].searchTree.combos;
-    let res = await combosArbol(url);
-    setCombos(res);
-  }, [setCombos]);
+  useEffect(() => {
+    setIndexSnap(snp.length - 1);
+    return async () => {
+      if (combos.length === 0) {
+        let url = tsconfig[tsconfig.use].searchTree.combos;
+        let res = await combosArbol(url);
+        setCombos(res);
+      }
+    };
+  }, [combos.length, setCombos, setIndexSnap, snp]);
 
   return (
     <>

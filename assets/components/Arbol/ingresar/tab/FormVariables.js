@@ -27,6 +27,7 @@ export default ({}) => {
   return (
     <View
       style={{
+        height: '100%',
         backgroundColor: theme.colors.blanco,
         padding: 0,
         margin: 0,

@@ -1,5 +1,5 @@
 import React from 'react';
-import {Platform, StyleSheet, View} from 'react-native';
+import {Dimensions, Platform, StyleSheet, View} from 'react-native';
 
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import {
@@ -12,6 +12,7 @@ import {theme} from '../../../../core/theme';
 
 import FormCharacteristics from './Characteristics';
 import FormVariables from './Variables';
+const windowHeight = parseInt(Dimensions.get('window').height, 10);
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -78,7 +79,7 @@ const styles = StyleSheet.create({
     paddingTop: 1,
     zIndex: 3,
     width: responsiveScreenWidth(90),
-    height: responsiveScreenHeight(33),
+    height: responsiveScreenHeight(windowHeight < 720 ? 28 : 30),
     marginLeft: responsiveScreenWidth(5),
     marginRight: responsiveScreenWidth(5),
     alignContent: 'center',

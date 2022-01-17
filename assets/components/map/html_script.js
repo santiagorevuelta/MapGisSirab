@@ -94,7 +94,7 @@ module.exports = `<!DOCTYPE html>
     // } 
     //popup.setLatLng(latlng).setContent('Estado '+id).openOn(mymap);   
     marker.addTo(mymap);
-    mymap.setView(latlng, 17);
+    mymap.setView([latlng[0]- 0.0025,latlng[1]], 17);
     marker.setLatLng(latlng);    
   }
 
@@ -135,7 +135,7 @@ module.exports = `<!DOCTYPE html>
     typeCoord = 'b';
   }
   
-  function acctionMapGetPoint(){
+  function acctionMapGetPoint(){ 
      mymap.on("click", onMapClick);
      typeCoord = 'i';
   }
@@ -270,6 +270,9 @@ mymap.on('draw:created', function(e) {
     //polyEdit.addVertex(e.latlng);
   }
   
+  function stopPolin(){
+    polyEdit.disabled();
+  }
   
   function limpiarDrawPolygon(){
     editableLayers.removeLayer(polygon);
