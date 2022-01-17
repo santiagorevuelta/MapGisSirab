@@ -29,13 +29,16 @@ function MapComponent({navigation, children}) {
   nav = navigation;
   const [location, setLocation] = useState(0);
   useEffect(() => {
-    permissionsLocation().then(() => {});
-    setTimeout(function () {
-      if (MapRef.current && location === 0) {
-        getLocalize(true);
-        setLocation(1);
-      }
-    }, 100);
+    const init = async () => {
+      permissionsLocation().then(() => {});
+      setTimeout(function () {
+        if (MapRef.current && location === 0) {
+          getLocalize(true);
+          setLocation(1);
+        }
+      }, 100);
+    };
+    init().then();
   }, [location]);
 
   return (

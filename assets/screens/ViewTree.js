@@ -8,6 +8,7 @@ import {SafeAreaView} from 'react-native';
 import {theme} from '../core/theme';
 import {responsiveHeight} from 'react-native-responsive-dimensions';
 import buscarDatosId from '../helpers/buscarDatosId';
+import {navigate} from '../components/map/BackgroundMap';
 
 export default class ViewTree extends React.Component {
   constructor() {
@@ -26,25 +27,20 @@ export default class ViewTree extends React.Component {
     let item = await AsyncStorage.getItem('items');
     item = item == null ? null : JSON.parse(item);
     let datosArbol = await buscarDatosId(item.id_arbol, 'searchTree');
-    // eslint-disable-next-line react/no-did-mount-set-state
-    this.setState({
-      fotos: datosArbol.fotos,
-      intervenciones: datosArbol.intervenciones,
-      verArbol: datosArbol.verArbol,
-      variables: datosArbol.variables,
-      codigo_arbol: item.codigo_arbol,
-    });
+    if (datosArbol.length !== 0) {
+      // eslint-disable-next-line react/no-did-mount-set-state
+      this.setState({
+        fotos: datosArbol.fotos,
+        intervenciones: datosArbol.intervenciones,
+        verArbol: datosArbol.verArbol,
+        variables: datosArbol.variables,
+        codigo_arbol: item.codigo_arbol,
+      });
+    }
   }
 
   setCant = index => {
     this.setState({index});
-  };
-
-  navigate = name => {
-    this.props.navigation.reset({
-      index: 2,
-      routes: [{name}],
-    });
   };
 
   render() {
@@ -55,8 +51,8 @@ export default class ViewTree extends React.Component {
           height: responsiveHeight(100),
         }}>
         <RenderHeader
-          nav={this.navigate}
-          cantidad={this.state.fotos.length}
+          nav={navigate}
+          cantidad={this.state.fotos?.length}
           codigo={this.state.codigo_arbol}
           index={this.state.index}
         />

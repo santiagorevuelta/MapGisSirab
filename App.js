@@ -72,8 +72,8 @@ const App: () => Node = () => {
         }}>
         <Stack.Screen name="Dashboard" component={Dashboard} />
         <Stack.Screen name="LoginScreen" component={LoginScreen} />
-        <Stack.Screen name="ViewTree" component={ViewTree} />
         <Stack.Screen name="ViewZone" component={ViewZone} />
+        <Stack.Screen name="ViewTree" component={ViewTree} />
       </Stack.Navigator>
     </NavigationContainer>
   );

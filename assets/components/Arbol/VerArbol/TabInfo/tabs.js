@@ -27,9 +27,6 @@ export default function getHome({dataArbol, dataVariables}) {
   return (
     <View style={styles.floatModal}>
       <Tab.Navigator
-        tabBarOptions={{
-          labelStyle: {textTransform: 'none'},
-        }}
         screenOptions={{
           tabBarLabelStyle: {
             fontSize: responsiveFontSize(1.6),
@@ -38,7 +35,7 @@ export default function getHome({dataArbol, dataVariables}) {
             textAlign: 'left',
           },
           tabBarItemStyle: {
-            height: 40
+            height: 40,
           },
           tabBarInactiveTintColor: theme.colors.headers,
           tabBarPressColor: theme.colors.border,
