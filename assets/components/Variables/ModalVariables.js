@@ -5,8 +5,66 @@ import {Button} from 'react-native-paper';
 import {theme} from '../../core/theme';
 import {responsiveFontSize} from 'react-native-responsive-dimensions';
 import FormVariables from '../Arbol/ingresar/tab/FormVariables';
+import {consultar} from '../../helpers/dataSave';
+import {notifyMessage} from '../../core/general';
+import base64 from 'react-native-base64';
+import guardarDatos from '../../helpers/guardarDatos';
 
-const ModalVariables = ({modalVisible = false, onModalVisible}) => {
+const ModalVariables = ({
+  modalVisible = false,
+  onModalVisible,
+  setLoadApp,
+  loadApp,
+}) => {
+  const [dataVar, setDataVar] = React.useState({});
+
+  function guardarInfo() {
+    setLoadApp(true);
+    let data = consultar();
+    console.log(data);
+    if (data === null) {
+      notifyMessage('Los campos marcados con (*) son obligatorios.');
+      setLoadApp(false);
+    } else {
+      setDataVar(data);
+      let valid = validateObligatory();
+      if (!valid) {
+        notifyMessage('Los campos marcados con  (*) son obligatorios');
+        setLoadApp(false);
+      } else {
+        fnGuardar();
+      }
+    }
+  }
+  const fnGuardar = async () => {
+    let formData = new FormData();
+    formData.append('datosVariable', base64.encode(JSON.stringify(dataVar)));
+    let res = await guardarDatos(formData, 'variables');
+    if (res.message) {
+      notifyMessage(res.message);
+      setLoadApp(false);
+      onModalVisible(false);
+    } else {
+      notifyMessage('Error al guardar');
+      setLoadApp(false);
+    }
+  };
+
+  function validateObligatory() {
+    return !(
+      !dataVar.altura ||
+      !dataVar.altura_copa ||
+      !dataVar.dap1 ||
+      !dataVar.dap2 ||
+      dataVar.fecha_ingreso ||
+      dataVar.altura === '' ||
+      dataVar.altura_copa === '' ||
+      dataVar.dap1 === '' ||
+      dataVar.dap2 === '' ||
+      dataVar.fecha_ingreso === ''
+    );
+  }
+
   return (
     <Modal
       animationType="none"
@@ -38,7 +96,9 @@ const ModalVariables = ({modalVisible = false, onModalVisible}) => {
                 mode="contained"
                 style={styles.guardar}
                 color={theme.colors.primary}
-                onPress={() => {}}>
+                onPress={() => {
+                  guardarInfo();
+                }}>
                 Guardar
               </Button>
             </View>

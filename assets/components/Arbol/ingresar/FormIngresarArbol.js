@@ -1,6 +1,6 @@
 import React from 'react';
 import consultarBarrios from '../../../helpers/consultaBarrios';
-import {Alert, View} from 'react-native';
+import {View} from 'react-native';
 import {theme} from '../../../core/theme';
 import {
   responsiveScreenFontSize,
@@ -16,11 +16,11 @@ import TextSimple from '../../commons/TextSimple';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {ScrollView} from 'react-native-gesture-handler';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {getPoint, limpiarMapaPolygon} from '../../map/BackgroundMap';
+import {getPoint} from '../../map/BackgroundMap';
 import AutoComplete from '../../commons/SelectAutoComplete/AutoComplete';
 import {Button as ButtonIcon} from 'react-native-paper';
 import ButtonInsert from '../../ButtonInsert';
-import {asignar, consultar, reset} from '../../../helpers/dataSave';
+import {consultar, reset} from '../../../helpers/dataSave';
 
 const selectPlace = 'Seleccione...';
 
@@ -32,7 +32,6 @@ export default ({combos = [], fnGuardar, setIndexSnap, setLoadApp}) => {
   const [combosBarrios, setCombosBarrios] = React.useState([]);
   const [modeBtn, setModeBtn] = React.useState('outlined');
 
-  console.log(dataForm);
   const llenarBarrio = async id => {
     setLoadApp(true);
     if (id !== '') {

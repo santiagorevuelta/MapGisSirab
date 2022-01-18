@@ -8,18 +8,18 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {asignar, consultar} from '../../../../helpers/dataSave';
 
 export default () => {
-  const [dataVar, setDataVa] = useState({});
+  const [dataVariables, setDataVarVariables] = useState({});
 
-  function setDataVar(params) {
-    setDataVa({...params});
-    asignar(params);
-    AsyncStorage.setItem('variables', JSON.stringify(params));
+  function setDataVar(name, text) {
+    setDataVarVariables({...dataVariables, [name]: text});
+    asignar(dataVariables);
+    AsyncStorage.setItem('variables', JSON.stringify(dataVariables));
   }
 
   useEffect(() => {
     async function fetchData() {
       let data = consultar();
-      setDataVa(data);
+      setDataVarVariables(data);
     }
     fetchData().then();
   }, []);
@@ -27,7 +27,6 @@ export default () => {
   return (
     <View
       style={{
-        height: '100%',
         backgroundColor: theme.colors.blanco,
         padding: 0,
         margin: 0,
@@ -38,14 +37,14 @@ export default () => {
           placeholder={'Altura'}
           value={dataVariables.altura}
           keyboardType="numeric"
-          onChangeTextInput={text => setData('altura', text)}
+          onChangeTextInput={text => setDataVar('altura', text)}
         />
         <TextInputForm
           label={'Altura copa (m) *'}
           placeholder={'Altura copa'}
           value={dataVariables.altura_copa}
           keyboardType="numeric"
-          onChangeTextInput={text => setData('altura_copa', text)}
+          onChangeTextInput={text => setDataVar('altura_copa', text)}
         />
       </View>
       <View style={styles.form}>
@@ -54,14 +53,14 @@ export default () => {
           placeholder={'DAP1'}
           value={dataVariables.dap1}
           keyboardType="numeric"
-          onChangeTextInput={text => setData('dap1', text)}
+          onChangeTextInput={text => setDataVar('dap1', text)}
         />
         <TextInputForm
           label={'DAP2 (cm) *'}
           placeholder={'DAP2'}
           value={dataVariables.dap2}
           keyboardType="numeric"
-          onChangeTextInput={text => setData('dap2', text)}
+          onChangeTextInput={text => setDataVar('dap2', text)}
         />
       </View>
       <View style={styles.form}>
@@ -69,7 +68,7 @@ export default () => {
           label={'Fecha ingreso *'}
           placeholder={'dd/mm/aaaa'}
           value={dataVariables.fecha_ingreso}
-          onSelectDate={text => setData('fecha_ingreso', text)}
+          onSelectDate={text => setDataVar('fecha_ingreso', text)}
         />
       </View>
     </View>

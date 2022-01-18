@@ -62,12 +62,8 @@ function RenderImageIntervention({data}) {
       preloadImages={false}
       loop={true}>
       {data.fotos?.map((item, i) => (
-        <View>
-          <RenderImagen
-            url={item.ruta_foto_web}
-            style={styles.fotoModal}
-            key={i}
-          />
+        <View key={i}>
+          <RenderImagen url={item.ruta_foto_web} style={styles.fotoModal} />
         </View>
       ))}
     </Swiper>

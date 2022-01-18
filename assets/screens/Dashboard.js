@@ -12,7 +12,6 @@ import BottomSheet from '@gorhom/bottom-sheet';
 import {consultToken} from '../core/general';
 import {Platform} from 'react-native';
 //import VersionCheck from 'react-native-version-check';
-
 import {responsiveScreenHeight} from 'react-native-responsive-dimensions';
 import Renderload from '../components/Load';
 import {loadCombos} from '../combos';
@@ -34,23 +33,23 @@ export default function Dashboard({navigation, route}) {
   );
   const [snp, setSnp] = useState(snapPoints);
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  useEffect(async () => {
-    if (!cargaInicial) {
-      setCargaInicial(true);
+  useEffect(() => {
+    setLoadApp(true);
+    const init = async () => {
+      setLoadApp(true);
       let res = await consultToken();
       if (!res) {
         navigate('LoginScreen');
+        setLoadApp(false);
       } else {
         await loadCombos();
       }
-      setLoadApp(false);
-    }
-    return () => {
       stopPolin();
-      setCoords();
+      await setCoords();
       initial();
+      setLoadApp(false);
     };
+    init().then();
   }, [cargaInicial, navigation]);
 
   function initial() {

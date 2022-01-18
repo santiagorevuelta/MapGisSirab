@@ -26,9 +26,10 @@ export const styles = StyleSheet.create({
   },
   closeModal: {
     alignItems: 'flex-end',
-    flexDirection: 'row',
+    alignSelf: 'flex-end',
     justifyContent: 'flex-end',
-    width: '100%',
+    position: 'absolute',
+    zIndex: 2,
   },
   closeButton: {
     backgroundColor: theme.colors.blanco,
@@ -36,7 +37,6 @@ export const styles = StyleSheet.create({
     borderRadius: 50,
     height: 40,
     width: 40,
-    right: -20,
   },
   slider: {
     height: responsiveHeight(40),

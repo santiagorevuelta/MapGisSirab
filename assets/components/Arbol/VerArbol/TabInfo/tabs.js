@@ -12,17 +12,20 @@ import {theme} from '../../../../core/theme';
 
 import FormCharacteristics from './Characteristics';
 import FormVariables from './Variables';
+
 const windowHeight = parseInt(Dimensions.get('window').height, 10);
 
 const Tab = createMaterialTopTabNavigator();
 
-export default function getHome({dataArbol, dataVariables}) {
+export default function getHome({dataArbol, dataVariables, setLoadApp}) {
   function Characteristics() {
     return dataArbol ? <FormCharacteristics data={dataArbol} /> : null;
   }
 
   function Variables() {
-    return dataVariables ? <FormVariables data={dataVariables} /> : null;
+    return dataVariables ? (
+      <FormVariables data={dataVariables} setLoadApp={setLoadApp} />
+    ) : null;
   }
 
   return (

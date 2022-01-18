@@ -9,6 +9,7 @@ import {theme} from '../core/theme';
 import {responsiveHeight} from 'react-native-responsive-dimensions';
 import buscarDatosId from '../helpers/buscarDatosId';
 import Renderload from '../components/Load';
+import {navigate} from '../components/map/BackgroundMap';
 
 export default class ViewTree extends React.Component {
   constructor() {
@@ -29,14 +30,14 @@ export default class ViewTree extends React.Component {
     item = item == null ? null : JSON.parse(item);
     let datosArbol = await buscarDatosId(item.id_arbol, 'searchTree');
     if (datosArbol.length !== 0) {
-      // eslint-disable-next-line react/no-did-mount-set-state
-      this.setState({
+      let info = {
         fotos: datosArbol.fotos,
         intervenciones: datosArbol.intervenciones,
         verArbol: datosArbol.verArbol,
         variables: datosArbol.variables,
         codigo_arbol: item.codigo_arbol,
-      });
+      };
+      this.setState(info);
     }
   }
 
@@ -48,8 +49,6 @@ export default class ViewTree extends React.Component {
     this.setState({loadApp: obj});
   };
 
-
-
   render() {
     return (
       <SafeAreaView
@@ -57,7 +56,10 @@ export default class ViewTree extends React.Component {
           backgroundColor: theme.colors.blanco,
           height: responsiveHeight(100),
         }}>
-        <Renderload setLoadVisible={this.setLoadApp} load={this.loadApp} />
+        <Renderload
+          setLoadVisible={this.setLoadApp}
+          load={this.state.loadApp}
+        />
         <RenderHeader
           nav={navigate}
           cantidad={this.state.fotos?.length}
@@ -68,8 +70,13 @@ export default class ViewTree extends React.Component {
         <InfoArbol
           dataArbol={this.state.verArbol}
           dataVariables={this.state.variables}
+          setLoadApp={this.setLoadApp}
         />
-        <Interventions data={this.state.intervenciones} origen={'Arbol'} />
+        <Interventions
+          data={this.state.intervenciones}
+          origen={'Arbol'}
+          setLoadApp={this.setLoadApp}
+        />
       </SafeAreaView>
     );
   }

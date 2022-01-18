@@ -8,7 +8,7 @@ import {
 import ModalIntervention from '../../Intervenciones/Ver/modalIntervention';
 import Rows from './RenderCardIntervencion';
 
-export default function ({data = [], origen}) {
+export default function ({data = [], origen, setLoadApp}) {
   const [dataItem, setDataItem] = React.useState({});
   const [visible, setVisible] = React.useState(false);
 
@@ -31,6 +31,7 @@ export default function ({data = [], origen}) {
           visible={visible}
           setVisible={setVisible}
           setDataItem={setDataItem}
+          setLoadApp={setLoadApp}
         />
       </ScrollView>
     </View>

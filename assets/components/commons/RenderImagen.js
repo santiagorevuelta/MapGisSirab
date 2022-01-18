@@ -6,16 +6,23 @@ import axios from 'axios';
 export default function ImageRender({style, url}) {
   const [imageError, setImageError] = React.useState(url == null);
   useEffect(() => {
-    if (url !== null) {
-      axios
-        .get(config.urlfoto + url)
-        .then(a => {
-          if (a.status) {
-            setImageError(false);
-          }
-        })
-        .catch(() => {});
-    }
+    const valid = async () => {
+      if (url !== null) {
+        await axios
+          .get(config.urlfoto + url)
+          .then(a => {
+            if (a.status) {
+              setImageError(false);
+            }
+          })
+          .catch(e => {
+            if (e.request.status) {
+              setImageError(false);
+            }
+          });
+      }
+    };
+    valid().then();
   }, [url]);
 
   return (
