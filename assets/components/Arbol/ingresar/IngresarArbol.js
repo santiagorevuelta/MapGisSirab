@@ -8,14 +8,14 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {getData} from '../../../combos';
 import {reset} from '../../../helpers/dataSave';
 
-const ModalIngresarArbol = ({
+export default function ModalIngresarArbol({
   label,
   setOption,
   back,
   setIndexSnap,
   snp,
   setLoadApp,
-}) => {
+}) {
   const [combos, setCombos] = React.useState([]);
 
   const fnGuardar = async (datosArbol, datosVariables, datosImagenes) => {
@@ -51,7 +51,7 @@ const ModalIngresarArbol = ({
       setLoadApp(false);
     }
     initial().then();
-  }, [combos.length, setCombos, setIndexSnap, setLoadApp, snp]);
+  }, [setIndexSnap, setLoadApp, snp.length]);
 
   return (
     <>
@@ -64,6 +64,4 @@ const ModalIngresarArbol = ({
       />
     </>
   );
-};
-
-export default ModalIngresarArbol;
+}

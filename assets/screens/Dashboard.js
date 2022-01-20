@@ -20,7 +20,6 @@ import {ViewRender} from './Views';
 export default function Dashboard({navigation, route}) {
   const bottomSheetRef = React.useRef(null);
   const [loadApp, setLoadApp] = useState(true);
-  const [cargaInicial, setCargaInicial] = useState(false);
   const [option, setOption] = useState('inicio');
   const [optionOld, setOptionOld] = useState(null);
   const [indexSnap, setIndexSnap] = useState(1);
@@ -34,9 +33,7 @@ export default function Dashboard({navigation, route}) {
   const [snp, setSnp] = useState(snapPoints);
 
   useEffect(() => {
-    setLoadApp(true);
     const init = async () => {
-      setLoadApp(true);
       let res = await consultToken();
       if (!res) {
         navigate('LoginScreen');
@@ -50,7 +47,7 @@ export default function Dashboard({navigation, route}) {
       setLoadApp(false);
     };
     init().then();
-  }, [cargaInicial, navigation]);
+  });
 
   function initial() {
     /*if (Platform.OS !== 'ios') {
@@ -79,8 +76,8 @@ export default function Dashboard({navigation, route}) {
     setIndexSnap(1);
   };
 
-  const tabArbol = (name, params = {}) => {
-    navigate(name, {option: option, optionOld: optionOld, ...params}, 1);
+  const tabArbol = name => {
+    navigate(name);
   };
 
   return (

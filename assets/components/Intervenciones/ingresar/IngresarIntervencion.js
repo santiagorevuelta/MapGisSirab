@@ -14,7 +14,6 @@ import {theme} from '../../../core/theme';
 import {responsiveScreenFontSize} from 'react-native-responsive-dimensions';
 import ButtonInsert from '../../ButtonInsert';
 import {getData} from '../../../combos';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const ModalIngresarArbol = ({
   label,
@@ -30,7 +29,7 @@ const ModalIngresarArbol = ({
   const [combos, setCombos] = React.useState([]);
   const [zonaVerde, setZonaVerde] = useState(false);
 
-  useEffect( () => {
+  useEffect(() => {
     async function initial() {
       setLoadApp(true);
       let res = await getData('intervencionArbol');
@@ -39,7 +38,7 @@ const ModalIngresarArbol = ({
       setLoadApp(false);
     }
     initial().then();
-  }, [combos.length, setCombos, setIndexSnap, setLoadApp, snp.length]);
+  }, []);
 
   const fnGuardar = async (data, secondData, images = []) => {
     setLoadApp(true);

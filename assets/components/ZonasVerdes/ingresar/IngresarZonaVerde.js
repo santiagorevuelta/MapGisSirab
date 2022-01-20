@@ -81,7 +81,7 @@ const ModalIngresar = ({
       setLoadApp(false);
     }
     initial().then();
-  }, [combos.length, setCombos, setIndexSnap, setLoadApp, snp.length]);
+  }, []);
 
   return (
     <>

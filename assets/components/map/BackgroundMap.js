@@ -12,7 +12,6 @@ import {WebView} from 'react-native-webview';
 import Geolocation from '@react-native-community/geolocation';
 import html_script from './html_script';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import config from '../../tsconfig.json';
 
 export function notifyMessage(msg) {
   if (Platform.OS === 'android') {
@@ -39,7 +38,7 @@ export function MapComponent({navigation, children}) {
         }
       }, 100);
     };
-  }, [location]);
+  }, []);
 
   return (
     <SafeAreaView
