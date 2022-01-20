@@ -4,13 +4,13 @@ import {
   Dimensions,
   PermissionsAndroid,
   Platform,
-  SafeAreaView,
   StatusBar,
   ToastAndroid,
 } from 'react-native';
 import {WebView} from 'react-native-webview';
 import Geolocation from '@react-native-community/geolocation';
 import html_script from './html_script';
+import Animate from 'react-native-reanimated';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export function notifyMessage(msg) {
@@ -29,7 +29,7 @@ export function MapComponent({navigation, children}) {
   nav = navigation;
   const [location, setLocation] = useState(0);
   useEffect(() => {
-    return () => {
+    const init = () => {
       permissionsLocation().then(() => {});
       setTimeout(function () {
         if (MapRef.current && location === 0) {
@@ -38,10 +38,11 @@ export function MapComponent({navigation, children}) {
         }
       }, 100);
     };
-  }, []);
+    init();
+  }, [location]);
 
   return (
-    <SafeAreaView
+    <Animate.View
       style={{
         flex: 1,
         backgroundColor: 'transparent',
@@ -78,7 +79,7 @@ export function MapComponent({navigation, children}) {
         }}
       />
       {children}
-    </SafeAreaView>
+    </Animate.View>
   );
 }
 
