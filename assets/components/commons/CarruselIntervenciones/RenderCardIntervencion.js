@@ -36,6 +36,7 @@ export default function Rows({
       key={'card' + index}
       style={stylesCards.container}
       onPress={() => {
+        setLoadApp(true);
         consulta(item);
       }}>
       <Card.Content>

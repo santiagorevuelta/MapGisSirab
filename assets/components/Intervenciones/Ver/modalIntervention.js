@@ -60,6 +60,32 @@ function RenderImageIntervention({data}) {
       ref={slide}
       effect="Fade"
       preloadImages={false}
+      dot={
+          <View
+              style={{
+                  backgroundColor: 'grey',
+                  width: 8,
+                  height: 8,
+                  borderRadius: 50,
+                  borderColor: theme.colors.primary,
+                  marginLeft: 5,
+                  marginRight: 5,
+                  borderWidth:1,
+              }}
+          />
+      }
+      activeDot={
+          <View
+              style={{
+                  backgroundColor: theme.colors.primary,
+                  width: 10,
+                  height: 10,
+                  borderRadius: 50,
+                  marginLeft: 5,
+                  marginRight: 5,
+              }}
+          />
+      }
       loop={true}>
       {data.fotos?.map((item, i) => (
         <View key={i}>

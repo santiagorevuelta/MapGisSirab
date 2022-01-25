@@ -15,6 +15,7 @@ import {Platform} from 'react-native';
 import {consultToken} from '../core/general';
 import {loadCombos} from '../combos';
 
+
 class DashboardView extends Component {
   constructor() {
     super();
@@ -36,6 +37,10 @@ class DashboardView extends Component {
   }
 
   async componentDidMount() {
+    await this.init()
+  }
+
+  init = async () =>{
     this.setLoadApp(true);
     let res = await consultToken();
     if (!res) {
@@ -48,6 +53,7 @@ class DashboardView extends Component {
     await setCoords();
     this.setLoadApp(false);
   }
+
 
   setOption = data => {
     this.setState({option: data});

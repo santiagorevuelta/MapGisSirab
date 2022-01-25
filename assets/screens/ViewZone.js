@@ -63,7 +63,8 @@ export default class ViewZone extends React.Component {
         />
         <CarouselCards data={this.state.fotos} setCant={this.setCant} />
         <InfoZone verZona={this.state.verZona} />
-        <Interventions data={this.state.intervenciones} origen={'Zona Verde'} />
+        <Interventions data={this.state.intervenciones} origen={'Zona Verde'}
+                       setLoadApp={this.setLoadApp}/>
       </SafeAreaView>
     );
   }

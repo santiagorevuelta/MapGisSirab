@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {
   Alert,
   Dimensions,
+  View,
   PermissionsAndroid,
   Platform,
   StatusBar,
@@ -28,6 +29,7 @@ let nav = null;
 export function MapComponent({navigation, children}) {
   nav = navigation;
   const [location, setLocation] = useState(0);
+
   useEffect(() => {
     const init = () => {
       permissionsLocation().then(() => {});
@@ -42,19 +44,13 @@ export function MapComponent({navigation, children}) {
   }, [location]);
 
   return (
-    <Animate.View
-      style={{
-        flex: 1,
-        backgroundColor: 'transparent',
-      }}>
-      <StatusBar barStyle="light-content" />
+    <>
       <WebView
         ref={MapRef}
         onMessage={event => {
           try {
             let data = event.nativeEvent.data;
             let count = JSON.parse(data);
-            console.log(count);
             if (count.length > 1) {
               AsyncStorage.setItem('polygon', JSON.stringify(count[0]));
               AsyncStorage.setItem('area', count[1] + '');
@@ -79,7 +75,7 @@ export function MapComponent({navigation, children}) {
         }}
       />
       {children}
-    </Animate.View>
+    </>
   );
 }
 
