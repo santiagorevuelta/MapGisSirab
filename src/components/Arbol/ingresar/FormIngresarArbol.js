@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import consultarBarrios from '../../../helpers/consultaBarrios';
 import {View} from 'react-native';
 import {theme} from '../../../core/theme';
@@ -21,11 +21,12 @@ import AutoComplete from '../../commons/SelectAutoComplete/AutoComplete';
 import {Button as ButtonIcon} from 'react-native-paper';
 import ButtonInsert from '../../ButtonInsert';
 import {consultar, reset} from '../../../helpers/dataSave';
+import initialjson from '../../../initialjson.json';
 
 const selectPlace = 'Seleccione...';
 
 export default ({combos = [], fnGuardar, setIndexSnap, setLoadApp}) => {
-  const [dataForm, setDataForm] = React.useState({});
+  const [dataForm, setDataForm] = React.useState(initialjson.datosArbol);
   const [dataVar, setDataVar] = React.useState({});
   const [dataImage, setDataImage] = React.useState([]);
   const [limpiarEspecie, setLimpiarEspecie] = React.useState(false);
@@ -62,61 +63,21 @@ export default ({combos = [], fnGuardar, setIndexSnap, setLoadApp}) => {
   };
 
   const guardar = async () => {
+    let data = await consultar();
     setLoadApp(true);
-    let data = consultar();
-    if (data === null) {
-      notifyMessage('Los campos marcados con (*) son obligatorios.');
-      setLoadApp(false);
-    } else {
-      setDataVar(data);
-      validateSave();
-    }
+    setDataVar(data);
+    validateSave();
   };
 
+  useEffect(() => {
+    setInterval(async () => {
+      let s = await consultar();
+      setDataVar(s);
+    }, 100000);
+  }, [dataVar]);
+
   function validateSave() {
-    let valid = validateObligatory();
-    if (!valid) {
-      notifyMessage('Los campos marcados con  (*) son obligatorios');
-      setLoadApp(false);
-      return;
-    }
-
-    try {
-      dataForm.fecha = rev(dataForm.fecha);
-      dataVar.fecha_ingreso = rev(dataVar.fecha_ingreso);
-    } catch (e) {}
-    fnGuardar(dataForm, dataVar, dataImage)
-      .then(res => {
-        if (res === 'Ok') {
-          AsyncStorage.setItem('coords', '');
-          reset();
-          setDataForm({});
-          setDataVar({});
-          setDataImage([]);
-          setLimpiarEspecie(true);
-        }
-        setLoadApp(false);
-      })
-      .catch(() => {
-        setLoadApp(false);
-      });
-  }
-
-  function rev(data) {
-    return data.split('/').reverse().join('-');
-  }
-
-  function validateObligatory() {
-    return !(
-      !dataForm.especie ||
-      !dataForm.codigo_arbol ||
-      !dataForm.fecha ||
-      !dataForm.id_tipo_arbol ||
-      !dataForm.id_tipo_origen_arbol ||
-      !dataForm.primer_nivel ||
-      !dataForm.segundo_nivel ||
-      !dataForm.latitud ||
-      !dataForm.longitud ||
+    if (
       dataForm.especie === '' ||
       dataForm.codigo_arbol === '' ||
       dataForm.fecha === '' ||
@@ -126,17 +87,39 @@ export default ({combos = [], fnGuardar, setIndexSnap, setLoadApp}) => {
       dataForm.segundo_nivel === '' ||
       dataForm.latitud === '' ||
       dataForm.longitud === '' ||
-      !dataVar.altura ||
-      !dataVar.altura_copa ||
-      !dataVar.dap1 ||
-      !dataVar.dap2 ||
-      !dataVar.fecha_ingreso ||
       dataVar.altura === '' ||
       dataVar.altura_copa === '' ||
       dataVar.dap1 === '' ||
       dataVar.dap2 === '' ||
       dataVar.fecha_ingreso === ''
-    );
+    ) {
+      notifyMessage('Los campos marcados con  (*) son obligatorios');
+      setLoadApp(false);
+    } else {
+      try {
+        dataForm.fecha = rev(dataForm.fecha);
+        dataVar.fecha_ingreso = rev(dataVar.fecha_ingreso);
+      } catch (e) {}
+      fnGuardar(dataForm, dataVar, dataImage)
+        .then(res => {
+          if (res === 'Ok') {
+            AsyncStorage.setItem('coords', '');
+            reset();
+            setDataForm({});
+            setDataVar({});
+            setDataImage([]);
+            setLimpiarEspecie(true);
+          }
+          setLoadApp(false);
+        })
+        .catch(() => {
+          setLoadApp(false);
+        });
+    }
+  }
+
+  function rev(data) {
+    return data.split('/').reverse().join('-');
   }
 
   return (
@@ -254,16 +237,18 @@ export default ({combos = [], fnGuardar, setIndexSnap, setLoadApp}) => {
             Seleccionar punto
           </ButtonIcon>
         </View>
-        {dataForm.latitud && (
+        {dataForm.latitud !== '' ? (
           <View style={styles.form}>
             <TextSimple label={'latitud'} value={dataForm.latitud} />
             <TextSimple label={'longitud'} value={dataForm.longitud} />
           </View>
-        )}
+        ) : null}
         <TabIngresar
           dataImage={dataImage}
           setDataImage={setDataImage}
           label={' '}
+          setDataVar={setDataVar}
+          dataVar={dataVar}
         />
         <View style={[styles.form, {justifyContent: 'flex-end'}]}>
           <ButtonInsert
@@ -272,7 +257,6 @@ export default ({combos = [], fnGuardar, setIndexSnap, setLoadApp}) => {
             style={styles.guardar}
             color={theme.colors.primary}
             onPress={() => {
-              validateObligatory();
               guardar();
             }}>
             Guardar

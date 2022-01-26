@@ -1,15 +1,18 @@
-let dataVar = {};
+import initialjson from '../initialjson.json';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+let dataVar = initialjson.datosVariables;
 let dataBorrado = false;
 
-export function asignar(data) {
-  dataVar = {...dataVar, ...data};
+export async function asignar(data) {
+  AsyncStorage.setItem('var', JSON.stringify(data));
+  dataVar = data;
 }
-
 export function reset() {
-  dataVar = {};
+  dataVar = initialjson.datosVariables;
 }
-export function consultar() {
-  return dataVar;
+export async function consultar() {
+  let data = await AsyncStorage.getItem('var');
+  return data === null ? dataVar : JSON.parse(data);
 }
 export function borrado() {
   return dataBorrado;

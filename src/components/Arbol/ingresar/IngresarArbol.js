@@ -29,7 +29,7 @@ export default function ModalIngresarArbol({
       'datosImagenes',
       base64.encode(JSON.stringify(datosImagenes)),
     );
-    let res = await guardarDatos(formData, 'searchTree');
+    let res = ''; //await guardarDatos(formData, 'searchTree');
     if (res.message) {
       notifyMessage(res.message);
       setIndexSnap(1);
@@ -43,8 +43,8 @@ export default function ModalIngresarArbol({
   useEffect(() => {
     async function initial() {
       setLoadApp(true);
-      AsyncStorage.setItem('variables', '');
       reset();
+      AsyncStorage.setItem('variables', '');
       let res = await getData('arbol');
       setCombos(res);
       setIndexSnap(snp.length - 1);

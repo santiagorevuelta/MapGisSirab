@@ -1,5 +1,12 @@
 import React, {useState} from 'react';
-import {Alert, Pressable, StyleSheet, Text, View} from 'react-native';
+import {
+  Alert,
+  Pressable,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import {theme} from '../../core/theme';
 import {
   responsiveFontSize,
@@ -49,7 +56,7 @@ const Header = ({type, setOption, backIndex}) => {
         buttons={buttons}
       />
       <View>
-        <Pressable
+        <TouchableOpacity
           style={styles.regress}
           onPress={() => {
             validBack();
@@ -62,7 +69,7 @@ const Header = ({type, setOption, backIndex}) => {
           <Text style={[theme.textos.Label, styles.regressTxt]}>
             {'Regresar'}
           </Text>
-        </Pressable>
+        </TouchableOpacity>
       </View>
       <View>
         <Text style={[theme.textos.Label, styles.headerText]}>{type}</Text>

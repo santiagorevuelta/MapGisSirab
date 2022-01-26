@@ -32,7 +32,7 @@ module.exports = `
     mymap.removeLayer(layerOld);
     // for (const point of layerPoints) {
     //   mymap.removeLayer(point);
-    // } 
+    // }
     marker.addTo(mymap).setLatLng(latlng);
     mymap.setView([latlng[0]- 0.0003,latlng[1]], 20);    
   }
@@ -46,8 +46,13 @@ module.exports = `
     layerPoints = [];
     planes = JSON.parse(planes);
     for (let i = 0; i < planes.length; i++) {
+        let item = planes[i][0]
          let mrkr = new L.marker([planes[i][1],planes[i][2]],{icon: myIcon}).addTo(mymap);
-         mrkr.bindPopup("<b>Arbol!</b><br><a onclick='abrir("+JSON.stringify(planes[i][0])+",1)'>"+planes[i][0].codigo_arbol+"</a>").openPopup();
+         mrkr.bindPopup("<b>"+item.codigo_arbol+"</b><br>" +
+           "<a onclick='abrir("+JSON.stringify(item)+",1)'>" +
+              "Estado: "+item.estado+"<br>" +
+              "Tipo árbol: "+item.tipo_arbol+"<br>" +
+            "</a>").openPopup();
          layerPoints.push(mrkr);      
     }
      mymap.setView([6.2447305, -75.5760133], 12);
@@ -57,14 +62,15 @@ module.exports = `
   function abrir(items,tipo){
       window.ReactNativeWebView.postMessage(JSON.stringify([items,'',tipo === 1?'arbol':'zona']));
   }
-  
+ /*  
   mymap.on('zoomend', function(e) {
-   /* if(mymap.getZoom() < 18){
+   if(mymap.getZoom() < 18){
       radius.setRadius(Math.pow((20 - mymap.getZoom()), 3.5)); 
     }else{
       radius.setRadius(Math.pow((mymap.getZoom()), 1)); 
-    }*/
+    }
   });
+  */
 
   
    const pointLocation = L.circle(mymap.getCenter(), 20,{

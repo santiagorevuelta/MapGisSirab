@@ -8,15 +8,16 @@
     "origen_arbol": "",
     "codigo_arbol": "",
     "primer_nivel": "",
-    "segundo_nivel": ""
+    "segundo_nivel": "",
+    "id_tipo_arbol": "",
+    "id_tipo_origen_arbol": ""
   },
   "datosVariables": {
     "altura": "",
     "altura_copa": "",
     "dap1": "",
     "dap2": "",
-    "fecha_ingreso": "",
-    "observaciones": ""
+    "fecha_ingreso": ""
   },
   "initialIntervencion": {
     "tipo_intervencion": "",
