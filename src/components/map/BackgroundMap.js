@@ -10,7 +10,7 @@ import {WebView} from 'react-native-webview';
 import Geolocation from '@react-native-community/geolocation';
 import html_script from './html_script';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {Provider} from 'react-native-paper';
+import config from '../../tsconfig.json';
 
 export function notifyMessage(msg) {
   if (Platform.OS === 'android') {
@@ -35,8 +35,16 @@ export function MapComponent({navigation, children}) {
             let data = event.nativeEvent.data;
             let count = JSON.parse(data);
             if (count.length > 1) {
-              AsyncStorage.setItem('polygon', JSON.stringify(count[0]));
-              AsyncStorage.setItem('area', count[1] + '');
+              if (count[2] === 'polygon') {
+                AsyncStorage.setItem('polygon', JSON.stringify(count[0]));
+                AsyncStorage.setItem('area', count[1] + '');
+              } else if (count[2] === 'arbol') {
+                AsyncStorage.setItem('items', JSON.stringify(count[0]));
+                navigate(config.home[0].items.ver);
+              } else if (count[2] === 'zona') {
+                AsyncStorage.setItem('itemsZone', JSON.stringify(count[0]));
+                navigate(config.home[2].items.ver);
+              }
             } else {
               AsyncStorage.setItem('coords', data);
             }
@@ -139,7 +147,7 @@ export function verEnMapaAllPoint(response) {
   let coords = [];
   for (const responseElement of response) {
     coords.push([
-      responseElement.codigo_arbol,
+      responseElement,
       parseFloat(responseElement.latitud),
       parseFloat(responseElement.longitud),
     ]);
@@ -152,12 +160,14 @@ export function verEnMapaAllPoint(response) {
   MapRef.current.injectJavaScript(injected);
 }
 
-export function verEnMapaP(coords) {
+export function verEnMapaP(coords, items) {
   if (!MapRef.current) {
     return;
   }
   const injected = `
-    acctionMapVerPoly(${JSON.stringify(coords)});
+    acctionMapVerPoly(${JSON.stringify(
+      coords,
+    )},'#258B20','red',${JSON.stringify(items)});
     true;
   `;
 

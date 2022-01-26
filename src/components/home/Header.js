@@ -60,18 +60,13 @@ const Header = props => {
         msg={msg}
         buttons={buttons}
       />
-      <Pressable
+      <TouchableOpacity
         onPress={() => {
           validBack();
         }}
-        style={({pressed}) => [
-          {
-            backgroundColor: pressed ? theme.pressed : theme.offPressed,
-          },
-          styles.icons,
-        ]}>
+        style={styles.icons}>
         <Home />
-      </Pressable>
+      </TouchableOpacity>
       <View style={styles.search}>
         <TextInput
           returnKeyType="next"
@@ -98,18 +93,13 @@ const Header = props => {
           />
         </TouchableOpacity>
       </View>
-      <Pressable
-        style={({pressed}) => [
-          {
-            backgroundColor: pressed ? theme.pressed : theme.offPressed,
-          },
-          styles.icons,
-        ]}
+      <TouchableOpacity
+        style={styles.icons}
         onPress={() => {
           getLocalize();
         }}>
         <Location />
-      </Pressable>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -147,6 +137,7 @@ const styles = StyleSheet.create({
     zIndex: 3,
     width: responsiveWidth(10),
     height: responsiveWidth(10),
+    backgroundColor: theme.colors.blanco,
     padding: responsiveWidth(1),
     borderRadius: 50,
     borderColor: theme.colors.primary,

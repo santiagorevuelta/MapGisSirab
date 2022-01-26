@@ -21,7 +21,6 @@ const ModalVariables = ({
   function guardarInfo() {
     setLoadApp(true);
     let data = consultar();
-    console.log(data);
     if (data === null) {
       notifyMessage('Los campos marcados con (*) son obligatorios.');
       setLoadApp(false);
@@ -56,7 +55,7 @@ const ModalVariables = ({
       !dataVar.altura_copa ||
       !dataVar.dap1 ||
       !dataVar.dap2 ||
-      dataVar.fecha_ingreso ||
+      !dataVar.fecha_ingreso ||
       dataVar.altura === '' ||
       dataVar.altura_copa === '' ||
       dataVar.dap1 === '' ||
@@ -89,10 +88,11 @@ const ModalVariables = ({
             />
           </View>
           <View style={styles.slider}>
-            <FormVariables />
-            <View style={{justifyContent: 'flex-end'}}>
+            <FormVariables alto={null} />
+            <View style={{alignItems: 'flex-end'}}>
               <Button
                 compact={true}
+                uppercase={false}
                 mode="contained"
                 style={styles.guardar}
                 color={theme.colors.primary}

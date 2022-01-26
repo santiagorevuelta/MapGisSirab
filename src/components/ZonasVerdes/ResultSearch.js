@@ -82,7 +82,7 @@ function Mycard({data = [], tabArbol}) {
           compact={true}
           color={theme.colors.primary}
           onPress={() => {
-            verEnMapaP(item.coordenadas);
+            verEnMapaP(item.coordenadas, item);
             notifyMessage('Ver en mapa');
           }}
         />

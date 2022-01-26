@@ -7,7 +7,7 @@ import styles from '../../../css/ingresarcss';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {asignar, consultar} from '../../../../helpers/dataSave';
 
-export default () => {
+export default ({alto = '100%'}) => {
   const [dataVariables, setDataVarVariables] = useState({});
 
   function setDataVar(name, text) {
@@ -29,6 +29,7 @@ export default () => {
       style={{
         backgroundColor: theme.colors.blanco,
         padding: 0,
+        height: alto,
         margin: 0,
       }}>
       <View style={styles.form}>

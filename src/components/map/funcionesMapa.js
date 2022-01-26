@@ -2,26 +2,29 @@ module.exports = `
 <script>
   const myIcon = L.icon({
     iconUrl: "https://www.medellin.gov.co/siro_portal/siro_portal/imagenes/icons/puntomapa.png",
-    iconAnchor: [10, 20], // point of the icon which will correspond to marker's location
+    iconAnchor: [10, 10], // point of the icon which will correspond to marker's location
     iconSize: [32, 40],
   });
-  
-  const popup = L.popup();
   
   const marker = L.marker(mymap.getCenter(), {
     icon: myIcon
   });
 
-  const radius = L.circle(mymap.getCenter(), 0,{
-      color: "#258B20",
-      fillColor: "rgb(125,211,122)",
-      radius: 20,
-      weight: 2
-  })    
+  const myIcons = L.icon({
+    iconUrl: "https://icones.pro/wp-content/uploads/2021/04/icone-cercle-vert.png",
+    iconAnchor: [30, 35],
+    iconSize: [60, 60],
+  });
+  
+  const radius =  L.marker(mymap.getCenter(), {
+    icon: myIcons
+  })
+ 
 
   function acctionMap(latlng) {
     radius.addTo(mymap);
     radius.setLatLng(latlng);
+    //radius.bindPopup("<b>Hello world!</b><br>I am a popup.").openPopup();
     mymap.setView(latlng, 19);
   }
 
@@ -43,18 +46,24 @@ module.exports = `
     layerPoints = [];
     planes = JSON.parse(planes);
     for (let i = 0; i < planes.length; i++) {
-      layerPoints.push(new L.marker([planes[i][1],planes[i][2]],{icon: myIcon}).addTo(mymap));
+         let mrkr = new L.marker([planes[i][1],planes[i][2]],{icon: myIcon}).addTo(mymap);
+         mrkr.bindPopup("<b>Arbol!</b><br><a onclick='abrir("+JSON.stringify(planes[i][0])+",1)'>"+planes[i][0].codigo_arbol+"</a>").openPopup();
+         layerPoints.push(mrkr);      
     }
+     mymap.setView([6.2447305, -75.5760133], 12);
+  }
+  
+  
+  function abrir(items,tipo){
+      window.ReactNativeWebView.postMessage(JSON.stringify([items,'',tipo === 1?'arbol':'zona']));
   }
   
   mymap.on('zoomend', function(e) {
-    if(mymap.getZoom() < 18){
-      var newRadius = Math.pow((20 - mymap.getZoom()), 3.5);
-      radius.setRadius(newRadius); 
+   /* if(mymap.getZoom() < 18){
+      radius.setRadius(Math.pow((20 - mymap.getZoom()), 3.5)); 
     }else{
-      var newRadius = Math.pow((mymap.getZoom()), 1);
-      radius.setRadius(newRadius); 
-    }
+      radius.setRadius(Math.pow((mymap.getZoom()), 1)); 
+    }*/
   });
 
   
@@ -77,16 +86,13 @@ module.exports = `
      typeCoord = 'i';
   }
   
-  function stops(e) {
-    
-  }
-  
+    function stops(e) {}
+
   
     function onMapClick(e) {
       if(typeCoord === 'i'){
          mymap.on("click", stops);
         marker.addTo(mymap);
-        //popup.setLatLng(e.latlng).setContent("You clicked the map at " + e.latlng.toString()).openOn(mymap);
         marker.setLatLng(e.latlng); 
         window.ReactNativeWebView.postMessage(JSON.stringify({lat:e.latlng.lat,lng:e.latlng.lng}));
       }else if (typeCoord === 'b'){
@@ -132,7 +138,7 @@ module.exports = `
   
   var layerOld = {}
   
-  function acctionMapVerPoly(coords, fillColor = "#258B20",color = "red") {
+  function acctionMapVerPoly(coords, fillColor = "#258B20",color = "red",items) {
     mymap.removeLayer(layerOld);
     geojsonFeaturePolygon[0].geometry = JSON.parse(coords);
      layerOld = new L.geoJson(geojsonFeaturePolygon, {
@@ -145,7 +151,8 @@ module.exports = `
           fillOpacity: 0.3, // transparencia de relleno
         };
       },
-    }).addTo(mymap);
+    }).addTo(mymap);     
+   layerOld.bindPopup("<b>Zona verde!</b><br><a onclick='abrir("+JSON.stringify(items)+",2)'>"+items.codigo+"</a>").openPopup();     
     mymap.fitBounds(layerOld.getBounds());
   }
 
@@ -165,8 +172,7 @@ var drawPluginOptions = {
       shapeOptions: {
         color: '#97009c'
       },
-      metric: ['m']
-      
+      metric: ['m']      
     },
     // disable toolbar item by setting it to false
     polyline: false,
@@ -196,7 +202,7 @@ mymap.on('draw:created', function(e) {
     layer.bindPopup('A popup!');
   }
     var seeArea = L.GeometryUtil.geodesicArea(layer.getLatLngs());
-   window.ReactNativeWebView.postMessage(JSON.stringify([layer.getLatLngs(),seeArea]));
+   window.ReactNativeWebView.postMessage(JSON.stringify([layer.getLatLngs(),seeArea,'polygon']));
    editableLayers.addLayer(layer);
    polygon = layer;
 });
@@ -216,4 +222,5 @@ mymap.on('draw:created', function(e) {
     editableLayers.removeLayer(polygon);
     mymap.removeLayer(layerOld);
   }
+
 </script>`;

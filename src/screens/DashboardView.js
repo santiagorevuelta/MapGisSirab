@@ -21,6 +21,7 @@ class DashboardView extends Component {
   constructor() {
     super();
     this.bottomSheetRef = React.createRef();
+    this.mounted = true;
     this.state = {
       loadApp: true,
       option: 'inicio',
@@ -37,8 +38,18 @@ class DashboardView extends Component {
     };
   }
 
-  async componentDidMount() {
-    await this.init();
+  componentDidMount() {
+    if (this.mounted) {
+      console.log('mounted true');
+      this.init().then();
+      this.mounted = false;
+    } else {
+      console.log('mounted false');
+    }
+  }
+
+  componentWillUnmount() {
+    this.mounted = false;
   }
 
   init = async () => {
