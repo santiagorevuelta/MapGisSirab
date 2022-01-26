@@ -1,4 +1,4 @@
-const {theme} = require('../../../assets/core/theme');
+const {theme} = require('../../core/theme');
 const {
   responsiveScreenFontSize,
 } = require('react-native-responsive-dimensions');

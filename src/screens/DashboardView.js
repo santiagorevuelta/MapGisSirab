@@ -1,9 +1,11 @@
 import React, {Component} from 'react';
 import {
+  getLocalize,
   limpiarMapaPoints,
   limpiarMapaPolygon,
   MapComponent,
   navigate,
+  permissionsLocation,
   setCoords,
   stopPolin,
 } from '../components/map/BackgroundMap';
@@ -14,7 +16,6 @@ import {ViewRender} from './Views';
 import {Platform} from 'react-native';
 import {consultToken} from '../core/general';
 import {loadCombos} from '../combos';
-
 
 class DashboardView extends Component {
   constructor() {
@@ -37,23 +38,23 @@ class DashboardView extends Component {
   }
 
   async componentDidMount() {
-    await this.init()
+    await this.init();
   }
 
-  init = async () =>{
+  init = async () => {
     this.setLoadApp(true);
     let res = await consultToken();
     if (!res) {
       navigate('LoginScreen');
       this.setLoadApp(false);
     } else {
+      await permissionsLocation();
       await loadCombos();
     }
     stopPolin();
     await setCoords();
     this.setLoadApp(false);
-  }
-
+  };
 
   setOption = data => {
     this.setState({option: data});

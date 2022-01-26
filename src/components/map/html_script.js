@@ -1,17 +1,14 @@
-import funciones from './funcionesMapa'
+import funciones from './funcionesMapa';
 const random = Math.floor(Math.random() * 100000);
 module.exports = `<!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
-  <title></title>
-  <meta charset="utf-8">
-  <meta name="viewport" content=”width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no” >
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MapgisSirab</title>
+  <meta name="viewport" content="width=device-width">
   <meta http-equiv="Expires" content="0">
   <meta http-equiv="Last-Modified" content="0">
   <meta http-equiv="Cache-Control" content="no-cache, mustrevalidate">
   <meta http-equiv="Pragma" content="no-cache">
-  <link rel="shortcut icon" type="image/x-icon" href="docs/images/favicon.ico">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css?p=${random}" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="crossorigin="">
   <script src="http://cdn.leafletjs.com/leaflet-0.7/leaflet.js?p=${random}"></script>  
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.css?p=${random}"/>
@@ -42,4 +39,3 @@ module.exports = `<!DOCTYPE html>
 ${funciones}
 </body>
 </html>`;
-

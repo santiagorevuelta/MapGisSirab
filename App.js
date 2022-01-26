@@ -10,30 +10,29 @@ import type {Node} from 'react';
 import React, {createRef} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
-import {theme} from './assets/core/theme';
+import {theme} from './src/core/theme';
 import {enableScreens} from 'react-native-screens';
-import {Dashboard, LoginScreen, ViewTree, ViewZone} from './assets/screens';
+import {Dashboard, LoginScreen, ViewTree, ViewZone} from './src/screens';
 import {configureFonts} from 'react-native-paper';
-
 enableScreens(true);
 
 const Stack = createStackNavigator();
 const fontConfig = {
   ios: {
     regular: {
-      fontFamily: 'roboto',
+      fontFamily: 'Roboto',
       fontWeight: 'normal',
     },
     medium: {
-      fontFamily: 'roboto',
+      fontFamily: 'Roboto',
       fontWeight: 'normal',
     },
     light: {
-      fontFamily: 'roboto',
+      fontFamily: 'Roboto',
       fontWeight: 'normal',
     },
     thin: {
-      fontFamily: 'roboto',
+      fontFamily: 'Roboto',
       fontWeight: 'normal',
     },
   },

@@ -11,7 +11,6 @@ module.exports = `
   const marker = L.marker(mymap.getCenter(), {
     icon: myIcon
   });
-  
 
   const radius = L.circle(mymap.getCenter(), 0,{
       color: "#258B20",

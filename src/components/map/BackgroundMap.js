@@ -2,17 +2,15 @@ import React, {useEffect, useState} from 'react';
 import {
   Alert,
   Dimensions,
-  View,
   PermissionsAndroid,
   Platform,
-  StatusBar,
   ToastAndroid,
 } from 'react-native';
 import {WebView} from 'react-native-webview';
 import Geolocation from '@react-native-community/geolocation';
 import html_script from './html_script';
-import Animate from 'react-native-reanimated';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {Provider} from 'react-native-paper';
 
 export function notifyMessage(msg) {
   if (Platform.OS === 'android') {
@@ -28,21 +26,6 @@ let nav = null;
 
 export function MapComponent({navigation, children}) {
   nav = navigation;
-  const [location, setLocation] = useState(0);
-
-  useEffect(() => {
-    const init = () => {
-      permissionsLocation().then(() => {});
-      setTimeout(function () {
-        if (MapRef.current && location === 0) {
-          getLocalize(true);
-          setLocation(1);
-        }
-      }, 100);
-    };
-    init();
-  }, [location]);
-
   return (
     <>
       <WebView
@@ -79,7 +62,7 @@ export function MapComponent({navigation, children}) {
   );
 }
 
-async function permissionsLocation() {
+export async function permissionsLocation() {
   if (Platform.OS !== 'ios') {
     try {
       const granted = await PermissionsAndroid.request(
@@ -88,7 +71,10 @@ async function permissionsLocation() {
       if (granted !== PermissionsAndroid.RESULTS.GRANTED) {
         await permissionsLocation();
       }
+      getLocalize();
     } catch (err) {}
+  } else {
+    getLocalize();
   }
 }
 
@@ -97,8 +83,6 @@ const options = {
   timeout: 25000,
   maximumAge: 360000,
 };
-
-// {enableHighAccuracy: true, timeout: 25000, maximumAge: 360000},
 
 export const getLocalize = () => {
   Geolocation.getCurrentPosition(success, error, options);
