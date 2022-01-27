@@ -189,7 +189,7 @@ var drawPluginOptions = {
     },
   edit: {
     featureGroup: editableLayers, //REQUIRED!!
-    remove: true
+    remove: false
   }
 };
 

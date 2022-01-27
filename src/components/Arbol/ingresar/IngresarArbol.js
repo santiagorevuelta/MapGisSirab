@@ -29,7 +29,7 @@ export default function ModalIngresarArbol({
       'datosImagenes',
       base64.encode(JSON.stringify(datosImagenes)),
     );
-    let res = ''; //await guardarDatos(formData, 'searchTree');
+    let res = await guardarDatos(formData, 'searchTree');
     if (res.message) {
       notifyMessage(res.message);
       setIndexSnap(1);

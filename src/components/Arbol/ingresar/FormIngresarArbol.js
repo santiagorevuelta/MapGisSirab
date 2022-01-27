@@ -103,8 +103,8 @@ export default ({combos = [], fnGuardar, setIndexSnap, setLoadApp}) => {
       fnGuardar(dataForm, dataVar, dataImage)
         .then(res => {
           if (res === 'Ok') {
-            AsyncStorage.setItem('coords', '');
             reset();
+            AsyncStorage.setItem('coords', '');
             setDataForm({});
             setDataVar({});
             setDataImage([]);

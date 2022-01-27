@@ -8,6 +8,7 @@ export async function asignar(data) {
   dataVar = data;
 }
 export function reset() {
+  AsyncStorage.setItem('var', '');
   dataVar = initialjson.datosVariables;
 }
 export async function consultar() {
