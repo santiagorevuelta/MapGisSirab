@@ -67,6 +67,7 @@ const ModalIngresarArbol = ({
         notifyMessage(res.message);
         setIdArbol(null);
         setArboles(false);
+        setLoadApp(false);
       } else {
         notifyMessage('Error al guardar');
         setLoadApp(false);

@@ -52,7 +52,10 @@ module.exports = `
            "<a onclick='abrir("+JSON.stringify(item)+",1)'>" +
               "Estado: "+item.estado+"<br>" +
               "Tipo árbol: "+item.tipo_arbol+"<br>" +
-            "</a>").openPopup();
+            "</a>")
+            mrkr.on('click',(e)=>{
+               mymap.setView(e.latlng, 12);
+            })
          layerPoints.push(mrkr);      
     }
      mymap.setView([6.2447305, -75.5760133], 12);
@@ -97,7 +100,7 @@ module.exports = `
   
     function onMapClick(e) {
       if(typeCoord === 'i'){
-         mymap.on("click", stops);
+        mymap.on("click", stops);
         marker.addTo(mymap);
         marker.setLatLng(e.latlng); 
         window.ReactNativeWebView.postMessage(JSON.stringify({lat:e.latlng.lat,lng:e.latlng.lng}));
@@ -158,7 +161,7 @@ module.exports = `
         };
       },
     }).addTo(mymap);     
-   layerOld.bindPopup("<b>Zona verde!</b><br><a onclick='abrir("+JSON.stringify(items)+",2)'>"+items.codigo+"</a>").openPopup();     
+   layerOld.bindPopup("<b>Zona verde!</b><br><a onclick='abrir("+JSON.stringify(items)+",2)'>"+items.codigo+"</a>")     
     mymap.fitBounds(layerOld.getBounds());
   }
 

@@ -40,11 +40,8 @@ class DashboardView extends Component {
 
   componentDidMount() {
     if (this.mounted) {
-      console.log('mounted true');
       this.init().then();
       this.mounted = false;
-    } else {
-      console.log('mounted false');
     }
   }
 
