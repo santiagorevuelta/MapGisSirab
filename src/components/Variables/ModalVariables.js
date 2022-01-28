@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Modal, View} from 'react-native';
 import {styles} from './modalStyle';
 import {Button} from 'react-native-paper';
@@ -6,7 +6,7 @@ import {theme} from '../../core/theme';
 import {responsiveFontSize} from 'react-native-responsive-dimensions';
 import FormVariables from '../Arbol/ingresar/tab/FormVariables';
 import {consultar} from '../../helpers/dataSave';
-import {notifyMessage} from '../../core/general';
+import {campoObligatory, notifyMessage} from '../../core/general';
 import base64 from 'react-native-base64';
 import guardarDatos from '../../helpers/guardarDatos';
 
@@ -14,32 +14,49 @@ const ModalVariables = ({
   modalVisible = false,
   onModalVisible,
   setLoadApp,
-  loadApp,
+  items,
+  setItems,
+  idArbol,
 }) => {
   const [dataVar, setDataVar] = React.useState({});
-
-  function guardarInfo() {
+  async function guardarInfo() {
     setLoadApp(true);
-    let data = consultar();
-    if (data === null) {
-      notifyMessage('Los campos marcados con (*) son obligatorios.');
+    let data = await consultar();
+    setDataVar(data);
+    if (data.altura === '' || !data.altura) {
+      campoObligatory('Altura');
+      setLoadApp(false);
+    } else if (data.altura_copa === '' || !data.altura_copa) {
+      campoObligatory('Altura copa');
+      setLoadApp(false);
+    } else if (data.dap1 === '' || !data.dap1) {
+      campoObligatory('DAP1');
+      setLoadApp(false);
+    } else if (data.dap2 === '' || !data.dap2) {
+      campoObligatory('DAP2');
+      setLoadApp(false);
+    } else if (data.fecha_ingreso === '' || !data.fecha_ingreso) {
+      campoObligatory('fecha ingreso');
       setLoadApp(false);
     } else {
-      setDataVar(data);
-      let valid = validateObligatory();
-      if (!valid) {
-        notifyMessage('Los campos marcados con  (*) son obligatorios');
-        setLoadApp(false);
-      } else {
-        fnGuardar();
-      }
+      await fnGuardar();
     }
   }
+
+  useEffect(() => {
+    setInterval(async () => {
+      let s = await consultar();
+      setDataVar(s);
+    }, 10000);
+  }, [dataVar]);
+
   const fnGuardar = async () => {
     let formData = new FormData();
-    formData.append('datosVariable', base64.encode(JSON.stringify(dataVar)));
+    formData.append('idArbol', base64.encode(idArbol));
+    formData.append('datosVariables', base64.encode(JSON.stringify(dataVar)));
     let res = await guardarDatos(formData, 'variables');
     if (res.message) {
+      setItems([...items, dataVar]);
       notifyMessage(res.message);
       setLoadApp(false);
       onModalVisible(false);
@@ -48,21 +65,6 @@ const ModalVariables = ({
       setLoadApp(false);
     }
   };
-
-  function validateObligatory() {
-    return !(
-      !dataVar.altura ||
-      !dataVar.altura_copa ||
-      !dataVar.dap1 ||
-      !dataVar.dap2 ||
-      !dataVar.fecha_ingreso ||
-      dataVar.altura === '' ||
-      dataVar.altura_copa === '' ||
-      dataVar.dap1 === '' ||
-      dataVar.dap2 === '' ||
-      dataVar.fecha_ingreso === ''
-    );
-  }
 
   return (
     <Modal

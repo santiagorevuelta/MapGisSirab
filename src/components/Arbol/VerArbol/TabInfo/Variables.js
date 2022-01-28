@@ -11,7 +11,7 @@ import Renderload from '../../../Load';
 
 const optionsPerPage = [2, 3, 4];
 
-export default function ({data}) {
+export default function ({data, idArbol}) {
   const [items, setItems] = useState(data);
   const [visible, setVisible] = useState(false);
   const [loadApp, setLoadApp] = useState(false);
@@ -28,6 +28,9 @@ export default function ({data}) {
       <ModalVariables
         modalVisible={visible}
         onModalVisible={setVisible}
+        items={items}
+        setItems={setItems}
+        idArbol={idArbol}
         loadApp={loadApp}
         setLoadApp={setLoadApp}
       />

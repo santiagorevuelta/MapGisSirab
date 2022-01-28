@@ -1,4 +1,11 @@
-import {Platform, Pressable, StyleSheet, Text, View} from 'react-native';
+import {
+  Platform,
+  Pressable,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import {theme} from '../../../core/theme';
 import IconAntDesign from 'react-native-vector-icons/AntDesign';
 import {
@@ -10,7 +17,7 @@ import React from 'react';
 
 const RenderHeader = props => (
   <View style={stylesHead.head}>
-    <Pressable
+    <TouchableOpacity
       style={stylesHead.regress}
       onPress={() => {
         props.nav('Dashboard');
@@ -23,7 +30,7 @@ const RenderHeader = props => (
       <Text style={[theme.textos.Label, stylesHead.regressTxt]}>
         {'Regresar'}
       </Text>
-    </Pressable>
+    </TouchableOpacity>
     <View style={stylesHead.headCodigo}>
       <Text style={[theme.textos.Label, stylesHead.textCod]}>
         {'Código ' + props.codigo}

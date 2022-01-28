@@ -18,13 +18,18 @@ const windowHeight = parseInt(Dimensions.get('window').height, 10);
 const Tab = createMaterialTopTabNavigator();
 
 export default function getHome({dataArbol, dataVariables, setLoadApp}) {
+  const idArbol = dataArbol.id_arbol;
   function Characteristics() {
     return dataArbol ? <FormCharacteristics data={dataArbol} /> : null;
   }
 
   function Variables() {
     return dataVariables ? (
-      <FormVariables data={dataVariables} setLoadApp={setLoadApp} />
+      <FormVariables
+        data={dataVariables}
+        setLoadApp={setLoadApp}
+        idArbol={idArbol}
+      />
     ) : null;
   }
 

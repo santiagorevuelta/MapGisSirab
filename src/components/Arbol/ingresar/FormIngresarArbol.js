@@ -9,7 +9,7 @@ import {
 import TextInputForm from '../../commons/TextInputForm';
 import SelectSimple from '../../commons/selectSimple/SelectSimple';
 import DatePicker from '../../commons/DatePicker/DatePicker';
-import {notifyMessage} from '../../../core/general';
+import {campoObligatory, notifyMessage} from '../../../core/general';
 import styles from '../../css/ingresarcss';
 import TabIngresar from '../ingresar/tab/TabIngresar';
 import TextSimple from '../../commons/TextSimple';
@@ -20,7 +20,7 @@ import {getPoint} from '../../map/BackgroundMap';
 import AutoComplete from '../../commons/SelectAutoComplete/AutoComplete';
 import {Button as ButtonIcon} from 'react-native-paper';
 import ButtonInsert from '../../ButtonInsert';
-import {consultar, reset} from '../../../helpers/dataSave';
+import {asignar, consultar, reset} from '../../../helpers/dataSave';
 import initialjson from '../../../initialjson.json';
 
 const selectPlace = 'Seleccione...';
@@ -73,27 +73,56 @@ export default ({combos = [], fnGuardar, setIndexSnap, setLoadApp}) => {
     setInterval(async () => {
       let s = await consultar();
       setDataVar(s);
-    }, 100000);
+    }, 10000);
   }, [dataVar]);
 
   function validateSave() {
-    if (
-      dataForm.especie === '' ||
-      dataForm.codigo_arbol === '' ||
-      dataForm.fecha === '' ||
-      dataForm.id_tipo_arbol === '' ||
+    if (dataForm.especie === '' || !dataForm.especie) {
+      campoObligatory('Especie');
+      setLoadApp(false);
+    } else if (dataForm.codigo_arbol === '' || !dataForm.codigo_arbol) {
+      campoObligatory('Codigo árbol');
+      setLoadApp(false);
+    } else if (dataForm.fecha === '' || !dataForm.fecha) {
+      campoObligatory('Fecha de ingreso');
+      setLoadApp(false);
+    } else if (dataForm.id_tipo_arbol === '' || !dataForm.id_tipo_arbol) {
+      campoObligatory('Tipo árbol');
+      setLoadApp(false);
+    } else if (
       dataForm.id_tipo_origen_arbol === '' ||
-      dataForm.primer_nivel === '' ||
-      dataForm.segundo_nivel === '' ||
-      dataForm.latitud === '' ||
-      dataForm.longitud === '' ||
-      dataVar.altura === '' ||
-      dataVar.altura_copa === '' ||
-      dataVar.dap1 === '' ||
-      dataVar.dap2 === '' ||
-      dataVar.fecha_ingreso === ''
+      !dataForm.id_tipo_origen_arbol
     ) {
-      notifyMessage('Los campos marcados con  (*) son obligatorios');
+      campoObligatory('Tipo origen árbol');
+      setLoadApp(false);
+    } else if (dataForm.primer_nivel === '' || !dataForm.primer_nivel) {
+      campoObligatory('Comuna');
+      setLoadApp(false);
+    } else if (dataForm.segundo_nivel === '' || !dataForm.segundo_nivel) {
+      campoObligatory('Barrio');
+      setLoadApp(false);
+    } else if (
+      dataForm.latitud === '' ||
+      !dataForm.latitud ||
+      dataForm.longitud === '' ||
+      !dataForm.longitud
+    ) {
+      campoObligatory('Punto');
+      setLoadApp(false);
+    } else if (dataVar.altura === '' || !dataVar.altura) {
+      campoObligatory('Altura');
+      setLoadApp(false);
+    } else if (dataVar.altura_copa === '' || !dataVar.altura_copa) {
+      campoObligatory('Altura copa');
+      setLoadApp(false);
+    } else if (dataVar.dap1 === '' || !dataVar.dap1) {
+      campoObligatory('DAP1');
+      setLoadApp(false);
+    } else if (dataVar.dap2 === '' || !dataVar.dap2) {
+      campoObligatory('DAP2');
+      setLoadApp(false);
+    } else if (dataVar.fecha_ingreso === '' || !dataVar.fecha_ingreso) {
+      campoObligatory('fecha ingreso');
       setLoadApp(false);
     } else {
       try {
@@ -103,9 +132,10 @@ export default ({combos = [], fnGuardar, setIndexSnap, setLoadApp}) => {
       fnGuardar(dataForm, dataVar, dataImage)
         .then(res => {
           if (res === 'Ok') {
+            asignar({}).then();
             reset();
             AsyncStorage.setItem('coords', '');
-            setDataForm({});
+            setDataForm(initialjson.datosArbol);
             setDataVar({});
             setDataImage([]);
             setLimpiarEspecie(true);
@@ -234,7 +264,7 @@ export default ({combos = [], fnGuardar, setIndexSnap, setLoadApp}) => {
               notifyMessage('Seleccionar punto en mapa');
               ubicarEnMapa().then();
             }}>
-            Seleccionar punto
+            Seleccionar punto *
           </ButtonIcon>
         </View>
         {dataForm.latitud !== '' ? (

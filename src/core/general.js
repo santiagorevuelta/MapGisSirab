@@ -12,6 +12,18 @@ function notifyMessage(msg) {
   }
 }
 
+function campoObligatory(msg) {
+  if (Platform.OS === 'android') {
+    ToastAndroid.showWithGravity(
+      'El campo ' + msg + ' es obligatorio',
+      ToastAndroid.SHORT,
+      ToastAndroid.CENTER,
+    );
+  } else {
+    Alert.alert(msg);
+  }
+}
+
 async function consultToken() {
   let token = null;
   let url = tsconfig[tsconfig.use].tokenValidator.url;
@@ -46,4 +58,4 @@ function catchError(msg) {
   }
 }
 
-module.exports = {notifyMessage, consultToken, catchError};
+module.exports = {notifyMessage, consultToken, catchError, campoObligatory};
