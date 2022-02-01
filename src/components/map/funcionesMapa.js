@@ -5,21 +5,16 @@ module.exports = `
     iconAnchor: [10, 10], // point of the icon which will correspond to marker's location
     iconSize: [32, 40],
   });
-  
-  const marker = L.marker(mymap.getCenter(), {
-    icon: myIcon
-  });
-
+    
   const myIcons = L.icon({
     iconUrl: "https://icones.pro/wp-content/uploads/2021/04/icone-cercle-vert.png",
     iconAnchor: [30, 35],
     iconSize: [60, 60],
   });
   
-  const radius =  L.marker(mymap.getCenter(), {
-    icon: myIcons
-  })
- 
+  const marker = L.marker(mymap.getCenter(), {icon: myIcon}); 
+  const radius =  L.marker(mymap.getCenter(), {icon: myIcons})
+
 
   function acctionMap(latlng) {
     radius.addTo(mymap);
@@ -216,20 +211,29 @@ mymap.on('draw:created', function(e) {
    polygon = layer;
 });
 
+    const polyEdit = new L.Draw.Polygon(mymap);
+    L.Draw.Polyline.prototype._onTouch = L.Util.falseFn;
   function drawPolin(){
     mymap.on("click", ()=>{});
-    var polyEdit = new L.Draw.Polygon(mymap);
+    mymap.on("move", function(e) {polyEdit.disabled();});
+   mymap.on("moveend", function() {polyEdit.enable();});
+    
     polyEdit.enable();
     //polyEdit.addVertex(e.latlng);
   }
   
   function stopPolin(){
     polyEdit.disabled();
+    
+    mymap.on("move", function(e) {});
+    mymap.on("moveend", function() {});
   }
   
   function limpiarDrawPolygon(){
     editableLayers.removeLayer(polygon);
     mymap.removeLayer(layerOld);
+    mymap.on("move", function(e) {});
+    mymap.on("moveend", function() {});
   }
 
 </script>`;

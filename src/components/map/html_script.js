@@ -4,7 +4,7 @@ module.exports = `<!DOCTYPE html>
 <html lang="es">
 <head>
   <title>MapgisSirab</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0 ">
+  <meta name="viewport" content="width=device-width, initial-scale=1.1">
   <meta http-equiv="Expires" content="0">
   <meta http-equiv="Last-Modified" content="0">
   <meta http-equiv="Cache-Control" content="no-cache, mustrevalidate">
