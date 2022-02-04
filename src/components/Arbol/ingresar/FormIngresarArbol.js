@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useContext, useEffect} from 'react';
 import consultarBarrios from '../../../helpers/consultaBarrios';
 import {View} from 'react-native';
 import {theme} from '../../../core/theme';
@@ -16,22 +16,25 @@ import TextSimple from '../../commons/TextSimple';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {ScrollView} from 'react-native-gesture-handler';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {getPoint} from '../../map/BackgroundMap';
+import {getPoint, stopPoint} from '../../map/BackgroundMap';
 import AutoComplete from '../../commons/SelectAutoComplete/AutoComplete';
 import {Button as ButtonIcon} from 'react-native-paper';
 import ButtonInsert from '../../ButtonInsert';
 import {asignar, consultar, reset} from '../../../helpers/dataSave';
 import initialjson from '../../../initialjson.json';
-
+import VariableContext from '../../../../Context/variables/VariableContext';
 const selectPlace = 'Seleccione...';
 
 export default ({combos = [], fnGuardar, setIndexSnap, setLoadApp}) => {
   const [dataForm, setDataForm] = React.useState(initialjson.datosArbol);
-  const [dataVar, setDataVar] = React.useState({});
   const [dataImage, setDataImage] = React.useState([]);
   const [limpiarEspecie, setLimpiarEspecie] = React.useState(false);
   const [combosBarrios, setCombosBarrios] = React.useState([]);
   const [modeBtn, setModeBtn] = React.useState('outlined');
+
+  //context
+  const {variables, deleteVariables} = useContext(VariableContext);
+  const [dataVar, setDataVar] = React.useState(variables);
 
   const llenarBarrio = async id => {
     setLoadApp(true);
@@ -63,18 +66,10 @@ export default ({combos = [], fnGuardar, setIndexSnap, setLoadApp}) => {
   };
 
   const guardar = async () => {
-    let data = await consultar();
+    setDataVar(variables);
     setLoadApp(true);
-    setDataVar(data);
     validateSave();
   };
-
-  useEffect(() => {
-    setInterval(async () => {
-      let s = await consultar();
-      setDataVar(s);
-    }, 10000);
-  }, [dataVar]);
 
   function validateSave() {
     if (dataForm.especie === '' || !dataForm.especie) {
@@ -132,13 +127,13 @@ export default ({combos = [], fnGuardar, setIndexSnap, setLoadApp}) => {
       fnGuardar(dataForm, dataVar, dataImage)
         .then(res => {
           if (res === 'Ok') {
-            asignar({}).then();
-            reset();
-            AsyncStorage.setItem('coords', '');
-            setDataForm(initialjson.datosArbol);
-            setDataVar({});
-            setDataImage([]);
+            deleteVariables();
             setLimpiarEspecie(true);
+            setDataForm({});
+            AsyncStorage.setItem('coords', '');
+            setDataImage([]);
+            setDataForm(initialjson.datosArbol);
+            stopPoint();
           }
           setLoadApp(false);
         })
@@ -258,11 +253,14 @@ export default ({combos = [], fnGuardar, setIndexSnap, setLoadApp}) => {
             color={theme.colors.primary}
             labelStyle={{fontSize: responsiveScreenFontSize(1.6)}}
             onPress={() => {
+              setLoadApp(true);
               setIndexSnap(1);
               setModeBtn('contained');
               AsyncStorage.setItem('coords', '');
               notifyMessage('Seleccionar punto en mapa');
               ubicarEnMapa().then();
+
+              setLoadApp(false);
             }}>
             Seleccionar punto *
           </ButtonIcon>
@@ -277,8 +275,6 @@ export default ({combos = [], fnGuardar, setIndexSnap, setLoadApp}) => {
           dataImage={dataImage}
           setDataImage={setDataImage}
           label={' '}
-          setDataVar={setDataVar}
-          dataVar={dataVar}
         />
         <View style={[styles.form, {justifyContent: 'flex-end'}]}>
           <ButtonInsert

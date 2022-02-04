@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {StyleSheet, View} from 'react-native';
 
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
@@ -10,13 +10,10 @@ import {
 import {theme} from '../../../../core/theme';
 import FormImagenes from '../../../commons/imagenes/FormImagenes';
 import FormVariables from './FormVariables';
-import {consultar} from '../../../../helpers/dataSave';
 
 const Tab = createMaterialTopTabNavigator();
 
-function TabIngresar({dataImage, setDataImage, label, setDataVar, dataVar}) {
-  const [variables, setVariables] = useState(consultar());
-
+function TabIngresar({dataImage, setDataImage, label}) {
   function imagenes() {
     return (
       <FormImagenes

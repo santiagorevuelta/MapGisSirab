@@ -214,6 +214,19 @@ export function getPoint() {
   MapRef.current.injectJavaScript(injected);
 }
 
+export function stopPoint() {
+  if (!MapRef.current) {
+    return [];
+  }
+
+  const injected = `
+    acctionMapstopPoint();
+    true;
+  `;
+
+  MapRef.current.injectJavaScript(injected);
+}
+
 export function drawPolin() {
   if (!MapRef.current) {
     return [];

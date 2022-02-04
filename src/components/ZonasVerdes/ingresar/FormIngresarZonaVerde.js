@@ -12,11 +12,7 @@ import consultarBarrios from '../../../helpers/consultaBarrios';
 import {responsiveFontSize} from 'react-native-responsive-dimensions';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {ScrollView} from 'react-native-gesture-handler';
-import {
-  drawPolin,
-  limpiarMapa,
-  limpiarMapaPolygon,
-} from '../../map/BackgroundMap';
+import {drawPolin, limpiarMapaPolygon} from '../../map/BackgroundMap';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {notifyMessage} from '../../../core/general';
 import ButtonInsert from '../../ButtonInsert';
@@ -42,14 +38,14 @@ export default ({combos = [], fnGuardar, setIndexSnap, setLoadApp}) => {
   const getPolygon = async () => {
     let result = await AsyncStorage.getItem('polygon');
     let area = await AsyncStorage.getItem('area');
+    console.log(result);
     if (result != null) {
       result = JSON.parse(result);
       let finalJ = '';
-      for (const data of result) {
+      for (const data of result[0]) {
         finalJ += `${data.lng} ${data.lat},`;
       }
-      finalJ += `${result[0].lng} ${result[0].lat}`;
-      console.log(parseInt(area, 10));
+      finalJ += `${result[0][0].lng} ${result[0][0].lat}`;
       setDataForm({
         ...dataForm,
         geom: `POLYGON((${finalJ}))`,
@@ -145,8 +141,10 @@ export default ({combos = [], fnGuardar, setIndexSnap, setLoadApp}) => {
                 icon="vector-polyline-plus"
                 color={theme.colors.primary}
                 onPress={() => {
-                  setIndexSnap(1);
-                  notifyMessage('Toca en el mapa para iniciar a dibujar');
+                  setIndexSnap(0);
+                  notifyMessage(
+                    'Usa los botones en el mapa para dibujar el poligono',
+                  );
                   drawPolin();
                   getPolygon().then();
                 }}
@@ -157,7 +155,8 @@ export default ({combos = [], fnGuardar, setIndexSnap, setLoadApp}) => {
                 icon="cached"
                 color={theme.colors.primary}
                 onPress={() => {
-                  limpiarMapa();
+                  limpiarMapaPolygon();
+                  setDataForm({...dataForm, area_m2_calculado: ''});
                 }}
               />
             </View>

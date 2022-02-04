@@ -14,6 +14,7 @@ import {theme} from './src/core/theme';
 import {enableScreens} from 'react-native-screens';
 import {Dashboard, LoginScreen, ViewTree, ViewZone} from './src/screens';
 import {configureFonts} from 'react-native-paper';
+import VariablesState from './Context/variables/VariablesState';
 enableScreens(true);
 
 const Stack = createStackNavigator();
@@ -60,17 +61,19 @@ theme.fonts = configureFonts(fontConfig);
 
 const App: () => Node = () => {
   return (
-    <NavigationContainer independent={true} theme={theme} ref={createRef()}>
-      <Stack.Navigator
-        screenOptions={{
-          headerShown: false,
-        }}>
-        <Stack.Screen name="Dashboard" component={Dashboard} />
-        <Stack.Screen name="LoginScreen" component={LoginScreen} />
-        <Stack.Screen name="ViewZone" component={ViewZone} />
-        <Stack.Screen name="ViewTree" component={ViewTree} />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <VariablesState>
+      <NavigationContainer independent={true} theme={theme} ref={createRef()}>
+        <Stack.Navigator
+          screenOptions={{
+            headerShown: false,
+          }}>
+          <Stack.Screen name="Dashboard" component={Dashboard} />
+          <Stack.Screen name="LoginScreen" component={LoginScreen} />
+          <Stack.Screen name="ViewZone" component={ViewZone} />
+          <Stack.Screen name="ViewTree" component={ViewTree} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </VariablesState>
   );
 };
 

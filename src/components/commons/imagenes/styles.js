@@ -20,6 +20,7 @@ export const styles = StyleSheet.create({
     height: responsiveScreenWidth(29),
     borderRadius: theme.radius,
     marginRight: 5,
+    zIndex: 1,
     marginBottom: '3%',
   },
   icon: {
@@ -28,9 +29,12 @@ export const styles = StyleSheet.create({
     alignItems: 'flex-end',
     borderRadius: theme.radius,
     backgroundColor: theme.colors.fondo,
-    zIndex: 1,
+    zIndex: 2,
     height: responsiveScreenWidth(29),
     width: responsiveScreenWidth(29),
+  },
+  radioButton: {
+    elevation: 1,
   },
   slide: {
     flexDirection: 'row',

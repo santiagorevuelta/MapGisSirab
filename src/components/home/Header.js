@@ -17,16 +17,17 @@ import TextInput from './TextInputSearch';
 import Home from '../icons/Home';
 import Location from '../icons/Ubicacion';
 import IconAntDesign from 'react-native-vector-icons/AntDesign';
-import {getLocalize} from '../map/BackgroundMap';
+import {getLocalize, navigate} from '../map/BackgroundMap';
 import consultDireccion from '../../helpers/consultaDireccion';
 import config from '../../tsconfig.json';
 import ModalAlert from '../Alerta';
+import MaterialCommunityIcon from 'react-native-paper/src/components/MaterialCommunityIcon';
 
 const Header = props => {
   const [valor, setValor] = useState('');
   const [visible, setVisible] = useState(false);
-  const [title] = useState('Anuncio!');
-  const [msg] = useState('¿Esta seguro de cancelar el ingreso?');
+  const [title] = useState('Alerta!');
+  const [msg] = useState('¿Esta seguro de cerrar sesion?');
   const [buttons] = useState([
     {
       text: 'Cancelar',
@@ -37,19 +38,14 @@ const Header = props => {
     {
       text: 'Aceptar',
       onPress: () => {
-        props.setOption('inicio');
+        props.navigation.reset({
+          index: 0,
+          routes: [{name: 'LoginScreen'}],
+        });
         setVisible(false);
       },
     },
   ]);
-
-  const validBack = () => {
-    if (props.option === 'Ingresar') {
-      setVisible(true);
-    } else {
-      props.setOption('inicio');
-    }
-  };
 
   return (
     <View style={styles.header}>
@@ -62,10 +58,15 @@ const Header = props => {
       />
       <TouchableOpacity
         onPress={() => {
-          validBack();
+          setVisible(true);
         }}
         style={styles.icons}>
-        <Home />
+        <MaterialCommunityIcon
+          direction={'ltr'}
+          name={'exit-to-app'}
+          color={theme.colors.primary}
+          size={responsiveFontSize(3.3)}
+        />
       </TouchableOpacity>
       <View style={styles.search}>
         <TextInput

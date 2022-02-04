@@ -20,7 +20,10 @@ export async function loginValidator(user, password, {navigation}, setLoadApp) {
         AsyncStorage.setItem('login', 'Ok');
         AsyncStorage.setItem('user', user);
         AsyncStorage.setItem('pass', password);
-        navigation.navigate('Dashboard');
+        navigation.reset({
+          index: 1,
+          routes: [{name: 'Dashboard'}],
+        });
         setLoadApp(false);
       } else if (resLogin === 0) {
         notifyMessage('Usuario o clave no validos');

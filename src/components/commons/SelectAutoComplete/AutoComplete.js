@@ -32,7 +32,7 @@ export default ({
   multiple = true,
   valueSelected,
   list,
-  Limpiar = false,
+  limpiar = false,
   onSelected,
 }) => {
   const [listItems, setListItems] = useState([]);
@@ -45,8 +45,8 @@ export default ({
 
   useEffect(() => {
     async function initial() {
-      if (Limpiar) {
-        setSelectedItems(valueSelected);
+      if (limpiar) {
+        setSelectedItems([]);
       }
       let data = await list.filter(item => {
         return item.campo.indexOf(id) !== -1;
@@ -55,7 +55,7 @@ export default ({
       setItemsFilter(data.length < 20 ? data : data.splice(0, 20));
     }
     initial().then();
-  }, [Limpiar, id, list, valueSelected]);
+  }, [limpiar, id, list, valueSelected]);
 
   const filterSelect = async text => {
     setItemsTextValue(text);

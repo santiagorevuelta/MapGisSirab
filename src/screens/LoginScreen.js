@@ -69,7 +69,6 @@ export default function LoginScreen({navigation}) {
       />
       <Button
         mode="contained"
-        icon="login"
         onPress={() => {
           onLoginPressed().then();
         }}>

@@ -15,9 +15,12 @@ import * as ImagePicker from 'react-native-image-crop-picker';
 import ImageResizer from 'react-native-image-resizer';
 import * as RNFS from 'react-native-fs';
 import {RadioButton} from 'react-native-paper';
-import {ScrollView, TouchableOpacity} from 'react-native-gesture-handler';
+import {
+  ScrollView,
+  TouchableOpacity,
+  TouchableHighlight,
+} from 'react-native-gesture-handler';
 import ModalImage from './modalImage';
-import {borrado as dataBorrado, setBorrado} from '../../../helpers/dataSave';
 
 const options = {
   storageOptions: {
@@ -41,7 +44,7 @@ export default function ({
   label = 'Registro fotográfico',
   newStyles = {},
 }) {
-  const [borrado] = useState(dataBorrado());
+  const [borrado, setBorrado] = useState(false);
   const [visible, setVisible] = useState(false);
   const [urlImage, setUrlImage] = useState(null);
   return (
@@ -116,6 +119,7 @@ export default function ({
               <View style={[styles.icon, newStyles]}>
                 <RadioButton
                   value={item.checked}
+                  style={styles.radioButton}
                   uncheckedColor={theme.colors.blanco}
                   color={theme.colors.blanco}
                   status={item.checked === '1' ? 'checked' : 'unchecked'}

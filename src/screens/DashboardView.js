@@ -109,6 +109,7 @@ class DashboardView extends Component {
           load={this.state.loadApp}
         />
         <Header
+          navigation={this.props.navigation}
           setOption={this.setView}
           setIndexSnap={this.setIndexSnap}
           option={this.state.optionOld}
