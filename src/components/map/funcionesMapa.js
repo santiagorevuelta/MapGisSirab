@@ -32,7 +32,8 @@ module.exports = `
         },
         edit: {
             featureGroup: editableLayers, //REQUIRED!!
-            remove: false
+            remove: false,
+            edit: false
         }
     };
 
@@ -161,6 +162,7 @@ module.exports = `
             layer = e.layer;
         if (type === 'marker') {
             pointArbol = layer;
+            mymap.removeControl(drawControl);
             window.ReactNativeWebView.postMessage(JSON.stringify({lat:e.layer.getLatLng().lat,lng:e.layer.getLatLng().lng}));
         } else if (type === 'polygon') {
             let seeArea = 0
@@ -191,9 +193,9 @@ module.exports = `
         acctionMapstopPoint()
         drawPluginOptions.draw.polygon = false;
         drawPluginOptions.draw.marker = {icon: myIcon};
-        drawControl = new L.Control.Draw(drawPluginOptions)
+        drawControl = new L.Control.Draw(drawPluginOptions);
         mymap.addControl(drawControl);
-        window.document.getElementsByClassName("leaflet-draw-draw-marker")[0].click()
+        window.document.getElementsByClassName("leaflet-draw-draw-marker")[0].click();
     }
 
     function acctionMapstopPoint(){

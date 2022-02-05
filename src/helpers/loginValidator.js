@@ -4,7 +4,7 @@ import tsconfig from '../tsconfig.json';
 import base64 from 'react-native-base64';
 const axios = require('axios');
 
-export async function loginValidator(user, password, {navigation}, setLoadApp) {
+export async function loginValidator(user, password, navigation, setLoadApp) {
   let url = tsconfig[tsconfig.use].loginValidator.url;
   let data = new FormData();
   data.append('id_Persona', base64.encode(user));
@@ -27,13 +27,17 @@ export async function loginValidator(user, password, {navigation}, setLoadApp) {
         setLoadApp(false);
       } else if (resLogin === 0) {
         notifyMessage('Usuario o clave no validos');
+        setLoadApp(false);
       } else if (resLogin === 2) {
         notifyMessage('Usuario sin servicios asociados');
+        setLoadApp(false);
       } else {
         notifyMessage('Hubo problemas con la peticion.');
+        setLoadApp(false);
       }
     })
     .catch(error => {
       notifyMessage('Hubo problemas con la peticion.');
+      setLoadApp(false);
     });
 }

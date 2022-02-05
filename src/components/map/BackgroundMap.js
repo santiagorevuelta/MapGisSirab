@@ -218,7 +218,6 @@ export function stopPoint() {
   if (!MapRef.current) {
     return [];
   }
-
   const injected = `
     acctionMapstopPoint();
     true;

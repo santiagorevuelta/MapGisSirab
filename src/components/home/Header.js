@@ -1,11 +1,5 @@
 import React, {useState} from 'react';
-import {
-  Platform,
-  Pressable,
-  StyleSheet,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import {Platform, StyleSheet, TouchableOpacity, View} from 'react-native';
 import {theme} from '../../core/theme';
 import {
   responsiveFontSize,
@@ -14,14 +8,14 @@ import {
 } from 'react-native-responsive-dimensions';
 
 import TextInput from './TextInputSearch';
-import Home from '../icons/Home';
 import Location from '../icons/Ubicacion';
 import IconAntDesign from 'react-native-vector-icons/AntDesign';
-import {getLocalize, navigate} from '../map/BackgroundMap';
+import {getLocalize} from '../map/BackgroundMap';
 import consultDireccion from '../../helpers/consultaDireccion';
 import config from '../../tsconfig.json';
 import ModalAlert from '../Alerta';
 import MaterialCommunityIcon from 'react-native-paper/src/components/MaterialCommunityIcon';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Header = props => {
   const [valor, setValor] = useState('');
@@ -38,6 +32,7 @@ const Header = props => {
     {
       text: 'Aceptar',
       onPress: () => {
+        AsyncStorage.setItem('login', '');
         props.navigation.reset({
           index: 0,
           routes: [{name: 'LoginScreen'}],
