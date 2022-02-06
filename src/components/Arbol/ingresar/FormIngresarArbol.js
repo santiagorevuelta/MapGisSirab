@@ -283,6 +283,7 @@ export default ({combos = [], fnGuardar, setIndexSnap, setLoadApp}) => {
             style={styles.guardar}
             color={theme.colors.primary}
             onPress={() => {
+              setDataVar(variables);
               guardar();
             }}>
             Guardar
