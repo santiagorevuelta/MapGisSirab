@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useContext, useEffect} from 'react';
 import HeaderModal from '../../home/HeaderModal';
 import FormIngresar from './FormIngresarZonaVerde';
 import base64 from 'react-native-base64';
@@ -7,6 +7,7 @@ import {campoObligatory, notifyMessage} from '../../../core/general';
 
 import {limpiarMapaPolygon} from '../../map/BackgroundMap';
 import {getData} from '../../../combos';
+import imagenesContext from '../../../../Context/imagenes/ImagenesContext';
 
 const ModalIngresar = ({
   label,
@@ -17,6 +18,8 @@ const ModalIngresar = ({
   setLoadApp,
 }) => {
   const [combos, setCombos] = React.useState([]);
+
+  const {deleteImages} = useContext(imagenesContext);
 
   const fnGuardar = async (datos, datosImagenes) => {
     console.log(datos);
@@ -76,6 +79,7 @@ const ModalIngresar = ({
   useEffect(() => {
     async function initial() {
       setLoadApp(true);
+      deleteImages();
       let res = await getData('zona');
       setCombos(res);
       setIndexSnap(snp.length - 1);

@@ -180,8 +180,9 @@ export function limpiarMapa() {
   }
   limpiarMapaPolygon();
   limpiarMapaPoints();
+  removeControl();
   if (Platform.OS === 'android') {
-    MapRef.current.reload();
+    //MapRef.current.reload();
   }
   setTimeout(() => {
     setCoords().then();
@@ -260,6 +261,18 @@ export function limpiarMapaPolygon() {
   AsyncStorage.setItem('polygon', '');
   const injected = `
     limpiarDrawPolygon();
+    true;
+  `;
+
+  MapRef.current.injectJavaScript(injected);
+}
+export function removeControl() {
+  if (!MapRef.current) {
+    return [];
+  }
+  AsyncStorage.setItem('polygon', '');
+  const injected = `
+    removeControl();
     true;
   `;
 

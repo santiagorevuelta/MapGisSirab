@@ -18,7 +18,7 @@ import {
   responsiveFontSize,
   responsiveHeight,
 } from 'react-native-responsive-dimensions';
-import {notifyMessage} from '../core/general';
+import {consultToken, notifyMessage} from '../core/general';
 import Renderload from '../components/Load';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -27,8 +27,8 @@ class LoginScreenView extends Component {
     super();
     this.state = {
       loadApp: false,
-      user: '',
-      password: '',
+      user: 'abaez',
+      password: 'A1090496829',
     };
   }
 
@@ -44,8 +44,8 @@ class LoginScreenView extends Component {
 
   async componentDidMount() {
     this.setLoadApp(true);
+    await consultToken();
     let res = await AsyncStorage.getItem('login');
-    console.log(res);
     if (res === 'Ok') {
       this.props.navigation.reset({
         index: 1,

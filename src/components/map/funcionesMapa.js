@@ -129,6 +129,7 @@ module.exports = `
 
     function limpiarMapaPoints() {
         typeCoord = false;
+        mymap.removeLayer(pointArbol);
         mymap.removeLayer(layerOld);
         mymap.removeLayer(pointLocation);
         for (const point of layerPoints) {
@@ -241,5 +242,9 @@ module.exports = `
         }
     }
 
+    function removeControl() {      
+           mymap.removeControl(drawControl);        
+    }
+    
 </script>
 `;

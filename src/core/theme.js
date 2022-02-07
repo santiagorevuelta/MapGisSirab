@@ -37,6 +37,7 @@ export const theme = {
     blanco: '#fff',
     negro: '#000',
     hover: 'rgb(125,211,122)',
+    background: 'white',
   },
   buttons: {
     principales: {

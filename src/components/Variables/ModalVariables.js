@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useContext, useEffect} from 'react';
 import {Modal, View} from 'react-native';
 import {styles} from './modalStyle';
 import {Button} from 'react-native-paper';
@@ -9,6 +9,7 @@ import {consultar} from '../../helpers/dataSave';
 import {campoObligatory, notifyMessage} from '../../core/general';
 import base64 from 'react-native-base64';
 import guardarDatos from '../../helpers/guardarDatos';
+import VariableContext from '../../../Context/variables/VariableContext';
 
 const ModalVariables = ({
   modalVisible = false,
@@ -18,24 +19,22 @@ const ModalVariables = ({
   setItems,
   idArbol,
 }) => {
-  const [dataVar, setDataVar] = React.useState({});
+  const {variables, deleteVariables} = useContext(VariableContext);
   async function guardarInfo() {
     setLoadApp(true);
-    let data = await consultar();
-    setDataVar(data);
-    if (data.altura === '' || !data.altura) {
+    if (variables.altura === '' || !variables.altura) {
       campoObligatory('Altura');
       setLoadApp(false);
-    } else if (data.altura_copa === '' || !data.altura_copa) {
+    } else if (variables.altura_copa === '' || !variables.altura_copa) {
       campoObligatory('Altura copa');
       setLoadApp(false);
-    } else if (data.dap1 === '' || !data.dap1) {
+    } else if (variables.dap1 === '' || !variables.dap1) {
       campoObligatory('DAP1');
       setLoadApp(false);
-    } else if (data.dap2 === '' || !data.dap2) {
+    } else if (variables.dap2 === '' || !variables.dap2) {
       campoObligatory('DAP2');
       setLoadApp(false);
-    } else if (data.fecha_ingreso === '' || !data.fecha_ingreso) {
+    } else if (variables.fecha_ingreso === '' || !variables.fecha_ingreso) {
       campoObligatory('fecha ingreso');
       setLoadApp(false);
     } else {
@@ -44,20 +43,18 @@ const ModalVariables = ({
   }
 
   useEffect(() => {
-    setInterval(async () => {
-      let s = await consultar();
-      setDataVar(s);
-    }, 10000);
-  }, [dataVar]);
+    deleteVariables();
+  }, []);
 
   const fnGuardar = async () => {
     let formData = new FormData();
     formData.append('idArbol', base64.encode(idArbol));
-    formData.append('datosVariables', base64.encode(JSON.stringify(dataVar)));
+    formData.append('datosVariables', base64.encode(JSON.stringify(variables)));
     let res = await guardarDatos(formData, 'variables');
     if (res.message) {
-      setItems([...items, dataVar]);
+      setItems([...items, variables]);
       notifyMessage(res.message);
+      deleteVariables();
       setLoadApp(false);
       onModalVisible(false);
     } else {

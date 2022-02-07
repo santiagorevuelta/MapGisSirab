@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {
   Image,
   PermissionsAndroid,
@@ -8,7 +8,10 @@ import {
   View,
 } from 'react-native';
 import {theme} from '../../../core/theme';
-import {responsiveFontSize} from 'react-native-responsive-dimensions';
+import {
+  responsiveFontSize,
+  responsiveScreenWidth,
+} from 'react-native-responsive-dimensions';
 import {styles} from './styles';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import * as ImagePicker from 'react-native-image-crop-picker';
@@ -21,6 +24,8 @@ import {
   TouchableHighlight,
 } from 'react-native-gesture-handler';
 import ModalImage from './modalImage';
+import imagenesContext from '../../../../Context/imagenes/ImagenesContext';
+import {UPDATE_IMAGENES} from '../../../../Context/Types';
 
 const options = {
   storageOptions: {
@@ -39,16 +44,19 @@ const options = {
 };
 
 export default function ({
-  dataImage = [],
-  setDataImage,
-  label = 'Registro fotográfico',
-  newStyles = {},
+  label,
+  newStyles = {
+    width: responsiveScreenWidth(28),
+    height: responsiveScreenWidth(28),
+  },
+  alto = {height: '100%'},
 }) {
   const [borrado, setBorrado] = useState(false);
   const [visible, setVisible] = useState(false);
   const [urlImage, setUrlImage] = useState(null);
+  const {imagenes, updateImages} = useContext(imagenesContext);
   return (
-    <ScrollView style={styles.body}>
+    <ScrollView style={[styles.body, alto]}>
       <ModalImage
         modalVisible={visible}
         onModalVisible={setVisible}
@@ -100,20 +108,22 @@ export default function ({
         </View>
       </View>
       <View style={[styles.slide]}>
-        {dataImage?.map((item, i) => (
+        {imagenes?.map((item, i) => (
           <TouchableOpacity
-            style={[styles.container, newStyles]}
+            style={[styles.container, newStyles, {zIndex: -1}]}
             key={i}
             onPress={() => {
-              setUrlImage(item.urlFoto);
-              setVisible(!visible);
+              if (!borrado) {
+                setUrlImage(item.urlFoto);
+                setVisible(!visible);
+              }
             }}
             onLongPress={() => {
               setBorrado(!borrado);
               if (!borrado) {
-                dataImage[i].checked = '1';
+                imagenes[i].checked = '1';
               }
-              setDataImage([...dataImage]);
+              updateImages([...imagenes], UPDATE_IMAGENES);
             }}>
             {borrado && (
               <View style={[styles.icon, newStyles]}>
@@ -124,8 +134,8 @@ export default function ({
                   color={theme.colors.blanco}
                   status={item.checked === '1' ? 'checked' : 'unchecked'}
                   onPress={() => {
-                    dataImage[i].checked = item.checked === '0' ? '1' : '0';
-                    setDataImage([...dataImage]);
+                    imagenes[i].checked = item.checked === '0' ? '1' : '0';
+                    updateImages([...imagenes], UPDATE_IMAGENES);
                   }}
                 />
               </View>
@@ -149,7 +159,7 @@ export default function ({
           }
         }
         if (newImg.length > 0) {
-          setDataImage([...dataImage, ...newImg]);
+          updateImages([...imagenes, ...newImg], UPDATE_IMAGENES);
         }
       })
       .catch(e => {
@@ -159,12 +169,12 @@ export default function ({
 
   async function deleteImage() {
     let newJson = [];
-    for (const img of dataImage) {
+    for (const img of imagenes) {
       if (img.checked === '0') {
         newJson.push(img);
       }
     }
-    setDataImage([...newJson]);
+    updateImages([...newJson], UPDATE_IMAGENES);
     if (newJson.length === 0) {
       setBorrado(false);
     }
@@ -176,7 +186,7 @@ export default function ({
       .then(async image => {
         let res = await renderFile(image);
         if (res !== null) {
-          setDataImage([...dataImage, res]);
+          updateImages([...imagenes, res], UPDATE_IMAGENES);
         }
       })
       .catch(e => {

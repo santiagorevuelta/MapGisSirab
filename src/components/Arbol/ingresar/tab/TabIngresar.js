@@ -13,18 +13,7 @@ import FormVariables from './FormVariables';
 
 const Tab = createMaterialTopTabNavigator();
 
-function TabIngresar({dataImage, setDataImage, label}) {
-  function imagenes() {
-    return (
-      <FormImagenes
-        dataImage={dataImage}
-        setDataImage={setDataImage}
-        label={label}
-        newStyles={styles.image}
-      />
-    );
-  }
-
+function TabIngresar() {
   return (
     <View style={styles.floatModal}>
       <Tab.Navigator
@@ -34,11 +23,10 @@ function TabIngresar({dataImage, setDataImage, label}) {
             fontSize: responsiveFontSize(1.6),
             textTransform: 'none',
           },
-          tabBarItemStyle: {height: 40}, //, width: 'auto'
+          tabBarItemStyle: {height: 40},
           tabBarInactiveTintColor: theme.colors.headers,
           tabBarPressColor: theme.colors.border,
           tabBarActiveTintColor: theme.colors.primary,
-          //tabBarLabelStyle: [theme.ver.Label, styles.header],
         }}>
         <Tab.Screen
           name="variables"
@@ -52,7 +40,7 @@ function TabIngresar({dataImage, setDataImage, label}) {
         />
         <Tab.Screen
           name="imagenes"
-          component={imagenes}
+          component={FormImagenes}
           options={{
             title: 'Fotos',
             tabBarStyle: {upperCaseLabel: false},
