@@ -10,6 +10,7 @@ import {responsiveHeight} from 'react-native-responsive-dimensions';
 import buscarDatosId from '../helpers/buscarDatosId';
 import Renderload from '../components/Load';
 import {navigate} from '../components/map/BackgroundMap';
+import ModalImagenes from '../components/Imagenes/ModalImagenes';
 
 export default class ViewTree extends React.Component {
   constructor() {
@@ -35,6 +36,7 @@ export default class ViewTree extends React.Component {
         intervenciones: datosArbol.intervenciones,
         verArbol: datosArbol.verArbol,
         variables: datosArbol.variables,
+        modalVisible: false,
         codigo_arbol: item.codigo_arbol,
       };
       this.setState(info);
@@ -49,6 +51,10 @@ export default class ViewTree extends React.Component {
     this.setState({loadApp: obj});
   };
 
+  onModalVisible = obj => {
+    this.setState({modalVisible: obj});
+  };
+
   render() {
     return (
       <SafeAreaView
@@ -56,6 +62,11 @@ export default class ViewTree extends React.Component {
           backgroundColor: theme.colors.blanco,
           height: responsiveHeight(100),
         }}>
+        <ModalImagenes
+          modalVisible={this.state.modalVisible}
+          onModalVisible={this.onModalVisible}
+          setLoadApp={this.setLoadApp}
+        />
         <Renderload
           setLoadVisible={this.setLoadApp}
           load={this.state.loadApp}
