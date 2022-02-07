@@ -15,6 +15,7 @@ import {enableScreens} from 'react-native-screens';
 import {Dashboard, LoginScreen, ViewTree, ViewZone} from './src/screens';
 import {configureFonts} from 'react-native-paper';
 import VariablesState from './Context/variables/VariablesState';
+import ImagenesState from './Context/imagenes/ImagenesState';
 
 enableScreens(true);
 
@@ -62,19 +63,21 @@ theme.fonts = configureFonts(fontConfig);
 
 const App: () => Node = () => {
   return (
-    <VariablesState>
-      <NavigationContainer independent={true} theme={theme} ref={createRef()}>
-        <Stack.Navigator
-          screenOptions={{
-            headerShown: false,
-          }}>
-          <Stack.Screen name="LoginScreen" component={LoginScreen} />
-          <Stack.Screen name="Dashboard" component={Dashboard} />
-          <Stack.Screen name="ViewZone" component={ViewZone} />
-          <Stack.Screen name="ViewTree" component={ViewTree} />
-        </Stack.Navigator>
-      </NavigationContainer>
-    </VariablesState>
+    <ImagenesState>
+      <VariablesState>
+        <NavigationContainer independent={true} theme={theme} ref={createRef()}>
+          <Stack.Navigator
+            screenOptions={{
+              headerShown: false,
+            }}>
+            <Stack.Screen name="LoginScreen" component={LoginScreen} />
+            <Stack.Screen name="Dashboard" component={Dashboard} />
+            <Stack.Screen name="ViewZone" component={ViewZone} />
+            <Stack.Screen name="ViewTree" component={ViewTree} />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </VariablesState>
+    </ImagenesState>
   );
 };
 

@@ -1,4 +1,4 @@
-import React, {useContext, useEffect} from 'react';
+import React, {useContext} from 'react';
 import consultarBarrios from '../../../helpers/consultaBarrios';
 import {View} from 'react-native';
 import {theme} from '../../../core/theme';
@@ -20,9 +20,9 @@ import {getPoint, stopPoint} from '../../map/BackgroundMap';
 import AutoComplete from '../../commons/SelectAutoComplete/AutoComplete';
 import {Button as ButtonIcon} from 'react-native-paper';
 import ButtonInsert from '../../ButtonInsert';
-import {asignar, consultar, reset} from '../../../helpers/dataSave';
 import initialjson from '../../../initialjson.json';
 import VariableContext from '../../../../Context/variables/VariableContext';
+import imagenesContext from '../../../../Context/imagenes/ImagenesContext';
 const selectPlace = 'Seleccione...';
 
 export default ({combos = [], fnGuardar, setIndexSnap, setLoadApp}) => {
@@ -31,10 +31,10 @@ export default ({combos = [], fnGuardar, setIndexSnap, setLoadApp}) => {
   const [limpiarEspecie, setLimpiarEspecie] = React.useState(false);
   const [combosBarrios, setCombosBarrios] = React.useState([]);
   const [modeBtn, setModeBtn] = React.useState('outlined');
-
   //context
   const {variables, deleteVariables} = useContext(VariableContext);
-  const [dataVar, setDataVar] = React.useState(variables);
+
+  const {imagenes, deleteImages} = useContext(imagenesContext);
 
   const llenarBarrio = async id => {
     setLoadApp(true);
@@ -48,7 +48,6 @@ export default ({combos = [], fnGuardar, setIndexSnap, setLoadApp}) => {
   };
 
   const ubicarEnMapa = async () => {
-    getPoint();
     let result = await AsyncStorage.getItem('coords');
     if (result != null) {
       result = JSON.parse(result);
@@ -65,37 +64,24 @@ export default ({combos = [], fnGuardar, setIndexSnap, setLoadApp}) => {
     }
   };
 
-  const guardar = async () => {
-    setDataVar(variables);
-    setLoadApp(true);
-    validateSave();
-  };
-
   function validateSave() {
     if (dataForm.especie === '' || !dataForm.especie) {
       campoObligatory('Especie');
-      setLoadApp(false);
     } else if (dataForm.codigo_arbol === '' || !dataForm.codigo_arbol) {
       campoObligatory('Codigo árbol');
-      setLoadApp(false);
     } else if (dataForm.fecha === '' || !dataForm.fecha) {
       campoObligatory('Fecha de ingreso');
-      setLoadApp(false);
     } else if (dataForm.id_tipo_arbol === '' || !dataForm.id_tipo_arbol) {
       campoObligatory('Tipo árbol');
-      setLoadApp(false);
     } else if (
       dataForm.id_tipo_origen_arbol === '' ||
       !dataForm.id_tipo_origen_arbol
     ) {
       campoObligatory('Tipo origen árbol');
-      setLoadApp(false);
     } else if (dataForm.primer_nivel === '' || !dataForm.primer_nivel) {
       campoObligatory('Comuna');
-      setLoadApp(false);
     } else if (dataForm.segundo_nivel === '' || !dataForm.segundo_nivel) {
       campoObligatory('Barrio');
-      setLoadApp(false);
     } else if (
       dataForm.latitud === '' ||
       !dataForm.latitud ||
@@ -103,43 +89,41 @@ export default ({combos = [], fnGuardar, setIndexSnap, setLoadApp}) => {
       !dataForm.longitud
     ) {
       campoObligatory('Punto');
-      setLoadApp(false);
-    } else if (dataVar.altura === '' || !dataVar.altura) {
+    } else if (variables.altura === '' || !variables.altura) {
       campoObligatory('Altura');
-      setLoadApp(false);
-    } else if (dataVar.altura_copa === '' || !dataVar.altura_copa) {
+    } else if (variables.altura_copa === '' || !variables.altura_copa) {
       campoObligatory('Altura copa');
-      setLoadApp(false);
-    } else if (dataVar.dap1 === '' || !dataVar.dap1) {
+    } else if (variables.dap1 === '' || !variables.dap1) {
       campoObligatory('DAP1');
-      setLoadApp(false);
-    } else if (dataVar.dap2 === '' || !dataVar.dap2) {
+    } else if (variables.dap2 === '' || !variables.dap2) {
       campoObligatory('DAP2');
-      setLoadApp(false);
-    } else if (dataVar.fecha_ingreso === '' || !dataVar.fecha_ingreso) {
+    } else if (variables.fecha_ingreso === '' || !variables.fecha_ingreso) {
       campoObligatory('fecha ingreso');
-      setLoadApp(false);
     } else {
+      setLoadApp(true);
       try {
         dataForm.fecha = rev(dataForm.fecha);
-        dataVar.fecha_ingreso = rev(dataVar.fecha_ingreso);
+        variables.fecha_ingreso = rev(variables.fecha_ingreso);
       } catch (e) {}
-      fnGuardar(dataForm, dataVar, dataImage)
-        .then(res => {
-          if (res === 'Ok') {
-            deleteVariables();
-            setLimpiarEspecie(true);
-            setDataForm({});
-            AsyncStorage.setItem('coords', '');
-            setDataImage([]);
-            setDataForm(initialjson.datosArbol);
-            stopPoint();
-          }
-          setLoadApp(false);
-        })
-        .catch(() => {
-          setLoadApp(false);
-        });
+      setLoadApp(true);
+      setTimeout(() => {
+        fnGuardar(dataForm, variables, imagenes)
+          .then(res => {
+            if (res === 'Ok') {
+              deleteVariables();
+              setLimpiarEspecie(true);
+              setDataForm({});
+              AsyncStorage.setItem('coords', '');
+              deleteImages();
+              setDataForm(initialjson.datosArbol);
+              stopPoint();
+            }
+            setLoadApp(false);
+          })
+          .catch(() => {
+            setLoadApp(false);
+          });
+      }, 1000);
     }
   }
 
@@ -257,9 +241,9 @@ export default ({combos = [], fnGuardar, setIndexSnap, setLoadApp}) => {
               setIndexSnap(1);
               setModeBtn('contained');
               AsyncStorage.setItem('coords', '');
-              notifyMessage('Seleccionar punto en mapa');
+              notifyMessage('Click en el mapa para ubicar el punto');
+              getPoint();
               ubicarEnMapa().then();
-
               setLoadApp(false);
             }}>
             Seleccionar punto *
@@ -271,11 +255,7 @@ export default ({combos = [], fnGuardar, setIndexSnap, setLoadApp}) => {
             <TextSimple label={'longitud'} value={dataForm.longitud} />
           </View>
         ) : null}
-        <TabIngresar
-          dataImage={dataImage}
-          setDataImage={setDataImage}
-          label={' '}
-        />
+        <TabIngresar />
         <View style={[styles.form, {justifyContent: 'flex-end'}]}>
           <ButtonInsert
             compact={true}
@@ -283,7 +263,7 @@ export default ({combos = [], fnGuardar, setIndexSnap, setLoadApp}) => {
             style={styles.guardar}
             color={theme.colors.primary}
             onPress={() => {
-              guardar();
+              validateSave();
             }}>
             Guardar
           </ButtonInsert>

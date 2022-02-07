@@ -129,8 +129,8 @@ android {
         applicationId "com.co.hyg.MapGisSirab"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 158
-        versionName "1.5.8"
+        versionCode 161
+        versionName "1.6.1"
     }
     splits {
         abi {

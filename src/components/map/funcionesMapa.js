@@ -129,6 +129,7 @@ module.exports = `
 
     function limpiarMapaPoints() {
         typeCoord = false;
+        mymap.removeLayer(pointArbol);
         mymap.removeLayer(layerOld);
         mymap.removeLayer(pointLocation);
         for (const point of layerPoints) {
@@ -162,7 +163,6 @@ module.exports = `
             layer = e.layer;
         if (type === 'marker') {
             pointArbol = layer;
-            mymap.removeControl(drawControl);
             window.ReactNativeWebView.postMessage(JSON.stringify({lat:e.layer.getLatLng().lat,lng:e.layer.getLatLng().lng}));
         } else if (type === 'polygon') {
             let seeArea = 0
@@ -174,6 +174,7 @@ module.exports = `
         }
         editableLayers.addLayer(layer);
         mymap.addLayer(layer);
+        mymap.removeControl(drawControl);
     });
 
     mymap.on('draw:edited', function (e) {
@@ -241,5 +242,6 @@ module.exports = `
         } 
     }
 
+    
 </script>
 `;

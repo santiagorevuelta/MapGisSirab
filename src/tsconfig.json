@@ -1,6 +1,6 @@
 {
   "prefix": "http://201.184.171.13:8888",//http://192.168.100.101:8888
-  "Search": "V0.28",
+  "Search": "V0.34",
   "urlfoto": "http://201.184.171.13:8888",
   "home": [
     {
@@ -42,6 +42,9 @@
     },
     "variables":{
       "url": "/api-sirab/variables"
+    },
+    "imagenes":{
+      "url": "/api-sirab/registrofotografico"
     },
     "searchZone": {//http://192.168.0.105:8888
       "url": "/api-sirab/zonaVerde",
