@@ -1,17 +1,15 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useContext} from 'react';
 import {View} from 'react-native';
 import {theme} from '../../../../core/theme';
-import TextInputForm from '../../../commons/TextInputForm';
 import DatePicker from '../../../commons/DatePicker/DatePicker';
 import styles from '../../../css/ingresarcss';
-import {asignar} from '../../../../helpers/dataSave';
 import VariableContext from '../../../../../Context/variables/VariableContext';
 import {UPDATE_VARIABLES} from '../../../../../Context/Types';
+import TextInputVar from './TextInputVar';
 
-export default ({alto = '100%', navigation}) => {
+export default ({alto = '100%'}) => {
   //context
   const {variables, updateVariables} = useContext(VariableContext);
-
   return (
     <View
       style={{
@@ -21,41 +19,41 @@ export default ({alto = '100%', navigation}) => {
         margin: 0,
       }}>
       <View style={styles.form}>
-        <TextInputForm
+        <TextInputVar
           label={'Altura de árbol (m) *'}
           placeholder={'Altura'}
           value={variables?.altura}
           keyboardType="numeric"
-          onChangeTextInput={text => {
+          onEndEditingInput={text => {
             updateVariables({...variables, altura: text}, UPDATE_VARIABLES);
           }}
         />
-        <TextInputForm
+        <TextInputVar
           label={'Altura copa (m) *'}
           placeholder={'Altura copa'}
           value={variables?.altura_copa}
           keyboardType="numeric"
-          onChangeTextInput={text =>
+          onEndEditingInput={text =>
             updateVariables({...variables, altura_copa: text}, UPDATE_VARIABLES)
           }
         />
       </View>
       <View style={styles.form}>
-        <TextInputForm
+        <TextInputVar
           label={'DAP1 (cm) *'}
           placeholder={'DAP1'}
           value={variables?.dap1}
           keyboardType="numeric"
-          onChangeTextInput={text =>
+          onEndEditingInput={text =>
             updateVariables({...variables, dap1: text}, UPDATE_VARIABLES)
           }
         />
-        <TextInputForm
+        <TextInputVar
           label={'DAP2 (cm) *'}
           placeholder={'DAP2'}
           value={variables?.dap2}
           keyboardType="numeric"
-          onChangeTextInput={text =>
+          onEndEditingInput={text =>
             updateVariables({...variables, dap2: text}, UPDATE_VARIABLES)
           }
         />

@@ -1,10 +1,10 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import HeaderModal from '../../home/HeaderModal';
 import FormIngresarIntervencion from './FormIngresarIntervencion';
 import {View} from 'react-native';
 import styles from '../../css/ingresarcss';
 import TextInputForm from '../../commons/TextInputForm';
-import {notifyMessage} from '../../../core/general';
+import {campoObligatory, notifyMessage} from '../../../core/general';
 import buscarDatos from '../../../helpers/buscarDatos';
 import tsconfig from '../../../tsconfig.json';
 import combosArbol from '../../../helpers/combosArbol';
@@ -14,6 +14,7 @@ import {theme} from '../../../core/theme';
 import {responsiveScreenFontSize} from 'react-native-responsive-dimensions';
 import ButtonInsert from '../../ButtonInsert';
 import {getData} from '../../../combos';
+import imagenesContext from '../../../../Context/imagenes/ImagenesContext';
 
 const ModalIngresarArbol = ({
   label,
@@ -29,65 +30,77 @@ const ModalIngresarArbol = ({
   const [combos, setCombos] = React.useState([]);
   const [zonaVerde, setZonaVerde] = useState(false);
 
+  const {imagenes, deleteImages} = useContext(imagenesContext);
+
   useEffect(() => {
     async function initial() {
       setLoadApp(true);
       let res = await getData('intervencionArbol');
       setCombos(res);
+      deleteImages();
       setIndexSnap(snp.length - 2);
       setLoadApp(false);
     }
     initial().then();
   }, []);
 
-  const fnGuardar = async (data, secondData, images = []) => {
-    setLoadApp(true);
+  const fnGuardar = async (data, secondData) => {
     if (idArbol !== null) {
-      let valid = validatorObligatory(data, secondData);
-      if (!valid) {
-        notifyMessage('Los campos marcados con (*) son obligatorios');
-        setLoadApp(false);
-        return;
-      }
-      let formData = new FormData();
-      data.fecha = data.fecha.split('/').reverse().join('-');
-      formData.append(zonaVerde ? 'idZona' : 'idArbol', base64.encode(idArbol));
-      formData.append('datosIntervencion', base64.encode(JSON.stringify(data)));
-      formData.append('datosImagenes', base64.encode(JSON.stringify(images)));
-      formData.append(
-        'datosSecundarias',
-        base64.encode(JSON.stringify(secondData.intervencion_secundaria)),
-      );
-
-      let res = await guardarDatos(
-        formData,
-        zonaVerde ? 'intervencionZonaVerde' : 'searchIntervencion',
-      );
-      if (res.message) {
-        notifyMessage(res.message);
-        setIdArbol(null);
-        setArboles(false);
-        setLoadApp(false);
+      if (data.tipo_intervencion === '' || !data.tipo_intervencion) {
+        campoObligatory('Tipo intervención');
+      } else if (data.fecha === '' || !data.fecha) {
+        campoObligatory('Fecha intervención');
+      } else if (data.proyecto === '' || !data.proyecto) {
+        campoObligatory('Proyecto');
+      } else if (
+        !secondData.intervencion_secundaria ||
+        secondData.intervencion_secundaria.length === 0
+      ) {
+        campoObligatory('Intervención secundaria');
+      } else if (!zonaVerde ? !data.observacion : false) {
+        campoObligatory('Observación');
       } else {
-        notifyMessage('Error al guardar');
-        setLoadApp(false);
+        setLoadApp(true);
+        let formData = new FormData();
+        data.fecha = data.fecha.split('/').reverse().join('-');
+        formData.append(
+          zonaVerde ? 'idZona' : 'idArbol',
+          base64.encode(idArbol),
+        );
+        formData.append(
+          'datosIntervencion',
+          base64.encode(JSON.stringify(data)),
+        );
+        formData.append(
+          'datosImagenes',
+          base64.encode(JSON.stringify(imagenes)),
+        );
+        formData.append(
+          'datosSecundarias',
+          base64.encode(JSON.stringify(secondData.intervencion_secundaria)),
+        );
+
+        let res = await guardarDatos(
+          formData,
+          zonaVerde ? 'intervencionZonaVerde' : 'searchIntervencion',
+        );
+        if (res.message) {
+          notifyMessage(res.message);
+          setIdArbol(null);
+          setArboles(false);
+          setLoadApp(false);
+        } else {
+          notifyMessage('Error al guardar');
+          setLoadApp(false);
+        }
       }
     } else {
-      notifyMessage('Sin arbol para asociar');
+      notifyMessage(
+        'Sin ' + zonaVerde ? 'zona verde' : 'arbol' + ' para asociar',
+      );
       setLoadApp(false);
     }
   };
-
-  function validatorObligatory(data, secondData) {
-    return !(
-      !data.fecha ||
-      !data.tipo_intervencion ||
-      !data.proyecto ||
-      (!zonaVerde ? !data.observacion : false) ||
-      !secondData.intervencion_secundaria ||
-      secondData.intervencion_secundaria.length === 0
-    );
-  }
 
   const fnSearch = async () => {
     if (!dataArbol.codigo_arbol && !dataArbol.codigo) {

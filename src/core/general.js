@@ -3,6 +3,7 @@ import axios from 'axios';
 import tsconfig from '../tsconfig.json';
 import {navigate} from '../components/map/BackgroundMap';
 import {Alert, Platform, ToastAndroid} from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 function notifyMessage(msg) {
   if (Platform.OS === 'android') {

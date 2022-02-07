@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {Button, DataTable} from 'react-native-paper';
 import {ScrollView, StyleSheet, Text, View} from 'react-native';
 import {
@@ -8,6 +8,7 @@ import {
 import ModalVariables from '../../../Variables/ModalVariables';
 import {theme} from '../../../../core/theme';
 import Renderload from '../../../Load';
+import VariableContext from '../../../../../Context/variables/VariableContext';
 
 const optionsPerPage = [2, 3, 4];
 
@@ -15,7 +16,7 @@ export default function ({data, idArbol}) {
   const [items, setItems] = useState(data);
   const [visible, setVisible] = useState(false);
   const [loadApp, setLoadApp] = useState(false);
-
+  const {deleteVariables} = useContext(VariableContext);
   const [page, setPage] = React.useState(0);
   const [itemsPerPage, setItemsPerPage] = React.useState(items);
   React.useEffect(() => {
@@ -99,6 +100,7 @@ export default function ({data, idArbol}) {
           labelStyle={{fontSize: responsiveFontSize(4)}}
           compact={true}
           onPress={() => {
+            deleteVariables();
             setVisible(true);
           }}
         />

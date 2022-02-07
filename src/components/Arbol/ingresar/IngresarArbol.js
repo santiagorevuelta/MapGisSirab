@@ -1,12 +1,12 @@
-import React, {useEffect} from 'react';
+import React, {useContext, useEffect} from 'react';
 import HeaderModal from '../../home/HeaderModal';
 import FormIngresarArbol from './FormIngresarArbol';
 import base64 from 'react-native-base64';
 import guardarDatos from '../../../helpers/guardarDatos';
 import {notifyMessage} from '../../../core/general';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import {getData} from '../../../combos';
 import {reset} from '../../../helpers/dataSave';
+import imagenesContext from '../../../../Context/imagenes/ImagenesContext';
 
 export default function ModalIngresarArbol({
   label,
@@ -17,6 +17,7 @@ export default function ModalIngresarArbol({
   setLoadApp,
 }) {
   const [combos, setCombos] = React.useState([]);
+  const {imagenes, deleteImages} = useContext(imagenesContext);
 
   const fnGuardar = async (datosArbol, datosVariables, datosImagenes) => {
     let formData = new FormData();
@@ -44,7 +45,7 @@ export default function ModalIngresarArbol({
     async function initial() {
       setLoadApp(true);
       reset();
-      AsyncStorage.setItem('variables', '');
+      deleteImages();
       let res = await getData('arbol');
       setCombos(res);
       setIndexSnap(snp.length - 1);

@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useContext, useEffect} from 'react';
 import {Text, View} from 'react-native';
 import {theme} from '../../../core/theme';
 import {Button as ButtonIcon} from 'react-native-paper';
@@ -16,12 +16,13 @@ import {drawPolin, limpiarMapaPolygon} from '../../map/BackgroundMap';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {notifyMessage} from '../../../core/general';
 import ButtonInsert from '../../ButtonInsert';
+import imagenesContext from '../../../../Context/imagenes/ImagenesContext';
 
 const selectPlace = 'Seleccione...';
 
 export default ({combos = [], fnGuardar, setIndexSnap, setLoadApp}) => {
   const [dataForm, setDataForm] = React.useState({});
-  const [dataImage, setDataImage] = React.useState([]);
+  const {imagenes, deleteImages} = useContext(imagenesContext);
   const [combosBarrios, setCombosBarrios] = React.useState([]);
 
   const llenarBarrio = async id => {
@@ -38,7 +39,6 @@ export default ({combos = [], fnGuardar, setIndexSnap, setLoadApp}) => {
   const getPolygon = async () => {
     let result = await AsyncStorage.getItem('polygon');
     let area = await AsyncStorage.getItem('area');
-    console.log(result);
     if (result != null) {
       result = JSON.parse(result);
       let finalJ = '';
@@ -209,7 +209,11 @@ export default ({combos = [], fnGuardar, setIndexSnap, setLoadApp}) => {
           />
         </View>
         <View style={[styles.form, {marginTop: 10}]}>
-          <FormImagenes dataImage={dataImage} setDataImage={setDataImage} />
+          <FormImagenes
+            label={'Registro fotográfico'}
+            newStyles={{}}
+            alto={{}}
+          />
         </View>
         <View style={[styles.form, {justifyContent: 'flex-end'}]}>
           <ButtonInsert
@@ -218,11 +222,11 @@ export default ({combos = [], fnGuardar, setIndexSnap, setLoadApp}) => {
             style={styles.guardar}
             color={theme.colors.primary}
             onPress={() => {
-              fnGuardar(dataForm, dataImage).then(res => {
+              fnGuardar(dataForm, imagenes).then(res => {
                 if (res === 'Ok') {
                   limpiarMapaPolygon();
                   setDataForm({});
-                  setDataImage([]);
+                  deleteImages();
                 }
               });
             }}>

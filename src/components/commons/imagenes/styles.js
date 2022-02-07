@@ -29,12 +29,13 @@ export const styles = StyleSheet.create({
     alignItems: 'flex-end',
     borderRadius: theme.radius,
     backgroundColor: theme.colors.fondo,
-    zIndex: 2,
+    zIndex: 10,
     height: responsiveScreenWidth(29),
     width: responsiveScreenWidth(29),
   },
   radioButton: {
     elevation: 1,
+    zIndex: 10,
   },
   slide: {
     flexDirection: 'row',
