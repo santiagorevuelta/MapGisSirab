@@ -1,4 +1,4 @@
-const axios = require('axios');
+import axios from 'axios';
 import tsconfig from '../tsconfig.json';
 import {catchError, consultToken, notifyMessage} from '../core/general';
 import {setCoords} from '../components/map/BackgroundMap';
