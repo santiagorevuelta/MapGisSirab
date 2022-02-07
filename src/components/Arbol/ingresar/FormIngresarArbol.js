@@ -48,7 +48,6 @@ export default ({combos = [], fnGuardar, setIndexSnap, setLoadApp}) => {
   };
 
   const ubicarEnMapa = async () => {
-    getPoint();
     let result = await AsyncStorage.getItem('coords');
     if (result != null) {
       result = JSON.parse(result);
@@ -242,9 +241,9 @@ export default ({combos = [], fnGuardar, setIndexSnap, setLoadApp}) => {
               setIndexSnap(1);
               setModeBtn('contained');
               AsyncStorage.setItem('coords', '');
-              notifyMessage('Seleccionar punto en mapa');
+              notifyMessage('Click en el mapa para ubicar el punto');
+              getPoint();
               ubicarEnMapa().then();
-
               setLoadApp(false);
             }}>
             Seleccionar punto *

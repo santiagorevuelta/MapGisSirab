@@ -242,9 +242,6 @@ module.exports = `
         }
     }
 
-    function removeControl() {      
-           mymap.removeControl(drawControl);        
-    }
     
 </script>
 `;

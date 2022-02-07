@@ -14,10 +14,12 @@ export default function TextInputVar({...props}) {
       <Input
         style={styles.input}
         onEndEditing={e => {
-          props.onEndEditingInput(e.nativeEvent.text.trimStart());
+          props.onEndEditingInput(
+            e.nativeEvent.text.trimStart().replace(',', '.'),
+          );
         }}
         onChangeText={e => {
-          props.onEndEditingInput(e.trimStart());
+          props.onEndEditingInput(e.trimStart().replace(',', '.'));
         }}
         {...props}
       />
