@@ -37,7 +37,6 @@ async function consultToken() {
       }
     })
     .catch(error => {
-      AsyncStorage.setItem('login', '');
       navigate('LoginScreen');
       catchError(error.message);
     });

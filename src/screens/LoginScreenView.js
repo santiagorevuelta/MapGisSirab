@@ -43,14 +43,18 @@ class LoginScreenView extends Component {
   };
 
   async componentDidMount() {
-    this.setLoadApp(true);
-    await consultToken();
-    let res = await AsyncStorage.getItem('login');
-    if (res === 'Ok') {
-      this.props.navigation.reset({
-        index: 1,
-        routes: [{name: 'Dashboard'}],
-      });
+    let token = await consultToken();
+    if (token !== null) {
+      this.setLoadApp(true);
+      let res = await AsyncStorage.getItem('login');
+      if (res === 'Ok') {
+        this.props.navigation.reset({
+          index: 1,
+          routes: [{name: 'Dashboard'}],
+        });
+      }
+    } else {
+      AsyncStorage.setItem('login', '');
     }
     this.setLoadApp(false);
   }
