@@ -2,7 +2,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {consultToken, notifyMessage} from '../core/general';
 import tsconfig from '../tsconfig.json';
 import base64 from 'react-native-base64';
-const axios = require('axios');
+import axios from 'axios';
 
 export async function loginValidator(user, password, navigation, setLoadApp) {
   let url = tsconfig[tsconfig.use].loginValidator.url;

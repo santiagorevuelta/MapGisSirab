@@ -1,4 +1,4 @@
-const axios = require('axios');
+import axios from 'axios';
 import {catchError, consultToken} from '../core/general';
 
 export default async function (urlCombo) {
