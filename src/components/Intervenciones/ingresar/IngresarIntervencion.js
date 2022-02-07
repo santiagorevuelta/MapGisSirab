@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import HeaderModal from '../../home/HeaderModal';
 import FormIngresarIntervencion from './FormIngresarIntervencion';
 import {View} from 'react-native';
@@ -14,6 +14,7 @@ import {theme} from '../../../core/theme';
 import {responsiveScreenFontSize} from 'react-native-responsive-dimensions';
 import ButtonInsert from '../../ButtonInsert';
 import {getData} from '../../../combos';
+import imagenesContext from '../../../../Context/imagenes/ImagenesContext';
 
 const ModalIngresarArbol = ({
   label,
@@ -29,32 +30,35 @@ const ModalIngresarArbol = ({
   const [combos, setCombos] = React.useState([]);
   const [zonaVerde, setZonaVerde] = useState(false);
 
+  const {imagenes, deleteImages} = useContext(imagenesContext);
+
   useEffect(() => {
     async function initial() {
       setLoadApp(true);
       let res = await getData('intervencionArbol');
       setCombos(res);
+      deleteImages();
       setIndexSnap(snp.length - 2);
       setLoadApp(false);
     }
     initial().then();
   }, []);
 
-  const fnGuardar = async (data, secondData, images = []) => {
+  const fnGuardar = async (data, secondData) => {
     if (idArbol !== null) {
-      if (data.fecha === '' || !data.fecha) {
-        campoObligatory('Fecha intervención');
-      } else if (data.tipo_intervencion === '' || !data.tipo_intervencion) {
+      if (data.tipo_intervencion === '' || !data.tipo_intervencion) {
         campoObligatory('Tipo intervención');
+      } else if (data.fecha === '' || !data.fecha) {
+        campoObligatory('Fecha intervención');
       } else if (data.proyecto === '' || !data.proyecto) {
         campoObligatory('Proyecto');
-      } else if (!zonaVerde ? !data.observacion : false) {
-        campoObligatory('Observación');
       } else if (
         !secondData.intervencion_secundaria ||
         secondData.intervencion_secundaria.length === 0
       ) {
         campoObligatory('Intervención secundaria');
+      } else if (!zonaVerde ? !data.observacion : false) {
+        campoObligatory('Observación');
       } else {
         setLoadApp(true);
         let formData = new FormData();
@@ -67,7 +71,10 @@ const ModalIngresarArbol = ({
           'datosIntervencion',
           base64.encode(JSON.stringify(data)),
         );
-        formData.append('datosImagenes', base64.encode(JSON.stringify(images)));
+        formData.append(
+          'datosImagenes',
+          base64.encode(JSON.stringify(imagenes)),
+        );
         formData.append(
           'datosSecundarias',
           base64.encode(JSON.stringify(secondData.intervencion_secundaria)),
