@@ -27,40 +27,8 @@ const CarouselCards = ({data, setCant}) => {
         }}
         useScrollView={true}
       />
-      <View style={styles.pag}>
-        <Pagination
-          dotsLength={data.length}
-          activeDotIndex={index}
-          carouselRef={isCarousel}
-          dotStyle={{
-            width: 12,
-            height: 12,
-            borderRadius: 10,
-            marginHorizontal: 0,
-            backgroundColor: theme.colors.primary,
-          }}
-          inactiveDotStyle={{
-            borderWidth: 1,
-            borderColor: theme.colors.primary,
-            backgroundColor: theme.colors.secondary,
-          }}
-          inactiveDotOpacity={0.3}
-          inactiveDotScale={0.9}
-          tappableDots={true}
-        />
-      </View>
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  pag: {
-    flex: 1,
-    position: 'absolute',
-    justifyContent: 'center',
-    width: responsiveWidth(100),
-    bottom: '5%',
-  },
-});
 
 export default CarouselCards;
