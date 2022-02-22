@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {
   Alert,
   Dimensions,
@@ -125,7 +125,7 @@ export function error(err) {
   }
 }
 
-export function navigate(name, params) {
+export function navigate(name, params = {}, index = 0) {
   if (nav !== null) {
     nav.navigate(name, params);
   }

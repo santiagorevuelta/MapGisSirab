@@ -3,6 +3,7 @@ import {
   responsiveFontSize,
   responsiveScreenFontSize,
 } from 'react-native-responsive-dimensions';
+import {Platform} from "react-native";
 
 export const theme = {
   dark: false,
@@ -60,19 +61,19 @@ export const theme = {
       fontSize: responsiveFontSize(1.5),
       color: '#258B20',
       fontWeight: 'bold',
-      fontFamily: 'robotoBold',
+      fontFamily: Platform.OS === 'ios' ? 'RobotoBold' : 'robotoBold',
     },
     LabelIn: {
       fontSize: responsiveFontSize(1.5),
       color: '#258B20',
       fontWeight: 'bold',
-      fontFamily: 'robotoBold',
+      fontFamily: Platform.OS === 'ios' ? 'RobotoBold' : 'robotoBold',
     },
     Textos: {
       color: '#959595',
       textAlign: 'center',
       fontSize: responsiveFontSize(1),
-      fontFamily: 'robotoBold',
+      fontFamily: Platform.OS === 'ios' ? 'RobotoBold' : 'robotoBold',
     },
     img: {
       fontSize: responsiveScreenFontSize(1.6),
@@ -88,7 +89,7 @@ export const theme = {
       fontSize: responsiveFontSize(1.5),
       color: '#959595',
       textAlign: 'left',
-      fontFamily: 'robotoBold',
+      fontFamily: Platform.OS === 'ios' ? 'RobotoBold' : 'robotoBold',
     },
   },
   input: {
