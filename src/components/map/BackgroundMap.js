@@ -125,8 +125,10 @@ export function error(err) {
   }
 }
 
-export function navigate(name, params = {}, index = 0) {
-  nav.navigate(name, params);
+export function navigate(name, params) {
+  if (nav !== null) {
+    nav.navigate(name, params);
+  }
 }
 
 export function verEnMapa(lat, lng) {

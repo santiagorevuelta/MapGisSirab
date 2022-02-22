@@ -77,7 +77,13 @@ export default class ViewTree extends React.Component {
           codigo={this.state.codigo_arbol}
           index={this.state.index}
         />
-        <CarouselCards data={this.state.fotos} setCant={this.setCant} />
+        <CarouselCards
+          data={this.state.fotos}
+          setCant={this.setCant}
+          modalVisible={this.state.modalVisible}
+          onModalVisible={this.onModalVisible}
+          setLoadApp={this.setLoadApp}
+        />
         <InfoArbol
           dataArbol={this.state.verArbol}
           dataVariables={this.state.variables}

@@ -17,7 +17,6 @@ const selectPlace = 'Seleccione...';
 export default ({fnGuardar, combos = [], zonaVerde, dataArbol}) => {
   const [dataForm, setDataForm] = React.useState({});
   const [dataSecondary, setDataSecondarym] = React.useState({});
-  const [dataImage, setDataImage] = React.useState([]);
 
   return (
     <View style={styles.body}>
@@ -111,7 +110,7 @@ export default ({fnGuardar, combos = [], zonaVerde, dataArbol}) => {
         </View>
       )}
       <View style={[styles.form, {marginTop: 10}]}>
-        <FormImagenes dataImage={dataImage} setDataImage={setDataImage} />
+        <FormImagenes />
       </View>
       <View style={[styles.form, {justifyContent: 'flex-end'}]}>
         <Button
@@ -119,7 +118,7 @@ export default ({fnGuardar, combos = [], zonaVerde, dataArbol}) => {
           mode="contained"
           style={styles.guardar}
           color={theme.colors.primary}
-          onPress={() => fnGuardar(dataForm, dataSecondary, dataImage)}>
+          onPress={() => fnGuardar(dataForm, dataSecondary)}>
           Guardar
         </Button>
       </View>

@@ -61,7 +61,7 @@ const ModalImagenes = ({modalVisible = false, onModalVisible, setLoadApp}) => {
             />
           </View>
           <View style={styles.slider}>
-            <FormImagenes />
+            <FormImagenes newStyles={{}} alto={{}} />
             <View style={{alignItems: 'flex-end'}}>
               <Button
                 compact={true}
@@ -70,7 +70,7 @@ const ModalImagenes = ({modalVisible = false, onModalVisible, setLoadApp}) => {
                 style={styles.guardar}
                 color={theme.colors.primary}
                 onPress={() => {
-                  fnGuardar();
+                  fnGuardar().then();
                 }}>
                 Guardar
               </Button>
