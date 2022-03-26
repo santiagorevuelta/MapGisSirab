@@ -75,6 +75,10 @@
 	<key>UIAppFonts</key>
 	<array>
 		<string>roboto.ttf</string>
+		<string>robotobold.ttf</string>
+		<string>Roboto.ttf</string>
+		<string>RobotoBold.ttf</string>
+		<string>RobotoBlack.ttf</string>
 		<string>AntDesign.ttf</string>
 		<string>Entypo.ttf</string>
 		<string>EvilIcons.ttf</string>
