@@ -25,12 +25,15 @@ module.exports = `<!DOCTYPE html>
 <body style="padding: 0; margin: 0">
 <div id="mapid" style="width: 100%; height: 100vh;" />
 <style>
-.leaflet-right {
-    right: 40px;
-}
-.leaflet-top {
-    top: 60px;
-}
+    .leaflet-right {
+        right: 40px;
+    }
+    .leaflet-top {
+        top: 60px;
+    }
+    .leaflet-popup,.leaflet-zoom-animated{
+        bottom: 30px !important;
+    }
 </style>
 <script>
   const mymap = L.map("mapid", {
