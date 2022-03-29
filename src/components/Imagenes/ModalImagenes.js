@@ -22,8 +22,16 @@ const ModalImagenes = ({modalVisible = false, onModalVisible, setLoadApp}) => {
     }
     let formData = new FormData();
     formData.append(
-      'registrofotografico',
+      'datosImgenes',
       base64.encode(JSON.stringify(imagenes)),
+    );
+    formData.append(
+      'fotosEliminadas',
+      base64.encode(JSON.stringify([])),
+    );
+    formData.append(
+      'datos',
+      base64.encode(JSON.stringify({tipo:"",id:""})),
     );
     let res = await guardarDatos(formData, 'imagenes');
     if (res.message) {
