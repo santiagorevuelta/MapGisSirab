@@ -30,14 +30,17 @@ class LoginScreenView extends Component {
       user: 'abaez',
       password: 'A1090496829',
     };
+    this.setLoadApp(false);
   }
 
-  setLoadApp = data => {
-    this.setState({loadApp: data});
+  setLoadApp = loadApp => {
+    this.setState({loadApp});
   };
+
   setPassword = data => {
     this.setState({password: data});
   };
+
   setUser = data => {
     this.setState({user: data});
   };
@@ -45,7 +48,6 @@ class LoginScreenView extends Component {
   async componentDidMount() {
     let token = await consultToken();
     if (token !== null) {
-      this.setLoadApp(true);
       let res = await AsyncStorage.getItem('login');
       if (res === 'Ok') {
         this.props.navigation.reset({
@@ -77,6 +79,7 @@ class LoginScreenView extends Component {
           this.props.navigation,
           this.setLoadApp,
         );
+       this.setLoadApp(false);
       }
     } catch (e) {
       this.setLoadApp(false);
@@ -87,10 +90,6 @@ class LoginScreenView extends Component {
   render() {
     return (
       <Background>
-        <Renderload
-          setLoadVisible={this.setLoadApp}
-          load={this.state.loadApp}
-        />
         <Logo style={styles.logo} />
         <Header>Sistema de información y Registro de Árboles</Header>
         <TxtUser

@@ -15,7 +15,7 @@ module.exports = `
     });
 
     const marker = L.marker(mymap.getCenter(), {icon: myIcon});
-    const radius = L.marker(mymap.getCenter(), {icon: myIcons})
+    const radius =  L.circleMarker(mymap.getCenter(), {radius: 20,color:'green'})
 
 
     var editableLayers = new L.FeatureGroup();
@@ -244,5 +244,10 @@ module.exports = `
         } 
     }
     
+    function setTracking(latlng){
+        radiusL.addTo(mymap);
+        radiusL.setLatLng(latlng);
+    }
+
 </script>
 `;

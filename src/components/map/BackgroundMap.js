@@ -93,6 +93,7 @@ const options = {
 };
 
 export const getLocalize = () => {
+  getTracking();
   Geolocation.getCurrentPosition(success, error, options);
 };
 
@@ -304,3 +305,44 @@ export function onMapClickLocation() {
 
   MapRef.current.injectJavaScript(injected);
 }
+
+
+
+getTracking = () => {
+  try {
+      let trackingConfig = {
+          enableHighAccuracy: true,
+          timeout: 2000,
+          maximumAge: 3600,
+          distanceFilter: 10,
+      };
+      Geolocation.watchPosition(
+          this.successTracking,
+          this.errorTracking,
+          trackingConfig,
+      );
+  } catch (error) {
+      console.log(error)
+  }
+  
+};
+
+successTracking = props => {
+  try {
+      let currentLongitude = JSON.stringify(props.coords.longitude);
+      let currentLatitude = JSON.stringify(props.coords.latitude);
+      if (MapRef.current) {
+          MapRef.current.injectJavaScript(
+              `setTracking([${currentLatitude}, ${currentLongitude}]);
+              true;`,
+          );
+      }
+  } catch (e) {
+      console.log(e);
+  }
+};
+
+errorTracking = error => {
+  console.log("Error con el traking");
+  console.log(error);
+};

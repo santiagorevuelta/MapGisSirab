@@ -4,13 +4,15 @@ import {
   responsiveScreenFontSize,
 } from 'react-native-responsive-dimensions';
 import {Platform} from "react-native";
+const robotoFn = Platform.OS == 'ios'?'Roboto':'roboto';
+const robotoBoldFn = Platform.OS === 'ios' ? 'Roboto-BOLD' : 'robotoBold';
 
 export const theme = {
   dark: false,
   pressed: '#d9d9d9',
   offPressed: '#fff',
   radius: 15,
-  roboto: 'roboto',
+  roboto: robotoFn,
   altoCampos: 5,
   altoSelect: 5,
   font: 1.5,
@@ -61,19 +63,19 @@ export const theme = {
       fontSize: responsiveFontSize(1.5),
       color: '#258B20',
       fontWeight: 'bold',
-      fontFamily: Platform.OS === 'ios' ? 'ROBOTO-BOLD' : 'robotoBold',
+      fontFamily:  robotoBoldFn,
     },
     LabelIn: {
       fontSize: responsiveFontSize(1.5),
       color: '#258B20',
       fontWeight: 'bold',
-      fontFamily: Platform.OS === 'ios' ? 'Roboto-Bold' : 'robotoBold',
+      fontFamily:  robotoBoldFn,
     },
     Textos: {
       color: '#959595',
       textAlign: 'center',
       fontSize: responsiveFontSize(1),
-      fontFamily: Platform.OS === 'ios' ? 'Roboto-Bold' : 'robotoBold',
+      fontFamily:  robotoBoldFn,
     },
     img: {
       fontSize: responsiveScreenFontSize(1.6),
@@ -89,7 +91,7 @@ export const theme = {
       fontSize: responsiveFontSize(1.5),
       color: '#959595',
       textAlign: 'left',
-      fontFamily: Platform.OS === 'ios' ? 'Roboto-Bold' : 'robotoBold',
+      fontFamily: robotoBoldFn,
     },
   },
   input: {

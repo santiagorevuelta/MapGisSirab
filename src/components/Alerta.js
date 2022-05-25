@@ -1,5 +1,5 @@
 import React from 'react';
-import {Modal, StyleSheet, Text, View} from 'react-native';
+import {Modal, Platform, StyleSheet, Text, View} from 'react-native';
 import {Button} from 'react-native-paper';
 import {responsiveFontSize} from 'react-native-responsive-dimensions';
 import {theme} from '../core/theme';
@@ -72,11 +72,11 @@ const styles = StyleSheet.create({
   },
   title: {
     fontWeight: 'bold',
-    fontFamily: 'roboto',
+    fontFamily: theme.roboto,
     fontSize: responsiveFontSize(2.5),
   },
   msg: {
-    fontFamily: 'roboto',
+    fontFamily: theme.roboto,
     fontSize: responsiveFontSize(2),
     marginVertical: '2%',
   },

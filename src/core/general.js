@@ -53,7 +53,7 @@ function catchError(msg) {
   } else if (msg.indexOf('400') !== -1) {
     notifyMessage('Algo ha ido mal con la petición');
   } else if (msg.indexOf('401') !== -1) {
-    notifyMessage('No tienes permiso para recibir ese contenido');
+    //notifyMessage('No tienes permiso para recibir ese contenido');
   } else {
     notifyMessage(msg);
   }

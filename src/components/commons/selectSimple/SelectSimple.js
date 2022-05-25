@@ -22,7 +22,7 @@ const SelectSimple = ({
   id,
   label,
   key,
-  disabledView = true,
+  disabledView = false,
   dependencia = false,
 }) => {
   const [showSelector, setShowSelector] = useState(false);
@@ -42,6 +42,7 @@ const SelectSimple = ({
         setListItems([]);
       }
     }
+    console.log(list)
   }, [dependencia, id, list]);
 
   return (

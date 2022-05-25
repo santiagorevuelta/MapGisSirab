@@ -19,6 +19,7 @@ const RenderSearch = ({
         <Switch
           value={isSwitchOn}
           select={styles.swich}
+          style={{ transform: [{ scaleX: .8 }, { scaleY: .8 }] }}
           onValueChange={onToggleSwitch}
           color={theme.colors.primary}
         />
