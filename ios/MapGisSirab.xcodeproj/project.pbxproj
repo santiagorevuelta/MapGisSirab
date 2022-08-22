@@ -510,7 +510,9 @@
 			baseConfigurationReference = DDADD94DE39E125017652615 /* Pods-MapGisSirab-MapGisSirabTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				COPY_PHASE_STRIP = NO;
+				DEVELOPMENT_TEAM = 927ZV3RUMJ;
 				INFOPLIST_FILE = MapGisSirabTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -536,7 +538,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 927ZV3RUMJ;
+				DEVELOPMENT_TEAM = 6YP97F29TJ;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = MapGisSirab/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -548,7 +550,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = co.com.hyg.MapGisSirab;
+				PRODUCT_BUNDLE_IDENTIFIER = co.com.hyg.MapGis.Sirab;
 				PRODUCT_NAME = MapGisSirab;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -563,7 +565,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 927ZV3RUMJ;
+				DEVELOPMENT_TEAM = 6YP97F29TJ;
 				INFOPLIST_FILE = MapGisSirab/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -574,7 +576,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = co.com.hyg.MapGisSirab;
+				PRODUCT_BUNDLE_IDENTIFIER = co.com.hyg.MapGis.Sirab;
 				PRODUCT_NAME = MapGisSirab;
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
