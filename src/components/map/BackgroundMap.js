@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Fragment} from 'react';
 import {
   Alert,
   Dimensions,
@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 import {WebView} from 'react-native-webview';
 import Geolocation from '@react-native-community/geolocation';
+import GetLocation from 'react-native-get-location';
 import html_script from './html_script';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import config from '../../tsconfig.json';
@@ -27,7 +28,7 @@ let nav = null;
 export function MapComponent({navigation, children}) {
   nav = navigation;
   return (
-    <>
+    <Fragment>
       <WebView
         ref={MapRef}
         onMessage={event => {
@@ -66,7 +67,7 @@ export function MapComponent({navigation, children}) {
         }}
       />
       {children}
-    </>
+    </Fragment>
   );
 }
 
@@ -94,10 +95,12 @@ const options = {
 
 export const getLocalize = () => {
   getTracking();
-  Geolocation.getCurrentPosition(success, error, options);
+  GetLocation.getCurrentPosition(options)
+    .then(e => success({coords: e})).catch(e => errorLocal(e));
 };
 
 export function success(position) {
+  console.log(position);
   let currentLongitude = JSON.stringify(position.coords.longitude);
   let currentLatitude = JSON.stringify(position.coords.latitude);
   if (!MapRef.current) {
@@ -112,7 +115,8 @@ export function success(position) {
   MapRef.current.injectJavaScript(injected);
 }
 
-export function error(err) {
+export function errorLocal(err) {
+  console.log(err);
   if (err.code === 2) {
     notifyMessage(
       'Es necesario activar el GPS para poder ubicar adecuadamente tu ubicación',
@@ -306,43 +310,40 @@ export function onMapClickLocation() {
   MapRef.current.injectJavaScript(injected);
 }
 
-
-
-getTracking = () => {
+const getTracking = () => {
   try {
-      let trackingConfig = {
-          enableHighAccuracy: true,
-          timeout: 2000,
-          maximumAge: 3600,
-          distanceFilter: 10,
-      };
-      Geolocation.watchPosition(
-          this.successTracking,
-          this.errorTracking,
-          trackingConfig,
-      );
+    let trackingConfig = {
+      enableHighAccuracy: true,
+      timeout: 2000,
+      maximumAge: 3600,
+      distanceFilter: 10,
+    };
+    Geolocation.watchPosition(
+      this.successTracking,
+      this.errorTracking,
+      trackingConfig,
+    );
   } catch (error) {
-      console.log(error)
+    console.log(error);
   }
-  
 };
 
-successTracking = props => {
+const successTracking = props => {
   try {
-      let currentLongitude = JSON.stringify(props.coords.longitude);
-      let currentLatitude = JSON.stringify(props.coords.latitude);
-      if (MapRef.current) {
-          MapRef.current.injectJavaScript(
-              `setTracking([${currentLatitude}, ${currentLongitude}]);
+    let currentLongitude = JSON.stringify(props.coords.longitude);
+    let currentLatitude = JSON.stringify(props.coords.latitude);
+    if (MapRef.current) {
+      MapRef.current.injectJavaScript(
+        `setTracking([${currentLatitude}, ${currentLongitude}]);
               true;`,
-          );
-      }
+      );
+    }
   } catch (e) {
-      console.log(e);
+    console.log(e);
   }
 };
 
-errorTracking = error => {
-  console.log("Error con el traking");
+const errorTracking = error => {
+  console.log('Error con el traking');
   console.log(error);
 };

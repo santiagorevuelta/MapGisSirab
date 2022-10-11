@@ -5,17 +5,30 @@ import base64 from 'react-native-base64';
 import axios from 'axios';
 
 export async function loginValidator(user, password, navigation, setLoadApp) {
-  let url = tsconfig[tsconfig.use].loginValidator.url;
+  let url = tsconfig.prefix + tsconfig[tsconfig.use].loginValidator.url;
   let data = new FormData();
   data.append('id_Persona', base64.encode(user));
   data.append('password', base64.encode(password));
-  data.append('app', '161');
+  data.append('app', 7);
   data.append('tipo', 1);
+
+  let jsonp = {
+    id_Persona: base64.encode(user),
+    password: base64.encode(password),
+    app: 7,
+  };
+
   axios
-    .post(url, data)
+    .post(url, null, {
+      params: jsonp,
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+    })
     .then(res => {
       let resLogin = res.data;
       if (resLogin === 1) {
+        console.log(res.data);
         consultToken();
         AsyncStorage.setItem('login', 'Ok');
         AsyncStorage.setItem('user', user);

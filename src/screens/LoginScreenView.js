@@ -1,4 +1,4 @@
-import React, {Component, useState} from 'react';
+import React, {Component} from 'react';
 import {Platform, StyleSheet, View} from 'react-native';
 import {Text} from 'react-native-paper';
 import Background from '../components/Background';
@@ -19,7 +19,6 @@ import {
   responsiveHeight,
 } from 'react-native-responsive-dimensions';
 import {consultToken, notifyMessage} from '../core/general';
-import Renderload from '../components/Load';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 class LoginScreenView extends Component {
@@ -27,11 +26,16 @@ class LoginScreenView extends Component {
     super();
     this.state = {
       loadApp: false,
+      send: false,
       user: 'abaez',
       password: 'A1090496829',
     };
     this.setLoadApp(false);
   }
+
+  setSendReport = loadApp => {
+    this.setState({loadApp});
+  };
 
   setLoadApp = loadApp => {
     this.setState({loadApp});

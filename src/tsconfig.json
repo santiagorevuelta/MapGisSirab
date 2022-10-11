@@ -30,10 +30,10 @@
   "dev": {
     "search": "https://www.medellin.gov.co/servicios/vamosmed/validarDireccion.hyg?dir=",
     "loginValidator": {
-      "url": "http://132.145.214.185:8002/mapgis/validacion.do"
+      "url": "/mapgis_seg/validacion.do"
     },
     "tokenValidator": {
-      "url": "http://132.145.214.185:8002/mapgis/validacionToken.do"
+      "url": "/mapgis_seg/validacionToken.do"
     },
     "searchTree": {///api-sirab/arboles
       "url": "/api-sirab/arboles",

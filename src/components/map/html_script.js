@@ -1,4 +1,9 @@
+import React from 'react';
 import funciones from './funcionesMapa';
+import {Platform} from 'react-native';
+
+let alto = Platform.OS === 'ios'? 90:60;
+
 module.exports = `<!DOCTYPE html>
 <html lang="es">
 <head>
@@ -29,7 +34,7 @@ module.exports = `<!DOCTYPE html>
         right: 40px;
     }
     .leaflet-top {
-        top: 60px;
+        top: ${alto}px;
     }
     .leaflet-popup,.leaflet-zoom-animated{
         bottom: 30px !important;
