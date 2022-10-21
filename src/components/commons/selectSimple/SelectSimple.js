@@ -44,7 +44,6 @@ const SelectSimple = ({
         setListItems([]);
       }
     }
-    console.log(list);
   }, [dependencia, id, list]);
 
   return (
@@ -79,73 +78,70 @@ const SelectSimple = ({
               size={responsiveFontSize(2)}
             />
           </TouchableOpacity>
-          <Modal
-            animationType="fade"
-            transparent={true}
-            visible={showSelector}
-            onRequestClose={() => {
-              setShowSelector(false);
-            }}>
-            <View style={styles.centeredView}>
-              <Button
-                style={styles.btn}
-                icon={'close'}
-                color={theme.colors.primary}
-                labelStyle={{fontSize: responsiveFontSize(4)}}
-                compact={true}
-                onPress={() => {
-                  setShowSelector(false);
-                }}
-              />
-              <ScrollView style={[styles.containerList]}>
-                {listItems.map((item, i) => (
-                  <Pressable
-                    key={i}
-                    style={
-                      i === list.length - 1
-                        ? [
-                            styles.containerItemList,
-                            {borderBottomWidth: 0},
-                            item === value && {
-                              backgroundColor: theme.colors.hover,
-                            },
-                          ]
-                        : [
-                            styles.containerItemList,
-                            item === value && {
-                              backgroundColor: theme.colors.hover,
-                            },
-                          ]
-                    }
-                    onPress={() => {
-                      if (item === value) {
-                        setValue(null);
-                        onSelected(null);
-                      } else {
-                        setValue(item);
-                        onSelected(item);
-                      }
-                      setShowSelector(false);
-                    }}>
-                    <Text
+
+          {listItems.length > 0 && (
+            <Modal
+              animationType="fade"
+              transparent={true}
+              visible={showSelector}
+              onRequestClose={() => {
+                setShowSelector(false);
+              }}>
+              <View style={styles.centeredView}>
+                <ScrollView
+                  style={[
+                    {maxHeight: listItems.length * 35},
+                    styles.containerList,
+                  ]}>
+                  {listItems.map((item, i) => (
+                    <Pressable
+                      key={i}
                       style={
-                        item === value
+                        i === list.length - 1
                           ? [
-                              styles.placeholder,
-                              styles.textItem,
-                              {
-                                color: '#000',
+                              styles.containerItemList,
+                              {borderBottomWidth: 0},
+                              item === value && {
+                                backgroundColor: theme.colors.hover,
                               },
                             ]
-                          : [styles.placeholder, styles.textItem]
-                      }>
-                      {item.dato} {item === value ? '•' : ' '}
-                    </Text>
-                  </Pressable>
-                ))}
-              </ScrollView>
-            </View>
-          </Modal>
+                          : [
+                              styles.containerItemList,
+                              item === value && {
+                                backgroundColor: theme.colors.hover,
+                              },
+                            ]
+                      }
+                      onPress={() => {
+                        if (item === value) {
+                          setValue(null);
+                          onSelected(null);
+                        } else {
+                          setValue(item);
+                          onSelected(item);
+                        }
+                        setShowSelector(false);
+                      }}>
+                      <Text
+                        style={
+                          item === value
+                            ? [
+                                styles.placeholder,
+                                styles.textItem,
+                                {
+                                  color: '#000',
+                                },
+                              ]
+                            : [styles.placeholder, styles.textItem]
+                        }>
+                        {item.dato} {item === value ? '•' : ' '}
+                      </Text>
+                    </Pressable>
+                  ))}
+                </ScrollView>
+              </View>
+            </Modal>
+          )}
         </>
       )}
     </View>

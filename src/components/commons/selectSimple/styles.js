@@ -38,8 +38,8 @@ export const styles = StyleSheet.create({
   containerList: {
     width: responsiveWidth(90),
     maxWidth: '100%',
+    minHeight: responsiveHeight(5),
     height: 'auto',
-    maxHeight: responsiveHeight(80),
     borderRadius: 10,
     backgroundColor: theme.colors.blanco,
     shadowColor: '#000',
@@ -51,8 +51,6 @@ export const styles = StyleSheet.create({
     shadowRadius: 4.65,
     borderWidth: 0.2,
     borderTopWidth: 0,
-    borderBottomRightRadius: 5,
-    borderBottomLeftRadius: 5,
     borderBottomWidth: 1,
     borderColor: '#CAD6D3',
   },
@@ -76,14 +74,5 @@ export const styles = StyleSheet.create({
     alignSelf: 'center',
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  btn: {
-    alignContent: 'flex-end',
-    backgroundColor: theme.colors.background,
-    top: responsiveHeight(4),
-    left: responsiveWidth(40),
-    width: responsiveHeight(4.5),
-    zIndex: 10,
-    elevation: 0,
-  },
+  }
 });
