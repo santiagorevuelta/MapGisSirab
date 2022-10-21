@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {
   Platform,
+  Modal,
   Pressable,
   ScrollView,
   Text,
@@ -10,6 +11,7 @@ import {
 import {responsiveFontSize} from 'react-native-responsive-dimensions';
 import IconAntDesign from 'react-native-vector-icons/AntDesign';
 import {styles} from './styles';
+import {Button} from 'react-native-paper';
 import {theme} from '../../../core/theme';
 import SelectSimpleAndroid from './SelectSimpleAndroid';
 
@@ -42,7 +44,7 @@ const SelectSimple = ({
         setListItems([]);
       }
     }
-    console.log(list)
+    console.log(list);
   }, [dependencia, id, list]);
 
   return (
@@ -77,55 +79,73 @@ const SelectSimple = ({
               size={responsiveFontSize(2)}
             />
           </TouchableOpacity>
-          {showSelector && (
-            <ScrollView style={[styles.containerList, {zIndex: 10}]}>
-              {listItems.map((item, i) => (
-                <Pressable
-                  key={i}
-                  style={
-                    i === list.length - 1
-                      ? [
-                          styles.containerItemList,
-                          {borderBottomWidth: 0},
-                          item === value && {
-                            backgroundColor: theme.colors.hover,
-                          },
-                        ]
-                      : [
-                          styles.containerItemList,
-                          item === value && {
-                            backgroundColor: theme.colors.hover,
-                          },
-                        ]
-                  }
-                  onPress={() => {
-                    if (item === value) {
-                      setValue(null);
-                      onSelected(null);
-                    } else {
-                      setValue(item);
-                      onSelected(item);
-                    }
-                    setShowSelector(false);
-                  }}>
-                  <Text
+          <Modal
+            animationType="fade"
+            transparent={true}
+            visible={showSelector}
+            onRequestClose={() => {
+              setShowSelector(false);
+            }}>
+            <View style={styles.centeredView}>
+              <Button
+                style={styles.btn}
+                icon={'close'}
+                color={theme.colors.primary}
+                labelStyle={{fontSize: responsiveFontSize(4)}}
+                compact={true}
+                onPress={() => {
+                  setShowSelector(false);
+                }}
+              />
+              <ScrollView style={[styles.containerList]}>
+                {listItems.map((item, i) => (
+                  <Pressable
+                    key={i}
                     style={
-                      item === value
+                      i === list.length - 1
                         ? [
-                            styles.placeholder,
-                            styles.textItem,
-                            {
-                              color: '#000',
+                            styles.containerItemList,
+                            {borderBottomWidth: 0},
+                            item === value && {
+                              backgroundColor: theme.colors.hover,
                             },
                           ]
-                        : [styles.placeholder, styles.textItem]
-                    }>
-                    {item.dato} {item === value ? '•' : ' '}
-                  </Text>
-                </Pressable>
-              ))}
-            </ScrollView>
-          )}
+                        : [
+                            styles.containerItemList,
+                            item === value && {
+                              backgroundColor: theme.colors.hover,
+                            },
+                          ]
+                    }
+                    onPress={() => {
+                      if (item === value) {
+                        setValue(null);
+                        onSelected(null);
+                      } else {
+                        setValue(item);
+                        onSelected(item);
+                      }
+                      setShowSelector(false);
+                    }}>
+                    <Text
+                      style={
+                        item === value
+                          ? [
+                              styles.placeholder,
+                              styles.textItem,
+                              {
+                                color: '#000',
+                              },
+                            ]
+                          : [styles.placeholder, styles.textItem]
+                      }>
+                      {item.dato} {item === value ? '•' : ' '}
+                    </Text>
+                  </Pressable>
+                ))}
+              </ScrollView>
+            </View>
+          </Modal>
         </>
       )}
     </View>
