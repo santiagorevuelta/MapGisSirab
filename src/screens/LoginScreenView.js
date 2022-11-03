@@ -20,6 +20,7 @@ import {
 } from 'react-native-responsive-dimensions';
 import {consultToken, notifyMessage} from '../core/general';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Renderload from '../components/Load';
 
 class LoginScreenView extends Component {
   constructor() {
@@ -30,7 +31,6 @@ class LoginScreenView extends Component {
       user: 'abaez',
       password: 'A1090496829',
     };
-    this.setLoadApp(false);
   }
 
   setSendReport = loadApp => {
@@ -83,7 +83,7 @@ class LoginScreenView extends Component {
           this.props.navigation,
           this.setLoadApp,
         );
-       this.setLoadApp(false);
+        this.setLoadApp(false);
       }
     } catch (e) {
       this.setLoadApp(false);
@@ -94,6 +94,10 @@ class LoginScreenView extends Component {
   render() {
     return (
       <Background>
+        <Renderload
+          setLoadVisible={this.setLoadApp}
+          load={this.state.loadApp}
+        />
         <Logo style={styles.logo} />
         <Header>Sistema de información y Registro de Árboles</Header>
         <TxtUser

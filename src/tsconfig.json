@@ -61,12 +61,5 @@
       "gestionar": "/api-sirab/combosGestionarIntervencionZonaVerde"
     }
   },
-  "prod": {
-    "loginValidator": {
-      "url": "https://www.medellin.gov.co/mapgis/Validacion.do"
-    },
-    "tokenValidator": {
-      "url": "https://www.medellin.gov.co/mapgis/validacionToken.do"
-    }
-  }
+  "prod": {}
 }

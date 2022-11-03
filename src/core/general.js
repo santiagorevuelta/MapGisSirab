@@ -1,4 +1,4 @@
-'use strict';
+import React from 'react';
 import axios from 'axios';
 import tsconfig from '../tsconfig.json';
 import {navigate} from '../components/map/BackgroundMap';
@@ -41,6 +41,7 @@ async function consultToken() {
       }
     })
     .catch(error => {
+      console.log(error)
       navigate('LoginScreen');
       catchError(error.message);
     });

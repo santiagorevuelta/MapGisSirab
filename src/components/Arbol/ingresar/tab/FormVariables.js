@@ -49,7 +49,7 @@ export default ({alto = '100%'}) => {
           }
         />
         <TextInputVar
-          label={'DAP2 (cm) *'}
+          label={'DAP2 (cm)'}
           placeholder={'DAP2'}
           value={variables?.dap2}
           keyboardType="numeric"

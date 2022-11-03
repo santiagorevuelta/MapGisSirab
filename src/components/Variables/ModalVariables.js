@@ -31,9 +31,6 @@ const ModalVariables = ({
     } else if (variables.dap1 === '' || !variables.dap1) {
       campoObligatory('DAP1');
       setLoadApp(false);
-    } else if (variables.dap2 === '' || !variables.dap2) {
-      campoObligatory('DAP2');
-      setLoadApp(false);
     } else if (variables.fecha_ingreso === '' || !variables.fecha_ingreso) {
       campoObligatory('fecha ingreso');
       setLoadApp(false);
@@ -44,7 +41,7 @@ const ModalVariables = ({
 
   useEffect(() => {
     deleteVariables();
-  }, []);
+  }, [deleteVariables]);
 
   const fnGuardar = async () => {
     let formData = new FormData();

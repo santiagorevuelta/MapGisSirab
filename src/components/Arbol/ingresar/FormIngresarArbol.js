@@ -241,7 +241,9 @@ export default ({combos = [], fnGuardar, setIndexSnap, setLoadApp}) => {
               setIndexSnap(1);
               setModeBtn('contained');
               AsyncStorage.setItem('coords', '');
-              notifyMessage('Click en el mapa para ubicar el punto');
+              notifyMessage(
+                'Usa el boton en el mapa para seleccionar el punto',
+              );
               getPoint();
               ubicarEnMapa().then();
               setLoadApp(false);

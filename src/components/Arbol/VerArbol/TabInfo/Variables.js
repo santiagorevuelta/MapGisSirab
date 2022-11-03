@@ -58,7 +58,7 @@ export default function ({data, idArbol}) {
             children={<Text style={styles.texth}>DAP 2</Text>}
           />
         </DataTable.Header>
-        <ScrollView>
+        <ScrollView style={styles.margenButton}>
           {items &&
             items.length > 0 &&
             items.map((index, i) => (
@@ -118,6 +118,10 @@ const styles = StyleSheet.create({
   },
   body: {
     flex: 1,
+  },
+  margenButton: {
+    marginBottom: 10,
+    height: '80%'
   },
   texth: {
     fontSize: responsiveScreenFontSize(1.3),
